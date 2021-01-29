@@ -5,6 +5,7 @@ import (
 	"lualsp/auxiliary"
 	"lualsp/syntax"
 	"os"
+	"reflect"
 )
 
 func main() {
@@ -31,4 +32,8 @@ func main() {
 	//	fmt.Println(string(b))
 	//	fmt.Println("---------------------")
 	auxiliary.DrawTree(lex.Block, "All")
+	fmt.Println("---------------------")
+	auxiliary.Traversal(lex, func(n syntax.Node) {
+		fmt.Println(reflect.TypeOf(n).String())
+	})
 }
