@@ -431,6 +431,10 @@ expr:
         '~' expr %prec UNARY {
             $$ = &OneOpExpr{Operator: $1.Str, Target: $2}
             $$.SetLine($2.Line())
+        } |
+        '(' expr ')' {
+            $$ = $2
+            $$.SetLine($1.line)
         }
 
 prefixexp:
@@ -444,11 +448,7 @@ prefixexp:
               $$ = funcnode
               $$.SetLine($1.Line())
             }
-        } |
-        '(' expr ')' {
-            $$ = $2
-            $$.SetLine($1.line)
-        }
+        } 
 
 functioncall:
         prefixexp args {
