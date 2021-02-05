@@ -6,6 +6,7 @@ import (
 	"lualsp/syntax"
 	"os"
 	"reflect"
+	//"github.com/sourcegraph/jsonrpc2"
 )
 
 func main() {
@@ -28,6 +29,7 @@ func main() {
 		println("line:", line, "col:", col, "msg:", msg)
 	})
 	lex.Parse()
+	//jsonrpc2.NewConn()
 	//	b, _ := json.MarshalIndent(lex.Block, "", "    ")
 	//	fmt.Println(string(b))
 	//	fmt.Println("---------------------")
