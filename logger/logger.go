@@ -21,21 +21,13 @@ var (
 	errorLog *log.Logger
 )
 
-type outWay int
-
-const (
-	Wfile = 1 << iota
-	Wstd
-	Wall
-)
-
-func getWriter(outputway outWay, file io.Writer, std io.Writer) io.Writer {
+func getWriter(outputway string, file io.Writer, std io.Writer) io.Writer {
 	switch outputway {
-	case Wfile:
+	case "file":
 		return file
-	case Wstd:
+	case "stdio":
 		return std
-	case Wall:
+	case "all":
 		return io.MultiWriter(file, std)
 	default:
 		return ioutil.Discard
@@ -43,17 +35,24 @@ func getWriter(outputway outWay, file io.Writer, std io.Writer) io.Writer {
 }
 
 //Init 初始化
-func Init(level string, outputway outWay) {
+func Init(level string, outputway string) {
 	switch level {
-	case "debug", "info", "warning", "error":
+	case "debug", "info", "warning", "error", "none":
 	default:
 		panic("level value is err!")
+	}
+	switch outputway {
+	case "file", "stdio", "all":
+	default:
+		panic("outputway value is err!")
 	}
 	debugLog = log.New(ioutil.Discard, "[D]: ", log.Ldate|log.Ltime|log.Lshortfile)
 	infoLog = log.New(ioutil.Discard, "[I]: ", log.Ldate|log.Ltime|log.Lshortfile)
 	warningLog = log.New(ioutil.Discard, "[W]: ", log.Ldate|log.Ltime|log.Lshortfile)
 	errorLog = log.New(ioutil.Discard, "[E]: ", log.Ldate|log.Ltime|log.Lshortfile)
-
+	if level == "none" {
+		return
+	}
 	errorLog.SetOutput(getWriter(outputway, getfile("log/err.txt"), os.Stderr))
 	if level == "error" {
 		return
