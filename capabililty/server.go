@@ -2,13 +2,14 @@ package capabililty
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
+	"lualsp/auxiliary"
 	"lualsp/protocol"
 	"path"
 	"sync"
 
-	"github.com/go-errors/errors"
+	"github.com/pkg/errors"
+	"github.com/sourcegraph/jsonrpc2"
 )
 
 type serverState int
@@ -36,13 +37,20 @@ func (s serverState) String() string {
 
 func NewServer() *Server {
 	return &Server{
-		state: serverCreated,
+		state:    serverCreated,
+		progress: progressManager{},
 	}
 }
 
 type Server struct {
 	stateMu sync.Mutex
 	state   serverState
+
+	clientPID int
+
+	progress progressManager
+
+	folders []protocol.WorkspaceFolder
 	// notifications generated before serverInitialized
 	notifications []*protocol.ShowMessageParams
 }
@@ -51,42 +59,32 @@ func (s *Server) initialize(ctx context.Context, params *protocol.ParamInitializ
 	s.stateMu.Lock()
 	if s.state >= serverInitializing {
 		defer s.stateMu.Unlock()
-		return nil, errors.Errorf("%w: initialize called while server in %v state", jsonrpc2.ErrInvalidRequest, s.state)
+		return nil, &jsonrpc2.Error{Code: jsonrpc2.CodeInvalidRequest, Message: s.state.String()}
 	}
 	s.state = serverInitializing
 	s.stateMu.Unlock()
 
 	s.clientPID = int(params.ProcessID)
-	s.progress.supportsWorkDoneProgress = params.Capabilities.Window.WorkDoneProgress
-
-	options := s.session.Options()
-	defer func() { s.session.SetOptions(options) }()
-
-	if err := s.handleOptionResults(ctx, source.SetOptions(options, params.InitializationOptions)); err != nil {
-		return nil, err
-	}
-	options.ForClientCapabilities(params.Capabilities)
+	s.progress.supportpro = params.Capabilities.Window.WorkDoneProgress
 
 	folders := params.WorkspaceFolders
 	if len(folders) == 0 {
 		if params.RootURI != "" {
 			folders = []protocol.WorkspaceFolder{{
 				URI:  string(params.RootURI),
-				Name: path.Base(params.RootURI.SpanURI().Filename()),
+				Name: path.Base(string(auxiliary.URIFromURI(string(params.RootURI)))),
 			}}
 		}
 	}
 	for _, folder := range folders {
-		uri := span.URIFromURI(folder.URI)
+		uri := auxiliary.URIFromURI(folder.URI)
 		if !uri.IsFile() {
 			continue
 		}
-		s.pendingFolders = append(s.pendingFolders, folder)
+		s.folders = append(s.folders, folder)
 	}
-	// gopls only supports URIs with a file:// scheme, so if we have no
-	// workspace folders with a supported scheme, fail to initialize.
-	if len(folders) > 0 && len(s.pendingFolders) == 0 {
-		return nil, fmt.Errorf("unsupported URI schemes: %v (gopls only supports file URIs)", folders)
+	if len(folders) > 0 && len(s.folders) == 0 {
+		return nil, &jsonrpc2.Error{Code: jsonrpc2.CodeInvalidRequest}
 	}
 
 	var codeActionProvider interface{} = true
@@ -104,11 +102,6 @@ func (s *Server) initialize(ctx context.Context, params *protocol.ParamInitializ
 		renameOpts = protocol.RenameOptions{
 			PrepareProvider: r.PrepareSupport,
 		}
-	}
-
-	goplsVersion, err := json.Marshal(debug.VersionInfo())
-	if err != nil {
-		return nil, err
 	}
 
 	return &protocol.InitializeResult{
@@ -154,13 +147,13 @@ func (s *Server) initialize(ctx context.Context, params *protocol.ParamInitializ
 			Name    string `json:"name"`
 			Version string `json:"version,omitempty"`
 		}{
-			Name:    "gopls",
-			Version: string(goplsVersion),
+			Name:    "lua-language-server-go",
+			Version: "0.1",
 		},
 	}, nil
 }
 
-func (s *Server) initialized(ctx context.Context, params *protocol.InitializedParams) error {
+func (s *Server) Initialized(ctx context.Context, params *protocol.InitializedParams) error {
 	s.stateMu.Lock()
 	if s.state >= serverInitialized {
 		defer s.stateMu.Unlock()
