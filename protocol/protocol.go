@@ -2,7 +2,6 @@ package protocol
 
 import (
 	"context"
-	"errors"
 	"lualsp/auxiliary"
 
 	"github.com/sourcegraph/jsonrpc2"
@@ -25,11 +24,11 @@ func (h protocolHandler) handle(ctx context.Context, conn *jsonrpc2.Conn, req *j
 	ok, err := serverDispatch(ctx, h.server,
 		func(ctx context.Context, data interface{}, err error) error {
 			result = data
-			return nil
+			return err
 		},
 		*req)
 	if !ok {
-		err = errors.New("不支持此函数:" + req.Method)
+		err = &jsonrpc2.Error{Code: jsonrpc2.CodeParseError, Message: err.Error()}
 	}
 	return
 }

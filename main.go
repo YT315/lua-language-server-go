@@ -4,13 +4,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/sourcegraph/jsonrpc2"
 	"lualsp/capabililty"
 	"lualsp/logger"
 	"lualsp/protocol"
 	"os"
-
-	"github.com/sourcegraph/jsonrpc2"
-	//"github.com/sourcegraph/jsonrpc2"
 )
 
 const version = "0.1"
