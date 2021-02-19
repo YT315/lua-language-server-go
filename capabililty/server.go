@@ -43,19 +43,23 @@ func NewServer() *Server {
 }
 
 type Server struct {
+	//服务器状态机
 	stateMu sync.Mutex
 	state   serverState
-
+	//客户端信息
 	clientPID int
+	init      protocol.InnerInitializeParams
 
+	//进度条管理
 	progress progressManager
 
+	//工作区文件夹
 	folders []protocol.WorkspaceFolder
 	// notifications generated before serverInitialized
 	notifications []*protocol.ShowMessageParams
 }
 
-func (s *Server) initialize(ctx context.Context, params *protocol.ParamInitialize) (*protocol.InitializeResult, error) {
+func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitialize) (*protocol.InitializeResult, error) {
 	s.stateMu.Lock()
 	if s.state >= serverInitializing {
 		defer s.stateMu.Unlock()
@@ -195,5 +199,12 @@ func (s *Server) Initialized(ctx context.Context, params *protocol.InitializedPa
 			return err
 		}
 	}
+	return nil
+}
+
+func (s *Server) Exit(context.Context) error {
+	return nil
+}
+func (s *Server) Shutdown(context.Context) error {
 	return nil
 }

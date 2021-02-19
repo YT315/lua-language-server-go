@@ -1,6 +1,7 @@
 package capabililty
 
 import (
+	"context"
 	"lualsp/protocol"
 )
 
@@ -20,3 +21,7 @@ type (
 		Percentage float64
 	}
 )
+
+func (s *Server) WorkDoneProgressCancel(context.Context, *protocol.WorkDoneProgressCancelParams) error {
+	return nil
+}
