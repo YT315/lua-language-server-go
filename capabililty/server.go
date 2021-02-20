@@ -8,7 +8,6 @@ import (
 	"path"
 	"sync"
 
-	"github.com/pkg/errors"
 	"github.com/sourcegraph/jsonrpc2"
 )
 
@@ -68,6 +67,8 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 	s.state = serverInitializing
 	s.stateMu.Unlock()
 
+	//初始化参数
+	s.init = params.InnerInitializeParams
 	s.clientPID = int(params.ProcessID)
 	s.progress.supportpro = params.Capabilities.Window.WorkDoneProgress
 
@@ -90,56 +91,63 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 	if len(folders) > 0 && len(s.folders) == 0 {
 		return nil, &jsonrpc2.Error{Code: jsonrpc2.CodeInvalidRequest}
 	}
-
-	var codeActionProvider interface{} = true
-	if ca := params.Capabilities.TextDocument.CodeAction; len(ca.CodeActionLiteralSupport.CodeActionKind.ValueSet) > 0 {
-		// If the client has specified CodeActionLiteralSupport,
-		// send the code actions we support.
-		//
-		// Using CodeActionOptions is only valid if codeActionLiteralSupport is set.
-		codeActionProvider = &protocol.CodeActionOptions{
-			CodeActionKinds: s.getSupportedCodeActions(),
+	/*
+		var codeActionProvider interface{} = true
+		if ca := params.Capabilities.TextDocument.CodeAction; len(ca.CodeActionLiteralSupport.CodeActionKind.ValueSet) > 0 {
+			// If the client has specified CodeActionLiteralSupport,
+			// send the code actions we support.
+			//
+			// Using CodeActionOptions is only valid if codeActionLiteralSupport is set.
+			codeActionProvider = &protocol.CodeActionOptions{
+				CodeActionKinds: s.getSupportedCodeActions(),
+			}
 		}
-	}
-	var renameOpts interface{} = true
-	if r := params.Capabilities.TextDocument.Rename; r.PrepareSupport {
-		renameOpts = protocol.RenameOptions{
-			PrepareProvider: r.PrepareSupport,
+		var renameOpts interface{} = true
+		if r := params.Capabilities.TextDocument.Rename; r.PrepareSupport {
+			renameOpts = protocol.RenameOptions{
+				PrepareProvider: r.PrepareSupport,
+			}
 		}
-	}
-
+	*/
 	return &protocol.InitializeResult{
 		Capabilities: protocol.ServerCapabilities{
-			CallHierarchyProvider: true,
-			CodeActionProvider:    codeActionProvider,
-			CompletionProvider: protocol.CompletionOptions{
-				TriggerCharacters: []string{"."},
-			},
-			DefinitionProvider:         true,
-			TypeDefinitionProvider:     true,
-			ImplementationProvider:     true,
-			DocumentFormattingProvider: true,
-			DocumentSymbolProvider:     true,
-			WorkspaceSymbolProvider:    true,
-			ExecuteCommandProvider: protocol.ExecuteCommandOptions{
-				Commands: options.SupportedCommands,
-			},
-			FoldingRangeProvider:      true,
-			HoverProvider:             true,
-			DocumentHighlightProvider: true,
-			DocumentLinkProvider:      protocol.DocumentLinkOptions{},
-			ReferencesProvider:        true,
-			RenameProvider:            renameOpts,
-			SignatureHelpProvider: protocol.SignatureHelpOptions{
-				TriggerCharacters: []string{"(", ","},
-			},
 			TextDocumentSync: &protocol.TextDocumentSyncOptions{
 				Change:    protocol.Incremental,
 				OpenClose: true,
+				WillSave:  true,
 				Save: protocol.SaveOptions{
-					IncludeText: false,
+					IncludeText: true,
 				},
 			},
+			CompletionProvider: protocol.CompletionOptions{
+				//TriggerCharacters: []string{"."},
+				ResolveProvider: true,
+			},
+			/*
+				CallHierarchyProvider: true,
+				CodeActionProvider:    codeActionProvider,
+				CompletionProvider: protocol.CompletionOptions{
+					TriggerCharacters: []string{"."},
+				},
+				DefinitionProvider:         true,
+				TypeDefinitionProvider:     true,
+				ImplementationProvider:     true,
+				DocumentFormattingProvider: true,
+				DocumentSymbolProvider:     true,
+				WorkspaceSymbolProvider:    true,
+				ExecuteCommandProvider: protocol.ExecuteCommandOptions{
+					Commands: options.SupportedCommands,
+				},
+				FoldingRangeProvider:      true,
+				HoverProvider:             true,
+				DocumentHighlightProvider: true,
+				DocumentLinkProvider:      protocol.DocumentLinkOptions{},
+				ReferencesProvider:        true,
+				RenameProvider:            renameOpts,
+				SignatureHelpProvider: protocol.SignatureHelpOptions{
+					TriggerCharacters: []string{"(", ","},
+				},
+			*/
 			Workspace: protocol.WorkspaceGn{
 				WorkspaceFolders: protocol.WorkspaceFoldersGn{
 					Supported:           true,
@@ -161,44 +169,45 @@ func (s *Server) Initialized(ctx context.Context, params *protocol.InitializedPa
 	s.stateMu.Lock()
 	if s.state >= serverInitialized {
 		defer s.stateMu.Unlock()
-		return errors.Errorf("%w: initialized called while server in %v state", jsonrpc2.ErrInvalidRequest, s.state)
+		return &jsonrpc2.Error{Code: jsonrpc2.CodeInvalidRequest, Message: s.state.String()}
+		//return errors.Errorf("%w: initialized called while server in %v state", jsonrpc2.ErrInvalidRequest, s.state)
 	}
 	s.state = serverInitialized
 	s.stateMu.Unlock()
-
-	for _, not := range s.notifications {
-		s.client.ShowMessage(ctx, not)
-	}
-	s.notifications = nil
-
-	options := s.session.Options()
-	defer func() { s.session.SetOptions(options) }()
-
-	if err := s.addFolders(ctx, s.pendingFolders); err != nil {
-		return err
-	}
-	s.pendingFolders = nil
-
-	if options.ConfigurationSupported && options.DynamicConfigurationSupported {
-		registrations := []protocol.Registration{
-			{
-				ID:     "workspace/didChangeConfiguration",
-				Method: "workspace/didChangeConfiguration",
-			},
-			{
-				ID:     "workspace/didChangeWorkspaceFolders",
-				Method: "workspace/didChangeWorkspaceFolders",
-			},
+	/*
+		for _, not := range s.notifications {
+			s.client.ShowMessage(ctx, not)
 		}
-		if options.SemanticTokens {
-			registrations = append(registrations, semanticTokenRegistration())
-		}
-		if err := s.client.RegisterCapability(ctx, &protocol.RegistrationParams{
-			Registrations: registrations,
-		}); err != nil {
+		s.notifications = nil
+
+		options := s.session.Options()
+		defer func() { s.session.SetOptions(options) }()
+
+		if err := s.addFolders(ctx, s.pendingFolders); err != nil {
 			return err
 		}
-	}
+		s.pendingFolders = nil
+
+		if options.ConfigurationSupported && options.DynamicConfigurationSupported {
+			registrations := []protocol.Registration{
+				{
+					ID:     "workspace/didChangeConfiguration",
+					Method: "workspace/didChangeConfiguration",
+				},
+				{
+					ID:     "workspace/didChangeWorkspaceFolders",
+					Method: "workspace/didChangeWorkspaceFolders",
+				},
+			}
+			if options.SemanticTokens {
+				registrations = append(registrations, semanticTokenRegistration())
+			}
+			if err := s.client.RegisterCapability(ctx, &protocol.RegistrationParams{
+				Registrations: registrations,
+			}); err != nil {
+				return err
+			}
+		}*/
 	return nil
 }
 

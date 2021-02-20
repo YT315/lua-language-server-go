@@ -10,6 +10,8 @@ import (
 // URI represents the full URI for a file.
 type URI string
 
+const fileScheme = "file"
+
 func (uri URI) IsFile() bool {
 	return strings.HasPrefix(string(uri), "file://")
 }

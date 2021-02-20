@@ -56,3 +56,15 @@ func (s *Server) CodeLens(context.Context, *protocol.CodeLensParams) ([]protocol
 func (s *Server) ResolveCodeLens(context.Context, *protocol.CodeLens) (*protocol.CodeLens, error) {
 	return nil, nil
 }
+func (s *Server) Moniker(context.Context, *protocol.MonikerParams) ([]protocol.Moniker /*Moniker[] | null*/, error) {
+	return nil, nil
+}
+func (s *Server) NonstandardRequest(ctx context.Context, method string, params interface{}) (interface{}, error) {
+	return nil, nil
+}
+func (s *Server) SetTrace(context.Context, *protocol.SetTraceParams) error {
+	return nil
+}
+func (s *Server) LogTrace(context.Context, *protocol.LogTraceParams) error {
+	return nil
+}
