@@ -4,11 +4,14 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/sourcegraph/jsonrpc2"
+	"lualsp/auxiliary"
 	"lualsp/capabililty"
 	"lualsp/logger"
 	"lualsp/protocol"
+	"lualsp/syntax"
 	"os"
+
+	"github.com/sourcegraph/jsonrpc2"
 )
 
 const version = "0.1"
@@ -27,6 +30,25 @@ func main() {
 	logger.Init(*logLevel, *logWay)
 	if *vsrsion {
 		fmt.Println(version)
+		return
+	}
+	if *ast != "" {
+		f, err := os.Open(*ast)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(1)
+		}
+		defer func() {
+			if err = f.Close(); err != nil {
+				fmt.Println(err.Error())
+			}
+		}()
+
+		lex := syntax.NewLexer(f, func(line, col uint, msg string) {
+			println("err:- line:", line, "col:", col, "msg:", msg)
+		})
+		lex.Parse()
+		auxiliary.DrawTree(lex.Block, "All")
 		return
 	}
 

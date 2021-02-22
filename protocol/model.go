@@ -211,7 +211,7 @@ type ClientCapabilities = struct {
 	/**
 	 * Text document specific client capabilities.
 	 */
-	TextDocument TextDocumentClientCapabilities `json:"textDocument,omitempty"`
+	TextDocument *TextDocumentClientCapabilities `json:"textDocument,omitempty"`
 	Window       struct {
 		/**
 		 * Window specific client capabilities.
@@ -290,7 +290,7 @@ type CodeAction struct {
 	/**
 	 * The workspace edit this code action performs.
 	 */
-	Edit WorkspaceEdit `json:"edit,omitempty"`
+	Edit *WorkspaceEdit `json:"edit,omitempty"`
 	/**
 	 * A command this code action executes. If a code action
 	 * provides a edit and a command, first the edit is
@@ -465,7 +465,7 @@ type CodeLens struct {
 	/**
 	 * The command this code lens represents.
 	 */
-	Command Command `json:"command,omitempty"`
+	Command *Command `json:"command,omitempty"`
 	/**
 	 * A data entry field that is preserved on a code lens item between
 	 * a [CodeLensRequest](#CodeLensRequest) and a [CodeLensResolveRequest]
@@ -555,7 +555,7 @@ type ColorPresentation struct {
 	 * this presentation for the color.  When `falsy` the [label](#ColorPresentation.label)
 	 * is used.
 	 */
-	TextEdit TextEdit `json:"textEdit,omitempty"`
+	TextEdit *TextEdit `json:"textEdit,omitempty"`
 	/**
 	 * An optional array of additional [text edits](#TextEdit) that are applied when
 	 * selecting this color presentation. Edits must not overlap with the main [edit](#ColorPresentation.textEdit) nor with themselves.
@@ -908,7 +908,7 @@ type CompletionParams struct {
 	 * The completion context. This is only available it the client specifies
 	 * to send this using the client capability `textDocument.completion.contextSupport === true`
 	 */
-	Context CompletionContext `json:"context,omitempty"`
+	Context *CompletionContext `json:"context,omitempty"`
 	TextDocumentPositionParams
 	WorkDoneProgressParams
 	PartialResultParams
@@ -923,7 +923,7 @@ type ConfigurationClientCapabilities struct {
 	/**
 	 * The workspace client capabilities
 	 */
-	Workspace WorkspaceGn `json:"workspace,omitempty"`
+	Workspace *WorkspaceGn `json:"workspace,omitempty"`
 }
 
 type ConfigurationItem struct {
@@ -959,7 +959,7 @@ type CreateFile struct {
 	/**
 	 * Additional options
 	 */
-	Options CreateFileOptions `json:"options,omitempty"`
+	Options *CreateFileOptions `json:"options,omitempty"`
 	ResourceOperation
 }
 
@@ -1090,7 +1090,7 @@ type DeleteFile struct {
 	/**
 	 * Delete options.
 	 */
-	Options DeleteFileOptions `json:"options,omitempty"`
+	Options *DeleteFileOptions `json:"options,omitempty"`
 	ResourceOperation
 }
 
@@ -1347,8 +1347,8 @@ type DocumentColorRegistrationOptions struct {
  * - `*` to match one or more characters in a path segment
  * - `?` to match on one character in a path segment
  * - `**` to match any number of path segments, including none
- * - `{}` to group conditions (e.g. `**​/*.{ts,js}` matches all TypeScript and JavaScript files)
- * - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
+ * - `{}` to group conditions (e.g. `**вЂ‹/*.{ts,js}` matches all TypeScript and JavaScript files)
+ * - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, вЂ¦)
  * - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
  *
  * @sample A language filter that applies to typescript files on disk: `{ language: 'typescript', scheme: 'file' }`
@@ -1596,7 +1596,7 @@ type DocumentRangeFormattingParams struct {
 /**
  * A document selector is the combination of one or many document filters.
  *
- * @sample `let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern: '**∕tsconfig.json' }]`;
+ * @sample `let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern: '**в€•tsconfig.json' }]`;
  */
 type DocumentSelector = []string /*string | DocumentFilter*/
 
@@ -1793,8 +1793,8 @@ type FileSystemWatcher struct {
 	 * - `*` to match one or more characters in a path segment
 	 * - `?` to match on one character in a path segment
 	 * - `**` to match any number of path segments, including none
-	 * - `{}` to group conditions (e.g. `**​/*.{ts,js}` matches all TypeScript and JavaScript files)
-	 * - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
+	 * - `{}` to group conditions (e.g. `**вЂ‹/*.{ts,js}` matches all TypeScript and JavaScript files)
+	 * - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, вЂ¦)
 	 * - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
 	 */
 	GlobPattern string `json:"globPattern"`
@@ -1923,7 +1923,7 @@ type Hover struct {
 	/**
 	 * An optional range
 	 */
-	Range Range `json:"range,omitempty"`
+	Range *Range `json:"range,omitempty"`
 }
 
 type HoverClientCapabilities struct {
@@ -2032,11 +2032,11 @@ type InnerClientCapabilities struct {
 	/**
 	 * Workspace specific client capabilities.
 	 */
-	Workspace WorkspaceClientCapabilities `json:"workspace,omitempty"`
+	Workspace *WorkspaceClientCapabilities `json:"workspace,omitempty"`
 	/**
 	 * Text document specific client capabilities.
 	 */
-	TextDocument TextDocumentClientCapabilities `json:"textDocument,omitempty"`
+	TextDocument *TextDocumentClientCapabilities `json:"textDocument,omitempty"`
 	/**
 	 * Window specific client capabilities.
 	 */
@@ -2114,7 +2114,7 @@ type InnerServerCapabilities struct {
 	/**
 	 * The server provides completion support.
 	 */
-	CompletionProvider CompletionOptions `json:"completionProvider,omitempty"`
+	CompletionProvider *CompletionOptions `json:"completionProvider,omitempty"`
 	/**
 	 * The server provides hover support.
 	 */
@@ -2122,7 +2122,7 @@ type InnerServerCapabilities struct {
 	/**
 	 * The server provides signature help support.
 	 */
-	SignatureHelpProvider SignatureHelpOptions `json:"signatureHelpProvider,omitempty"`
+	SignatureHelpProvider *SignatureHelpOptions `json:"signatureHelpProvider,omitempty"`
 	/**
 	 * The server provides Goto Declaration support.
 	 */
@@ -2160,11 +2160,11 @@ type InnerServerCapabilities struct {
 	/**
 	 * The server provides code lens.
 	 */
-	CodeLensProvider CodeLensOptions `json:"codeLensProvider,omitempty"`
+	CodeLensProvider *CodeLensOptions `json:"codeLensProvider,omitempty"`
 	/**
 	 * The server provides document link support.
 	 */
-	DocumentLinkProvider DocumentLinkOptions `json:"documentLinkProvider,omitempty"`
+	DocumentLinkProvider *DocumentLinkOptions `json:"documentLinkProvider,omitempty"`
 	/**
 	 * The server provides color provider support.
 	 */
@@ -2184,7 +2184,7 @@ type InnerServerCapabilities struct {
 	/**
 	 * The server provides document formatting on typing.
 	 */
-	DocumentOnTypeFormattingProvider DocumentOnTypeFormattingOptions `json:"documentOnTypeFormattingProvider,omitempty"`
+	DocumentOnTypeFormattingProvider *DocumentOnTypeFormattingOptions `json:"documentOnTypeFormattingProvider,omitempty"`
 	/**
 	 * The server provides rename support. RenameOptions may only be
 	 * specified if the client states that it supports
@@ -2202,7 +2202,7 @@ type InnerServerCapabilities struct {
 	/**
 	 * The server provides execute command support.
 	 */
-	ExecuteCommandProvider ExecuteCommandOptions `json:"executeCommandProvider,omitempty"`
+	ExecuteCommandProvider *ExecuteCommandOptions `json:"executeCommandProvider,omitempty"`
 	/**
 	 * The server provides Call Hierarchy support.
 	 *
@@ -2267,7 +2267,7 @@ type LocationLink struct {
 	 * Used as the underlined span for mouse definition hover. Defaults to the word range at
 	 * the definition position.
 	 */
-	OriginSelectionRange Range `json:"originSelectionRange,omitempty"`
+	OriginSelectionRange *Range `json:"originSelectionRange,omitempty"`
 	/**
 	 * The target resource identifier of this link.
 	 */
@@ -2442,14 +2442,14 @@ type PartialResultParams struct {
 	 * An optional token that a server can use to report partial results (e.g. streaming) to
 	 * the client.
 	 */
-	PartialResultToken ProgressToken `json:"partialResultToken,omitempty"`
+	PartialResultToken *ProgressToken `json:"partialResultToken,omitempty"`
 }
 
 /**
  * Position in a text document expressed as zero-based line and character offset.
  * The offsets are based on a UTF-16 string representation. So a string of the form
- * `a𐐀b` the character offset of the character `a` is 0, the character offset of `𐐀`
- * is 1 and the character offset of b is 3 since `𐐀` is represented using two code
+ * `aрђђЂb` the character offset of the character `a` is 0, the character offset of `рђђЂ`
+ * is 1 and the character offset of b is 3 since `рђђЂ` is represented using two code
  * units in UTF-16.
  *
  * Positions are line end character agnostic. So you can not specify a position that
@@ -2679,7 +2679,7 @@ type RenameFile struct {
 	/**
 	 * Rename options.
 	 */
-	Options RenameFileOptions `json:"options,omitempty"`
+	Options *RenameFileOptions `json:"options,omitempty"`
 	ResourceOperation
 }
 
@@ -2989,7 +2989,7 @@ type ServerCapabilities = struct {
 	/**
 	 * The server provides completion support.
 	 */
-	CompletionProvider CompletionOptions `json:"completionProvider,omitempty"`
+	CompletionProvider *CompletionOptions `json:"completionProvider,omitempty"`
 	/**
 	 * The server provides hover support.
 	 */
@@ -2997,7 +2997,7 @@ type ServerCapabilities = struct {
 	/**
 	 * The server provides signature help support.
 	 */
-	SignatureHelpProvider SignatureHelpOptions `json:"signatureHelpProvider,omitempty"`
+	SignatureHelpProvider *SignatureHelpOptions `json:"signatureHelpProvider,omitempty"`
 	/**
 	 * The server provides Goto Declaration support.
 	 */
@@ -3035,11 +3035,11 @@ type ServerCapabilities = struct {
 	/**
 	 * The server provides code lens.
 	 */
-	CodeLensProvider CodeLensOptions `json:"codeLensProvider,omitempty"`
+	CodeLensProvider *CodeLensOptions `json:"codeLensProvider,omitempty"`
 	/**
 	 * The server provides document link support.
 	 */
-	DocumentLinkProvider DocumentLinkOptions `json:"documentLinkProvider,omitempty"`
+	DocumentLinkProvider *DocumentLinkOptions `json:"documentLinkProvider,omitempty"`
 	/**
 	 * The server provides color provider support.
 	 */
@@ -3059,7 +3059,7 @@ type ServerCapabilities = struct {
 	/**
 	 * The server provides document formatting on typing.
 	 */
-	DocumentOnTypeFormattingProvider DocumentOnTypeFormattingOptions `json:"documentOnTypeFormattingProvider,omitempty"`
+	DocumentOnTypeFormattingProvider *DocumentOnTypeFormattingOptions `json:"documentOnTypeFormattingProvider,omitempty"`
 	/**
 	 * The server provides rename support. RenameOptions may only be
 	 * specified if the client states that it supports
@@ -3077,7 +3077,7 @@ type ServerCapabilities = struct {
 	/**
 	 * The server provides execute command support.
 	 */
-	ExecuteCommandProvider ExecuteCommandOptions `json:"executeCommandProvider,omitempty"`
+	ExecuteCommandProvider *ExecuteCommandOptions `json:"executeCommandProvider,omitempty"`
 	/**
 	 * The server provides Call Hierarchy support.
 	 *
@@ -3097,7 +3097,7 @@ type ServerCapabilities = struct {
 	/**
 	 * The workspace server capabilities
 	 */
-	Workspace WorkspaceGn `json:"workspace,omitempty"`
+	Workspace *WorkspaceGn `json:"workspace,omitempty"`
 }
 
 type SetTraceParams struct {
@@ -3233,7 +3233,7 @@ type SignatureHelpContext struct {
 	 * The `activeSignatureHelp` has its `SignatureHelp.activeSignature` field updated based on
 	 * the user navigating through available signatures.
 	 */
-	ActiveSignatureHelp SignatureHelp `json:"activeSignatureHelp,omitempty"`
+	ActiveSignatureHelp *SignatureHelp `json:"activeSignatureHelp,omitempty"`
 }
 
 /**
@@ -3266,7 +3266,7 @@ type SignatureHelpParams struct {
 	 *
 	 * @since 3.15.0
 	 */
-	Context SignatureHelpContext `json:"context,omitempty"`
+	Context *SignatureHelpContext `json:"context,omitempty"`
 	TextDocumentPositionParams
 	WorkDoneProgressParams
 }
@@ -3384,113 +3384,113 @@ type TextDocumentClientCapabilities struct {
 	/**
 	 * Defines which synchronization capabilities the client supports.
 	 */
-	Synchronization TextDocumentSyncClientCapabilities `json:"synchronization,omitempty"`
+	Synchronization *TextDocumentSyncClientCapabilities `json:"synchronization,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/completion`
 	 */
-	Completion CompletionClientCapabilities `json:"completion,omitempty"`
+	Completion *CompletionClientCapabilities `json:"completion,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/hover`
 	 */
-	Hover HoverClientCapabilities `json:"hover,omitempty"`
+	Hover *HoverClientCapabilities `json:"hover,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/signatureHelp`
 	 */
-	SignatureHelp SignatureHelpClientCapabilities `json:"signatureHelp,omitempty"`
+	SignatureHelp *SignatureHelpClientCapabilities `json:"signatureHelp,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/declaration`
 	 *
 	 * @since 3.14.0
 	 */
-	Declaration DeclarationClientCapabilities `json:"declaration,omitempty"`
+	Declaration *DeclarationClientCapabilities `json:"declaration,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/definition`
 	 */
-	Definition DefinitionClientCapabilities `json:"definition,omitempty"`
+	Definition *DefinitionClientCapabilities `json:"definition,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/typeDefinition`
 	 *
 	 * @since 3.6.0
 	 */
-	TypeDefinition TypeDefinitionClientCapabilities `json:"typeDefinition,omitempty"`
+	TypeDefinition *TypeDefinitionClientCapabilities `json:"typeDefinition,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/implementation`
 	 *
 	 * @since 3.6.0
 	 */
-	Implementation ImplementationClientCapabilities `json:"implementation,omitempty"`
+	Implementation *ImplementationClientCapabilities `json:"implementation,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/references`
 	 */
-	References ReferenceClientCapabilities `json:"references,omitempty"`
+	References *ReferenceClientCapabilities `json:"references,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/documentHighlight`
 	 */
-	DocumentHighlight DocumentHighlightClientCapabilities `json:"documentHighlight,omitempty"`
+	DocumentHighlight *DocumentHighlightClientCapabilities `json:"documentHighlight,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/documentSymbol`
 	 */
-	DocumentSymbol DocumentSymbolClientCapabilities `json:"documentSymbol,omitempty"`
+	DocumentSymbol *DocumentSymbolClientCapabilities `json:"documentSymbol,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/codeAction`
 	 */
-	CodeAction CodeActionClientCapabilities `json:"codeAction,omitempty"`
+	CodeAction *CodeActionClientCapabilities `json:"codeAction,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/codeLens`
 	 */
-	CodeLens CodeLensClientCapabilities `json:"codeLens,omitempty"`
+	CodeLens *CodeLensClientCapabilities `json:"codeLens,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/documentLink`
 	 */
-	DocumentLink DocumentLinkClientCapabilities `json:"documentLink,omitempty"`
+	DocumentLink *DocumentLinkClientCapabilities `json:"documentLink,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/documentColor`
 	 */
-	ColorProvider DocumentColorClientCapabilities `json:"colorProvider,omitempty"`
+	ColorProvider *DocumentColorClientCapabilities `json:"colorProvider,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/formatting`
 	 */
-	Formatting DocumentFormattingClientCapabilities `json:"formatting,omitempty"`
+	Formatting *DocumentFormattingClientCapabilities `json:"formatting,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/rangeFormatting`
 	 */
-	RangeFormatting DocumentRangeFormattingClientCapabilities `json:"rangeFormatting,omitempty"`
+	RangeFormatting *DocumentRangeFormattingClientCapabilities `json:"rangeFormatting,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/onTypeFormatting`
 	 */
-	OnTypeFormatting DocumentOnTypeFormattingClientCapabilities `json:"onTypeFormatting,omitempty"`
+	OnTypeFormatting *DocumentOnTypeFormattingClientCapabilities `json:"onTypeFormatting,omitempty"`
 	/**
 	 * Capabilities specific to the `textDocument/rename`
 	 */
-	Rename RenameClientCapabilities `json:"rename,omitempty"`
+	Rename *RenameClientCapabilities `json:"rename,omitempty"`
 	/**
 	 * Capabilities specific to `textDocument/foldingRange` requests.
 	 *
 	 * @since 3.10.0
 	 */
-	FoldingRange FoldingRangeClientCapabilities `json:"foldingRange,omitempty"`
+	FoldingRange *FoldingRangeClientCapabilities `json:"foldingRange,omitempty"`
 	/**
 	 * Capabilities specific to `textDocument/selectionRange` requests
 	 *
 	 * @since 3.15.0
 	 */
-	SelectionRange SelectionRangeClientCapabilities `json:"selectionRange,omitempty"`
+	SelectionRange *SelectionRangeClientCapabilities `json:"selectionRange,omitempty"`
 	/**
 	 * Capabilities specific to `textDocument/publishDiagnostics` notification.
 	 */
-	PublishDiagnostics PublishDiagnosticsClientCapabilities `json:"publishDiagnostics,omitempty"`
+	PublishDiagnostics *PublishDiagnosticsClientCapabilities `json:"publishDiagnostics,omitempty"`
 	/**
 	 * Capabilities specific to the various call hierarchy requests.
 	 *
 	 * @since 3.16.0
 	 */
-	CallHierarchy CallHierarchyClientCapabilities `json:"callHierarchy,omitempty"`
+	CallHierarchy *CallHierarchyClientCapabilities `json:"callHierarchy,omitempty"`
 	/**
 	 * Capabilities specific to the various semantic token requsts.
 	 *
 	 * @since 3.16.0 - Proposed state
 	 */
-	SemanticTokens SemanticTokensClientCapabilities `json:"semanticTokens,omitempty"`
+	SemanticTokens *SemanticTokensClientCapabilities `json:"semanticTokens,omitempty"`
 }
 
 /**
@@ -3851,7 +3851,7 @@ type WorkDoneProgressParams struct {
 	/**
 	 * An optional token that a server can use to report work done progress.
 	 */
-	WorkDoneToken ProgressToken `json:"workDoneToken,omitempty"`
+	WorkDoneToken *ProgressToken `json:"workDoneToken,omitempty"`
 }
 
 type WorkDoneProgressReport struct {
@@ -3895,30 +3895,30 @@ type WorkspaceClientCapabilities struct {
 	/**
 	 * Capabilities specific to `WorkspaceEdit`s
 	 */
-	WorkspaceEdit WorkspaceEditClientCapabilities `json:"workspaceEdit,omitempty"`
+	WorkspaceEdit *WorkspaceEditClientCapabilities `json:"workspaceEdit,omitempty"`
 	/**
 	 * Capabilities specific to the `workspace/didChangeConfiguration` notification.
 	 */
-	DidChangeConfiguration DidChangeConfigurationClientCapabilities `json:"didChangeConfiguration,omitempty"`
+	DidChangeConfiguration *DidChangeConfigurationClientCapabilities `json:"didChangeConfiguration,omitempty"`
 	/**
 	 * Capabilities specific to the `workspace/didChangeWatchedFiles` notification.
 	 */
-	DidChangeWatchedFiles DidChangeWatchedFilesClientCapabilities `json:"didChangeWatchedFiles,omitempty"`
+	DidChangeWatchedFiles *DidChangeWatchedFilesClientCapabilities `json:"didChangeWatchedFiles,omitempty"`
 	/**
 	 * Capabilities specific to the `workspace/symbol` request.
 	 */
-	Symbol WorkspaceSymbolClientCapabilities `json:"symbol,omitempty"`
+	Symbol *WorkspaceSymbolClientCapabilities `json:"symbol,omitempty"`
 	/**
 	 * Capabilities specific to the `workspace/executeCommand` request.
 	 */
-	ExecuteCommand ExecuteCommandClientCapabilities `json:"executeCommand,omitempty"`
+	ExecuteCommand *ExecuteCommandClientCapabilities `json:"executeCommand,omitempty"`
 	/**
 	 * Capabilities specific to the semantic token requsts scoped to the
 	 * workspace.
 	 *
 	 * @since 3.16.0 - proposed state.
 	 */
-	SemanticTokens SemanticTokensWorkspaceClientCapabilities `json:"semanticTokens,omitempty"`
+	SemanticTokens *SemanticTokensWorkspaceClientCapabilities `json:"semanticTokens,omitempty"`
 }
 
 /**
@@ -3997,7 +3997,7 @@ type WorkspaceFoldersClientCapabilities struct {
 	/**
 	 * The workspace client capabilities
 	 */
-	Workspace WorkspaceGn `json:"workspace,omitempty"`
+	Workspace *WorkspaceGn `json:"workspace,omitempty"`
 }
 
 type WorkspaceFoldersInitializeParams struct {
@@ -4011,7 +4011,7 @@ type WorkspaceFoldersServerCapabilities struct {
 	/**
 	 * The workspace server capabilities
 	 */
-	Workspace WorkspaceGn `json:"workspace,omitempty"`
+	Workspace *WorkspaceGn `json:"workspace,omitempty"`
 }
 
 /**
@@ -4507,7 +4507,7 @@ type ParamInitialize struct {
 	WorkDoneProgressParams
 }
 type WorkspaceGn struct {
-	WorkspaceFolders WorkspaceFoldersGn `json:"workspaceFolders,omitempty"`
+	WorkspaceFolders *WorkspaceFoldersGn `json:"workspaceFolders,omitempty"`
 }
 type WorkspaceFoldersGn struct {
 	/**
