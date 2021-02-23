@@ -119,8 +119,13 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 					IncludeText: true,
 				},
 			},
-			CompletionProvider: protocol.CompletionOptions{
-				//TriggerCharacters: []string{"."},
+			CompletionProvider: &protocol.CompletionOptions{
+				TriggerCharacters: []string{
+					".",  //属性获取
+					"=",  //赋值类型提示
+					"==", //比较类型提示
+					"!=",
+				},
 				ResolveProvider: true,
 			},
 			/*
@@ -148,8 +153,8 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 					TriggerCharacters: []string{"(", ","},
 				},
 			*/
-			Workspace: protocol.WorkspaceGn{
-				WorkspaceFolders: protocol.WorkspaceFoldersGn{
+			Workspace: &protocol.WorkspaceGn{
+				WorkspaceFolders: &protocol.WorkspaceFoldersGn{
 					Supported:           true,
 					ChangeNotifications: "workspace/didChangeWorkspaceFolders",
 				},

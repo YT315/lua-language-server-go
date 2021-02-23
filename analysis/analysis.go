@@ -1,11 +1,7 @@
 package analysis
 
-import (
-	"lualsp/syntax"
-)
-
+//Analysis 语义分析器
 type Analysis struct {
-	files map[string]syntax.Node //文件分析的语法树
-	scope string                 //全局变量
-
+	previous *Analysis //对象包含依赖,分析过程通过单项链表连接
+	FilePath string    //正在分析的文件路径包含文件名
 }
