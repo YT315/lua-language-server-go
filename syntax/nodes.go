@@ -12,6 +12,7 @@ type (
 	nodeBase struct {
 		line     uint
 		lastline uint
+		Err      error
 	}
 )
 

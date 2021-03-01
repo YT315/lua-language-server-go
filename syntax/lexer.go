@@ -1,6 +1,9 @@
 package syntax
 
-import "io"
+import (
+	"fmt"
+	"io"
+)
 
 func lower(ch rune) rune     { return ('a' - 'A') | ch } // returns lower-case ch iff ch is ASCII letter
 func isLetter(ch rune) bool  { return 'a' <= lower(ch) && lower(ch) <= 'z' || ch == '_' }
@@ -168,7 +171,8 @@ finally:
 }
 
 func (lx *Lexer) Error(message string) {
-	panic(message)
+	fmt.Println(message)
+	//panic(message)
 }
 
 func (lx *Lexer) scanNum() {

@@ -1,4 +1,5 @@
-function test()
+a=v++
+function ()
     a=100
     b=50
 end
