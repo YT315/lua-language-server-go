@@ -3,34 +3,16 @@ package syntax
 //node
 type (
 	Node interface {
-		Line() uint
-		SetLine(uint)
-		LastLine() uint
-		SetLastLine(uint)
+		nodeFlag()
 	}
 
 	nodeBase struct {
-		line     uint
-		lastline uint
-		Err      error
+		Scope
+		Err error
 	}
 )
 
-func (n *nodeBase) Line() uint {
-	return n.line
-}
-
-func (n *nodeBase) SetLine(line uint) {
-	n.line = line
-}
-
-func (n *nodeBase) LastLine() uint {
-	return n.lastline
-}
-
-func (n *nodeBase) SetLastLine(line uint) {
-	n.lastline = line
-}
+func (n *nodeBase) nodeFlag() {}
 
 //statements
 type (
@@ -132,8 +114,7 @@ type (
 	LocalFuncDefStmt struct {
 		stmtBase
 
-		Name Expr
-
+		Name     Expr
 		Function Expr
 	}
 
@@ -148,6 +129,12 @@ type (
 		stmtBase
 
 		Exprs []Expr
+	}
+
+	ErrorStmt struct {
+		stmtBase
+
+		Info string
 	}
 )
 

@@ -44,7 +44,8 @@ redo:
 		lx.nextch()
 	}
 	// token start
-	tok.line, tok.col = lx.pos()
+	tok.Start.line, tok.Start.col = lx.pos()
+	//tok.line, tok.col = lx.pos()
 	lx.start()
 
 	if isLetter(lx.ch) {

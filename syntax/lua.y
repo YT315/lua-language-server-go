@@ -106,7 +106,24 @@ stat:
         } |
         varlist '=' exprlist {
             $$ = &AssignStmt{Left: $1, Right: $3}
-            $$.SetLine($1[0].Line())
+            $$.Start=$1[0].Start
+            $$.End=$3[len($3)-1].End
+        } |
+        //err
+        varlist '=' {
+            $$ = &AssignStmt{Left: $1, Right: nil}
+            $$.Start=$1[0].Start
+            $$.End=$2.End
+            $$.Err=&SyntaxErr{Info:"赋值表达式缺少右值"}
+            $$.Err.Scope=$2.Scope
+        } |
+         
+        '=' exprlist {
+            $$ = &AssignStmt{Left: nil, Right: $2}
+            $$.Start=$1.Start
+            $$.End==$2[len($2)-1].End
+            $$.Err=&SyntaxErr{Info:"赋值表达式缺少左值"}
+            $$.Err.Scope=$1.Scope
         } |
         functioncall {
            if funstmt, ok := $1.(*FuncCall); !ok {
@@ -227,9 +244,42 @@ returnstat:
 
 label:  
         TTarget TName TTarget {
-            name:=&NameExpr{Value:$2.Str}
+            name := &NameExpr{Value:$2.Str}
+            name.Scope:$2.Scope
             $$ = &LabelStmt{Name: name}
-            $$.SetLine($2.line)
+            $$.Start=$1.Start
+            $$.End=$3.End
+        }|
+        TName TTarget {
+            name := &NameExpr{Value:$2.Str}
+            name.Scope:$1.Scope
+            $$ = &LabelStmt{Name: name}
+            $$.Start=$1.Start
+            $$.End=$2.End
+            $$.Err=&SyntaxErr{Info:"标签缺少左侧符号"}
+            $$.Err.Scope=$1.Scope
+        }|
+        TTarget TName {
+            name:=&NameExpr{Value:$2.Str}
+            name.Scope:$2.Scope
+            $$ = &LabelStmt{Name: name}
+            $$.Start=$1.Start
+            $$.End=$2.End
+            $$.Err=&SyntaxErr{Info:"标签缺少右侧符号"}
+            $$.Err.Scope=$2.Scope
+        }|
+        TTarget TTarget {
+            $$ = &LabelStmt{Name: nil}
+            $$.Start=$1.Start
+            $$.End=$2.End
+            $$.Err=&SyntaxErr{Info:"标签缺少名称"}
+            $$.Err.Scope=$$.Scope
+        }|
+        TTarget {
+            $$ = &LabelStmt{Name: nil}
+            $$.Scope=$1.Scope
+            $$.Err=&SyntaxErr{Info:"标签不完整"}
+            $$.Err.Scope=$$.Scope
         }
         
 funcname: 
