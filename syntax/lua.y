@@ -121,43 +121,123 @@ stat:
         '=' exprlist {
             $$ = &AssignStmt{Left: nil, Right: $2}
             $$.Start=$1.Start
-            $$.End==$2[len($2)-1].End
+            $$.End=$2[len($2)-1].End
             $$.Err=&SyntaxErr{Info:"赋值表达式缺少左值"}
             $$.Err.Scope=$1.Scope
         } |
         functioncall {
-           if funstmt, ok := $1.(*FuncCall); !ok {
+            if funstmt, ok := $1.(*FuncCall); !ok {
                lualex.(*Lexer).Error("parse error")
             } else {
-              $$ = funstmt
-              $$.SetLine($1.Line())
+                $$ = funstmt
+                $$.SetLine($1.Line())
             }
         } |
         label {
-           $$ = $1
+            $$ = $1
         } |  
         TBreak {
-           $$ = &BreakStmt{}
-           $$.SetLine($1.line)
+            $$ = &BreakStmt{}
+            $$.Scope = $1.Scope
         } |  
         TGoto TName {
-           $$ = &GotoStmt{Name:&NameExpr{Value:$2.Str}}
-           $$.SetLine($2.line)
+            $$ = &GotoStmt{Name:&NameExpr{Value:$2.Str}}
+            $$.Start=$1.Start
+            $$.End = $2.End
+        } |
+        //err
+        TGoto {
+            $$ = &GotoStmt{Name:nil}
+            $$.Scope = $1.Scope
+            $$.Err=&SyntaxErr{Info:"缺少goto目标名称"}
+            $$.Err.Scope=$1.Scope
         } |
         TDo block TEnd {
             $$ = &DoEndStmt{Block: $2}
-            $$.SetLine($1.line)
-            $$.SetLastLine($3.line)
+            $$.Start=$1.Start
+            $$.End = $3.End
+        } |
+        //err
+        TDo block {
+            $$ = &DoEndStmt{Block: $2}
+            $$.Start=$1.Start
+            $$.End = $2[len($2)-1].End
+            $$.Err=&SyntaxErr{Info:"缺少End"}
+            $$.Err.Scope=$1.Scope
         } |
         TWhile expr TDo block TEnd {
             $$ = &WhileStmt{Condition: $2, Block: $4}
-            $$.SetLine($1.line)
-            $$.SetLastLine($5.line)
+            $$.Start=$1.Start
+            $$.End = $5.End
+        } |
+        //ERR
+        TWhile expr TDo block {
+            $$ = &WhileStmt{Condition: $2, Block: $4}
+            $$.Start=$1.Start
+            $$.End = $4[len($4)-1].End
+            $$.Err=&SyntaxErr{Info:"缺少end"}
+            $$.Err.Scope=$1.Scope
+        } |
+        //ERR
+        TWhile expr block TEnd {
+            $$ = &WhileStmt{Condition: $2, Block: $3}
+            $$.Start=$1.Start
+            $$.End = $4.End
+            $$.Err=&SyntaxErr{Info:"缺少do"}
+            $$.Err.Scope=$1.Scope
+        } |
+        //ERR
+        TWhile TDo block TEnd {
+            $$ = &WhileStmt{Condition: nil, Block: $3}
+            $$.Start=$1.Start
+            $$.End = $4.End
+            $$.Err=&SyntaxErr{Info:"缺少条件表达式"}
+            $$.Err.Start=$1.End
+            $$.Err.End=$2.Start     
+        } |
+        //ERR
+        TWhile expr {
+            $$ = &WhileStmt{Condition: $2, Block: nil}
+            $$.Start=$1.Start
+            $$.End = $2.End
+            $$.Err=&SyntaxErr{Info:"缺少语句do..end"}
+            $$.Err.Scope=$1.Scope
+        } |
+        //ERR
+        TWhile {
+            $$ = &WhileStmt{Condition: nil, Block: nil}
+            $$.Scope=$1.Scope
+            $$.Err=&SyntaxErr{Info:"缺少语句expr do..end"}
+            $$.Err.Scope=$1.Scope
         } |
         TRepeat block TUntil expr {
             $$ = &RepeatStmt{Condition: $4, Block: $2}
-            $$.SetLine($1.line)
-            $$.SetLastLine($4.Line())
+            $$.Start=$1.Start
+            $$.End = $4.End
+        } |
+        //err
+        TRepeat block TUntil {
+            $$ = &RepeatStmt{Condition: nil, Block: $2}
+            $$.Start=$1.Start
+            $$.End = $3.End
+            $$.Err=&SyntaxErr{Info:"缺少语句条件表达式"}
+            $$.Err.Scope=$3.Scope
+        } |
+        //err
+        TRepeat block expr {
+            $$ = &RepeatStmt{Condition: $3, Block: $2}
+            $$.Start=$1.Start
+            $$.End = $3.End
+            $$.Err=&SyntaxErr{Info:"缺少Until"}
+            $$.Err.Scope=$1.Scope
+        } |
+        //err
+        TRepeat block {
+            $$ = &RepeatStmt{Condition: nil, Block: $2}
+            $$.Start=$1.Start
+            $$.End = $2[len($2)-1].End
+            $$.Err=&SyntaxErr{Info:"缺少条件以及Until"}
+            $$.Err.Scope=$1.Scope
         } |
         TIf expr TThen block elseifs TEnd {
             $$ = &IfStmt{Condition: $2, Then: $4}
@@ -166,8 +246,21 @@ stat:
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            $$.SetLine($1.line)
-            $$.SetLastLine($6.line)
+            $$.Start=$1.Start
+            $$.End = $6.End
+        } |
+        //err
+        TIf expr TThen block elseifs {
+            $$ = &IfStmt{Condition: $2, Then: $4}
+            cur := $$
+            for _, elseif := range $5 {
+                cur.(*IfStmt).Else = []Stmt{elseif}
+                cur = elseif
+            }
+            $$.Start=$1.Start
+            $$.End = $6.End
+            $$.Err=&SyntaxErr{Info:"缺少end"}
+            $$.Err.Scope=$1.Scope
         } |
         TIf expr TThen block elseifs TElse block TEnd {
             $$ = &IfStmt{Condition: $2, Then: $4}
