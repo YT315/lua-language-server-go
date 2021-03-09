@@ -411,15 +411,6 @@ stat:
             $$.Err=&SyntaxErr{Info:"缺少循环终点"}
             $$.Err.Scope=$5.Scope
         } |
-        TFor TName '=' expr expr TDo block TEnd {
-            name:=&NameExpr{Value:$2.Str}
-            $$ = &ForLoopNumStmt{Name: name, Init: $4, Limit: $5, Block: $7}
-            $$.Start=$1.Start
-            $$.End = $7.End
-            $$.Err=&SyntaxErr{Info:"缺少逗号"}
-            $$.Err.Start=$4.End
-            $$.Err.End=$5.Start
-        } |
         /*************** TFor TName '=' expr ',' expr ',' expr TDo block TEnd *****************/
         TFor TName '=' expr ',' expr ',' expr TDo block TEnd {
             name:=&NameExpr{Value:$2.Str}
@@ -450,10 +441,34 @@ stat:
             $$.Start=$1.Start
             $$.End = $7.End
         } |
-
-
-
-
+        TFor TIn exprlist TDo block TEnd {
+            $$ = &ForLoopListStmt{Exprs:$3, Block: $5}
+            $$.Start=$1.Start
+            $$.End = $6.End
+            $$.Err=&SyntaxErr{Info:"缺少迭代表达式"}
+            $$.Err.Scope=$2.Scope
+        } |
+        TFor namelist TIn TDo block TEnd {
+            $$ = &ForLoopListStmt{Names:$2, Block: $5}
+            $$.Start=$1.Start
+            $$.End = $6.End
+            $$.Err=&SyntaxErr{Info:"缺少迭代对象表达式"}
+            $$.Err.Scope=$2.Scope
+        } |
+        TFor namelist TIn exprlist TDo block {
+            $$ = &ForLoopListStmt{Names:$2, Exprs:$4, Block: $6}
+            $$.Start=$1.Start
+            $$.End = $6.End
+            $$.Err=&SyntaxErr{Info:"缺少end"}
+            $$.Err.Scope=$1.Scope
+        } |
+        TFor namelist TIn exprlist{
+            $$ = &ForLoopListStmt{Names:$2, Exprs:$4}
+            $$.Start=$1.Start
+            $$.End = $4.End
+            $$.Err=&SyntaxErr{Info:"缺少执行语句end"}
+            $$.Err.Scope=$1.Scope
+        } |
         /*************** TFunction funcname funcbody *****************/
         TFunction funcname funcbody {
             $$ = $2
