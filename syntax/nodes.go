@@ -3,7 +3,12 @@ package syntax
 //node
 type (
 	Node interface {
-		nodeFlag()
+		getScope() Scope
+		setScope(s Scope)
+		getStart() Pos
+		setStart(p Pos)
+		getEnd() Pos
+		setEnd(p Pos)
 	}
 
 	nodeBase struct {
@@ -12,7 +17,12 @@ type (
 	}
 )
 
-func (n *nodeBase) nodeFlag() {}
+func (n *nodeBase) getScope() Scope  { return n.Scope }
+func (n *nodeBase) setScope(s Scope) { n.Scope = s }
+func (n *nodeBase) getStart() Pos    { return n.Start }
+func (n *nodeBase) setStart(p Pos)   { n.Start = p }
+func (n *nodeBase) getEnd() Pos      { return n.End }
+func (n *nodeBase) setEnd(p Pos)     { n.End = p }
 
 //statements
 type (
