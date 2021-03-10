@@ -1,5 +1,6 @@
 %{
 package syntax
+
 %}
 
 %union {
@@ -126,12 +127,7 @@ stat:
         } |
         /*************** functioncall *****************/
         functioncall {
-            if funstmt, ok := $1.(*FuncCall); !ok {
-               lualex.(*Lexer).Error("parse error")
-            } else {
-                $$ = funstmt
-                $$.SetLine($1.Line())
-            }
+            $$ = $1
         } |
         /*************** label *****************/
         label {
@@ -325,7 +321,7 @@ stat:
             }
             cur.(*IfStmt).Else = $6
             $$.Start=$1.Start
-            $$.End = $6[len(%6)-1].End
+            $$.End = $6[len($6)-1].End
             $$.Err=&SyntaxErr{Info:"缺少end"}
             $$.Err.Start=$$.End
             $$.Err.End=$$.End
@@ -473,25 +469,97 @@ stat:
         TFunction funcname funcbody {
             $$ = $2
             $$.(*FuncDefStmt).Function= $3
-            $$.SetLine($3.Line())
-            $$.SetLastLine($3.LastLine())
+            $$.Start=$1.Start
+            $$.End = $3.End
+        } |
+        TFunction funcname {
+            $$ = $2
+            $$.Start=$1.Start
+            $$.Err=&SyntaxErr{Info:"缺少函数体"}
+            $$.Err.Scope=$1.Scope
+        } |
+        TFunction funcbody {
+            $$ = &FuncDefStmt{}
+            $$.(*FuncDefStmt).Function= $2
+            $$.Start=$1.Start
+            $$.End = $2.End
+            $$.Err=&SyntaxErr{Info:"缺少函数名"}
+            $$.Err.Scope=$1.Scope
         } |
         /*************** TLocal TFunction TName funcbody *****************/
         TLocal TFunction TName funcbody {
             name:=&NameExpr{Value:$3.Str}
             $$ = &LocalFuncDefStmt{Name: name, Function: $4}
-            $$.SetLine($1.line)
-            $$.SetLastLine($4.LastLine())
+            $$.Start=$1.Start
+            $$.End = $4.End
+        } | 
+        TLocal TFunction funcbody {
+            $$ = &LocalFuncDefStmt{Function: $3}
+            $$.Start=$1.Start
+            $$.End = $3.End
+            $$.Err=&SyntaxErr{Info:"缺少函数名"}
+            $$.Err.Scope=$2.Scope
+        } | 
+        TLocal TName funcbody {
+            name:=&NameExpr{Value:$2.Str}
+            $$ = &LocalFuncDefStmt{Name: name, Function: $3}
+            $$.Start=$1.Start
+            $$.End = $3.End
+            $$.Err=&SyntaxErr{Info:"缺少function"}
+            $$.Err.Scope=$1.Scope
+        } | 
+        TLocal TFunction TName {
+            name:=&NameExpr{Value:$3.Str}
+            $$ = &LocalFuncDefStmt{Name: name}
+            $$.Start=$1.Start
+            $$.End = $3.End
+            $$.Err=&SyntaxErr{Info:"缺少函数体"}
+            $$.Err.Scope=$3.Scope
+        } | 
+        TLocal TFunction {
+            $$ = &LocalFuncDefStmt{}
+            $$.Start=$1.Start
+            $$.End = $2.End
+            $$.Err=&SyntaxErr{Info:"缺少函数内容"}
+            $$.Err.Scope=$2.Scope
         } | 
         /*************** TLocal namelist '=' exprlist *****************/
         TLocal namelist '=' exprlist {
             $$ = &LocalVarDef{Names: $2, Inits:$4}
-            $$.SetLine($1.line)
+            $$.Start=$1.Start
+            $$.End = $4.End
+        } |
+        TLocal namelist '=' {
+            $$ = &LocalVarDef{Names: $2}
+            $$.Start=$1.Start
+            $$.End = $3.End
+            $$.Err=&SyntaxErr{Info:"缺少初始值"}
+            $$.Err.Scope=$3.Scope
+        } |
+        TLocal '=' exprlist {
+            $$ = &LocalVarDef{Inits:$3}
+            $$.Start=$1.Start
+            $$.End = $3.End
+            $$.Err=&SyntaxErr{Info:"缺少变量名称"}
+            $$.Err.Scope=$2.Scope
         } |
         /*************** TLocal namelist *****************/
         TLocal namelist {
             $$ = &LocalVarDef{Names: $2}
-            $$.SetLine($1.line)
+            $$.Start=$1.Start
+            $$.End = $2.End
+        }|
+        TLocal {
+            $$ = &LocalVarDef{}
+            $$.Scope=$1.Scope
+            $$.Err=&SyntaxErr{Info:"缺少变量名称"}
+            $$.Err.Scope=$1.Scope
+        }|
+        error{
+            $$ = &ErrorStmt{Info:"解析错误"}
+            tk:=lualex.(Lexer).Token
+            $$.Err=&SyntaxErr{Info:tk.Str+"附近解析错误"}
+            $$.Err.Scope=tk.Scope
         }
 
 elseifs: 
@@ -500,22 +568,25 @@ elseifs:
         } | 
         elseifs TElseIf expr TThen block {
             ifstmt:=&IfStmt{Condition: $3, Then: $5}
+            ifstmt.Start=$2.Start
+            ifstmt.End = $5.End
             $$ = append($1, ifstmt)
-            ifstmt.SetLine($2.line)
         }
         
 returnstat:
         TReturn {
             $$ = &ReturnStmt{Exprs:nil}
-            $$.SetLine($1.line)
+            $$.Scope=$1.Scope
         } |
         TReturn exprlist {
             $$ = &ReturnStmt{Exprs:$2}
-            $$.SetLine($1.line)
+            $$.Start=$1.Start
+            $$.End = $2.End
         } |
         TReturn exprlist ';' {
             $$ = &ReturnStmt{Exprs:$2}
-            $$.SetLine($1.line)
+            $$.Start=$1.Start
+            $$.End = $3.End
         }
 
 label:  
@@ -561,23 +632,41 @@ label:
 funcname: 
         funcnameaux {
             $$ = &FuncDefStmt{Name: $1, Receiver: nil}
+            $$.Scope=$1.Scope
         } |
         funcnameaux ':' TName {
             name:= &NameExpr{Value:$3.Str}
-            name.SetLine($3.line)
+            name.Scope=$3.Scope
             $$ = &FuncDefStmt{Name: name, Receiver:$1}
+            $$.Start=$1.Start
+            $$.End = $3.End
+        }|
+        funcnameaux ':' {
+            $$ = &FuncDefStmt{Name: name}
+            $$.Start=$1.Start
+            $$.End = $2.End
+            $$.Err=&SyntaxErr{Info:"缺少接受者"}
+            $$.Err.Scope=$2.Scope
         }
 
 funcnameaux:
         TName {
             $$ = &NameExpr{Value:$1.Str}
-            $$.SetLine($1.line)
+            $$.Scope=$1.Scope
         } | 
         funcnameaux '.' TName {
             name:= &NameExpr{Value:$3.Str}
-            name.SetLine($3.line)
+            name.Scope=$1.Scope
             $$ = &GetItemExpr{Table:$1, Key:name}
-            $$.SetLine($3.line)
+            $$.Start=$1.Start
+            $$.End = $3.End
+        } |
+        funcnameaux '.' {
+            $$ = &GetItemExpr{Table:$1}
+            $$.Start=$1.Start
+            $$.End = $2.End
+            $$.Err=&SyntaxErr{Info:"缺少子项目"}
+            $$.Err.Scope=$2.Scope
         }
 
 varlist:
@@ -586,33 +675,63 @@ varlist:
         } | 
         varlist ',' var {
             $$ = append($1, $3)
-        }
+        } 
 
 var:
         TName {
             $$ = &NameExpr{Value:$1.Str}
-            $$.SetLine($1.line)
+            $$.Scope=$1.Scope
         } |
         prefixexp '[' expr ']' {
             $$ = &GetItemExpr{Table:$1, Key:$3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $4.End
         } | 
+        prefixexp '[' ']' {
+            $$ = &GetItemExpr{Table:$1}
+            $$.Start=$1.Start
+            $$.End = $3.End
+            $$.Err=&SyntaxErr{Info:"缺少索引"}
+            $$.Err.Scope=$2.Scope
+        } |
+        prefixexp '[' expr {
+            $$ = &GetItemExpr{Table:$1, Key:$3}
+            $$.Start=$1.Start
+            $$.End = $3.End
+            $$.Err=&SyntaxErr{Info:"缺少右括号"}
+            $$.Err.Scope=$3.Scope
+        } |
+        prefixexp '[' {
+            $$ = &GetItemExpr{Table:$1}
+            $$.Start=$1.Start
+            $$.End = $2.End
+            $$.Err=&SyntaxErr{Info:"缺少索引"}
+            $$.Err.Scope=$2.Scope
+        } |
         prefixexp '.' TName {
             name:= &NameExpr{Value:$3.Str}
-            name.SetLine($3.line)
+            $$.Scope=$3.Scope
             $$ = &GetItemExpr{Table:$1, Key:name}
-            $$.SetLine($3.line)
+            $$.Start=$1.Start
+            $$.End = $3.End
+        } |
+        prefixexp '.' {
+            $$ = &GetItemExpr{Table:$1}
+            $$.Start=$1.Start
+            $$.End = $2.End
+            $$.Err=&SyntaxErr{Info:"缺少子项目"}
+            $$.Err.Scope=$2.Scope
         }
 
 namelist:
         TName {
             name:= &NameExpr{Value:$1.Str}
-            name.SetLine($1.line)
+            $$.Scope=$1.Scope
             $$ = []Expr{name}
         } | 
         namelist ','  TName {
             name:= &NameExpr{Value:$3.Str}
-            name.SetLine($3.line)
+            $$.Scope=$3.Scope
             $$ = append($1, name)
         }
 
@@ -627,27 +746,27 @@ exprlist:
 expr:
         TNil {
             $$ = &NilExpr{}
-            $$.SetLine($1.line)
+            $$.Scope=$1.Scope
         } | 
         TFalse {
             $$ = &FalseExpr{}
-            $$.SetLine($1.line)
+            $$.Scope=$1.Scope
         } | 
         TTrue {
             $$ = &TrueExpr{}
-            $$.SetLine($1.line)
+            $$.Scope=$1.Scope
         } | 
         TNumber {
             $$ = &NumberExpr{Value: $1.Str}
-            $$.SetLine($1.line)
+            $$.Scope=$1.Scope
         } | 
         TString {
             $$ = &StringExpr{Value: $1.Str}
-            $$.SetLine($1.line)
+            $$.Scope=$1.Scope
         } |
         TAny {
             $$ = &AnyExpr{}
-            $$.SetLine($1.line)
+            $$.Scope=$1.Scope
         } |
         functiondef {
             $$ = $1
@@ -660,107 +779,133 @@ expr:
         } |
         expr '+' expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr '-' expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr '*' expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr '/' expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr TWdiv expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr '^' expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr '%' expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr '&' expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr '~' expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr '|' expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr TRmove expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr TLmove expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr TConn expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr '<' expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr TLequal expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr '>' expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr TBequal expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr TEqual expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr TNequal expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr TAnd expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         expr TOr expr {
             $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $3.End
         } |
         '-' expr %prec UNARY {
             $$ = &OneOpExpr{Operator: $1.Str, Target: $2}
-            $$.SetLine($2.Line())
+            $$.Start=$1.Start
+            $$.End = $2.End
         } |
         TNot expr %prec UNARY {
             $$ = &OneOpExpr{Operator: $1.Str, Target: $2}
-            $$.SetLine($2.Line())
+            $$.Start=$1.Start
+            $$.End = $2.End
         } |
         '#' expr %prec UNARY {
             $$ = &OneOpExpr{Operator: $1.Str, Target: $2}
-            $$.SetLine($2.Line())
+            $$.Start=$1.Start
+            $$.End = $2.End
         } |
         '~' expr %prec UNARY {
             $$ = &OneOpExpr{Operator: $1.Str, Target: $2}
-            $$.SetLine($2.Line())
+            $$.Start=$1.Start
+            $$.End = $2.End
         } |
         '(' expr ')' {
             $$ = $2
-            $$.SetLine($1.line)
+            $$.Start=$1.Start
+            $$.End = $3.End
         }
 
 prefixexp:
@@ -768,24 +913,37 @@ prefixexp:
             $$ = $1
         } |
         functioncall {
-            if funcnode, ok := $1.(*FuncCall); !ok {
-               lualex.(*Lexer).Error("parse error")
-            } else {
-              $$ = funcnode
-              $$.SetLine($1.Line())
-            }
+            $$ = $1
         } 
 
 functioncall:
         prefixexp args {
             $$ = &FuncCall{Function: $1, Args: $2}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $2.End
         } |
         prefixexp ':' TName args {
             name:= &NameExpr{Value: $3.Str}
-            name.SetLine($3.line)
+            name.Scope=$3.Scope
             $$ = &FuncCall{Function: name, Receiver: $1, Args: $4}
-            $$.SetLine($1.Line())
+            $$.Start=$1.Start
+            $$.End = $4.End
+        } | 
+        prefixexp ':' TName  {
+            name:= &NameExpr{Value: $3.Str}
+            name.Scope=$3.Scope
+            $$ = &FuncCall{Function: name, Receiver: $1,}
+            $$.Start=$1.Start
+            $$.End = $3.End
+            $$.Err=&SyntaxErr{Info:"缺少函数调用参数(args)"}
+            $$.Err.Scope=$2.Scope
+        } | 
+        prefixexp ':'  {
+            $$ = &FuncCall{ Receiver: $1}
+            $$.Start=$1.Start
+            $$.End = $2.End
+            $$.Err=&SyntaxErr{Info:"缺少函数调用"}
+            $$.Err.Scope=$2.Scope
         }
 
 args:
@@ -800,48 +958,59 @@ args:
         } | 
         TString {
             str := &StringExpr{Value: $1.Str}
-            str.SetLine($1.line)
+            str.Scope =$1.Scope
             $$ = []Expr{str}
         }
 
 functiondef:
         TFunction funcbody {
             $$ = $2
+        } |
+        TFunction {
+            $$ =  &FuncDefExpr{}
+            $$.Scope =$1.Scope
+            $$.Err=&SyntaxErr{Info:"未定义函数体"}
+            $$.Err.Scope=$1.Scope
         }
 
 funcbody:
         '(' parlist ')' block TEnd {
             $$ = &FuncDefExpr{Param: $2, Block: $4}
-            $$.SetLine($1.line)
-            $$.SetLastLine($5.line)
+            $$.Start=$1.Start
+            $$.End = $5.End
         } | 
         '(' ')' block TEnd {
             $$ = &FuncDefExpr{Param: nil, Block: $3}
-            $$.SetLine($1.line)
-            $$.SetLastLine($4.line)
+            $$.Start=$1.Start
+            $$.End = $4.End
         }
 
 parlist:
         TAny {
             $$ = &ParamExpr{IsAny: true}
-            $$.SetLine($1.line)
+            $$.Scope =$1.Scope
         } | 
         namelist {
             $$ = &ParamExpr{Params: $1, IsAny: false}
+            $$.Scope =$1.Scope
         } | 
         namelist ',' TAny {
             $$ = &ParamExpr{Params: $1, IsAny: true}
+            $$.Start=$1.Start
+            $$.End = $3.End
         }
 
 
 tableconstructor:
         '{' '}' {
             $$ = &TableExpr{Fields: []Expr{}}
-            $$.SetLine($1.line)
+            $$.Start=$1.Start
+            $$.End = $2.End
         } |
         '{' fieldlist '}' {
             $$ = &TableExpr{Fields: $2}
-            $$.SetLine($1.line)
+            $$.Start=$1.Start
+            $$.End = $3.End
         }
 
 
@@ -859,15 +1028,19 @@ fieldlist:
 field:
         TName '=' expr {
             name:= &NameExpr{Value: $1.Str}
+            name.Scope =$1.Scope
             $$ = &FieldExpr{Key: name, Value: $3}
-            $$.SetLine($1.line)
+            $$.Start=$1.Start
+            $$.End = $3.End
         } | 
         '[' expr ']' '=' expr {
             $$ = &FieldExpr{Key: $2, Value: $5}
-            $$.SetLine($2.Line())
+            $$.Start=$1.Start
+            $$.End = $5.End
         } |
         expr {
             $$ = &FieldExpr{Value: $1}
+            $$.Scope =$1.Scope
         }
 
 fieldsep:

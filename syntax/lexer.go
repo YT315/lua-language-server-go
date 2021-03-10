@@ -45,7 +45,7 @@ redo:
 	}
 	// token start
 	tok.Start.line, tok.Start.col = lx.pos()
-	//tok.line, tok.col = lx.pos()
+	tok.End = tok.Start
 	lx.start()
 
 	if isLetter(lx.ch) {
@@ -68,6 +68,7 @@ redo:
 		} else {
 			tok.Type = '-'
 			tok.Str = string(tok.Type)
+			tok.End.col++
 		}
 	case '"', '\'':
 		tok.Type = TString
@@ -78,68 +79,83 @@ redo:
 		} else {
 			tok.Type = '['
 			tok.Str = string(lx.ch)
+			tok.End.col++
 		}
 	case '=':
 		if lx.nextch(); lx.ch == '=' {
 			tok.Type = TEqual
 			tok.Str = "=="
+			tok.End.col += 2
 			lx.nextch()
 		} else {
 			tok.Type = '='
 			tok.Str = string(tok.Type)
+			tok.End.col++
 		}
 	case '~':
 		if lx.nextch(); lx.ch == '=' {
 			tok.Type = TNequal
 			tok.Str = "~="
+			tok.End.col += 2
 			lx.nextch()
 		} else {
 			tok.Type = '~'
 			tok.Str = string(tok.Type)
+			tok.End.col++
 		}
 	case '<':
 		if lx.nextch(); lx.ch == '=' {
 			tok.Type = TLequal
 			tok.Str = "<="
+			tok.End.col += 2
 			lx.nextch()
 		} else if lx.ch == '<' {
 			tok.Type = TLmove
 			tok.Str = "<<"
+			tok.End.col += 2
 			lx.nextch()
 		} else {
 			tok.Type = '<'
 			tok.Str = string(tok.Type)
+			tok.End.col++
 		}
 	case '>':
 		if lx.nextch(); lx.ch == '=' {
 			tok.Type = TBequal
 			tok.Str = ">="
+			tok.End.col += 2
 			lx.nextch()
 		} else if lx.ch == '>' {
 			tok.Type = TRmove
 			tok.Str = ">="
+			tok.End.col += 2
 			lx.nextch()
 		} else {
 			tok.Type = '>'
 			tok.Str = string(tok.Type)
+			tok.End.col++
 		}
 	case '/':
 		if lx.nextch(); lx.ch == '/' {
 			tok.Type = TWdiv
 			tok.Str = "//"
+			tok.End.col += 2
 			lx.nextch()
 		} else {
 			tok.Type = '/'
 			tok.Str = string(tok.Type)
+			tok.End.col++
 		}
 	case ':':
 		if lx.nextch(); lx.ch == ':' {
 			tok.Type = TTarget
 			tok.Str = "::"
+			tok.End.col += 2
 			lx.nextch()
 		} else {
 			tok.Type = ':'
 			tok.Str = string(tok.Type)
+			tok.End.col++
 		}
 	case '.':
 		if lx.nextch(); isDecimal(lx.ch) {
@@ -148,18 +164,22 @@ redo:
 			if lx.nextch(); lx.ch == '.' {
 				tok.Type = TAny
 				tok.Str = "..."
+				tok.End.col += 3
 				lx.nextch()
 			} else {
 				tok.Type = TConn
 				tok.Str = ".."
+				tok.End.col += 2
 			}
 		} else {
 			tok.Type = '.'
 			tok.Str = string(tok.Type)
+			tok.End.col++
 		}
 	case '+', '*', '%', '^', '#', '&', '|', '(', ')', '{', '}', ']', ';', ',':
 		tok.Type = lx.ch
 		tok.Str = string(tok.Type)
+		tok.End.col++
 		lx.nextch()
 	default:
 		lx.Error("Invalid token")
@@ -203,6 +223,7 @@ func (lx *Lexer) scanNum() {
 	lit := lx.segment()
 	lx.Token.Str = string(lit)
 	lx.Token.Type = TNumber
+	lx.Token.End.col += uint(len(lit))
 }
 
 func (lx *Lexer) scanIdent() {
@@ -217,11 +238,13 @@ func (lx *Lexer) scanIdent() {
 		if tok, ok := keywordMap[string(lit)]; ok {
 			lx.Token.Str = string(lit)
 			lx.Token.Type = tok
+			lx.Token.End.col += uint(len(lit))
 			return
 		}
 	}
 	lx.Token.Str = string(lit)
 	lx.Token.Type = TName
+	lx.Token.End.col += uint(len(lit))
 	return
 }
 
@@ -259,6 +282,7 @@ func (lx *Lexer) scanString() {
 	lx.Token.Str = string(lit[1:])
 	lx.nextch()
 	lx.Token.Type = TString
+	lx.Token.End.col += uint(len(lit))
 }
 func (lx *Lexer) scanMultilineString() {
 	start := lx.ch
@@ -275,4 +299,5 @@ func (lx *Lexer) scanMultilineString() {
 	}
 	lx.Token.Str = string(lx.segment())
 	lx.Token.Type = TString
+
 }
