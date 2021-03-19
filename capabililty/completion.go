@@ -5,6 +5,7 @@ import (
 	"lualsp/protocol"
 )
 
+//补全提示
 func (s *Server) Completion(context.Context, *protocol.CompletionParams) (*protocol.CompletionList /*CompletionItem[] | CompletionList | null*/, error) {
 	return nil, nil
 }

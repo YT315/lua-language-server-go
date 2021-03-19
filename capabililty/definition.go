@@ -5,6 +5,7 @@ import (
 	"lualsp/protocol"
 )
 
+//查找应用
 func (s *Server) TypeDefinition(context.Context, *protocol.TypeDefinitionParams) (protocol.Definition /*Definition | DefinitionLink[] | null*/, error) {
 	return nil, nil
 }

@@ -5,6 +5,7 @@ import (
 	"lualsp/protocol"
 )
 
+//格式化
 func (s *Server) Formatting(context.Context, *protocol.DocumentFormattingParams) ([]protocol.TextEdit /*TextEdit[] | null*/, error) {
 	return nil, nil
 }

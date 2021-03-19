@@ -5,6 +5,7 @@ import (
 	"lualsp/protocol"
 )
 
+//文本变化
 func (s *Server) DidOpen(context.Context, *protocol.DidOpenTextDocumentParams) error {
 	return nil
 }

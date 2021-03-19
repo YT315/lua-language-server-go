@@ -5,6 +5,7 @@ import (
 	"lualsp/protocol"
 )
 
+//文本中插入链接
 func (s *Server) DocumentLink(context.Context, *protocol.DocumentLinkParams) ([]protocol.DocumentLink /*DocumentLink[] | null*/, error) {
 	return nil, nil
 }

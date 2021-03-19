@@ -5,6 +5,7 @@ import (
 	"lualsp/protocol"
 )
 
+//修改名字
 func (s *Server) Rename(context.Context, *protocol.RenameParams) (*protocol.WorkspaceEdit /*WorkspaceEdit | null*/, error) {
 	return nil, nil
 }
