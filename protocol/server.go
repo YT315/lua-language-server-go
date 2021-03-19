@@ -10,6 +10,7 @@ package protocol
 import (
 	"context"
 	"encoding/json"
+
 	"github.com/sourcegraph/jsonrpc2"
 	errors "golang.org/x/xerrors"
 )
@@ -432,6 +433,9 @@ func serverDispatch(ctx context.Context, server Server, reply func(context.Conte
 		return true, reply(ctx, resp, err)
 
 	default:
+		if r.Method[0] == '$' {
+			return true, nil
+		}
 		return false, nil
 	}
 }

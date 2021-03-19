@@ -9,6 +9,7 @@ import (
 	"lualsp/logger"
 	"lualsp/protocol"
 	"lualsp/syntax"
+	"net"
 	"os"
 
 	"github.com/sourcegraph/jsonrpc2"
@@ -19,7 +20,7 @@ const version = "0.1"
 var (
 	ast      = flag.String("AST", "", "输出文件的抽象语法树并退出")
 	mode     = flag.String("mode", "stdio", "与客户端的通信模式 stdio|tcp|websocket")
-	addr     = flag.String("addr", ":7529", "服务器监听地址在stdio和websocket模式下")
+	addr     = flag.String("addr", ":61358", "服务器监听地址在stdio和websocket模式下")
 	logLevel = flag.String("logLevel", "none", "设置日志等级 debug|info|warning|error|none")
 	logWay   = flag.String("logWay", "file", "设置日志输出方式,当mode是stdio时,此项不可以设置stdio, file|stdio|all")
 	vsrsion  = flag.Bool("version", false, "输出版本号并退出")
@@ -59,6 +60,31 @@ func main() {
 		handler := protocol.NewHandler(server)
 		<-jsonrpc2.NewConn(context.Background(), jsonrpc2.NewBufferedStream(stdrwc{}, jsonrpc2.VSCodeObjectCodec{}), handler).DisconnectNotify()
 		logger.Debugln("connection closed")
+
+	case "tcp":
+		logger.Debugln("star server in tcp mode")
+		listener, err := net.Listen("tcp", *addr)
+		if err != nil {
+			logger.Errorln(err.Error())
+		}
+		defer listener.Close()
+
+		for {
+			conn, err := listener.Accept()
+			if err != nil {
+				logger.Errorln(err.Error())
+			}
+			logger.Debugln("received incoming connection ", conn.RemoteAddr())
+			server := capabililty.NewServer()
+			handler := protocol.NewHandler(server)
+			jsonrpc2Connection := jsonrpc2.NewConn(context.Background(), jsonrpc2.NewBufferedStream(conn, jsonrpc2.VSCodeObjectCodec{}), handler)
+			go func() {
+				<-jsonrpc2Connection.DisconnectNotify()
+				defer jsonrpc2Connection.Close()
+				logger.Debugln("connection", conn.RemoteAddr(), "closed")
+			}()
+		}
+
 	default:
 		logger.Errorln("invalid mode" + *mode)
 	}
