@@ -28,6 +28,7 @@ type File struct {
 
 //SymbolList 符号表结构
 type SymbolList struct {
+	Deep     int                //此作用域的深度
 	Position int                //此符号表作用范围
 	Outside  *SymbolList        //此符号表外部符号表
 	Inside   []*SymbolList      //此符号表内部符号表

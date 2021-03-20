@@ -1,6 +1,5 @@
 %{
 package syntax
-
 %}
 
 %union {
@@ -98,7 +97,7 @@ blockaux:
           if $2 != nil{
             $$ = append($1, $2)
           }else{
-             $$ = $1
+            $$ = $1
           }
         }
 stat:
@@ -107,23 +106,26 @@ stat:
         } |
         /*************** varlist ‘=’ explist *****************/
         varlist '=' exprlist {
-            $$ = &AssignStmt{Left: $1, Right: $3}
-            $$.Start=$1[0].Start
-            $$.End=$3[len($3)-1].End
+            temp := &AssignStmt{Left: $1, Right: $3}
+            temp.Start = $1[0].(*exprBase).Start
+            temp.End = $3[len($3)-1].(*exprBase).End
+            $$ = temp
         } |
         varlist '=' {
-            $$ = &AssignStmt{Left: $1, Right: nil}
-            $$.Start=$1[0].Start
-            $$.End=$2.End
-            $$.Err=&SyntaxErr{Info:"赋值表达式缺少右值"}
-            $$.Err.Scope=$2.Scope
+            temp := &AssignStmt{Left: $1, Right: nil}
+            temp.Start=$1[0].(*exprBase).Start
+            temp.End=$2.End
+            temp.Err=&SyntaxErr{Info:"赋值表达式缺少右值"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } |  
         '=' exprlist {
-            $$ = &AssignStmt{Left: nil, Right: $2}
-            $$.Start=$1.Start
-            $$.End=$2[len($2)-1].End
-            $$.Err=&SyntaxErr{Info:"赋值表达式缺少左值"}
-            $$.Err.Scope=$1.Scope
+            temp := &AssignStmt{Left: nil, Right: $2}
+            temp.Start=$1.Start
+            temp.End=$2[len($2)-1].(*exprBase).End
+            temp.Err=&SyntaxErr{Info:"赋值表达式缺少左值"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         /*************** functioncall *****************/
         functioncall {
@@ -136,86 +138,113 @@ stat:
         /*************** TBreak *****************/
         TBreak {
             $$ = &BreakStmt{}
-            $$.Scope = $1.Scope
+            $$.(*stmtBase).Scope = $1.Scope
         } |  
         /*************** goto Name *****************/
         TGoto TName {
-            $$ = &GotoStmt{Name:&NameExpr{Value:$2.Str}}
-            $$.Start=$1.Start
-            $$.End = $2.End
+            name := &NameExpr{Value:$2.Str}
+            name.Scope = $2.Scope
+            temp = &GotoStmt{Name:name}
+            temp.Start=$1.Start
+            temp.End = $2.End.
+            $$ = temp
         } |
         TGoto {
-            $$ = &GotoStmt{Name:nil}
-            $$.Scope = $1.Scope
-            $$.Err=&SyntaxErr{Info:"缺少goto目标名称"}
-            $$.Err.Scope=$1.Scope
+            temp := &GotoStmt{Name:nil}
+            temp.Scope = $1.Scope
+            temp.Err=&SyntaxErr{Info:"缺少goto目标名称"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         /*************** do block end  *****************/
         TDo block TEnd {
-            $$ = &DoEndStmt{Block: $2}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &DoEndStmt{Block: $2}
+            temp.Start=$1.Start
+            temp.End = $3.End
+            $$ = temp
         } |
         TDo block {
-            $$ = &DoEndStmt{Block: $2}
-            $$.Start=$1.Start
-            $$.End = $2[len($2)-1].End
-            $$.Err=&SyntaxErr{Info:"缺少End"}
-            $$.Err.Scope=$1.Scope
+            temp := &DoEndStmt{Block: $2}
+            temp.Start=$1.Start
+            if len($2)>0 {
+                temp.End = $2[len($2)-1].(*stmtBase).End
+            }else{
+                temp.End = $1.End
+            }
+            temp.Err=&SyntaxErr{Info:"缺少End"}
+            temp.Err.Start = temp.End
+            temp.Err.End = temp.End
+            $$ = temp
         } |
         /*************** while exp do block end  *****************/ 
         TWhile expr TDo block TEnd {
-            $$ = &WhileStmt{Condition: $2, Block: $4}
-            $$.Start=$1.Start
-            $$.End = $5.End
+            temp := &WhileStmt{Condition: $2, Block: $4}
+            temp.Start=$1.Start
+            temp.End = $5.End
+            $$ = temp
         } |
         TWhile expr TDo block {
-            $$ = &WhileStmt{Condition: $2, Block: $4}
-            $$.Start=$1.Start
-            $$.End = $4[len($4)-1].End
-            $$.Err=&SyntaxErr{Info:"缺少end"}
-            $$.Err.Scope=$1.Scope
+            temp := &WhileStmt{Condition: $2, Block: $4}
+            temp.Start=$1.Start
+            if len($4)>0 {
+                temp.End = $4[len($4)-1].(*stmtBase).End
+            }else{
+                temp.End = $3.End
+            }
+            temp.Err=&SyntaxErr{Info:"缺少end"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         TWhile TDo block TEnd {
-            $$ = &WhileStmt{Condition: nil, Block: $3}
-            $$.Start=$1.Start
-            $$.End = $4.End
-            $$.Err=&SyntaxErr{Info:"缺少条件表达式"}
-            $$.Err.Start=$1.End
-            $$.Err.End=$2.Start     
+            temp := &WhileStmt{Condition: nil, Block: $3}
+            temp.Start=$1.Start
+            temp.End = $4.End
+            temp.Err=&SyntaxErr{Info:"缺少条件表达式"}
+            temp.Err.Start=$1.End
+            temp.Err.End=$2.Start     
+            $$ = temp
         } |
         TWhile expr {
-            $$ = &WhileStmt{Condition: $2, Block: nil}
-            $$.Start=$1.Start
-            $$.End = $2.End
-            $$.Err=&SyntaxErr{Info:"缺少语句do..end"}
-            $$.Err.Scope=$1.Scope
+            temp := &WhileStmt{Condition: $2, Block: nil}
+            temp.Start=$1.Start
+            temp.End = $2.(*exprBase).End
+            temp.Err=&SyntaxErr{Info:"缺少语句do..end"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         TWhile {
-            $$ = &WhileStmt{Condition: nil, Block: nil}
-            $$.Scope=$1.Scope
-            $$.Err=&SyntaxErr{Info:"缺少语句expr do..end"}
-            $$.Err.Scope=$1.Scope
+            temp := &WhileStmt{Condition: nil, Block: nil}
+            temp.Scope=$1.Scope
+            temp.Err=&SyntaxErr{Info:"缺少语句expr do..end"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         /*************** repeat block until exp *****************/ 
         TRepeat block TUntil expr {
-            $$ = &RepeatStmt{Condition: $4, Block: $2}
-            $$.Start=$1.Start
-            $$.End = $4.End
+            temp := &RepeatStmt{Condition: $4, Block: $2}
+            temp.Start=$1.Start
+            temp.End = $4.(*exprBase).End
+            $$ = temp
         } |
         TRepeat block TUntil {
-            $$ = &RepeatStmt{Condition: nil, Block: $2}
-            $$.Start=$1.Start
-            $$.End = $3.End
-            $$.Err=&SyntaxErr{Info:"缺少语句条件表达式"}
-            $$.Err.Scope=$3.Scope
+            temp := &RepeatStmt{Condition: nil, Block: $2}
+            temp.Start=$1.Start
+            temp.End = $3.End
+            temp.Err=&SyntaxErr{Info:"缺少语句条件表达式"}
+            temp.Err.Scope=$3.Scope
+            $$ = temp
         } |
         TRepeat block {
-            $$ = &RepeatStmt{Condition: nil, Block: $2}
-            $$.Start=$1.Start
-            $$.End = $2[len($2)-1].End
-            $$.Err=&SyntaxErr{Info:"缺少条件以及Until"}
-            $$.Err.Scope=$1.Scope
+            temp := &RepeatStmt{Condition: nil, Block: $2}
+            temp.Start=$1.Start
+            if len($2)>0 {
+                temp.End = $2[len($2)-1].(*stmtBase).End
+            }else{
+                temp.End = $1.End
+            }
+            temp.Err=&SyntaxErr{Info:"缺少条件以及Until"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         /*************** TIf expr TThen block elseifs TEnd *****************/ 
         TIf expr TThen block elseifs TEnd {
@@ -225,10 +254,9 @@ stat:
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            $$.Start=$1.Start
-            $$.End = $6.End
+            $$.(*stmtBase).Start=$1.Start
+            $$.(*stmtBase).End = $6.End
         } |
-        //err
         TIf expr TThen block elseifs {
             $$ = &IfStmt{Condition: $2, Then: $4}
             cur := $$
@@ -236,12 +264,18 @@ stat:
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            $$.Start=$1.Start
-            $$.End = $5[len($5)-1].End
-            $$.Err=&SyntaxErr{Info:"缺少end"}
-            $$.Err.Scope=$1.Scope
+            temp :=$$.(*stmtBase)
+            temp.Start=$1.Start
+            if len($5)>0{
+                temp.End = $5[len($5)-1].(*stmtBase).End
+            }else if len($4)>0 {
+                temp.End = $4[len($4)-1].(*stmtBase).End
+            }else{
+                temp.End = $3.End
+            }
+            temp.Err=&SyntaxErr{Info:"缺少end"}
+            temp.Err.Scope=$1.Scope
         } |
-        //err
         TIf TThen block elseifs TEnd {
             $$ = &IfStmt{Condition: nil, Then: $3}
             cur := $$
@@ -249,13 +283,13 @@ stat:
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            $$.Start=$1.Start
-            $$.End = $5.End
-            $$.Err=&SyntaxErr{Info:"缺少条件表达式"}
-            $$.Err.Start=$1.End
-            $$.Err.End=$2.Start   
+            temp :=$$.(*stmtBase)
+            temp.Start=$1.Start
+            temp.End = $5.End
+            temp.Err=&SyntaxErr{Info:"缺少条件表达式"}
+            temp.Err.Start=$1.End
+            temp.Err.End=$2.Start   
         } |
-        //err
         TIf block elseifs TEnd {
             $$ = &IfStmt{Condition: nil, Then: $2}
             cur := $$
@@ -263,10 +297,11 @@ stat:
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            $$.Start=$1.Start
-            $$.End = $4.End
-            $$.Err=&SyntaxErr{Info:"缺少条件表达式及then"}
-            $$.Err.Scope=$1.Scope
+            temp :=$$.(*stmtBase)
+            temp.Start=$1.Start
+            temp.End = $4.End
+            temp.Err=&SyntaxErr{Info:"缺少条件表达式及then"}
+            temp.Err.Scope=$1.Scope
         } |
         //err
         TIf block elseifs {
@@ -276,16 +311,17 @@ stat:
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            $$.Start=$1.Start
+            temp :=$$.(*stmtBase)
+            temp.Start=$1.Start
             if len($3)>0{
-                $$.End = $3[len($3)-1].End
+                temp.End = $3[len($3)-1].(*stmtBase).End
             }else if len($2)>0{
-                $$.End = $2[len($2)-1].End
+                temp.End = $2[len($2)-1].(*stmtBase).End
             }else{
-                $$.End=$1.End
+                temp.End=$1.End
             }
-            $$.Err=&SyntaxErr{Info:"缺少条件,then和end"}
-            $$.Err.Scope=$$.Scope
+            temp.Err=&SyntaxErr{Info:"缺少条件,then和end"}
+            temp.Err.Scope=temp.Scope
         } |
         /*************** TIf expr TThen block elseifs TElse block TEnd *****************/ 
         TIf expr TThen block elseifs TElse block TEnd {
@@ -296,8 +332,8 @@ stat:
                 cur = elseif
             }
             cur.(*IfStmt).Else = $7
-            $$.Start=$1.Start
-            $$.End = $8.End
+            $$.(*stmtBase).Start = $1.Start
+            $$.(*stmtBase).End = $8.End
         } |
         TIf TThen block elseifs TElse block TEnd {
             $$ = &IfStmt{Condition: nil, Then: $3}
@@ -307,10 +343,11 @@ stat:
                 cur = elseif
             }
             cur.(*IfStmt).Else = $6
-            $$.Start=$1.Start
-            $$.End = $7.End
-            $$.Err=&SyntaxErr{Info:"缺少条件表达式"}
-            $$.Err.Scope=$$.Scope
+            temp :=$$.(*stmtBase)
+            temp.Start = $1.Start
+            temp.End = $7.End
+            temp.Err=&SyntaxErr{Info:"缺少条件表达式"}
+            temp.Err.Scope=temp.Scope
         } |
         TIf expr TThen block elseifs TElse block {
             $$ = &IfStmt{Condition: $2, Then: $3}
@@ -320,11 +357,16 @@ stat:
                 cur = elseif
             }
             cur.(*IfStmt).Else = $6
-            $$.Start=$1.Start
-            $$.End = $6[len($6)-1].End
-            $$.Err=&SyntaxErr{Info:"缺少end"}
-            $$.Err.Start=$$.End
-            $$.Err.End=$$.End
+            temp :=$$.(*stmtBase)
+            temp.Start=$1.Start
+            if len($7)>0 {
+                temp.End = $7[len($7)-1].(*stmtBase).End
+            }else{
+                temp.End = $6.End
+            }
+            temp.Err=&SyntaxErr{Info:"缺少end"}
+            temp.Err.Start=temp.End
+            temp.Err.End=temp.End
         } |
         TIf block elseifs TElse block TEnd {
             $$ = &IfStmt{Condition: nil, Then: $2}
@@ -334,136 +376,180 @@ stat:
                 cur = elseif
             }
             cur.(*IfStmt).Else = $5
-            $$.Start=$1.Start
-            $$.End = $6.End
-            $$.Err=&SyntaxErr{Info:"缺少条件表达式及then"}
-            $$.Err.Scope=$1.Scope
+            temp :=$$.(*stmtBase)
+            temp.Start=$1.Start
+            temp.End = $6.End
+            temp.Err=&SyntaxErr{Info:"缺少条件表达式及then"}
+            temp.Err.Scope=$1.Scope
         } |
         /*************** TFor TName '=' expr ',' expr TDo block TEnd *****************/
         TFor TName '=' expr ',' expr TDo block TEnd {
             name:=&NameExpr{Value:$2.Str}
+            name.Scope = $2.Scope
             $$ = &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Block: $8}
-            $$.Start=$1.Start
-            $$.End = $9.End
+            $$.(*stmtBase).Start=$1.Start
+            $$.(*stmtBase).End = $9.End
         } |
         TFor TName '=' expr ',' expr TDo block {
             name:=&NameExpr{Value:$2.Str}
-            $$ = &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Block: $8}
-            $$.Start=$1.Start
-            $$.End = $8[len($8)-1].End
-            $$.Err=&SyntaxErr{Info:"缺少end"}
-            $$.Err.Scope=$1.Scope
+            name.Scope = $2.Scope
+            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Block: $8}
+            temp.Start=$1.Start
+            if len($8)>0 {
+                temp.End = $8[len($8)-1].End
+            }else{
+                temp.End = $7.End
+            }
+            temp.Err=&SyntaxErr{Info:"缺少end"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         TFor '=' expr ',' expr TDo block TEnd {
-            $$ = &ForLoopNumStmt{Name: nil, Init: $3, Limit: $5, Block: $7}
-            $$.Start=$1.Start
-            $$.End = $8.End
-            $$.Err=&SyntaxErr{Info:"缺少名称"}
-            $$.Err.Scope=$1.Scope
+            temp := &ForLoopNumStmt{Name: nil, Init: $3, Limit: $5, Block: $7}
+            temp.Start=$1.Start
+            temp.End = $8.End
+            temp.Err=&SyntaxErr{Info:"缺少名称"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         TFor TDo block TEnd {
-            $$ = &ForLoopNumStmt{Name: nil, Init: nil, Limit: nil, Block: $3}
-            $$.Start=$1.Start
-            $$.End = $4.End
-            $$.Err=&SyntaxErr{Info:"缺少循环条件"}
-            $$.Err.Scope=$1.Scope
+            temp := &ForLoopNumStmt{Name: nil, Init: nil, Limit: nil, Block: $3}
+            temp.Start=$1.Start
+            temp.End = $4.End
+            temp.Err=&SyntaxErr{Info:"缺少循环条件"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         TFor TDo block {
-            $$ = &ForLoopNumStmt{Name: nil, Init: nil, Limit: nil, Block: $3}
-            $$.Start=$1.Start
-            $$.End = $3[len($3)-1].End
-            $$.Err=&SyntaxErr{Info:"缺少循环条件及end"}
-            $$.Err.Scope=$$.Scope
+            temp := &ForLoopNumStmt{Name: nil, Init: nil, Limit: nil, Block: $3}
+            temp.Start=$1.Start
+            if len($3)>0 {
+                temp.End = $3[len($3)-1].End
+            }else{
+                temp.End = $2.End
+            }
+            temp.Err=&SyntaxErr{Info:"缺少循环条件及end"}
+            temp.Err.Scope=temp.Scope
+            $$ = temp
         } |
         TFor TName TDo block TEnd {
             name:=&NameExpr{Value:$2.Str}
-            $$ = &ForLoopNumStmt{Name: name, Init: nil, Limit: nil, Block: $4}
-            $$.Start=$1.Start
-            $$.End = $5.End
-            $$.Err=&SyntaxErr{Info:"缺少循环范围"}
-            $$.Err.Scope=$2.Scope
+            name.Scope = $2.Scope
+            temp := &ForLoopNumStmt{Name: name, Init: nil, Limit: nil, Block: $4}
+            temp.Start=$1.Start
+            temp.End = $5.End
+            temp.Err=&SyntaxErr{Info:"缺少循环范围"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } |
         TFor TName '=' TDo block TEnd {
             name:=&NameExpr{Value:$2.Str}
-            $$ = &ForLoopNumStmt{Name: name, Init: nil, Limit: nil, Block: $5}
-            $$.Start=$1.Start
-            $$.End = $6.End
-            $$.Err=&SyntaxErr{Info:"缺少循环范围"}
-            $$.Err.Scope=$2.Scope
+            name.Scope = $2.Scope
+            temp := &ForLoopNumStmt{Name: name, Init: nil, Limit: nil, Block: $5}
+            temp.Start=$1.Start
+            temp.End = $6.End
+            temp.Err=&SyntaxErr{Info:"缺少循环范围"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } |
         TFor TName '=' expr TDo block TEnd {
             name:=&NameExpr{Value:$2.Str}
-            $$ = &ForLoopNumStmt{Name: name, Init: $4, Limit: nil, Block: $6}
-            $$.Start=$1.Start
-            $$.End = $6.End
-            $$.Err=&SyntaxErr{Info:"缺少循环终点"}
-            $$.Err.Scope=$4.Scope
+            name.Scope = $2.Scope
+            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: nil, Block: $6}
+            temp.Start=$1.Start
+            temp.End = $6.End
+            temp.Err=&SyntaxErr{Info:"缺少循环终点"}
+            temp.Err.Scope=$4.Scope
+            $$ = temp
         } |
         TFor TName '=' expr ',' TDo block TEnd {
             name:=&NameExpr{Value:$2.Str}
-            $$ = &ForLoopNumStmt{Name: name, Init: $4, Limit: nil, Block: $7}
-            $$.Start=$1.Start
-            $$.End = $7.End
-            $$.Err=&SyntaxErr{Info:"缺少循环终点"}
-            $$.Err.Scope=$5.Scope
+            name.Scope = $2.Scope
+            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: nil, Block: $7}
+            temp.Start=$1.Start
+            temp.End = $7.End
+            temp.Err=&SyntaxErr{Info:"缺少循环终点"}
+            temp.Err.Scope=$5.Scope
+            $$ = temp
         } |
         /*************** TFor TName '=' expr ',' expr ',' expr TDo block TEnd *****************/
         TFor TName '=' expr ',' expr ',' expr TDo block TEnd {
             name:=&NameExpr{Value:$2.Str}
-            $$ = &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Step:$8, Block: $10}
-            $$.Start=$1.Start
-            $$.End = $11.End
+            name.Scope = $2.Scope
+            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Step:$8, Block: $10}
+            temp.Start=$1.Start
+            temp.End = $11.End
+            $$ = temp
         } |
         TFor TName '=' expr ',' expr ',' TDo block TEnd {
             name:=&NameExpr{Value:$2.Str}
-            $$ = &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Step:nil, Block: $9}
-            $$.Start=$1.Start
-            $$.End = $10.End
-            $$.Err=&SyntaxErr{Info:"缺少步进值"}
-            $$.Err.Start=$7.End
-            $$.Err.End=$8.Start
+            name.Scope = $2.Scope
+            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Step:nil, Block: $9}
+            temp.Start=$1.Start
+            temp.End = $10.End
+            temp.Err=&SyntaxErr{Info:"缺少步进值"}
+            temp.Err.Start=$7.End
+            temp.Err.End=$8.Start
+            $$ = temp
         } |
         TFor TName '=' expr ',' expr ',' expr TDo block {
             name:=&NameExpr{Value:$2.Str}
-            $$ = &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Step:$8, Block: $10}
-            $$.Start=$1.Start
-            $$.End = $10[len($10)-1].End
-            $$.Err=&SyntaxErr{Info:"缺少end"}
-            $$.Err.Scope=$1.Scope
+            name.Scope = $2.Scope
+            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Step:$8, Block: $10}
+            temp.Start=$1.Start
+            if len($10)>0{
+                temp.End = $10[len($10)-1].(*stmtBase).End
+            }else{
+                temp.End = $9.End
+            }
+            temp.Err=&SyntaxErr{Info:"缺少end"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         /*************** TFor namelist TIn exprlist TDo block TEnd *****************/
         TFor namelist TIn exprlist TDo block TEnd {
             $$ = &ForLoopListStmt{Names:$2, Exprs:$4, Block: $6}
-            $$.Start=$1.Start
-            $$.End = $7.End
+            $$.(*stmtBase).Start=$1.Start
+            $$.(*stmtBase).End = $7.End
         } |
         TFor TIn exprlist TDo block TEnd {
-            $$ = &ForLoopListStmt{Exprs:$3, Block: $5}
-            $$.Start=$1.Start
-            $$.End = $6.End
-            $$.Err=&SyntaxErr{Info:"缺少迭代表达式"}
-            $$.Err.Scope=$2.Scope
+            temp := &ForLoopListStmt{Exprs:$3, Block: $5}
+            temp.Start=$1.Start
+            temp.End = $6.End
+            temp.Err=&SyntaxErr{Info:"缺少迭代表达式"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } |
         TFor namelist TIn TDo block TEnd {
-            $$ = &ForLoopListStmt{Names:$2, Block: $5}
-            $$.Start=$1.Start
-            $$.End = $6.End
-            $$.Err=&SyntaxErr{Info:"缺少迭代对象表达式"}
-            $$.Err.Scope=$2.Scope
+            temp := &ForLoopListStmt{Names:$2, Block: $5}
+            temp.Start=$1.Start
+            temp.End = $6.End
+            temp.Err=&SyntaxErr{Info:"缺少迭代对象表达式"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } |
         TFor namelist TIn exprlist TDo block {
-            $$ = &ForLoopListStmt{Names:$2, Exprs:$4, Block: $6}
-            $$.Start=$1.Start
-            $$.End = $6.End
-            $$.Err=&SyntaxErr{Info:"缺少end"}
-            $$.Err.Scope=$1.Scope
+            temp := &ForLoopListStmt{Names:$2, Exprs:$4, Block: $6}
+            temp.Start=$1.Start
+            if len($6)>0{
+                temp.End = $6[len($6)-1].End
+            }else{
+                temp.End = $5.End
+            }
+            temp.Err=&SyntaxErr{Info:"缺少end"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         TFor namelist TIn exprlist{
-            $$ = &ForLoopListStmt{Names:$2, Exprs:$4}
-            $$.Start=$1.Start
-            $$.End = $4.End
-            $$.Err=&SyntaxErr{Info:"缺少执行语句end"}
-            $$.Err.Scope=$1.Scope
+            temp := &ForLoopListStmt{Names:$2, Exprs:$4}
+            temp.Start=$1.Start
+            if len($4)>0{
+                temp.End = $4[len($4)-1].End
+            }else{
+                temp.End = $3.End
+            }
+            temp.Err=&SyntaxErr{Info:"缺少执行语句end"}
+            temp.Err.Scope=$1.Scope
         } |
         /*************** TFunction funcname funcbody *****************/
         TFunction funcname funcbody {
