@@ -3,26 +3,20 @@ package syntax
 //node
 type (
 	Node interface {
-		getScope() Scope
-		setScope(s Scope)
-		getStart() Pos
-		setStart(p Pos)
-		getEnd() Pos
-		setEnd(p Pos)
+		scope() Scope
+		start() Pos
+		end() Pos
 	}
 
 	nodeBase struct {
 		Scope
-		Err error
+		Err *SyntaxErr
 	}
 )
 
-func (n *nodeBase) getScope() Scope  { return n.Scope }
-func (n *nodeBase) setScope(s Scope) { n.Scope = s }
-func (n *nodeBase) getStart() Pos    { return n.Start }
-func (n *nodeBase) setStart(p Pos)   { n.Start = p }
-func (n *nodeBase) getEnd() Pos      { return n.End }
-func (n *nodeBase) setEnd(p Pos)     { n.End = p }
+func (n *nodeBase) scope() Scope { return n.Scope }
+func (n *nodeBase) start() Pos   { return n.Start }
+func (n *nodeBase) end() Pos     { return n.End }
 
 //statements
 type (
