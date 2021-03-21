@@ -107,13 +107,13 @@ stat:
         /*************** varlist ‘=’ explist *****************/
         varlist '=' exprlist {
             temp := &AssignStmt{Left: $1, Right: $3}
-            temp.Start = $1[0].(*exprBase).Start
-            temp.End = $3[len($3)-1].(*exprBase).End
+            temp.Start = $1[0].start()
+            temp.End = $3[len($3)-1].end()
             $$ = temp
         } |
         varlist '=' {
             temp := &AssignStmt{Left: $1, Right: nil}
-            temp.Start=$1[0].(*exprBase).Start
+            temp.Start=$1[0].start()
             temp.End=$2.End
             temp.Err=&SyntaxErr{Info:"赋值表达式缺少右值"}
             temp.Err.Scope=$2.Scope
@@ -122,7 +122,7 @@ stat:
         '=' exprlist {
             temp := &AssignStmt{Left: nil, Right: $2}
             temp.Start=$1.Start
-            temp.End=$2[len($2)-1].(*exprBase).End
+            temp.End=$2[len($2)-1].end()
             temp.Err=&SyntaxErr{Info:"赋值表达式缺少左值"}
             temp.Err.Scope=$1.Scope
             $$ = temp
@@ -138,15 +138,15 @@ stat:
         /*************** TBreak *****************/
         TBreak {
             $$ = &BreakStmt{}
-            $$.(*stmtBase).Scope = $1.Scope
+            $$.(*BreakStmt).Scope = $1.Scope
         } |  
         /*************** goto Name *****************/
         TGoto TName {
             name := &NameExpr{Value:$2.Str}
             name.Scope = $2.Scope
-            temp = &GotoStmt{Name:name}
+            temp := &GotoStmt{Name:name}
             temp.Start=$1.Start
-            temp.End = $2.End.
+            temp.End = $2.End
             $$ = temp
         } |
         TGoto {
@@ -167,7 +167,7 @@ stat:
             temp := &DoEndStmt{Block: $2}
             temp.Start=$1.Start
             if len($2)>0 {
-                temp.End = $2[len($2)-1].(*stmtBase).End
+                temp.End = $2[len($2)-1].end()
             }else{
                 temp.End = $1.End
             }
@@ -187,7 +187,7 @@ stat:
             temp := &WhileStmt{Condition: $2, Block: $4}
             temp.Start=$1.Start
             if len($4)>0 {
-                temp.End = $4[len($4)-1].(*stmtBase).End
+                temp.End = $4[len($4)-1].end()
             }else{
                 temp.End = $3.End
             }
@@ -207,7 +207,7 @@ stat:
         TWhile expr {
             temp := &WhileStmt{Condition: $2, Block: nil}
             temp.Start=$1.Start
-            temp.End = $2.(*exprBase).End
+            temp.End = $2.end()
             temp.Err=&SyntaxErr{Info:"缺少语句do..end"}
             temp.Err.Scope=$1.Scope
             $$ = temp
@@ -223,7 +223,7 @@ stat:
         TRepeat block TUntil expr {
             temp := &RepeatStmt{Condition: $4, Block: $2}
             temp.Start=$1.Start
-            temp.End = $4.(*exprBase).End
+            temp.End = $4.end()
             $$ = temp
         } |
         TRepeat block TUntil {
@@ -238,7 +238,7 @@ stat:
             temp := &RepeatStmt{Condition: nil, Block: $2}
             temp.Start=$1.Start
             if len($2)>0 {
-                temp.End = $2[len($2)-1].(*stmtBase).End
+                temp.End = $2[len($2)-1].end()
             }else{
                 temp.End = $1.End
             }
@@ -254,8 +254,8 @@ stat:
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            $$.(*stmtBase).Start=$1.Start
-            $$.(*stmtBase).End = $6.End
+            $$.(*IfStmt).Start=$1.Start
+            $$.(*IfStmt).End = $6.End
         } |
         TIf expr TThen block elseifs {
             $$ = &IfStmt{Condition: $2, Then: $4}
@@ -264,12 +264,12 @@ stat:
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            temp :=$$.(*stmtBase)
+            temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             if len($5)>0{
-                temp.End = $5[len($5)-1].(*stmtBase).End
+                temp.End = $5[len($5)-1].end()
             }else if len($4)>0 {
-                temp.End = $4[len($4)-1].(*stmtBase).End
+                temp.End = $4[len($4)-1].end()
             }else{
                 temp.End = $3.End
             }
@@ -283,7 +283,7 @@ stat:
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            temp :=$$.(*stmtBase)
+            temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             temp.End = $5.End
             temp.Err=&SyntaxErr{Info:"缺少条件表达式"}
@@ -297,7 +297,7 @@ stat:
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            temp :=$$.(*stmtBase)
+            temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             temp.End = $4.End
             temp.Err=&SyntaxErr{Info:"缺少条件表达式及then"}
@@ -311,12 +311,12 @@ stat:
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            temp :=$$.(*stmtBase)
+            temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             if len($3)>0{
-                temp.End = $3[len($3)-1].(*stmtBase).End
+                temp.End = $3[len($3)-1].end()
             }else if len($2)>0{
-                temp.End = $2[len($2)-1].(*stmtBase).End
+                temp.End = $2[len($2)-1].end()
             }else{
                 temp.End=$1.End
             }
@@ -332,8 +332,8 @@ stat:
                 cur = elseif
             }
             cur.(*IfStmt).Else = $7
-            $$.(*stmtBase).Start = $1.Start
-            $$.(*stmtBase).End = $8.End
+            $$.(*IfStmt).Start = $1.Start
+            $$.(*IfStmt).End = $8.End
         } |
         TIf TThen block elseifs TElse block TEnd {
             $$ = &IfStmt{Condition: nil, Then: $3}
@@ -343,7 +343,7 @@ stat:
                 cur = elseif
             }
             cur.(*IfStmt).Else = $6
-            temp :=$$.(*stmtBase)
+            temp :=$$.(*IfStmt)
             temp.Start = $1.Start
             temp.End = $7.End
             temp.Err=&SyntaxErr{Info:"缺少条件表达式"}
@@ -357,10 +357,10 @@ stat:
                 cur = elseif
             }
             cur.(*IfStmt).Else = $6
-            temp :=$$.(*stmtBase)
+            temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             if len($7)>0 {
-                temp.End = $7[len($7)-1].(*stmtBase).End
+                temp.End = $7[len($7)-1].end()
             }else{
                 temp.End = $6.End
             }
@@ -376,7 +376,7 @@ stat:
                 cur = elseif
             }
             cur.(*IfStmt).Else = $5
-            temp :=$$.(*stmtBase)
+            temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             temp.End = $6.End
             temp.Err=&SyntaxErr{Info:"缺少条件表达式及then"}
@@ -387,8 +387,8 @@ stat:
             name:=&NameExpr{Value:$2.Str}
             name.Scope = $2.Scope
             $$ = &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Block: $8}
-            $$.(*stmtBase).Start=$1.Start
-            $$.(*stmtBase).End = $9.End
+            $$.(*ForLoopNumStmt).Start=$1.Start
+            $$.(*ForLoopNumStmt).End = $9.End
         } |
         TFor TName '=' expr ',' expr TDo block {
             name:=&NameExpr{Value:$2.Str}
@@ -498,7 +498,7 @@ stat:
             temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Step:$8, Block: $10}
             temp.Start=$1.Start
             if len($10)>0{
-                temp.End = $10[len($10)-1].(*stmtBase).End
+                temp.End = $10[len($10)-1].end()
             }else{
                 temp.End = $9.End
             }
@@ -509,8 +509,8 @@ stat:
         /*************** TFor namelist TIn exprlist TDo block TEnd *****************/
         TFor namelist TIn exprlist TDo block TEnd {
             $$ = &ForLoopListStmt{Names:$2, Exprs:$4, Block: $6}
-            $$.(*stmtBase).Start=$1.Start
-            $$.(*stmtBase).End = $7.End
+            $$.(*ForLoopListStmt).Start=$1.Start
+            $$.(*ForLoopListStmt).End = $7.End
         } |
         TFor TIn exprlist TDo block TEnd {
             temp := &ForLoopListStmt{Exprs:$3, Block: $5}
@@ -532,7 +532,7 @@ stat:
             temp := &ForLoopListStmt{Names:$2, Exprs:$4, Block: $6}
             temp.Start=$1.Start
             if len($6)>0{
-                temp.End = $6[len($6)-1].End
+                temp.End = $6[len($6)-1].end()
             }else{
                 temp.End = $5.End
             }
@@ -541,10 +541,11 @@ stat:
             $$ = temp
         } |
         TFor namelist TIn exprlist{
+
             temp := &ForLoopListStmt{Names:$2, Exprs:$4}
             temp.Start=$1.Start
             if len($4)>0{
-                temp.End = $4[len($4)-1].End
+                temp.End = $4[len($4)-1].end()
             }else{
                 temp.End = $3.End
             }
@@ -553,99 +554,116 @@ stat:
         } |
         /*************** TFunction funcname funcbody *****************/
         TFunction funcname funcbody {
-            $$ = $2
-            $$.(*FuncDefStmt).Function= $3
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := $2.(*FuncDefStmt)
+            temp.Function= $3
+            temp.Start=$1.Start
+            temp.End = $3.end()
+            $$ = temp
         } |
         TFunction funcname {
-            $$ = $2
-            $$.Start=$1.Start
-            $$.Err=&SyntaxErr{Info:"缺少函数体"}
-            $$.Err.Scope=$1.Scope
+            temp := $2.(*FuncDefStmt)
+            temp.Start=$1.Start
+            temp.Err=&SyntaxErr{Info:"缺少函数体"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         TFunction funcbody {
-            $$ = &FuncDefStmt{}
-            $$.(*FuncDefStmt).Function= $2
-            $$.Start=$1.Start
-            $$.End = $2.End
-            $$.Err=&SyntaxErr{Info:"缺少函数名"}
-            $$.Err.Scope=$1.Scope
+            temp := &FuncDefStmt{}
+            temp.Function= $2
+            temp.Start=$1.Start
+            temp.End = $2.end()
+            temp.Err=&SyntaxErr{Info:"缺少函数名"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         /*************** TLocal TFunction TName funcbody *****************/
         TLocal TFunction TName funcbody {
             name:=&NameExpr{Value:$3.Str}
-            $$ = &LocalFuncDefStmt{Name: name, Function: $4}
-            $$.Start=$1.Start
-            $$.End = $4.End
+            name.Scope=$3.Scope
+            temp := &LocalFuncDefStmt{Name: name, Function: $4}
+            temp.Start=$1.Start
+            temp.End = $4.end()
+            $$ = temp
         } | 
         TLocal TFunction funcbody {
-            $$ = &LocalFuncDefStmt{Function: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
-            $$.Err=&SyntaxErr{Info:"缺少函数名"}
-            $$.Err.Scope=$2.Scope
+            temp := &LocalFuncDefStmt{Function: $3}
+            temp.Start=$1.Start
+            temp.End = $3.end()
+            temp.Err=&SyntaxErr{Info:"缺少函数名"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } | 
         TLocal TName funcbody {
             name:=&NameExpr{Value:$2.Str}
-            $$ = &LocalFuncDefStmt{Name: name, Function: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
-            $$.Err=&SyntaxErr{Info:"缺少function"}
-            $$.Err.Scope=$1.Scope
+            name.Scope=$2.Scope
+            temp := &LocalFuncDefStmt{Name: name, Function: $3}
+            temp.Start=$1.Start
+            temp.End = $3.end()
+            temp.Err=&SyntaxErr{Info:"缺少function"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } | 
         TLocal TFunction TName {
             name:=&NameExpr{Value:$3.Str}
-            $$ = &LocalFuncDefStmt{Name: name}
-            $$.Start=$1.Start
-            $$.End = $3.End
-            $$.Err=&SyntaxErr{Info:"缺少函数体"}
-            $$.Err.Scope=$3.Scope
+            name.Scope=$3.Scope
+            temp := &LocalFuncDefStmt{Name: name}
+            temp.Start=$1.Start
+            temp.End = $3.End
+            temp.Err=&SyntaxErr{Info:"缺少函数体"}
+            temp.Err.Scope=$3.Scope
+            $$ = temp
         } | 
         TLocal TFunction {
-            $$ = &LocalFuncDefStmt{}
-            $$.Start=$1.Start
-            $$.End = $2.End
-            $$.Err=&SyntaxErr{Info:"缺少函数内容"}
-            $$.Err.Scope=$2.Scope
+            temp := &LocalFuncDefStmt{}
+            temp.Start=$1.Start
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Info:"缺少函数内容"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } | 
         /*************** TLocal namelist '=' exprlist *****************/
         TLocal namelist '=' exprlist {
-            $$ = &LocalVarDef{Names: $2, Inits:$4}
-            $$.Start=$1.Start
-            $$.End = $4.End
+            temp := &LocalVarDef{Names: $2, Inits:$4}
+            temp.Start=$1.Start
+            temp.End = $4[len($4)-1].end()
+            $$ = temp
         } |
         TLocal namelist '=' {
-            $$ = &LocalVarDef{Names: $2}
-            $$.Start=$1.Start
-            $$.End = $3.End
-            $$.Err=&SyntaxErr{Info:"缺少初始值"}
-            $$.Err.Scope=$3.Scope
+            temp := &LocalVarDef{Names: $2}
+            temp.Start=$1.Start
+            temp.End = $3.End
+            temp.Err=&SyntaxErr{Info:"缺少初始值"}
+            temp.Err.Scope=$3.Scope
+            $$ = temp
         } |
         TLocal '=' exprlist {
-            $$ = &LocalVarDef{Inits:$3}
-            $$.Start=$1.Start
-            $$.End = $3.End
-            $$.Err=&SyntaxErr{Info:"缺少变量名称"}
-            $$.Err.Scope=$2.Scope
+            temp := &LocalVarDef{Inits:$3}
+            temp.Start=$1.Start
+            temp.End = $3[len($3)-1].end()
+            temp.Err=&SyntaxErr{Info:"缺少变量名称"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } |
         /*************** TLocal namelist *****************/
         TLocal namelist {
-            $$ = &LocalVarDef{Names: $2}
-            $$.Start=$1.Start
-            $$.End = $2.End
+            temp := &LocalVarDef{Names: $2}
+            temp.Start=$1.Start
+            temp.End = $2[len($2)-1].end()
+            $$ = temp
         }|
         TLocal {
-            $$ = &LocalVarDef{}
-            $$.Scope=$1.Scope
-            $$.Err=&SyntaxErr{Info:"缺少变量名称"}
-            $$.Err.Scope=$1.Scope
+            temp := &LocalVarDef{}
+            temp.Scope=$1.Scope
+            temp.Err=&SyntaxErr{Info:"缺少变量名称"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         }|
         error{
-            $$ = &ErrorStmt{Info:"解析错误"}
+            temp := &ErrorStmt{Info:"解析错误"}
             tk:=lualex.(Lexer).Token
-            $$.Err=&SyntaxErr{Info:tk.Str+"附近解析错误"}
-            $$.Err.Scope=tk.Scope
+            temp.Err=&SyntaxErr{Info:tk.Str+"附近解析错误"}
+            temp.Err.Scope=tk.Scope
+            $$ = temp
         }
 
 elseifs: 
@@ -662,163 +680,204 @@ elseifs:
 returnstat:
         TReturn {
             $$ = &ReturnStmt{Exprs:nil}
-            $$.Scope=$1.Scope
+            $$.(*ReturnStmt).Scope=$1.Scope
         } |
         TReturn exprlist {
             $$ = &ReturnStmt{Exprs:$2}
-            $$.Start=$1.Start
-            $$.End = $2.End
+            $$.(*ReturnStmt).Start=$1.Start
+            $$.(*ReturnStmt).End = $2[len($2)-1].end()
         } |
         TReturn exprlist ';' {
             $$ = &ReturnStmt{Exprs:$2}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            $$.(*ReturnStmt).Start=$1.Start
+            $$.(*ReturnStmt).End = $3.End
         }
 
 label:  
         TTarget TName TTarget {
             name := &NameExpr{Value:$2.Str}
-            name.Scope:$2.Scope
-            $$ = &LabelStmt{Name: name}
-            $$.Start=$1.Start
-            $$.End=$3.End
+            name.Scope = $2.Scope
+            temp := &LabelStmt{Name: name}
+            temp.Start=$1.Start
+            temp.End=$3.End
+            $$ = temp
         }|
         TName TTarget {
             name := &NameExpr{Value:$2.Str}
-            name.Scope:$1.Scope
-            $$ = &LabelStmt{Name: name}
-            $$.Start=$1.Start
-            $$.End=$2.End
-            $$.Err=&SyntaxErr{Info:"标签缺少左侧符号"}
-            $$.Err.Scope=$1.Scope
+            name.Scope = $1.Scope
+            temp := &LabelStmt{Name: name}
+            temp.Start=$1.Start
+            temp.End=$2.End
+            temp.Err=&SyntaxErr{Info:"标签缺少左侧符号"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         }|
         TTarget TName {
             name:=&NameExpr{Value:$2.Str}
-            name.Scope:$2.Scope
-            $$ = &LabelStmt{Name: name}
-            $$.Start=$1.Start
-            $$.End=$2.End
-            $$.Err=&SyntaxErr{Info:"标签缺少右侧符号"}
-            $$.Err.Scope=$2.Scope
+            name.Scope = $2.Scope
+            temp := &LabelStmt{Name: name}
+            temp.Start=$1.Start
+            temp.End=$2.End
+            temp.Err=&SyntaxErr{Info:"标签缺少右侧符号"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         }|
         TTarget TTarget {
-            $$ = &LabelStmt{Name: nil}
-            $$.Start=$1.Start
-            $$.End=$2.End
-            $$.Err=&SyntaxErr{Info:"标签缺少名称"}
-            $$.Err.Scope=$$.Scope
+            temp := &LabelStmt{Name: nil}
+            temp.Start=$1.Start
+            temp.End=$2.End
+            temp.Err=&SyntaxErr{Info:"标签缺少名称"}
+            temp.Err.Scope=temp.Scope
+            $$ = temp
         }|
         TTarget {
-            $$ = &LabelStmt{Name: nil}
-            $$.Scope=$1.Scope
-            $$.Err=&SyntaxErr{Info:"标签不完整"}
-            $$.Err.Scope=$$.Scope
+            temp := &LabelStmt{Name: nil}
+            temp.Scope=$1.Scope
+            temp.Err=&SyntaxErr{Info:"标签不完整"}
+            temp.Err.Scope=temp.Scope
+            $$ = temp
         }
         
 funcname: 
         funcnameaux {
-            $$ = &FuncDefStmt{Name: $1, Receiver: nil}
-            $$.Scope=$1.Scope
+            temp := &FuncDefStmt{Name: $1, Receiver: nil}
+            temp.Scope=$1.scope()
+            $$ = temp
         } |
         funcnameaux ':' TName {
             name:= &NameExpr{Value:$3.Str}
             name.Scope=$3.Scope
-            $$ = &FuncDefStmt{Name: name, Receiver:$1}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &FuncDefStmt{Name: name, Receiver:$1}
+            temp.Start=$1.start()
+            temp.End = $3.End
+            $$ = temp
+            
         }|
         funcnameaux ':' {
-            $$ = &FuncDefStmt{Name: name}
-            $$.Start=$1.Start
-            $$.End = $2.End
-            $$.Err=&SyntaxErr{Info:"缺少接受者"}
-            $$.Err.Scope=$2.Scope
+            temp := &FuncDefStmt{Receiver:$1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Info:"缺少名称"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
+        }|
+        ':' TName {
+            name:= &NameExpr{Value:$2.Str}
+            name.Scope=$2.Scope
+            temp := &FuncDefStmt{Name: name}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            $$ = temp
+            
         }
 
 funcnameaux:
         TName {
             $$ = &NameExpr{Value:$1.Str}
-            $$.Scope=$1.Scope
+            $$.(*NameExpr).Scope=$1.Scope
         } | 
         funcnameaux '.' TName {
             name:= &NameExpr{Value:$3.Str}
-            name.Scope=$1.Scope
-            $$ = &GetItemExpr{Table:$1, Key:name}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            name.Scope=$3.scope()
+            temp := &GetItemExpr{Table:$1, Key:name}
+            temp.Start=$1.start()
+            temp.End = $3.End
+            $$ = temp
         } |
         funcnameaux '.' {
-            $$ = &GetItemExpr{Table:$1}
-            $$.Start=$1.Start
-            $$.End = $2.End
-            $$.Err=&SyntaxErr{Info:"缺少子项目"}
-            $$.Err.Scope=$2.Scope
-        }
-
+            temp := &GetItemExpr{Table:$1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Info:"缺少子项目"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
+        } |
+        '.' TName {
+            name:= &NameExpr{Value:$2.Str}
+            name.Scope=$2.scope()
+            temp := &GetItemExpr{Key:name}
+            temp.Start=$1.Start
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Info:"缺少父级项目"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
+        } 
 varlist:
         var {
             $$ = []Expr{$1}
         } | 
         varlist ',' var {
             $$ = append($1, $3)
+        } |
+        varlist ',' {
+            $$ = $1   ////////////////////////////////////////////errrrrrrrrrrrrrrrrr
         } 
 
 var:
         TName {
             $$ = &NameExpr{Value:$1.Str}
-            $$.Scope=$1.Scope
+            $$.(*NameExpr).Scope=$1.Scope
         } |
         prefixexp '[' expr ']' {
-            $$ = &GetItemExpr{Table:$1, Key:$3}
-            $$.Start=$1.Start
-            $$.End = $4.End
+            temp := &GetItemExpr{Table:$1, Key:$3}
+            temp.Start=$1.start()
+            temp.End = $4.End
+            $$ = temp
         } | 
         prefixexp '[' ']' {
-            $$ = &GetItemExpr{Table:$1}
-            $$.Start=$1.Start
-            $$.End = $3.End
-            $$.Err=&SyntaxErr{Info:"缺少索引"}
-            $$.Err.Scope=$2.Scope
+            temp := &GetItemExpr{Table:$1}
+            temp.Start=$1.start()
+            temp.End = $3.End
+            temp.Err=&SyntaxErr{Info:"缺少索引"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } |
         prefixexp '[' expr {
-            $$ = &GetItemExpr{Table:$1, Key:$3}
-            $$.Start=$1.Start
-            $$.End = $3.End
-            $$.Err=&SyntaxErr{Info:"缺少右括号"}
-            $$.Err.Scope=$3.Scope
+            temp := &GetItemExpr{Table:$1, Key:$3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err.Scope=$3.scope()
+            $$ = temp
         } |
         prefixexp '[' {
-            $$ = &GetItemExpr{Table:$1}
-            $$.Start=$1.Start
-            $$.End = $2.End
-            $$.Err=&SyntaxErr{Info:"缺少索引"}
-            $$.Err.Scope=$2.Scope
+            temp := &GetItemExpr{Table:$1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Info:"缺少索引"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } |
         prefixexp '.' TName {
             name:= &NameExpr{Value:$3.Str}
-            $$.Scope=$3.Scope
-            $$ = &GetItemExpr{Table:$1, Key:name}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            name.Scope=$3.Scope
+            temp := &GetItemExpr{Table:$1, Key:name}
+            temp.Start=$1.start()
+            temp.End = $3.End
+            $$ = temp
         } |
         prefixexp '.' {
-            $$ = &GetItemExpr{Table:$1}
-            $$.Start=$1.Start
-            $$.End = $2.End
-            $$.Err=&SyntaxErr{Info:"缺少子项目"}
-            $$.Err.Scope=$2.Scope
+            temp := &GetItemExpr{Table:$1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Info:"缺少子项目"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         }
 
 namelist:
         TName {
             name:= &NameExpr{Value:$1.Str}
-            $$.Scope=$1.Scope
+            name.Scope=$1.Scope
             $$ = []Expr{name}
         } | 
         namelist ','  TName {
             name:= &NameExpr{Value:$3.Str}
-            $$.Scope=$3.Scope
+            name.Scope=$3.Scope
             $$ = append($1, name)
+        } |
+        namelist ',' {
+            $$ = $1 ///////////////////////////////////////////////////errrrrrrrrrrrr
         }
 
 exprlist:
@@ -827,32 +886,39 @@ exprlist:
         } |
         exprlist ',' expr {
             $$ = append($1, $3)
+        } |
+        exprlist ',' {
+            $$ = $1 ////////////////////////////////////////////////////errrrrrrrrrrrrrrr
         }
 
 expr:
         TNil {
-            $$ = &NilExpr{}
-            $$.Scope=$1.Scope
+            temp := &NilExpr{}
+            temp.Scope =$1.Scope
+            $$ = temp
         } | 
         TFalse {
-            $$ = &FalseExpr{}
-            $$.Scope=$1.Scope
+            temp := &FalseExpr{}
+            temp.Scope =$1.Scope
+            $$ = temp
         } | 
         TTrue {
-            $$ = &TrueExpr{}
-            $$.Scope=$1.Scope
+            temp := &TrueExpr{}
+            temp.Scope =$1.Scope
+            $$ = temp
         } | 
         TNumber {
-            $$ = &NumberExpr{Value: $1.Str}
-            $$.Scope=$1.Scope
+            temp := &NumberExpr{Value: $1.Str}
+            temp.Scope =$1.Scope
+            $$ = temp
         } | 
         TString {
-            $$ = &StringExpr{Value: $1.Str}
-            $$.Scope=$1.Scope
+            temp := &StringExpr{Value: $1.Str}
+            temp.Scope =$1.Scope
         } |
         TAny {
-            $$ = &AnyExpr{}
-            $$.Scope=$1.Scope
+            temp := &AnyExpr{}
+            temp.Scope =$1.Scope
         } |
         functiondef {
             $$ = $1
@@ -864,135 +930,172 @@ expr:
             $$ = $1
         } |
         expr '+' expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr '-' expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr '*' expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr '/' expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr TWdiv expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr '^' expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr '%' expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr '&' expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr '~' expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr '|' expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr TRmove expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr TLmove expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr TConn expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr '<' expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr TLequal expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr '>' expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr TBequal expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr TEqual expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr TNequal expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr TAnd expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         expr TOr expr {
-            $$ = &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
+            temp.Start=$1.start()
+            temp.End = $3.end()
+            $$ = temp
         } |
         '-' expr %prec UNARY {
-            $$ = &OneOpExpr{Operator: $1.Str, Target: $2}
-            $$.Start=$1.Start
-            $$.End = $2.End
+            temp := &OneOpExpr{Operator: $1.Str, Target: $2}
+            temp.Start=$1.Start
+            temp.End = $2.end()
+            $$ = temp
         } |
         TNot expr %prec UNARY {
-            $$ = &OneOpExpr{Operator: $1.Str, Target: $2}
-            $$.Start=$1.Start
-            $$.End = $2.End
+            temp := &OneOpExpr{Operator: $1.Str, Target: $2}
+            temp.Start=$1.Start
+            temp.End = $2.end()
+            $$ = temp
         } |
         '#' expr %prec UNARY {
-            $$ = &OneOpExpr{Operator: $1.Str, Target: $2}
-            $$.Start=$1.Start
-            $$.End = $2.End
+            temp := &OneOpExpr{Operator: $1.Str, Target: $2}
+            temp.Start=$1.Start
+            temp.End = $2.end()
+            $$ = temp
         } |
         '~' expr %prec UNARY {
-            $$ = &OneOpExpr{Operator: $1.Str, Target: $2}
-            $$.Start=$1.Start
-            $$.End = $2.End
+            temp := &OneOpExpr{Operator: $1.Str, Target: $2}
+            temp.Start=$1.Start
+            temp.End = $2.end()
+            $$ = temp
         } |
         '(' expr ')' {
             $$ = $2
-            $$.Start=$1.Start
-            $$.End = $3.End
-        }
+        } /*|
+        '(' expr  {
+            temp := $2
+            temp.Start=$1.Start
+            temp.End = $2.end()
+            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err.Scope=$1.Scope
+        } |
+        '(' {
+            temp := $2
+            temp.Start=$1.Start
+            temp.End = $3.End
+            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err.Scope=$2.Scope
+        }*/
 
 prefixexp:
         var {
@@ -1004,40 +1107,50 @@ prefixexp:
 
 functioncall:
         prefixexp args {
-            $$ = &FuncCall{Function: $1, Args: $2}
-            $$.Start=$1.Start
-            $$.End = $2.End
+            temp := &FuncCall{Function: $1, Args: $2}
+            temp.Start=$1.start()
+            temp.End = $2.end()
+            $$ = temp
         } |
         prefixexp ':' TName args {
             name:= &NameExpr{Value: $3.Str}
             name.Scope=$3.Scope
-            $$ = &FuncCall{Function: name, Receiver: $1, Args: $4}
-            $$.Start=$1.Start
-            $$.End = $4.End
+            temp := &FuncCall{Function: name, Receiver: $1, Args: $4}
+            temp.Start=$1.start()
+            temp.End = $4.end()
+            $$ = temp
         } | 
         prefixexp ':' TName  {
             name:= &NameExpr{Value: $3.Str}
             name.Scope=$3.Scope
-            $$ = &FuncCall{Function: name, Receiver: $1,}
-            $$.Start=$1.Start
-            $$.End = $3.End
-            $$.Err=&SyntaxErr{Info:"缺少函数调用参数(args)"}
-            $$.Err.Scope=$2.Scope
+            temp := &FuncCall{Function: name, Receiver: $1,}
+            temp.Start=$1.start()
+            temp.End = $3.End
+            temp.Err=&SyntaxErr{Info:"缺少函数调用参数(args)"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } | 
         prefixexp ':'  {
-            $$ = &FuncCall{ Receiver: $1}
-            $$.Start=$1.Start
-            $$.End = $2.End
-            $$.Err=&SyntaxErr{Info:"缺少函数调用"}
-            $$.Err.Scope=$2.Scope
+            temp := &FuncCall{ Receiver: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Info:"缺少函数调用"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         }
 
 args:
         '(' ')' {
             $$ = []Expr{}
         } |
+        '(' {
+            $$ = []Expr{}/////////////////////////////errrrrrrrrrrr
+        } |
         '(' exprlist ')' {
             $$ = $2
+        } |
+        '(' exprlist {
+            $$ = $2 //////////////////////////////////errrrrrrrrrrrrrrrr
         } |
         tableconstructor {
             $$ = []Expr{$1}
@@ -1053,50 +1166,93 @@ functiondef:
             $$ = $2
         } |
         TFunction {
-            $$ =  &FuncDefExpr{}
-            $$.Scope =$1.Scope
-            $$.Err=&SyntaxErr{Info:"未定义函数体"}
-            $$.Err.Scope=$1.Scope
+            temp :=  &FuncDefExpr{}
+            temp.Scope =$1.Scope
+            temp.Err=&SyntaxErr{Info:"未定义函数体"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         }
 
 funcbody:
         '(' parlist ')' block TEnd {
-            $$ = &FuncDefExpr{Param: $2, Block: $4}
-            $$.Start=$1.Start
-            $$.End = $5.End
+            temp := &FuncDefExpr{Param: $2, Block: $4}
+            temp.Start=$1.Start
+            temp.End = $5.End
+            $$ = temp
+        } | 
+        '(' parlist ')' block {
+            temp := &FuncDefExpr{Param: $2, Block: $4}
+            temp.Start=$1.Start
+            if len($4)>0 {
+                temp.End = $4[len($4)-1].end()
+            }else{
+                temp.End = $3.End
+            }
+            temp.Err=&SyntaxErr{Info:"缺少end"}
+            temp.Err.Scope=temp.Scope
+            $$ = temp
+        } | 
+        '(' parlist {
+            temp := &FuncDefExpr{Param: $2}
+            temp.Start=$1.Start
+            temp.End = $2.end()
+            temp.Err=&SyntaxErr{Info:"缺少右括号及函数体"}
+            temp.Err.Scope=temp.Scope
+            $$ = temp
         } | 
         '(' ')' block TEnd {
-            $$ = &FuncDefExpr{Param: nil, Block: $3}
-            $$.Start=$1.Start
-            $$.End = $4.End
+            temp := &FuncDefExpr{Param: nil, Block: $3}
+            temp.Start=$1.Start
+            temp.End = $4.End
+            $$ = temp
         }
 
 parlist:
         TAny {
-            $$ = &ParamExpr{IsAny: true}
-            $$.Scope =$1.Scope
+            temp := &ParamExpr{IsAny: true}
+            temp.Scope =$1.Scope
+            $$ = temp
         } | 
         namelist {
-            $$ = &ParamExpr{Params: $1, IsAny: false}
-            $$.Scope =$1.Scope
+            temp := &ParamExpr{Params: $1, IsAny: false}
+            temp.Scope =$1.scope()
+            $$ = temp
         } | 
         namelist ',' TAny {
-            $$ = &ParamExpr{Params: $1, IsAny: true}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &ParamExpr{Params: $1, IsAny: true}
+            temp.Start=$1.start()
+            temp.End = $3.End
+            $$ = temp
         }
 
 
 tableconstructor:
         '{' '}' {
-            $$ = &TableExpr{Fields: []Expr{}}
-            $$.Start=$1.Start
-            $$.End = $2.End
+            temp := &TableExpr{Fields: []Expr{}}
+            temp.Scope=$1.Scope
+            $$ = temp
+        } |
+        '{' {
+            temp := &TableExpr{Fields: []Expr{}}
+            temp.Start=$1.Start
+            temp.End = $1.End
+            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         '{' fieldlist '}' {
-            $$ = &TableExpr{Fields: $2}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &TableExpr{Fields: $2}
+            temp.Start=$1.Start
+            temp.End = $3.End
+            $$ = temp
+        } |
+        '{' fieldlist {
+            temp := &TableExpr{Fields: $2}
+            temp.Start=$1.Start
+            temp.End = $2.end()
+            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         }
 
 
@@ -1115,18 +1271,71 @@ field:
         TName '=' expr {
             name:= &NameExpr{Value: $1.Str}
             name.Scope =$1.Scope
-            $$ = &FieldExpr{Key: name, Value: $3}
-            $$.Start=$1.Start
-            $$.End = $3.End
+            temp := &FieldExpr{Key: name, Value: $3}
+            temp.Start=$1.Start
+            temp.End = $3.end()
+            $$ = temp
+        } | 
+        TName '=' {
+            name:= &NameExpr{Value: $1.Str}
+            name.Scope =$1.Scope
+            temp := &FieldExpr{Key: name}
+            temp.Start=$1.Start
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Info:"缺少右值"}
+            temp.Err.Scope=$2.Scope
+            $$ = temp
         } | 
         '[' expr ']' '=' expr {
-            $$ = &FieldExpr{Key: $2, Value: $5}
-            $$.Start=$1.Start
-            $$.End = $5.End
+            temp := &FieldExpr{Key: $2, Value: $5}
+            temp.Start=$1.Start
+            temp.End = $5.end()
+            $$ = temp
+        } |
+        '[' expr ']' '=' {
+            temp := &FieldExpr{Key: $2}
+            temp.Start=$1.Start
+            temp.End = $4.End
+            temp.Err=&SyntaxErr{Info:"缺少右值"}
+            temp.Err.Scope=$3.Scope
+            $$ = temp
+        } |
+        '[' expr ']' {
+            temp := &FieldExpr{Key: $2}
+            temp.Start=$1.Start
+            temp.End = $3.end
+            temp.Err=&SyntaxErr{Info:"缺少等号及右值"}
+            temp.Err.Scope=$3.Scope
+            $$ = temp
+        } |
+        '[' ']' {
+            temp := &FieldExpr{}
+            temp.Start=$1.Start
+            temp.End = $2.end
+            temp.Err=&SyntaxErr{Info:"缺少索引表达式"}
+            temp.Err.Scope=temp.Scope
+            $$ = temp
+        } |
+        '[' {
+            temp := &FieldExpr{}
+            temp.Start=$1.Start
+            temp.End = $1.end
+            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err.Scope=temp.Scope
+            $$ = temp
+        } |
+        '[' expr {
+            temp := &FieldExpr{Key: $2}
+            temp.Start=$1.Start
+            temp.End = $2.end
+            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err.Scope=$1.Scope
+            $$ = temp
         } |
         expr {
-            $$ = &FieldExpr{Value: $1}
-            $$.Scope =$1.Scope
+            temp := &FieldExpr{Value: $1}
+            temp.Scope =$1.Scope
+            $$ = temp
         }
 
 fieldsep:
