@@ -567,7 +567,7 @@ stat:
             temp.Err.Scope=$1.Scope
             $$ = temp
         } |
-        TFunction funcbody {
+        /*TFunction funcbody {
             temp := &FuncDefStmt{}
             temp.Function= $2
             temp.Start=$1.Start
@@ -575,7 +575,7 @@ stat:
             temp.Err=&SyntaxErr{Info:"缺少函数名"}
             temp.Err.Scope=$1.Scope
             $$ = temp
-        } |
+        } |*/
         /*************** TLocal TFunction TName funcbody *****************/
         TLocal TFunction TName funcbody {
             name:=&NameExpr{Value:$3.Str}
@@ -1180,7 +1180,7 @@ funcbody:
             temp.End = $5.End
             $$ = temp
         } | 
-        '(' parlist ')' block {
+        /*'(' parlist ')' block {
             temp := &FuncDefExpr{Param: $2, Block: $4}
             temp.Start=$1.Start
             if len($4)>0 {
@@ -1191,7 +1191,7 @@ funcbody:
             temp.Err=&SyntaxErr{Info:"缺少end"}
             temp.Err.Scope=temp.Scope
             $$ = temp
-        } | 
+        } | */
         '(' parlist {
             temp := &FuncDefExpr{Param: $2}
             temp.Start=$1.Start
