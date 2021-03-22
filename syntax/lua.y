@@ -8,7 +8,7 @@ package syntax
   stmts  []Stmt
   stmt   Stmt
 
-  exprs  []Expr
+  exprs  []Expr 
   expr   Expr
 
   node   Node
@@ -129,7 +129,11 @@ stat:
         } |
         /*************** functioncall *****************/
         functioncall {
-            $$ = $1
+            if funstmt, ok := $1.(*FuncCall); !ok {
+               lualex.(*Lexer).Error("parse error")
+            } else {
+              $$ = funstmt
+            }
         } |
         /*************** label *****************/
         label {
@@ -350,13 +354,13 @@ stat:
             temp.Err.Scope=temp.Scope
         } |
         TIf expr TThen block elseifs TElse block {
-            $$ = &IfStmt{Condition: $2, Then: $3}
+            $$ = &IfStmt{Condition: $2, Then: $4}
             cur := $$
             for _, elseif := range $4 {
                 cur.(*IfStmt).Else = []Stmt{elseif}
                 cur = elseif
             }
-            cur.(*IfStmt).Else = $6
+            cur.(*IfStmt).Else = $7
             temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             if len($7)>0 {
@@ -396,7 +400,7 @@ stat:
             temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Block: $8}
             temp.Start=$1.Start
             if len($8)>0 {
-                temp.End = $8[len($8)-1].End
+                temp.End = $8[len($8)-1].end()
             }else{
                 temp.End = $7.End
             }
@@ -424,7 +428,7 @@ stat:
             temp := &ForLoopNumStmt{Name: nil, Init: nil, Limit: nil, Block: $3}
             temp.Start=$1.Start
             if len($3)>0 {
-                temp.End = $3[len($3)-1].End
+                temp.End = $3[len($3)-1].end()
             }else{
                 temp.End = $2.End
             }
@@ -457,9 +461,9 @@ stat:
             name.Scope = $2.Scope
             temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: nil, Block: $6}
             temp.Start=$1.Start
-            temp.End = $6.End
+            temp.End = $7.End
             temp.Err=&SyntaxErr{Info:"缺少循环终点"}
-            temp.Err.Scope=$4.Scope
+            temp.Err.Scope=$4.scope()
             $$ = temp
         } |
         TFor TName '=' expr ',' TDo block TEnd {
@@ -467,7 +471,7 @@ stat:
             name.Scope = $2.Scope
             temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: nil, Block: $7}
             temp.Start=$1.Start
-            temp.End = $7.End
+            temp.End = $8.End
             temp.Err=&SyntaxErr{Info:"缺少循环终点"}
             temp.Err.Scope=$5.Scope
             $$ = temp
@@ -525,7 +529,7 @@ stat:
             temp.Start=$1.Start
             temp.End = $6.End
             temp.Err=&SyntaxErr{Info:"缺少迭代对象表达式"}
-            temp.Err.Scope=$2.Scope
+            temp.Err.Scope=$2[len($2)-1].scope()
             $$ = temp
         } |
         TFor namelist TIn exprlist TDo block {
@@ -660,7 +664,7 @@ stat:
         }|
         error{
             temp := &ErrorStmt{Info:"解析错误"}
-            tk:=lualex.(Lexer).Token
+            tk:=lualex.(*Lexer).Token
             temp.Err=&SyntaxErr{Info:tk.Str+"附近解析错误"}
             temp.Err.Scope=tk.Scope
             $$ = temp
@@ -673,7 +677,12 @@ elseifs:
         elseifs TElseIf expr TThen block {
             ifstmt:=&IfStmt{Condition: $3, Then: $5}
             ifstmt.Start=$2.Start
-            ifstmt.End = $5.End
+            if len($5)>0{
+                ifstmt.End = $5[len($5)-1].end()
+            }else{
+                ifstmt.End = $4.End
+            }
+            
             $$ = append($1, ifstmt)
         }
         
@@ -765,7 +774,7 @@ funcname:
             name:= &NameExpr{Value:$2.Str}
             name.Scope=$2.Scope
             temp := &FuncDefStmt{Name: name}
-            temp.Start=$1.start()
+            temp.Start=$1.Start
             temp.End = $2.End
             $$ = temp
             
@@ -778,7 +787,7 @@ funcnameaux:
         } | 
         funcnameaux '.' TName {
             name:= &NameExpr{Value:$3.Str}
-            name.Scope=$3.scope()
+            name.Scope=$3.Scope
             temp := &GetItemExpr{Table:$1, Key:name}
             temp.Start=$1.start()
             temp.End = $3.End
@@ -794,7 +803,7 @@ funcnameaux:
         } |
         '.' TName {
             name:= &NameExpr{Value:$2.Str}
-            name.Scope=$2.scope()
+            name.Scope=$2.Scope
             temp := &GetItemExpr{Key:name}
             temp.Start=$1.Start
             temp.End = $2.End
@@ -1102,14 +1111,22 @@ prefixexp:
             $$ = $1
         } |
         functioncall {
-            $$ = $1
+            if funstmt, ok := $1.(*FuncCall); !ok {
+               lualex.(*Lexer).Error("parse error")
+            } else {
+              $$ = funstmt
+            }
         } 
 
 functioncall:
         prefixexp args {
             temp := &FuncCall{Function: $1, Args: $2}
             temp.Start=$1.start()
-            temp.End = $2.end()
+            if len($2)>0{
+                temp.End = $2[len($2)-1].end()
+            }else{
+                temp.End = $1.end()
+            }
             $$ = temp
         } |
         prefixexp ':' TName args {
@@ -1117,7 +1134,11 @@ functioncall:
             name.Scope=$3.Scope
             temp := &FuncCall{Function: name, Receiver: $1, Args: $4}
             temp.Start=$1.start()
-            temp.End = $4.end()
+            if len($4)>0{
+                temp.End = $4[len($4)-1].end()
+            }else{
+                temp.End = $3.End
+            }
             $$ = temp
         } | 
         prefixexp ':' TName  {
@@ -1215,12 +1236,12 @@ parlist:
         } | 
         namelist {
             temp := &ParamExpr{Params: $1, IsAny: false}
-            temp.Scope =$1.scope()
+            temp.Scope =$1[len($1)-1].scope()
             $$ = temp
         } | 
         namelist ',' TAny {
             temp := &ParamExpr{Params: $1, IsAny: true}
-            temp.Start=$1.start()
+            temp.Start=$1[len($1)-1].start()
             temp.End = $3.End
             $$ = temp
         }
@@ -1249,7 +1270,7 @@ tableconstructor:
         '{' fieldlist {
             temp := &TableExpr{Fields: $2}
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2[len($2)-1].end()
             temp.Err=&SyntaxErr{Info:"缺少右括号"}
             temp.Err.Scope=$1.Scope
             $$ = temp
@@ -1303,7 +1324,7 @@ field:
         '[' expr ']' {
             temp := &FieldExpr{Key: $2}
             temp.Start=$1.Start
-            temp.End = $3.end
+            temp.End = $3.End
             temp.Err=&SyntaxErr{Info:"缺少等号及右值"}
             temp.Err.Scope=$3.Scope
             $$ = temp
@@ -1311,7 +1332,7 @@ field:
         '[' ']' {
             temp := &FieldExpr{}
             temp.Start=$1.Start
-            temp.End = $2.end
+            temp.End = $2.End
             temp.Err=&SyntaxErr{Info:"缺少索引表达式"}
             temp.Err.Scope=temp.Scope
             $$ = temp
@@ -1319,7 +1340,7 @@ field:
         '[' {
             temp := &FieldExpr{}
             temp.Start=$1.Start
-            temp.End = $1.end
+            temp.End = $1.End
             temp.Err=&SyntaxErr{Info:"缺少右括号"}
             temp.Err.Scope=temp.Scope
             $$ = temp
@@ -1327,14 +1348,14 @@ field:
         '[' expr {
             temp := &FieldExpr{Key: $2}
             temp.Start=$1.Start
-            temp.End = $2.end
+            temp.End = $2.end()
             temp.Err=&SyntaxErr{Info:"缺少右括号"}
             temp.Err.Scope=$1.Scope
             $$ = temp
         } |
         expr {
             temp := &FieldExpr{Value: $1}
-            temp.Scope =$1.Scope
+            temp.Scope =$1.scope()
             $$ = temp
         }
 

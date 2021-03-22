@@ -125,221 +125,463 @@ const luaErrCode = 2
 const luaInitialStackSize = 16
 
 var luaExca = [...]int{
+	-1, 0,
+	1, 2,
+	-2, 0,
 	-1, 1,
 	1, -1,
 	-2, 0,
-	-1, 9,
-	37, 81,
-	52, 81,
-	54, 81,
-	56, 81,
-	59, 81,
-	61, 81,
-	-2, 10,
-	-1, 20,
-	51, 36,
-	60, 36,
-	-2, 80,
-	-1, 106,
-	51, 37,
-	60, 37,
-	-2, 80,
+	-1, 3,
+	1, 3,
+	7, 3,
+	8, 3,
+	9, 3,
+	24, 3,
+	-2, 0,
+	-1, 10,
+	1, 12,
+	2, 12,
+	5, 12,
+	6, 12,
+	7, 12,
+	8, 12,
+	9, 12,
+	11, 12,
+	12, 12,
+	13, 12,
+	14, 12,
+	16, 12,
+	20, 12,
+	21, 12,
+	24, 12,
+	25, 12,
+	26, 12,
+	34, 12,
+	51, 12,
+	58, 12,
+	-2, 136,
+	-1, 14,
+	1, 2,
+	7, 2,
+	8, 2,
+	9, 2,
+	24, 2,
+	-2, 0,
+	-1, 16,
+	1, 2,
+	7, 2,
+	8, 2,
+	9, 2,
+	24, 2,
+	-2, 0,
+	-1, 17,
+	1, 2,
+	7, 2,
+	8, 2,
+	9, 2,
+	24, 2,
+	-2, 0,
+	-1, 22,
+	51, 84,
+	60, 84,
+	-2, 135,
+	-1, 55,
+	9, 2,
+	-2, 0,
+	-1, 58,
+	7, 2,
+	8, 2,
+	9, 2,
+	-2, 0,
+	-1, 63,
+	1, 2,
+	7, 2,
+	8, 2,
+	9, 2,
+	24, 2,
+	-2, 0,
+	-1, 122,
+	51, 85,
+	60, 85,
+	-2, 135,
+	-1, 124,
+	1, 2,
+	7, 2,
+	8, 2,
+	9, 2,
+	24, 2,
+	-2, 0,
+	-1, 127,
+	1, 2,
+	7, 2,
+	8, 2,
+	9, 2,
+	24, 2,
+	-2, 0,
+	-1, 131,
+	9, 2,
+	-2, 0,
+	-1, 178,
+	9, 2,
+	-2, 0,
+	-1, 195,
+	9, 2,
+	-2, 0,
+	-1, 198,
+	9, 2,
+	-2, 0,
+	-1, 203,
+	9, 2,
+	-2, 0,
+	-1, 205,
+	9, 2,
+	-2, 0,
+	-1, 213,
+	9, 2,
+	-2, 0,
+	-1, 222,
+	9, 2,
+	-2, 0,
+	-1, 226,
+	9, 2,
+	-2, 0,
+	-1, 230,
+	1, 2,
+	7, 2,
+	8, 2,
+	9, 2,
+	24, 2,
+	-2, 0,
+	-1, 238,
+	1, 2,
+	7, 2,
+	8, 2,
+	9, 2,
+	24, 2,
+	-2, 0,
+	-1, 241,
+	1, 2,
+	7, 2,
+	8, 2,
+	9, 2,
+	24, 2,
+	-2, 0,
+	-1, 243,
+	9, 2,
+	-2, 0,
+	-1, 246,
+	9, 2,
+	-2, 0,
+	-1, 255,
+	1, 2,
+	7, 2,
+	8, 2,
+	9, 2,
+	24, 2,
+	-2, 0,
+	-1, 264,
+	9, 2,
+	-2, 0,
+	-1, 268,
+	1, 2,
+	7, 2,
+	8, 2,
+	9, 2,
+	24, 2,
+	-2, 0,
 }
 
 const luaPrivate = 57344
 
-const luaLast = 825
+const luaLast = 1444
 
 var luaAct = [...]int{
-	27, 101, 35, 21, 63, 97, 21, 36, 54, 152,
-	180, 115, 155, 116, 154, 50, 21, 52, 21, 170,
-	112, 43, 20, 118, 70, 20, 70, 46, 59, 66,
-	173, 69, 113, 70, 171, 20, 47, 20, 92, 93,
-	94, 95, 96, 66, 98, 184, 104, 156, 111, 26,
-	21, 76, 124, 163, 44, 9, 165, 164, 9, 163,
-	121, 114, 119, 183, 70, 113, 120, 117, 9, 106,
-	9, 125, 126, 127, 128, 129, 130, 131, 132, 133,
-	134, 135, 136, 137, 138, 139, 140, 141, 142, 143,
-	144, 145, 146, 23, 58, 68, 105, 57, 53, 48,
-	2, 109, 67, 67, 157, 205, 202, 151, 60, 197,
-	159, 21, 161, 21, 49, 123, 51, 65, 65, 45,
-	45, 196, 61, 166, 190, 64, 169, 62, 182, 66,
-	20, 177, 20, 82, 81, 75, 107, 83, 186, 187,
-	185, 71, 72, 73, 74, 77, 76, 153, 78, 79,
-	80, 60, 21, 100, 104, 174, 4, 175, 148, 34,
-	24, 150, 162, 9, 56, 9, 5, 55, 167, 178,
-	25, 20, 10, 8, 21, 3, 1, 0, 149, 0,
-	188, 0, 0, 21, 0, 191, 0, 0, 193, 21,
-	0, 0, 0, 20, 0, 0, 200, 21, 0, 0,
-	0, 21, 20, 0, 9, 0, 21, 0, 20, 158,
-	0, 160, 0, 0, 0, 0, 20, 0, 0, 0,
-	20, 75, 0, 83, 0, 20, 9, 71, 72, 73,
-	74, 77, 76, 0, 0, 9, 75, 0, 0, 0,
-	90, 9, 194, 0, 73, 74, 77, 76, 0, 9,
-	172, 0, 0, 9, 0, 91, 0, 0, 9, 0,
-	0, 0, 0, 88, 89, 85, 87, 82, 81, 75,
-	0, 83, 181, 0, 0, 71, 72, 73, 74, 77,
-	76, 189, 78, 79, 80, 84, 86, 192, 90, 0,
-	0, 0, 0, 0, 0, 199, 195, 0, 0, 201,
-	0, 0, 0, 91, 204, 0, 0, 0, 0, 0,
-	0, 88, 89, 85, 87, 82, 81, 75, 0, 83,
-	0, 0, 90, 71, 72, 73, 74, 77, 76, 0,
-	78, 79, 80, 84, 86, 0, 0, 91, 0, 0,
-	0, 0, 0, 0, 179, 88, 89, 85, 87, 82,
-	81, 75, 0, 83, 90, 0, 0, 71, 72, 73,
-	74, 77, 76, 0, 78, 79, 80, 84, 86, 91,
-	0, 0, 0, 0, 0, 176, 0, 88, 89, 85,
-	87, 82, 81, 75, 0, 83, 90, 0, 0, 71,
-	72, 73, 74, 77, 76, 0, 78, 79, 80, 84,
-	86, 91, 0, 0, 0, 0, 0, 168, 0, 88,
-	89, 85, 87, 82, 81, 75, 0, 83, 90, 0,
-	203, 71, 72, 73, 74, 77, 76, 0, 78, 79,
-	80, 84, 86, 91, 0, 147, 0, 0, 0, 0,
-	0, 88, 89, 85, 87, 82, 81, 75, 0, 83,
-	90, 0, 0, 71, 72, 73, 74, 77, 76, 0,
-	78, 79, 80, 84, 86, 91, 0, 0, 198, 0,
-	0, 0, 0, 88, 89, 85, 87, 82, 81, 75,
-	0, 83, 90, 0, 0, 71, 72, 73, 74, 77,
-	76, 0, 78, 79, 80, 84, 86, 91, 0, 0,
-	110, 0, 0, 0, 0, 88, 89, 85, 87, 82,
-	81, 75, 0, 83, 90, 0, 108, 71, 72, 73,
-	74, 77, 76, 0, 78, 79, 80, 84, 86, 91,
-	0, 0, 0, 0, 0, 0, 0, 88, 89, 85,
-	87, 82, 81, 75, 0, 83, 0, 0, 0, 71,
-	72, 73, 74, 77, 76, 0, 78, 79, 80, 84,
-	86, 29, 0, 42, 11, 13, 0, 0, 28, 38,
-	17, 18, 12, 16, 30, 19, 0, 102, 0, 15,
-	6, 0, 0, 0, 14, 23, 0, 33, 32, 31,
-	0, 37, 0, 22, 0, 90, 39, 0, 40, 0,
-	0, 0, 0, 41, 0, 45, 99, 103, 0, 0,
-	91, 0, 0, 0, 0, 0, 0, 7, 88, 89,
-	85, 87, 82, 81, 75, 0, 83, 0, 0, 0,
-	71, 72, 73, 74, 77, 76, 0, 78, 79, 80,
-	84, 86, 29, 0, 42, 0, 0, 0, 0, 28,
-	38, 0, 82, 81, 75, 30, 83, 0, 102, 0,
-	71, 72, 73, 74, 77, 76, 90, 78, 33, 32,
-	31, 0, 37, 0, 0, 0, 0, 39, 0, 40,
-	0, 0, 0, 0, 41, 0, 45, 0, 103, 88,
-	89, 85, 87, 82, 81, 75, 0, 83, 0, 0,
-	0, 71, 72, 73, 74, 77, 76, 0, 78, 79,
-	80, 84, 86, 88, 89, 85, 87, 82, 81, 75,
-	0, 83, 0, 0, 0, 71, 72, 73, 74, 77,
-	76, 0, 78, 79, 80, 84, 86, 29, 0, 42,
-	0, 0, 0, 0, 28, 38, 0, 82, 81, 75,
-	30, 83, 0, 23, 0, 71, 72, 73, 74, 77,
-	76, 0, 0, 33, 32, 31, 0, 37, 0, 29,
-	0, 42, 39, 0, 40, 0, 28, 38, 0, 41,
-	122, 45, 30, 0, 0, 23, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 33, 32, 31, 0, 37,
-	0, 0, 0, 0, 39, 0, 40, 0, 82, 81,
-	75, 41, 83, 45, 0, 0, 71, 72, 73, 74,
-	77, 76, 0, 78, 79,
+	29, 117, 77, 129, 28, 113, 81, 38, 64, 45,
+	22, 86, 230, 22, 51, 212, 54, 69, 57, 134,
+	69, 79, 86, 47, 22, 75, 22, 22, 78, 73,
+	76, 80, 182, 215, 138, 185, 139, 184, 145, 213,
+	108, 109, 110, 111, 112, 80, 114, 135, 120, 49,
+	68, 236, 70, 68, 121, 70, 205, 85, 50, 86,
+	122, 114, 186, 132, 135, 22, 86, 92, 22, 153,
+	136, 204, 137, 22, 131, 82, 147, 143, 144, 146,
+	84, 235, 207, 83, 152, 206, 142, 154, 155, 156,
+	157, 158, 159, 160, 161, 162, 163, 164, 165, 166,
+	167, 168, 169, 170, 171, 172, 173, 174, 175, 81,
+	86, 181, 114, 37, 23, 71, 63, 23, 204, 130,
+	187, 179, 150, 180, 79, 65, 47, 191, 23, 72,
+	23, 197, 193, 149, 22, 91, 61, 22, 178, 202,
+	141, 22, 140, 89, 90, 93, 92, 48, 208, 52,
+	209, 126, 272, 211, 74, 238, 196, 237, 80, 271,
+	267, 62, 266, 265, 23, 222, 196, 221, 261, 23,
+	260, 258, 23, 253, 250, 46, 10, 23, 249, 10,
+	195, 196, 194, 248, 120, 216, 183, 217, 22, 245,
+	10, 240, 10, 10, 234, 228, 220, 224, 219, 201,
+	190, 229, 123, 4, 116, 22, 177, 26, 22, 36,
+	91, 67, 99, 22, 66, 22, 87, 88, 89, 90,
+	93, 92, 11, 22, 5, 8, 242, 3, 27, 1,
+	0, 10, 22, 0, 10, 0, 22, 251, 23, 10,
+	22, 23, 0, 0, 0, 23, 0, 0, 22, 0,
+	0, 22, 0, 22, 0, 0, 22, 263, 0, 98,
+	97, 91, 2, 99, 0, 22, 0, 87, 88, 89,
+	90, 93, 92, 0, 22, 0, 0, 53, 22, 56,
+	59, 0, 0, 0, 0, 0, 98, 97, 91, 0,
+	99, 0, 23, 0, 87, 88, 89, 90, 93, 92,
+	10, 94, 95, 10, 0, 0, 0, 10, 0, 23,
+	0, 0, 23, 0, 0, 0, 0, 23, 125, 23,
+	0, 128, 0, 0, 0, 0, 133, 23, 0, 0,
+	0, 0, 0, 0, 0, 0, 23, 0, 0, 0,
+	23, 0, 0, 0, 23, 0, 0, 0, 0, 0,
+	0, 0, 23, 0, 10, 23, 0, 23, 0, 0,
+	23, 0, 0, 0, 0, 0, 0, 0, 0, 23,
+	0, 10, 0, 0, 10, 0, 0, 0, 23, 10,
+	0, 10, 23, 0, 0, 0, 0, 189, 0, 10,
+	192, 0, 0, 0, 199, 0, 0, 0, 10, 0,
+	0, 0, 10, 0, 0, 0, 10, 0, 0, 0,
+	0, 0, 0, 0, 10, 0, 0, 10, 0, 10,
+	0, 0, 10, 0, 21, 0, 0, 12, 14, 0,
+	0, 10, 0, 18, 19, 13, 17, 0, 20, 0,
+	10, 214, 16, 6, 10, 0, 0, 15, 25, 0,
+	0, 0, 0, 0, 0, 0, 24, 0, 223, 0,
+	0, 227, 0, 0, 0, 0, 231, 0, 232, 0,
+	31, 0, 44, 9, 0, 0, 233, 30, 40, 0,
+	7, 0, 0, 32, 0, 239, 48, 0, 0, 244,
+	0, 0, 0, 247, 0, 0, 35, 34, 33, 0,
+	39, 252, 0, 0, 254, 41, 257, 42, 0, 259,
+	0, 0, 43, 0, 47, 0, 0, 188, 262, 0,
+	0, 0, 0, 0, 0, 21, 0, 269, 12, 14,
+	0, 270, 0, 31, 18, 60, 13, 17, 0, 20,
+	30, 40, 0, 16, 6, 58, 32, 0, 15, 25,
+	0, 0, 0, 0, 0, 0, 0, 24, 0, 35,
+	34, 33, 0, 39, 106, 0, 255, 0, 41, 0,
+	42, 0, 0, 0, 9, 43, 0, 47, 0, 107,
+	0, 7, 0, 0, 0, 0, 0, 104, 105, 101,
+	103, 98, 97, 91, 0, 99, 0, 0, 0, 87,
+	88, 89, 90, 93, 92, 0, 94, 95, 96, 100,
+	102, 106, 0, 226, 0, 0, 0, 0, 0, 0,
+	256, 0, 0, 0, 0, 0, 107, 0, 0, 0,
+	0, 0, 0, 0, 104, 105, 101, 103, 98, 97,
+	91, 0, 99, 0, 0, 106, 87, 88, 89, 90,
+	93, 92, 0, 94, 95, 96, 100, 102, 0, 0,
+	107, 0, 0, 0, 0, 0, 0, 225, 104, 105,
+	101, 103, 98, 97, 91, 0, 99, 0, 0, 106,
+	87, 88, 89, 90, 93, 92, 0, 94, 95, 96,
+	100, 102, 0, 0, 107, 0, 0, 0, 0, 0,
+	0, 200, 104, 105, 101, 103, 98, 97, 91, 0,
+	99, 106, 0, 0, 87, 88, 89, 90, 93, 92,
+	0, 94, 95, 96, 100, 102, 107, 0, 0, 0,
+	0, 0, 218, 0, 104, 105, 101, 103, 98, 97,
+	91, 0, 99, 106, 0, 0, 87, 88, 89, 90,
+	93, 92, 0, 94, 95, 96, 100, 102, 107, 0,
+	0, 0, 0, 0, 210, 0, 104, 105, 101, 103,
+	98, 97, 91, 0, 99, 106, 0, 268, 87, 88,
+	89, 90, 93, 92, 0, 94, 95, 96, 100, 102,
+	107, 0, 176, 0, 0, 0, 0, 0, 104, 105,
+	101, 103, 98, 97, 91, 0, 99, 106, 0, 246,
+	87, 88, 89, 90, 93, 92, 0, 94, 95, 96,
+	100, 102, 107, 0, 0, 0, 0, 0, 0, 0,
+	104, 105, 101, 103, 98, 97, 91, 0, 99, 106,
+	0, 0, 87, 88, 89, 90, 93, 92, 0, 94,
+	95, 96, 100, 102, 107, 0, 0, 241, 0, 0,
+	0, 0, 104, 105, 101, 103, 98, 97, 91, 0,
+	99, 0, 0, 0, 87, 88, 89, 90, 93, 92,
+	0, 94, 95, 96, 100, 102, 31, 0, 44, 0,
+	0, 0, 0, 30, 40, 0, 0, 0, 0, 32,
+	0, 0, 48, 0, 0, 0, 0, 0, 0, 0,
+	0, 106, 35, 34, 33, 0, 39, 0, 0, 0,
+	0, 41, 0, 42, 0, 0, 107, 0, 43, 127,
+	47, 0, 0, 148, 104, 105, 101, 103, 98, 97,
+	91, 0, 99, 106, 0, 124, 87, 88, 89, 90,
+	93, 92, 0, 94, 95, 96, 100, 102, 107, 0,
+	0, 0, 0, 0, 0, 0, 104, 105, 101, 103,
+	98, 97, 91, 0, 99, 0, 0, 0, 87, 88,
+	89, 90, 93, 92, 0, 94, 95, 96, 100, 102,
+	31, 0, 44, 0, 0, 0, 0, 30, 40, 0,
+	98, 97, 91, 32, 99, 0, 118, 0, 87, 88,
+	89, 90, 93, 92, 106, 94, 35, 34, 33, 0,
+	39, 0, 0, 0, 0, 41, 0, 42, 0, 107,
+	0, 0, 43, 0, 47, 115, 119, 104, 105, 101,
+	103, 98, 97, 91, 0, 99, 0, 0, 0, 87,
+	88, 89, 90, 93, 92, 0, 94, 95, 96, 100,
+	102, 31, 0, 44, 0, 0, 0, 0, 30, 40,
+	0, 0, 0, 0, 32, 0, 0, 118, 0, 0,
+	0, 0, 0, 0, 0, 106, 0, 35, 34, 33,
+	0, 39, 0, 0, 0, 0, 41, 0, 42, 0,
+	0, 0, 0, 43, 0, 47, 0, 119, 104, 105,
+	101, 103, 98, 97, 91, 0, 99, 0, 0, 0,
+	87, 88, 89, 90, 93, 92, 0, 94, 95, 96,
+	100, 102, 264, 0, 0, 0, 31, 0, 44, 0,
+	0, 0, 0, 30, 40, 0, 0, 0, 0, 32,
+	0, 0, 48, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 35, 34, 33, 0, 39, 0, 0, 0,
+	243, 41, 0, 42, 31, 0, 44, 0, 43, 0,
+	47, 30, 40, 0, 0, 0, 0, 32, 0, 0,
+	48, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	35, 34, 33, 0, 39, 0, 0, 0, 0, 41,
+	0, 42, 0, 0, 0, 0, 43, 0, 47, 104,
+	105, 101, 103, 98, 97, 91, 0, 99, 0, 0,
+	0, 87, 88, 89, 90, 93, 92, 0, 94, 95,
+	96, 100, 102, 203, 0, 0, 0, 31, 0, 44,
+	0, 0, 0, 0, 30, 40, 0, 0, 0, 0,
+	32, 0, 0, 48, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 35, 34, 33, 0, 39, 0, 0,
+	0, 198, 41, 0, 42, 31, 0, 44, 0, 43,
+	0, 47, 30, 40, 0, 0, 0, 0, 32, 0,
+	0, 48, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 35, 34, 33, 0, 39, 0, 31, 0, 44,
+	41, 0, 42, 0, 30, 40, 0, 43, 0, 47,
+	32, 0, 0, 48, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 35, 34, 33, 0, 39, 0, 0,
+	0, 55, 41, 0, 42, 31, 0, 44, 0, 43,
+	151, 47, 30, 40, 0, 0, 0, 0, 32, 0,
+	0, 48, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 35, 34, 33, 0, 39, 0, 31, 0, 44,
+	41, 0, 42, 0, 30, 40, 0, 43, 0, 47,
+	32, 0, 0, 48, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 35, 34, 33, 0, 39, 0, 0,
+	0, 0, 41, 0, 42, 0, 98, 97, 91, 43,
+	99, 47, 0, 0, 87, 88, 89, 90, 93, 92,
+	0, 94, 95, 96,
 }
 
 var luaPact = [...]int{
-	559, -1000, -1000, 559, -1000, -1000, 759, -1000, -24, -1000,
-	-1000, -1000, 73, 559, 759, 559, 759, 72, 71, 82,
-	-1000, 66, 69, -1000, -1000, -1000, -27, 591, -1000, -1000,
-	-1000, -1000, -1000, -1000, -1000, 66, -1000, 759, 759, 759,
-	759, 759, -8, -1000, -1000, 551, 759, 67, -1000, 127,
-	510, 77, 478, -3, 5, -8, -48, -1000, 41, -28,
-	-1000, 759, 40, -1000, 34, 727, -1000, -1000, 18, -1000,
-	759, 759, 759, 759, 759, 759, 759, 759, 759, 759,
-	759, 759, 759, 759, 759, 759, 759, 759, 759, 759,
-	759, 759, 7, 7, 7, 7, 382, -1000, 125, -1000,
-	-46, -1000, -4, 759, 591, -36, -1000, -1000, 559, 759,
-	559, 759, 759, 33, -1000, 31, 30, -8, 759, 350,
-	-1000, 65, -1000, -34, -1000, 591, 203, 203, 7, 7,
-	7, 7, 7, 716, 621, 777, 188, 188, 188, 102,
-	102, 102, 102, 102, 102, 686, 662, -1000, -19, 559,
-	-1000, -30, -1000, 632, -1000, -1000, 759, 318, 122, 591,
-	-1000, 284, 4, -1000, -1000, -1000, -1000, -36, -1000, -1000,
-	-1000, 559, 119, 27, -1000, 591, -6, -1000, 131, 759,
-	559, 115, -1000, -1000, 759, -1000, 559, 759, 236, 112,
-	-1000, 591, 100, 446, 559, 759, -1000, -1000, 559, 97,
-	414, -1000, -1000, 559, 96, -1000,
+	422, -1000, -1000, 422, -1000, -1000, 1377, -1000, -2, 1377,
+	-1000, -1000, -1000, 123, 422, 1345, 422, 523, 110, -9,
+	103, -1000, -1000, -31, 49, 46, -1000, -1000, -1, 1010,
+	-1000, -1000, -1000, -1000, -1000, -1000, -1000, -31, -1000, 1377,
+	1377, 1377, 1377, 1377, 9, -1000, -1000, 980, -1000, 1377,
+	121, -49, -1000, 193, 939, 422, 127, 907, 422, -1000,
+	-6, 68, 1377, 422, 4, 1377, 9, -25, 116, -1000,
+	114, 60, 9, -13, 1377, 876, 107, -1000, 96, 1307,
+	-1000, -1000, 35, -1000, -1000, -1000, 1377, 1377, 1377, 1377,
+	1377, 1377, 1377, 1377, 1377, 1377, 1377, 1377, 1377, 1377,
+	1377, 1377, 1377, 1377, 1377, 1377, 1377, 1377, 23, 23,
+	23, 23, 739, -1000, 85, -1000, -23, -1000, 11, 460,
+	1010, -49, -1000, -1000, 422, 191, 1377, 422, -1000, 173,
+	1275, 422, 641, 190, 1237, 92, 50, -1000, 59, 56,
+	-1000, -1000, 9, -1000, -1000, 1377, -49, 707, -1000, -1000,
+	72, -1000, -38, -1000, 1010, 102, 102, 23, 23, 23,
+	23, 23, 228, 969, 255, 177, 177, 177, 1395, 1395,
+	1395, 1395, 1395, 1395, 1192, 1081, -1000, -14, 422, -1000,
+	-27, -1000, -1000, 1051, -1000, -1000, 1377, 675, -1000, 189,
+	-1000, 1010, -1000, 158, -1000, 422, 1377, 607, 422, 186,
+	1377, -1000, 6, 422, -1000, 422, -1000, -1000, -1000, -49,
+	-1000, -1000, -1000, 422, 185, 45, -1000, 1010, 0, -1000,
+	148, -1000, 422, 182, 835, 1164, 422, 180, -1000, 803,
+	422, 174, 169, 165, -1000, -1000, 1377, -1000, 422, 164,
+	-1000, 422, 560, 422, 162, -1000, 422, 161, -1000, -1000,
+	-1000, 1010, 159, -1000, -1000, 422, 1126, 154, -1000, 153,
+	-1000, -1000, 151, 771, 422, -1000, -1000, -1000, 422, 150,
+	143, -1000, -1000,
 }
 
 var luaPgo = [...]int{
-	0, 176, 100, 175, 166, 156, 173, 49, 54, 172,
-	169, 167, 164, 21, 8, 0, 159, 5, 2, 4,
-	158, 7, 153, 1, 147,
+	0, 229, 262, 227, 224, 203, 225, 4, 175, 222,
+	3, 214, 211, 9, 8, 0, 209, 5, 113, 2,
+	206, 7, 204, 1, 186,
 }
 
 var luaR1 = [...]int{
 	0, 1, 2, 2, 2, 2, 3, 3, 4, 4,
 	4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+	4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+	4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+	4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+	4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
 	4, 4, 4, 4, 4, 4, 10, 10, 5, 5,
-	5, 9, 11, 11, 12, 12, 6, 6, 13, 13,
-	13, 14, 14, 7, 7, 15, 15, 15, 15, 15,
+	5, 9, 9, 9, 9, 9, 11, 11, 11, 11,
+	12, 12, 12, 12, 6, 6, 6, 13, 13, 13,
+	13, 13, 13, 13, 14, 14, 14, 7, 7, 7,
 	15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
 	15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
 	15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
-	18, 18, 8, 8, 19, 19, 19, 19, 16, 17,
-	17, 20, 20, 20, 21, 21, 22, 22, 22, 23,
-	23, 23, 24, 24,
+	15, 15, 15, 15, 15, 18, 18, 8, 8, 8,
+	8, 19, 19, 19, 19, 19, 19, 16, 16, 17,
+	17, 17, 20, 20, 20, 21, 21, 21, 21, 22,
+	22, 22, 23, 23, 23, 23, 23, 23, 23, 23,
+	23, 24, 24,
 }
 
 var luaR2 = [...]int{
 	0, 1, 0, 1, 1, 2, 1, 2, 1, 3,
-	1, 1, 1, 2, 3, 5, 4, 6, 8, 9,
-	11, 7, 3, 4, 4, 2, 0, 5, 1, 2,
-	3, 3, 1, 3, 1, 3, 1, 3, 1, 4,
-	3, 1, 3, 1, 3, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 3, 3, 3, 3, 3, 3,
+	2, 2, 1, 1, 1, 2, 1, 3, 2, 5,
+	4, 4, 2, 1, 4, 3, 2, 6, 5, 5,
+	4, 3, 8, 7, 7, 6, 9, 8, 8, 4,
+	3, 5, 6, 7, 8, 11, 10, 10, 7, 6,
+	6, 6, 4, 3, 2, 4, 3, 3, 3, 2,
+	4, 3, 3, 2, 1, 1, 0, 5, 1, 2,
+	3, 3, 2, 2, 2, 1, 1, 3, 2, 2,
+	1, 3, 2, 2, 1, 3, 2, 1, 4, 3,
+	3, 2, 3, 2, 1, 3, 2, 1, 3, 2,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-	3, 3, 3, 3, 3, 2, 2, 2, 2, 3,
-	1, 1, 2, 4, 2, 3, 1, 1, 2, 5,
-	4, 1, 1, 3, 2, 3, 1, 3, 2, 3,
-	5, 1, 1, 1,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	2, 2, 2, 2, 3, 1, 1, 2, 4, 3,
+	2, 2, 1, 3, 2, 1, 1, 2, 1, 5,
+	2, 4, 1, 1, 3, 2, 1, 3, 2, 1,
+	3, 2, 3, 2, 5, 4, 3, 2, 1, 2,
+	1, 1, 1,
 }
 
 var luaChk = [...]int{
-	-1000, -1, -2, -3, -5, -4, 21, 58, -6, -8,
-	-9, 5, 13, 6, 25, 20, 14, 11, 12, 16,
-	-13, -18, 34, 26, -5, -4, -7, -15, 17, 10,
-	23, 38, 37, 36, -16, -18, -21, 40, 18, 45,
-	47, 52, 12, -13, -8, 54, 51, 60, 26, -2,
-	-15, -2, -15, 26, -14, -11, -12, 26, 12, -14,
-	26, 56, 61, -19, 59, 52, -21, 37, 26, 58,
-	60, 39, 40, 41, 42, 33, 44, 43, 46, 47,
-	48, 32, 31, 35, 49, 29, 50, 30, 27, 28,
-	4, 19, -15, -15, -15, -15, -15, -17, 52, 55,
-	-22, -23, 26, 56, -15, -7, -13, 9, 6, 24,
-	22, 51, 15, 60, -17, 59, 61, 26, 51, -15,
-	26, 26, 53, -7, 34, -15, -15, -15, -15, -15,
+	-1000, -1, -2, -3, -5, -4, 21, 58, -6, 51,
+	-8, -9, 5, 13, 6, 25, 20, 14, 11, 12,
+	16, 2, -13, -18, 34, 26, -5, -4, -7, -15,
+	17, 10, 23, 38, 37, 36, -16, -18, -21, 40,
+	18, 45, 47, 52, 12, -13, -8, 54, 26, 51,
+	60, -7, 26, -2, -15, 6, -2, -15, 22, -2,
+	12, 26, 51, 6, -14, 15, -11, -12, 59, 26,
+	61, 12, 26, -14, 51, 56, 61, -19, 59, 52,
+	-21, 37, 26, 34, 34, 58, 60, 39, 40, 41,
+	42, 33, 44, 43, 46, 47, 48, 32, 31, 35,
+	49, 29, 50, 30, 27, 28, 4, 19, -15, -15,
+	-15, -15, -15, -17, 52, 55, -22, -23, 26, 56,
+	-15, -7, -13, 9, 6, -2, 24, 22, -2, -10,
+	51, 6, -15, -2, 15, 60, -7, -17, 59, 61,
+	26, 26, 26, -17, -17, 51, -7, -15, 57, 26,
+	26, 53, -7, 34, -15, -15, -15, -15, -15, -15,
 	-15, -15, -15, -15, -15, -15, -15, -15, -15, -15,
-	-15, -15, -15, -15, -15, -15, -15, 53, -20, 53,
-	36, -14, 55, -24, 60, 58, 51, -15, -2, -15,
-	-2, -15, -7, 26, 26, 26, -17, -7, 57, -19,
-	53, 53, -2, 60, -23, -15, 57, 9, -10, 60,
-	6, -2, 9, 36, 51, 9, 7, 8, -15, -2,
-	9, -15, -2, -15, 6, 60, 9, 9, 22, -2,
-	-15, -2, 9, 6, -2, 9,
+	-15, -15, -15, -15, -15, -15, 53, -20, 53, 36,
+	-14, 26, 55, -24, 60, 58, 51, -15, 57, -2,
+	9, -15, -2, -10, 9, 7, 8, -15, 6, -2,
+	60, 9, -7, 6, 26, 6, 26, 26, -17, -7,
+	57, -19, 53, 53, -2, 60, -23, -15, 57, 9,
+	-10, 9, 7, -2, -15, 60, 6, -2, 9, -15,
+	6, -2, -2, -2, 9, 36, 51, 9, 7, -2,
+	9, 22, -15, 6, -2, 9, 6, -2, 9, 9,
+	9, -15, -2, 9, -2, 6, 60, -2, 9, -2,
+	9, 9, -2, -15, 6, 9, 9, 9, 6, -2,
+	-2, 9, 9,
 }
 
 var luaDef = [...]int{
-	2, -2, 1, 3, 4, 6, 28, 8, 0, -2,
-	11, 12, 0, 2, 0, 2, 0, 0, 0, 0,
-	-2, 0, 0, 38, 5, 7, 29, 43, 45, 46,
-	47, 48, 49, 50, 51, 52, 53, 0, 0, 0,
-	0, 0, 0, 80, 81, 0, 0, 0, 13, 0,
-	0, 0, 0, 41, 0, 0, 32, 34, 0, 25,
-	41, 0, 0, 82, 0, 0, 86, 87, 0, 30,
+	-2, -2, 1, -2, 4, 6, 68, 8, 0, 0,
+	-2, 13, 14, 16, -2, 23, -2, -2, 0, 0,
+	64, 65, -2, 0, 75, 87, 5, 7, 69, 97,
+	100, 101, 102, 103, 104, 105, 106, 107, 108, 0,
+	0, 0, 0, 0, 148, 135, 136, 156, 87, 10,
+	86, 11, 15, 18, 22, -2, 26, 0, -2, 66,
+	148, 94, 0, -2, 0, 0, 54, 76, 0, 80,
+	0, 59, 94, 63, 0, 91, 93, 137, 140, 142,
+	145, 146, 73, 74, 72, 70, 99, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 75, 76, 77, 78, 0, 88, 0, 94,
-	0, 96, 38, 0, 101, 9, -2, 14, 2, 0,
-	2, 0, 0, 0, 22, 0, 0, 0, 0, 0,
-	40, 0, 84, 0, 31, 44, 54, 55, 56, 57,
-	58, 59, 60, 61, 62, 63, 64, 65, 66, 67,
-	68, 69, 70, 71, 72, 73, 74, 79, 0, 2,
-	91, 92, 95, 98, 102, 103, 0, 0, 0, 16,
-	26, 0, 0, 42, 33, 35, 23, 24, 39, 83,
-	85, 2, 0, 0, 97, 99, 0, 15, 0, 0,
-	2, 0, 90, 93, 0, 17, 2, 0, 0, 0,
-	89, 100, 0, 0, 2, 0, 21, 18, 2, 0,
-	0, 27, 19, 2, 0, 20,
+	0, 0, 0, 0, 0, 0, 0, 0, 130, 131,
+	132, 133, 0, 147, 0, 155, 158, 159, 87, 168,
+	170, 9, -2, 17, -2, 0, 25, -2, 66, 31,
+	0, -2, 0, 40, 0, 96, 0, 53, 78, 82,
+	79, 83, 58, 56, 57, 61, 62, 90, 89, 92,
+	139, 141, 144, 71, 98, 109, 110, 111, 112, 113,
+	114, 115, 116, 117, 118, 119, 120, 121, 122, 123,
+	124, 125, 126, 127, 128, 129, 134, 150, -2, 152,
+	153, 94, 157, 161, 171, 172, 163, 169, 167, 20,
+	21, 24, 66, 0, 30, -2, 0, 0, -2, 0,
+	0, 39, 52, -2, 95, -2, 77, 81, 55, 60,
+	88, 138, 143, -2, 0, 96, 160, 162, 166, 19,
+	28, 29, -2, 0, 0, 0, -2, 0, 41, 0,
+	-2, 0, 0, 0, 151, 154, 165, 27, -2, 0,
+	35, -2, 0, -2, 0, 42, -2, 51, 50, 49,
+	149, 164, 34, 33, 67, -2, 0, 0, 43, 0,
+	48, 32, 37, 0, -2, 44, 38, 36, -2, 0,
+	47, 46, 45,
 }
 
 var luaTok1 = [...]int{
@@ -758,58 +1000,178 @@ luadefault:
 	case 9:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.stmt = &AssignStmt{Left: luaDollar[1].exprs, Right: luaDollar[3].exprs}
-			luaVAL.stmt.SetLine(luaDollar[1].exprs[0].Line())
+			temp := &AssignStmt{Left: luaDollar[1].exprs, Right: luaDollar[3].exprs}
+			temp.Start = luaDollar[1].exprs[0].start()
+			temp.End = luaDollar[3].exprs[len(luaDollar[3].exprs)-1].end()
+			luaVAL.stmt = temp
 		}
 	case 10:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &AssignStmt{Left: luaDollar[1].exprs, Right: nil}
+			temp.Start = luaDollar[1].exprs[0].start()
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "赋值表达式缺少右值"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.stmt = temp
+		}
+	case 11:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &AssignStmt{Left: nil, Right: luaDollar[2].exprs}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].end()
+			temp.Err = &SyntaxErr{Info: "赋值表达式缺少左值"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
+		}
+	case 12:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			if funstmt, ok := luaDollar[1].node.(*FuncCall); !ok {
 				lualex.(*Lexer).Error("parse error")
 			} else {
 				luaVAL.stmt = funstmt
-				luaVAL.stmt.SetLine(luaDollar[1].node.Line())
 			}
 		}
-	case 11:
+	case 13:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			luaVAL.stmt = luaDollar[1].stmt
 		}
-	case 12:
+	case 14:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			luaVAL.stmt = &BreakStmt{}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-		}
-	case 13:
-		luaDollar = luaS[luapt-2 : luapt+1]
-		{
-			luaVAL.stmt = &GotoStmt{Name: &NameExpr{Value: luaDollar[2].token.Str}}
-			luaVAL.stmt.SetLine(luaDollar[2].token.line)
-		}
-	case 14:
-		luaDollar = luaS[luapt-3 : luapt+1]
-		{
-			luaVAL.stmt = &DoEndStmt{Block: luaDollar[2].stmts}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-			luaVAL.stmt.SetLastLine(luaDollar[3].token.line)
+			luaVAL.stmt.(*BreakStmt).Scope = luaDollar[1].token.Scope
 		}
 	case 15:
-		luaDollar = luaS[luapt-5 : luapt+1]
+		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.stmt = &WhileStmt{Condition: luaDollar[2].expr, Block: luaDollar[4].stmts}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-			luaVAL.stmt.SetLastLine(luaDollar[5].token.line)
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &GotoStmt{Name: name}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].token.End
+			luaVAL.stmt = temp
 		}
 	case 16:
-		luaDollar = luaS[luapt-4 : luapt+1]
+		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			luaVAL.stmt = &RepeatStmt{Condition: luaDollar[4].expr, Block: luaDollar[2].stmts}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-			luaVAL.stmt.SetLastLine(luaDollar[4].expr.Line())
+			temp := &GotoStmt{Name: nil}
+			temp.Scope = luaDollar[1].token.Scope
+			temp.Err = &SyntaxErr{Info: "缺少goto目标名称"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 17:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &DoEndStmt{Block: luaDollar[2].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].token.End
+			luaVAL.stmt = temp
+		}
+	case 18:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &DoEndStmt{Block: luaDollar[2].stmts}
+			temp.Start = luaDollar[1].token.Start
+			if len(luaDollar[2].stmts) > 0 {
+				temp.End = luaDollar[2].stmts[len(luaDollar[2].stmts)-1].end()
+			} else {
+				temp.End = luaDollar[1].token.End
+			}
+			temp.Err = &SyntaxErr{Info: "缺少End"}
+			temp.Err.Start = temp.End
+			temp.Err.End = temp.End
+			luaVAL.stmt = temp
+		}
+	case 19:
+		luaDollar = luaS[luapt-5 : luapt+1]
+		{
+			temp := &WhileStmt{Condition: luaDollar[2].expr, Block: luaDollar[4].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[5].token.End
+			luaVAL.stmt = temp
+		}
+	case 20:
+		luaDollar = luaS[luapt-4 : luapt+1]
+		{
+			temp := &WhileStmt{Condition: luaDollar[2].expr, Block: luaDollar[4].stmts}
+			temp.Start = luaDollar[1].token.Start
+			if len(luaDollar[4].stmts) > 0 {
+				temp.End = luaDollar[4].stmts[len(luaDollar[4].stmts)-1].end()
+			} else {
+				temp.End = luaDollar[3].token.End
+			}
+			temp.Err = &SyntaxErr{Info: "缺少end"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
+		}
+	case 21:
+		luaDollar = luaS[luapt-4 : luapt+1]
+		{
+			temp := &WhileStmt{Condition: nil, Block: luaDollar[3].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[4].token.End
+			temp.Err = &SyntaxErr{Info: "缺少条件表达式"}
+			temp.Err.Start = luaDollar[1].token.End
+			temp.Err.End = luaDollar[2].token.Start
+			luaVAL.stmt = temp
+		}
+	case 22:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &WhileStmt{Condition: luaDollar[2].expr, Block: nil}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].expr.end()
+			temp.Err = &SyntaxErr{Info: "缺少语句do..end"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
+		}
+	case 23:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			temp := &WhileStmt{Condition: nil, Block: nil}
+			temp.Scope = luaDollar[1].token.Scope
+			temp.Err = &SyntaxErr{Info: "缺少语句expr do..end"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
+		}
+	case 24:
+		luaDollar = luaS[luapt-4 : luapt+1]
+		{
+			temp := &RepeatStmt{Condition: luaDollar[4].expr, Block: luaDollar[2].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[4].expr.end()
+			luaVAL.stmt = temp
+		}
+	case 25:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &RepeatStmt{Condition: nil, Block: luaDollar[2].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].token.End
+			temp.Err = &SyntaxErr{Info: "缺少语句条件表达式"}
+			temp.Err.Scope = luaDollar[3].token.Scope
+			luaVAL.stmt = temp
+		}
+	case 26:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &RepeatStmt{Condition: nil, Block: luaDollar[2].stmts}
+			temp.Start = luaDollar[1].token.Start
+			if len(luaDollar[2].stmts) > 0 {
+				temp.End = luaDollar[2].stmts[len(luaDollar[2].stmts)-1].end()
+			} else {
+				temp.End = luaDollar[1].token.End
+			}
+			temp.Err = &SyntaxErr{Info: "缺少条件以及Until"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
+		}
+	case 27:
 		luaDollar = luaS[luapt-6 : luapt+1]
 		{
 			luaVAL.stmt = &IfStmt{Condition: luaDollar[2].expr, Then: luaDollar[4].stmts}
@@ -818,10 +1180,83 @@ luadefault:
 				cur.(*IfStmt).Else = []Stmt{elseif}
 				cur = elseif
 			}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-			luaVAL.stmt.SetLastLine(luaDollar[6].token.line)
+			luaVAL.stmt.(*IfStmt).Start = luaDollar[1].token.Start
+			luaVAL.stmt.(*IfStmt).End = luaDollar[6].token.End
 		}
-	case 18:
+	case 28:
+		luaDollar = luaS[luapt-5 : luapt+1]
+		{
+			luaVAL.stmt = &IfStmt{Condition: luaDollar[2].expr, Then: luaDollar[4].stmts}
+			cur := luaVAL.stmt
+			for _, elseif := range luaDollar[5].stmts {
+				cur.(*IfStmt).Else = []Stmt{elseif}
+				cur = elseif
+			}
+			temp := luaVAL.stmt.(*IfStmt)
+			temp.Start = luaDollar[1].token.Start
+			if len(luaDollar[5].stmts) > 0 {
+				temp.End = luaDollar[5].stmts[len(luaDollar[5].stmts)-1].end()
+			} else if len(luaDollar[4].stmts) > 0 {
+				temp.End = luaDollar[4].stmts[len(luaDollar[4].stmts)-1].end()
+			} else {
+				temp.End = luaDollar[3].token.End
+			}
+			temp.Err = &SyntaxErr{Info: "缺少end"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+		}
+	case 29:
+		luaDollar = luaS[luapt-5 : luapt+1]
+		{
+			luaVAL.stmt = &IfStmt{Condition: nil, Then: luaDollar[3].stmts}
+			cur := luaVAL.stmt
+			for _, elseif := range luaDollar[4].stmts {
+				cur.(*IfStmt).Else = []Stmt{elseif}
+				cur = elseif
+			}
+			temp := luaVAL.stmt.(*IfStmt)
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[5].token.End
+			temp.Err = &SyntaxErr{Info: "缺少条件表达式"}
+			temp.Err.Start = luaDollar[1].token.End
+			temp.Err.End = luaDollar[2].token.Start
+		}
+	case 30:
+		luaDollar = luaS[luapt-4 : luapt+1]
+		{
+			luaVAL.stmt = &IfStmt{Condition: nil, Then: luaDollar[2].stmts}
+			cur := luaVAL.stmt
+			for _, elseif := range luaDollar[3].stmts {
+				cur.(*IfStmt).Else = []Stmt{elseif}
+				cur = elseif
+			}
+			temp := luaVAL.stmt.(*IfStmt)
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[4].token.End
+			temp.Err = &SyntaxErr{Info: "缺少条件表达式及then"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+		}
+	case 31:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			luaVAL.stmt = &IfStmt{Condition: nil, Then: luaDollar[2].stmts}
+			cur := luaVAL.stmt
+			for _, elseif := range luaDollar[3].stmts {
+				cur.(*IfStmt).Else = []Stmt{elseif}
+				cur = elseif
+			}
+			temp := luaVAL.stmt.(*IfStmt)
+			temp.Start = luaDollar[1].token.Start
+			if len(luaDollar[3].stmts) > 0 {
+				temp.End = luaDollar[3].stmts[len(luaDollar[3].stmts)-1].end()
+			} else if len(luaDollar[2].stmts) > 0 {
+				temp.End = luaDollar[2].stmts[len(luaDollar[2].stmts)-1].end()
+			} else {
+				temp.End = luaDollar[1].token.End
+			}
+			temp.Err = &SyntaxErr{Info: "缺少条件,then和end"}
+			temp.Err.Scope = temp.Scope
+		}
+	case 32:
 		luaDollar = luaS[luapt-8 : luapt+1]
 		{
 			luaVAL.stmt = &IfStmt{Condition: luaDollar[2].expr, Then: luaDollar[4].stmts}
@@ -831,521 +1266,1229 @@ luadefault:
 				cur = elseif
 			}
 			cur.(*IfStmt).Else = luaDollar[7].stmts
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-			luaVAL.stmt.SetLastLine(luaDollar[8].token.line)
+			luaVAL.stmt.(*IfStmt).Start = luaDollar[1].token.Start
+			luaVAL.stmt.(*IfStmt).End = luaDollar[8].token.End
 		}
-	case 19:
+	case 33:
+		luaDollar = luaS[luapt-7 : luapt+1]
+		{
+			luaVAL.stmt = &IfStmt{Condition: nil, Then: luaDollar[3].stmts}
+			cur := luaVAL.stmt
+			for _, elseif := range luaDollar[4].stmts {
+				cur.(*IfStmt).Else = []Stmt{elseif}
+				cur = elseif
+			}
+			cur.(*IfStmt).Else = luaDollar[6].stmts
+			temp := luaVAL.stmt.(*IfStmt)
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[7].token.End
+			temp.Err = &SyntaxErr{Info: "缺少条件表达式"}
+			temp.Err.Scope = temp.Scope
+		}
+	case 34:
+		luaDollar = luaS[luapt-7 : luapt+1]
+		{
+			luaVAL.stmt = &IfStmt{Condition: luaDollar[2].expr, Then: luaDollar[4].stmts}
+			cur := luaVAL.stmt
+			for _, elseif := range luaDollar[4].stmts {
+				cur.(*IfStmt).Else = []Stmt{elseif}
+				cur = elseif
+			}
+			cur.(*IfStmt).Else = luaDollar[7].stmts
+			temp := luaVAL.stmt.(*IfStmt)
+			temp.Start = luaDollar[1].token.Start
+			if len(luaDollar[7].stmts) > 0 {
+				temp.End = luaDollar[7].stmts[len(luaDollar[7].stmts)-1].end()
+			} else {
+				temp.End = luaDollar[6].token.End
+			}
+			temp.Err = &SyntaxErr{Info: "缺少end"}
+			temp.Err.Start = temp.End
+			temp.Err.End = temp.End
+		}
+	case 35:
+		luaDollar = luaS[luapt-6 : luapt+1]
+		{
+			luaVAL.stmt = &IfStmt{Condition: nil, Then: luaDollar[2].stmts}
+			cur := luaVAL.stmt
+			for _, elseif := range luaDollar[3].stmts {
+				cur.(*IfStmt).Else = []Stmt{elseif}
+				cur = elseif
+			}
+			cur.(*IfStmt).Else = luaDollar[5].stmts
+			temp := luaVAL.stmt.(*IfStmt)
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[6].token.End
+			temp.Err = &SyntaxErr{Info: "缺少条件表达式及then"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+		}
+	case 36:
 		luaDollar = luaS[luapt-9 : luapt+1]
 		{
 			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
 			luaVAL.stmt = &ForLoopNumStmt{Name: name, Init: luaDollar[4].expr, Limit: luaDollar[6].expr, Block: luaDollar[8].stmts}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-			luaVAL.stmt.SetLastLine(luaDollar[9].token.line)
-		}
-	case 20:
-		luaDollar = luaS[luapt-11 : luapt+1]
-		{
-			name := &NameExpr{Value: luaDollar[2].token.Str}
-			luaVAL.stmt = &ForLoopNumStmt{Name: name, Init: luaDollar[4].expr, Limit: luaDollar[6].expr, Step: luaDollar[8].expr, Block: luaDollar[10].stmts}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-			luaVAL.stmt.SetLastLine(luaDollar[11].token.line)
-		}
-	case 21:
-		luaDollar = luaS[luapt-7 : luapt+1]
-		{
-			luaVAL.stmt = &ForLoopListStmt{Names: luaDollar[2].exprs, Exprs: luaDollar[4].exprs, Block: luaDollar[6].stmts}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-			luaVAL.stmt.SetLastLine(luaDollar[7].token.line)
-		}
-	case 22:
-		luaDollar = luaS[luapt-3 : luapt+1]
-		{
-			luaVAL.stmt = luaDollar[2].stmt
-			luaVAL.stmt.(*FuncDefStmt).Function = luaDollar[3].expr
-			luaVAL.stmt.SetLine(luaDollar[3].expr.Line())
-			luaVAL.stmt.SetLastLine(luaDollar[3].expr.LastLine())
-		}
-	case 23:
-		luaDollar = luaS[luapt-4 : luapt+1]
-		{
-			name := &NameExpr{Value: luaDollar[3].token.Str}
-			luaVAL.stmt = &LocalFuncDefStmt{Name: name, Function: luaDollar[4].expr}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-			luaVAL.stmt.SetLastLine(luaDollar[4].expr.LastLine())
-		}
-	case 24:
-		luaDollar = luaS[luapt-4 : luapt+1]
-		{
-			luaVAL.stmt = &LocalVarDef{Names: luaDollar[2].exprs, Inits: luaDollar[4].exprs}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-		}
-	case 25:
-		luaDollar = luaS[luapt-2 : luapt+1]
-		{
-			luaVAL.stmt = &LocalVarDef{Names: luaDollar[2].exprs}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-		}
-	case 26:
-		luaDollar = luaS[luapt-0 : luapt+1]
-		{
-			luaVAL.stmts = []Stmt{}
-		}
-	case 27:
-		luaDollar = luaS[luapt-5 : luapt+1]
-		{
-			ifstmt := &IfStmt{Condition: luaDollar[3].expr, Then: luaDollar[5].stmts}
-			luaVAL.stmts = append(luaDollar[1].stmts, ifstmt)
-			ifstmt.SetLine(luaDollar[2].token.line)
-		}
-	case 28:
-		luaDollar = luaS[luapt-1 : luapt+1]
-		{
-			luaVAL.stmt = &ReturnStmt{Exprs: nil}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-		}
-	case 29:
-		luaDollar = luaS[luapt-2 : luapt+1]
-		{
-			luaVAL.stmt = &ReturnStmt{Exprs: luaDollar[2].exprs}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-		}
-	case 30:
-		luaDollar = luaS[luapt-3 : luapt+1]
-		{
-			luaVAL.stmt = &ReturnStmt{Exprs: luaDollar[2].exprs}
-			luaVAL.stmt.SetLine(luaDollar[1].token.line)
-		}
-	case 31:
-		luaDollar = luaS[luapt-3 : luapt+1]
-		{
-			name := &NameExpr{Value: luaDollar[2].token.Str}
-			luaVAL.stmt = &LabelStmt{Name: name}
-			luaVAL.stmt.SetLine(luaDollar[2].token.line)
-		}
-	case 32:
-		luaDollar = luaS[luapt-1 : luapt+1]
-		{
-			luaVAL.stmt = &FuncDefStmt{Name: luaDollar[1].expr, Receiver: nil}
-		}
-	case 33:
-		luaDollar = luaS[luapt-3 : luapt+1]
-		{
-			name := &NameExpr{Value: luaDollar[3].token.Str}
-			name.SetLine(luaDollar[3].token.line)
-			luaVAL.stmt = &FuncDefStmt{Name: name, Receiver: luaDollar[1].expr}
-		}
-	case 34:
-		luaDollar = luaS[luapt-1 : luapt+1]
-		{
-			luaVAL.expr = &NameExpr{Value: luaDollar[1].token.Str}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
-		}
-	case 35:
-		luaDollar = luaS[luapt-3 : luapt+1]
-		{
-			name := &NameExpr{Value: luaDollar[3].token.Str}
-			name.SetLine(luaDollar[3].token.line)
-			luaVAL.expr = &GetItemExpr{Table: luaDollar[1].expr, Key: name}
-			luaVAL.expr.SetLine(luaDollar[3].token.line)
-		}
-	case 36:
-		luaDollar = luaS[luapt-1 : luapt+1]
-		{
-			luaVAL.exprs = []Expr{luaDollar[1].expr}
+			luaVAL.stmt.(*ForLoopNumStmt).Start = luaDollar[1].token.Start
+			luaVAL.stmt.(*ForLoopNumStmt).End = luaDollar[9].token.End
 		}
 	case 37:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-8 : luapt+1]
 		{
-			luaVAL.exprs = append(luaDollar[1].exprs, luaDollar[3].expr)
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &ForLoopNumStmt{Name: name, Init: luaDollar[4].expr, Limit: luaDollar[6].expr, Block: luaDollar[8].stmts}
+			temp.Start = luaDollar[1].token.Start
+			if len(luaDollar[8].stmts) > 0 {
+				temp.End = luaDollar[8].stmts[len(luaDollar[8].stmts)-1].end()
+			} else {
+				temp.End = luaDollar[7].token.End
+			}
+			temp.Err = &SyntaxErr{Info: "缺少end"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 38:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-8 : luapt+1]
 		{
-			luaVAL.expr = &NameExpr{Value: luaDollar[1].token.Str}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
+			temp := &ForLoopNumStmt{Name: nil, Init: luaDollar[3].expr, Limit: luaDollar[5].expr, Block: luaDollar[7].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[8].token.End
+			temp.Err = &SyntaxErr{Info: "缺少名称"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 39:
 		luaDollar = luaS[luapt-4 : luapt+1]
 		{
-			luaVAL.expr = &GetItemExpr{Table: luaDollar[1].expr, Key: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			temp := &ForLoopNumStmt{Name: nil, Init: nil, Limit: nil, Block: luaDollar[3].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[4].token.End
+			temp.Err = &SyntaxErr{Info: "缺少循环条件"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 40:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			name := &NameExpr{Value: luaDollar[3].token.Str}
-			name.SetLine(luaDollar[3].token.line)
-			luaVAL.expr = &GetItemExpr{Table: luaDollar[1].expr, Key: name}
-			luaVAL.expr.SetLine(luaDollar[3].token.line)
+			temp := &ForLoopNumStmt{Name: nil, Init: nil, Limit: nil, Block: luaDollar[3].stmts}
+			temp.Start = luaDollar[1].token.Start
+			if len(luaDollar[3].stmts) > 0 {
+				temp.End = luaDollar[3].stmts[len(luaDollar[3].stmts)-1].end()
+			} else {
+				temp.End = luaDollar[2].token.End
+			}
+			temp.Err = &SyntaxErr{Info: "缺少循环条件及end"}
+			temp.Err.Scope = temp.Scope
+			luaVAL.stmt = temp
 		}
 	case 41:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-5 : luapt+1]
 		{
-			name := &NameExpr{Value: luaDollar[1].token.Str}
-			name.SetLine(luaDollar[1].token.line)
-			luaVAL.exprs = []Expr{name}
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &ForLoopNumStmt{Name: name, Init: nil, Limit: nil, Block: luaDollar[4].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[5].token.End
+			temp.Err = &SyntaxErr{Info: "缺少循环范围"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 42:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-6 : luapt+1]
 		{
-			name := &NameExpr{Value: luaDollar[3].token.Str}
-			name.SetLine(luaDollar[3].token.line)
-			luaVAL.exprs = append(luaDollar[1].exprs, name)
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &ForLoopNumStmt{Name: name, Init: nil, Limit: nil, Block: luaDollar[5].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[6].token.End
+			temp.Err = &SyntaxErr{Info: "缺少循环范围"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 43:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-7 : luapt+1]
 		{
-			luaVAL.exprs = []Expr{luaDollar[1].expr}
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &ForLoopNumStmt{Name: name, Init: luaDollar[4].expr, Limit: nil, Block: luaDollar[6].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[7].token.End
+			temp.Err = &SyntaxErr{Info: "缺少循环终点"}
+			temp.Err.Scope = luaDollar[4].expr.scope()
+			luaVAL.stmt = temp
 		}
 	case 44:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-8 : luapt+1]
 		{
-			luaVAL.exprs = append(luaDollar[1].exprs, luaDollar[3].expr)
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &ForLoopNumStmt{Name: name, Init: luaDollar[4].expr, Limit: nil, Block: luaDollar[7].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[8].token.End
+			temp.Err = &SyntaxErr{Info: "缺少循环终点"}
+			temp.Err.Scope = luaDollar[5].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 45:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-11 : luapt+1]
 		{
-			luaVAL.expr = &NilExpr{}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &ForLoopNumStmt{Name: name, Init: luaDollar[4].expr, Limit: luaDollar[6].expr, Step: luaDollar[8].expr, Block: luaDollar[10].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[11].token.End
+			luaVAL.stmt = temp
 		}
 	case 46:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-10 : luapt+1]
 		{
-			luaVAL.expr = &FalseExpr{}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &ForLoopNumStmt{Name: name, Init: luaDollar[4].expr, Limit: luaDollar[6].expr, Step: nil, Block: luaDollar[9].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[10].token.End
+			temp.Err = &SyntaxErr{Info: "缺少步进值"}
+			temp.Err.Start = luaDollar[7].token.End
+			temp.Err.End = luaDollar[8].token.Start
+			luaVAL.stmt = temp
 		}
 	case 47:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-10 : luapt+1]
 		{
-			luaVAL.expr = &TrueExpr{}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &ForLoopNumStmt{Name: name, Init: luaDollar[4].expr, Limit: luaDollar[6].expr, Step: luaDollar[8].expr, Block: luaDollar[10].stmts}
+			temp.Start = luaDollar[1].token.Start
+			if len(luaDollar[10].stmts) > 0 {
+				temp.End = luaDollar[10].stmts[len(luaDollar[10].stmts)-1].end()
+			} else {
+				temp.End = luaDollar[9].token.End
+			}
+			temp.Err = &SyntaxErr{Info: "缺少end"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 48:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-7 : luapt+1]
 		{
-			luaVAL.expr = &NumberExpr{Value: luaDollar[1].token.Str}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
+			luaVAL.stmt = &ForLoopListStmt{Names: luaDollar[2].exprs, Exprs: luaDollar[4].exprs, Block: luaDollar[6].stmts}
+			luaVAL.stmt.(*ForLoopListStmt).Start = luaDollar[1].token.Start
+			luaVAL.stmt.(*ForLoopListStmt).End = luaDollar[7].token.End
 		}
 	case 49:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-6 : luapt+1]
 		{
-			luaVAL.expr = &StringExpr{Value: luaDollar[1].token.Str}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
+			temp := &ForLoopListStmt{Exprs: luaDollar[3].exprs, Block: luaDollar[5].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[6].token.End
+			temp.Err = &SyntaxErr{Info: "缺少迭代表达式"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 50:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-6 : luapt+1]
 		{
-			luaVAL.expr = &AnyExpr{}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
+			temp := &ForLoopListStmt{Names: luaDollar[2].exprs, Block: luaDollar[5].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[6].token.End
+			temp.Err = &SyntaxErr{Info: "缺少迭代对象表达式"}
+			temp.Err.Scope = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].scope()
+			luaVAL.stmt = temp
 		}
 	case 51:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-6 : luapt+1]
 		{
-			luaVAL.expr = luaDollar[1].expr
+			temp := &ForLoopListStmt{Names: luaDollar[2].exprs, Exprs: luaDollar[4].exprs, Block: luaDollar[6].stmts}
+			temp.Start = luaDollar[1].token.Start
+			if len(luaDollar[6].stmts) > 0 {
+				temp.End = luaDollar[6].stmts[len(luaDollar[6].stmts)-1].end()
+			} else {
+				temp.End = luaDollar[5].token.End
+			}
+			temp.Err = &SyntaxErr{Info: "缺少end"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 52:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-4 : luapt+1]
 		{
-			luaVAL.expr = luaDollar[1].expr
+
+			temp := &ForLoopListStmt{Names: luaDollar[2].exprs, Exprs: luaDollar[4].exprs}
+			temp.Start = luaDollar[1].token.Start
+			if len(luaDollar[4].exprs) > 0 {
+				temp.End = luaDollar[4].exprs[len(luaDollar[4].exprs)-1].end()
+			} else {
+				temp.End = luaDollar[3].token.End
+			}
+			temp.Err = &SyntaxErr{Info: "缺少执行语句end"}
+			temp.Err.Scope = luaDollar[1].token.Scope
 		}
 	case 53:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.expr = luaDollar[1].expr
+			temp := luaDollar[2].stmt.(*FuncDefStmt)
+			temp.Function = luaDollar[3].expr
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.stmt = temp
 		}
 	case 54:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			temp := luaDollar[2].stmt.(*FuncDefStmt)
+			temp.Start = luaDollar[1].token.Start
+			temp.Err = &SyntaxErr{Info: "缺少函数体"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 55:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-4 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			name := &NameExpr{Value: luaDollar[3].token.Str}
+			name.Scope = luaDollar[3].token.Scope
+			temp := &LocalFuncDefStmt{Name: name, Function: luaDollar[4].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[4].expr.end()
+			luaVAL.stmt = temp
 		}
 	case 56:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			temp := &LocalFuncDefStmt{Function: luaDollar[3].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].expr.end()
+			temp.Err = &SyntaxErr{Info: "缺少函数名"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 57:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &LocalFuncDefStmt{Name: name, Function: luaDollar[3].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].expr.end()
+			temp.Err = &SyntaxErr{Info: "缺少function"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 58:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			name := &NameExpr{Value: luaDollar[3].token.Str}
+			name.Scope = luaDollar[3].token.Scope
+			temp := &LocalFuncDefStmt{Name: name}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].token.End
+			temp.Err = &SyntaxErr{Info: "缺少函数体"}
+			temp.Err.Scope = luaDollar[3].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 59:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			temp := &LocalFuncDefStmt{}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "缺少函数内容"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 60:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-4 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			temp := &LocalVarDef{Names: luaDollar[2].exprs, Inits: luaDollar[4].exprs}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[4].exprs[len(luaDollar[4].exprs)-1].end()
+			luaVAL.stmt = temp
 		}
 	case 61:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			temp := &LocalVarDef{Names: luaDollar[2].exprs}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].token.End
+			temp.Err = &SyntaxErr{Info: "缺少初始值"}
+			temp.Err.Scope = luaDollar[3].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 62:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			temp := &LocalVarDef{Inits: luaDollar[3].exprs}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].exprs[len(luaDollar[3].exprs)-1].end()
+			temp.Err = &SyntaxErr{Info: "缺少变量名称"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 63:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			temp := &LocalVarDef{Names: luaDollar[2].exprs}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].end()
+			luaVAL.stmt = temp
 		}
 	case 64:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			temp := &LocalVarDef{}
+			temp.Scope = luaDollar[1].token.Scope
+			temp.Err = &SyntaxErr{Info: "缺少变量名称"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 65:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			temp := &ErrorStmt{Info: "解析错误"}
+			tk := lualex.(*Lexer).Token
+			temp.Err = &SyntaxErr{Info: tk.Str + "附近解析错误"}
+			temp.Err.Scope = tk.Scope
+			luaVAL.stmt = temp
 		}
 	case 66:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-0 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			luaVAL.stmts = []Stmt{}
 		}
 	case 67:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-5 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			ifstmt := &IfStmt{Condition: luaDollar[3].expr, Then: luaDollar[5].stmts}
+			ifstmt.Start = luaDollar[2].token.Start
+			if len(luaDollar[5].stmts) > 0 {
+				ifstmt.End = luaDollar[5].stmts[len(luaDollar[5].stmts)-1].end()
+			} else {
+				ifstmt.End = luaDollar[4].token.End
+			}
+
+			luaVAL.stmts = append(luaDollar[1].stmts, ifstmt)
 		}
 	case 68:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			luaVAL.stmt = &ReturnStmt{Exprs: nil}
+			luaVAL.stmt.(*ReturnStmt).Scope = luaDollar[1].token.Scope
 		}
 	case 69:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			luaVAL.stmt = &ReturnStmt{Exprs: luaDollar[2].exprs}
+			luaVAL.stmt.(*ReturnStmt).Start = luaDollar[1].token.Start
+			luaVAL.stmt.(*ReturnStmt).End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].end()
 		}
 	case 70:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			luaVAL.stmt = &ReturnStmt{Exprs: luaDollar[2].exprs}
+			luaVAL.stmt.(*ReturnStmt).Start = luaDollar[1].token.Start
+			luaVAL.stmt.(*ReturnStmt).End = luaDollar[3].token.End
 		}
 	case 71:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &LabelStmt{Name: name}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].token.End
+			luaVAL.stmt = temp
 		}
 	case 72:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[1].token.Scope
+			temp := &LabelStmt{Name: name}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "标签缺少左侧符号"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 73:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &LabelStmt{Name: name}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "标签缺少右侧符号"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 74:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.expr = &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].expr.Line())
+			temp := &LabelStmt{Name: nil}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "标签缺少名称"}
+			temp.Err.Scope = temp.Scope
+			luaVAL.stmt = temp
 		}
 	case 75:
-		luaDollar = luaS[luapt-2 : luapt+1]
+		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			luaVAL.expr = &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
-			luaVAL.expr.SetLine(luaDollar[2].expr.Line())
+			temp := &LabelStmt{Name: nil}
+			temp.Scope = luaDollar[1].token.Scope
+			temp.Err = &SyntaxErr{Info: "标签不完整"}
+			temp.Err.Scope = temp.Scope
+			luaVAL.stmt = temp
 		}
 	case 76:
-		luaDollar = luaS[luapt-2 : luapt+1]
+		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			luaVAL.expr = &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
-			luaVAL.expr.SetLine(luaDollar[2].expr.Line())
+			temp := &FuncDefStmt{Name: luaDollar[1].expr, Receiver: nil}
+			temp.Scope = luaDollar[1].expr.scope()
+			luaVAL.stmt = temp
 		}
 	case 77:
-		luaDollar = luaS[luapt-2 : luapt+1]
+		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.expr = &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
-			luaVAL.expr.SetLine(luaDollar[2].expr.Line())
+			name := &NameExpr{Value: luaDollar[3].token.Str}
+			name.Scope = luaDollar[3].token.Scope
+			temp := &FuncDefStmt{Name: name, Receiver: luaDollar[1].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].token.End
+			luaVAL.stmt = temp
+
 		}
 	case 78:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.expr = &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
-			luaVAL.expr.SetLine(luaDollar[2].expr.Line())
+			temp := &FuncDefStmt{Receiver: luaDollar[1].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "缺少名称"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.stmt = temp
 		}
 	case 79:
-		luaDollar = luaS[luapt-3 : luapt+1]
+		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.expr = luaDollar[2].expr
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &FuncDefStmt{Name: name}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].token.End
+			luaVAL.stmt = temp
+
 		}
 	case 80:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			luaVAL.expr = luaDollar[1].expr
+			luaVAL.expr = &NameExpr{Value: luaDollar[1].token.Str}
+			luaVAL.expr.(*NameExpr).Scope = luaDollar[1].token.Scope
 		}
 	case 81:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			if funcnode, ok := luaDollar[1].node.(*FuncCall); !ok {
-				lualex.(*Lexer).Error("parse error")
-			} else {
-				luaVAL.expr = funcnode
-				luaVAL.expr.SetLine(luaDollar[1].node.Line())
-			}
+			name := &NameExpr{Value: luaDollar[3].token.Str}
+			name.Scope = luaDollar[3].token.Scope
+			temp := &GetItemExpr{Table: luaDollar[1].expr, Key: name}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].token.End
+			luaVAL.expr = temp
 		}
 	case 82:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.node = &FuncCall{Function: luaDollar[1].expr, Args: luaDollar[2].exprs}
-			luaVAL.node.SetLine(luaDollar[1].expr.Line())
+			temp := &GetItemExpr{Table: luaDollar[1].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "缺少子项目"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.expr = temp
 		}
 	case 83:
-		luaDollar = luaS[luapt-4 : luapt+1]
-		{
-			name := &NameExpr{Value: luaDollar[3].token.Str}
-			name.SetLine(luaDollar[3].token.line)
-			luaVAL.node = &FuncCall{Function: name, Receiver: luaDollar[1].expr, Args: luaDollar[4].exprs}
-			luaVAL.node.SetLine(luaDollar[1].expr.Line())
-		}
-	case 84:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.exprs = []Expr{}
+			name := &NameExpr{Value: luaDollar[2].token.Str}
+			name.Scope = luaDollar[2].token.Scope
+			temp := &GetItemExpr{Key: name}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "缺少父级项目"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.expr = temp
+		}
+	case 84:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			luaVAL.exprs = []Expr{luaDollar[1].expr}
 		}
 	case 85:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.exprs = luaDollar[2].exprs
+			luaVAL.exprs = append(luaDollar[1].exprs, luaDollar[3].expr)
 		}
 	case 86:
-		luaDollar = luaS[luapt-1 : luapt+1]
+		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.exprs = []Expr{luaDollar[1].expr}
+			luaVAL.exprs = luaDollar[1].exprs ////////////////////////////////////////////errrrrrrrrrrrrrrrrr
 		}
 	case 87:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			str := &StringExpr{Value: luaDollar[1].token.Str}
-			str.SetLine(luaDollar[1].token.line)
-			luaVAL.exprs = []Expr{str}
+			luaVAL.expr = &NameExpr{Value: luaDollar[1].token.Str}
+			luaVAL.expr.(*NameExpr).Scope = luaDollar[1].token.Scope
 		}
 	case 88:
-		luaDollar = luaS[luapt-2 : luapt+1]
-		{
-			luaVAL.expr = luaDollar[2].expr
-		}
-	case 89:
-		luaDollar = luaS[luapt-5 : luapt+1]
-		{
-			luaVAL.expr = &FuncDefExpr{Param: luaDollar[2].expr, Block: luaDollar[4].stmts}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
-			luaVAL.expr.SetLastLine(luaDollar[5].token.line)
-		}
-	case 90:
 		luaDollar = luaS[luapt-4 : luapt+1]
 		{
-			luaVAL.expr = &FuncDefExpr{Param: nil, Block: luaDollar[3].stmts}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
-			luaVAL.expr.SetLastLine(luaDollar[4].token.line)
+			temp := &GetItemExpr{Table: luaDollar[1].expr, Key: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[4].token.End
+			luaVAL.expr = temp
 		}
-	case 91:
-		luaDollar = luaS[luapt-1 : luapt+1]
-		{
-			luaVAL.expr = &ParamExpr{IsAny: true}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
-		}
-	case 92:
-		luaDollar = luaS[luapt-1 : luapt+1]
-		{
-			luaVAL.expr = &ParamExpr{Params: luaDollar[1].exprs, IsAny: false}
-		}
-	case 93:
+	case 89:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.expr = &ParamExpr{Params: luaDollar[1].exprs, IsAny: true}
+			temp := &GetItemExpr{Table: luaDollar[1].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].token.End
+			temp.Err = &SyntaxErr{Info: "缺少索引"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.expr = temp
 		}
-	case 94:
+	case 90:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &GetItemExpr{Table: luaDollar[1].expr, Key: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			temp.Err = &SyntaxErr{Info: "缺少右括号"}
+			temp.Err.Scope = luaDollar[3].expr.scope()
+			luaVAL.expr = temp
+		}
+	case 91:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.expr = &TableExpr{Fields: []Expr{}}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
+			temp := &GetItemExpr{Table: luaDollar[1].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "缺少索引"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.expr = temp
+		}
+	case 92:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			name := &NameExpr{Value: luaDollar[3].token.Str}
+			name.Scope = luaDollar[3].token.Scope
+			temp := &GetItemExpr{Table: luaDollar[1].expr, Key: name}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].token.End
+			luaVAL.expr = temp
+		}
+	case 93:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &GetItemExpr{Table: luaDollar[1].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "缺少子项目"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.expr = temp
+		}
+	case 94:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			name := &NameExpr{Value: luaDollar[1].token.Str}
+			name.Scope = luaDollar[1].token.Scope
+			luaVAL.exprs = []Expr{name}
 		}
 	case 95:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
-			luaVAL.expr = &TableExpr{Fields: luaDollar[2].exprs}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
+			name := &NameExpr{Value: luaDollar[3].token.Str}
+			name.Scope = luaDollar[3].token.Scope
+			luaVAL.exprs = append(luaDollar[1].exprs, name)
 		}
 	case 96:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			luaVAL.exprs = luaDollar[1].exprs ///////////////////////////////////////////////////errrrrrrrrrrrr
+		}
+	case 97:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			luaVAL.exprs = []Expr{luaDollar[1].expr}
 		}
-	case 97:
+	case 98:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			luaVAL.exprs = append(luaDollar[1].exprs, luaDollar[3].expr)
 		}
-	case 98:
+	case 99:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
-			luaVAL.exprs = luaDollar[1].exprs
-		}
-	case 99:
-		luaDollar = luaS[luapt-3 : luapt+1]
-		{
-			name := &NameExpr{Value: luaDollar[1].token.Str}
-			luaVAL.expr = &FieldExpr{Key: name, Value: luaDollar[3].expr}
-			luaVAL.expr.SetLine(luaDollar[1].token.line)
+			luaVAL.exprs = luaDollar[1].exprs ////////////////////////////////////////////////////errrrrrrrrrrrrrrr
 		}
 	case 100:
-		luaDollar = luaS[luapt-5 : luapt+1]
+		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			luaVAL.expr = &FieldExpr{Key: luaDollar[2].expr, Value: luaDollar[5].expr}
-			luaVAL.expr.SetLine(luaDollar[2].expr.Line())
+			temp := &NilExpr{}
+			temp.Scope = luaDollar[1].token.Scope
+			luaVAL.expr = temp
 		}
 	case 101:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			luaVAL.expr = &FieldExpr{Value: luaDollar[1].expr}
+			temp := &FalseExpr{}
+			temp.Scope = luaDollar[1].token.Scope
+			luaVAL.expr = temp
 		}
 	case 102:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			luaVAL.expr = &NameExpr{Value: luaDollar[1].token.Str}
+			temp := &TrueExpr{}
+			temp.Scope = luaDollar[1].token.Scope
+			luaVAL.expr = temp
 		}
 	case 103:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			temp := &NumberExpr{Value: luaDollar[1].token.Str}
+			temp.Scope = luaDollar[1].token.Scope
+			luaVAL.expr = temp
+		}
+	case 104:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			temp := &StringExpr{Value: luaDollar[1].token.Str}
+			temp.Scope = luaDollar[1].token.Scope
+		}
+	case 105:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			temp := &AnyExpr{}
+			temp.Scope = luaDollar[1].token.Scope
+		}
+	case 106:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			luaVAL.expr = luaDollar[1].expr
+		}
+	case 107:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			luaVAL.expr = luaDollar[1].expr
+		}
+	case 108:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			luaVAL.expr = luaDollar[1].expr
+		}
+	case 109:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 110:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 111:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 112:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 113:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 114:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 115:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 116:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 117:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 118:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 119:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 120:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 121:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 122:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 123:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 124:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 125:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 126:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 127:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 128:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 129:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 130:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].expr.end()
+			luaVAL.expr = temp
+		}
+	case 131:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].expr.end()
+			luaVAL.expr = temp
+		}
+	case 132:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].expr.end()
+			luaVAL.expr = temp
+		}
+	case 133:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].expr.end()
+			luaVAL.expr = temp
+		}
+	case 134:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			luaVAL.expr = luaDollar[2].expr
+		}
+	case 135:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			luaVAL.expr = luaDollar[1].expr
+		}
+	case 136:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			if funstmt, ok := luaDollar[1].node.(*FuncCall); !ok {
+				lualex.(*Lexer).Error("parse error")
+			} else {
+				luaVAL.expr = funstmt
+			}
+		}
+	case 137:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &FuncCall{Function: luaDollar[1].expr, Args: luaDollar[2].exprs}
+			temp.Start = luaDollar[1].expr.start()
+			if len(luaDollar[2].exprs) > 0 {
+				temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].end()
+			} else {
+				temp.End = luaDollar[1].expr.end()
+			}
+			luaVAL.node = temp
+		}
+	case 138:
+		luaDollar = luaS[luapt-4 : luapt+1]
+		{
+			name := &NameExpr{Value: luaDollar[3].token.Str}
+			name.Scope = luaDollar[3].token.Scope
+			temp := &FuncCall{Function: name, Receiver: luaDollar[1].expr, Args: luaDollar[4].exprs}
+			temp.Start = luaDollar[1].expr.start()
+			if len(luaDollar[4].exprs) > 0 {
+				temp.End = luaDollar[4].exprs[len(luaDollar[4].exprs)-1].end()
+			} else {
+				temp.End = luaDollar[3].token.End
+			}
+			luaVAL.node = temp
+		}
+	case 139:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			name := &NameExpr{Value: luaDollar[3].token.Str}
+			name.Scope = luaDollar[3].token.Scope
+			temp := &FuncCall{Function: name, Receiver: luaDollar[1].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[3].token.End
+			temp.Err = &SyntaxErr{Info: "缺少函数调用参数(args)"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.node = temp
+		}
+	case 140:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &FuncCall{Receiver: luaDollar[1].expr}
+			temp.Start = luaDollar[1].expr.start()
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "缺少函数调用"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.node = temp
+		}
+	case 141:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			luaVAL.exprs = []Expr{}
+		}
+	case 142:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			luaVAL.exprs = []Expr{} /////////////////////////////errrrrrrrrrrr
+		}
+	case 143:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			luaVAL.exprs = luaDollar[2].exprs
+		}
+	case 144:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			luaVAL.exprs = luaDollar[2].exprs //////////////////////////////////errrrrrrrrrrrrrrrr
+		}
+	case 145:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			luaVAL.exprs = []Expr{luaDollar[1].expr}
+		}
+	case 146:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			str := &StringExpr{Value: luaDollar[1].token.Str}
+			str.Scope = luaDollar[1].token.Scope
+			luaVAL.exprs = []Expr{str}
+		}
+	case 147:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			luaVAL.expr = luaDollar[2].expr
+		}
+	case 148:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			temp := &FuncDefExpr{}
+			temp.Scope = luaDollar[1].token.Scope
+			temp.Err = &SyntaxErr{Info: "未定义函数体"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.expr = temp
+		}
+	case 149:
+		luaDollar = luaS[luapt-5 : luapt+1]
+		{
+			temp := &FuncDefExpr{Param: luaDollar[2].expr, Block: luaDollar[4].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[5].token.End
+			luaVAL.expr = temp
+		}
+	case 150:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &FuncDefExpr{Param: luaDollar[2].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].expr.end()
+			temp.Err = &SyntaxErr{Info: "缺少右括号及函数体"}
+			temp.Err.Scope = temp.Scope
+			luaVAL.expr = temp
+		}
+	case 151:
+		luaDollar = luaS[luapt-4 : luapt+1]
+		{
+			temp := &FuncDefExpr{Param: nil, Block: luaDollar[3].stmts}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[4].token.End
+			luaVAL.expr = temp
+		}
+	case 152:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			temp := &ParamExpr{IsAny: true}
+			temp.Scope = luaDollar[1].token.Scope
+			luaVAL.expr = temp
+		}
+	case 153:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			temp := &ParamExpr{Params: luaDollar[1].exprs, IsAny: false}
+			temp.Scope = luaDollar[1].exprs[len(luaDollar[1].exprs)-1].scope()
+			luaVAL.expr = temp
+		}
+	case 154:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &ParamExpr{Params: luaDollar[1].exprs, IsAny: true}
+			temp.Start = luaDollar[1].exprs[len(luaDollar[1].exprs)-1].start()
+			temp.End = luaDollar[3].token.End
+			luaVAL.expr = temp
+		}
+	case 155:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &TableExpr{Fields: []Expr{}}
+			temp.Scope = luaDollar[1].token.Scope
+			luaVAL.expr = temp
+		}
+	case 156:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			temp := &TableExpr{Fields: []Expr{}}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[1].token.End
+			temp.Err = &SyntaxErr{Info: "缺少右括号"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.expr = temp
+		}
+	case 157:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &TableExpr{Fields: luaDollar[2].exprs}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].token.End
+			luaVAL.expr = temp
+		}
+	case 158:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &TableExpr{Fields: luaDollar[2].exprs}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].end()
+			temp.Err = &SyntaxErr{Info: "缺少右括号"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.expr = temp
+		}
+	case 159:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			luaVAL.exprs = []Expr{luaDollar[1].expr}
+		}
+	case 160:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			luaVAL.exprs = append(luaDollar[1].exprs, luaDollar[3].expr)
+		}
+	case 161:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			luaVAL.exprs = luaDollar[1].exprs
+		}
+	case 162:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			name := &NameExpr{Value: luaDollar[1].token.Str}
+			name.Scope = luaDollar[1].token.Scope
+			temp := &FieldExpr{Key: name, Value: luaDollar[3].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].expr.end()
+			luaVAL.expr = temp
+		}
+	case 163:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			name := &NameExpr{Value: luaDollar[1].token.Str}
+			name.Scope = luaDollar[1].token.Scope
+			temp := &FieldExpr{Key: name}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "缺少右值"}
+			temp.Err.Scope = luaDollar[2].token.Scope
+			luaVAL.expr = temp
+		}
+	case 164:
+		luaDollar = luaS[luapt-5 : luapt+1]
+		{
+			temp := &FieldExpr{Key: luaDollar[2].expr, Value: luaDollar[5].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[5].expr.end()
+			luaVAL.expr = temp
+		}
+	case 165:
+		luaDollar = luaS[luapt-4 : luapt+1]
+		{
+			temp := &FieldExpr{Key: luaDollar[2].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[4].token.End
+			temp.Err = &SyntaxErr{Info: "缺少右值"}
+			temp.Err.Scope = luaDollar[3].token.Scope
+			luaVAL.expr = temp
+		}
+	case 166:
+		luaDollar = luaS[luapt-3 : luapt+1]
+		{
+			temp := &FieldExpr{Key: luaDollar[2].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[3].token.End
+			temp.Err = &SyntaxErr{Info: "缺少等号及右值"}
+			temp.Err.Scope = luaDollar[3].token.Scope
+			luaVAL.expr = temp
+		}
+	case 167:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &FieldExpr{}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].token.End
+			temp.Err = &SyntaxErr{Info: "缺少索引表达式"}
+			temp.Err.Scope = temp.Scope
+			luaVAL.expr = temp
+		}
+	case 168:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			temp := &FieldExpr{}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[1].token.End
+			temp.Err = &SyntaxErr{Info: "缺少右括号"}
+			temp.Err.Scope = temp.Scope
+			luaVAL.expr = temp
+		}
+	case 169:
+		luaDollar = luaS[luapt-2 : luapt+1]
+		{
+			temp := &FieldExpr{Key: luaDollar[2].expr}
+			temp.Start = luaDollar[1].token.Start
+			temp.End = luaDollar[2].expr.end()
+			temp.Err = &SyntaxErr{Info: "缺少右括号"}
+			temp.Err.Scope = luaDollar[1].token.Scope
+			luaVAL.expr = temp
+		}
+	case 170:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			temp := &FieldExpr{Value: luaDollar[1].expr}
+			temp.Scope = luaDollar[1].expr.scope()
+			luaVAL.expr = temp
+		}
+	case 171:
+		luaDollar = luaS[luapt-1 : luapt+1]
+		{
+			luaVAL.expr = &NameExpr{Value: luaDollar[1].token.Str}
+		}
+	case 172:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			luaVAL.expr = &NameExpr{Value: luaDollar[1].token.Str}
