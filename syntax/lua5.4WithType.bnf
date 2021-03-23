@@ -1,0 +1,70 @@
+chunk ::= block
+
+block ::= {stat} [retstat]
+
+stat ::=  ‘;’ | 
+         varlist ‘=’ explist | 
+         functioncall | 
+         label |
+         break | 
+         goto name |
+         do block end | 
+         while exp do block end | 
+         repeat block until exp | 
+         if exp then block {elseif exp then block} [else block] end | 
+         for name ‘=’ exp ‘,’ exp [‘,’ exp] do block end | 
+         for namelist in explist do block end | 
+         function funcname funcbody | 
+         local function name funcbody | 
+         local namelist [‘=’ explist]  #local attnamelist [‘=’ explist] #not implementation yet
+
+attnamelist ::=  name attrib {‘,’ name attrib}##not implementation yet
+
+attrib ::= [‘<’ name ‘>’]#not implementation yet
+
+retstat ::= return [explist] [‘;’]
+
+label ::= ‘::’ name ‘::’
+
+funcname ::= name {‘.’ name} [‘:’ name]
+
+varlist ::= var {‘,’ var}
+
+var ::=  name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ name 
+
+name ::= Name [SType] | #设置类型@
+         Name [AType]   #添加类型+
+
+namelist ::= name {‘,’ name}
+
+explist ::= exp {‘,’ exp}
+
+exp ::=  nil | false | true | Numeral | LiteralString | ‘...’ | functiondef | 
+     prefixexp | tableconstructor | exp binop exp | unop exp 
+
+prefixexp ::= var | functioncall | ‘(’ exp ‘)’
+
+functioncall ::=  prefixexp args | prefixexp ‘:’ name args 
+
+args ::=  ‘(’ [explist] ‘)’ | tableconstructor | LiteralString 
+
+functiondef ::= function funcbody
+
+funcbody ::= ‘(’ [parlist] ‘)’ [SType] block end #设返回类型
+
+parlist ::= namelist [‘,’ ‘...’] | ‘...’
+
+tableconstructor ::= ‘{’ [fieldlist] ‘}’
+
+fieldlist ::= field {fieldsep field} [fieldsep]
+
+field ::= ‘[’ exp ‘]’ ‘=’ exp | name ‘=’ exp | exp
+
+fieldsep ::= ‘,’ | ‘;’
+
+binop ::=  ‘+’ | ‘-’ | ‘*’ | ‘/’ | ‘//’ | ‘^’ | ‘%’ | 
+     ‘&’ | ‘~’ | ‘|’ | ‘>>’ | ‘<<’ | ‘..’ | 
+     ‘<’ | ‘<=’ | ‘>’ | ‘>=’ | ‘==’ | ‘~=’ | 
+     and | or
+
+unop ::= ‘-’ | not | ‘#’ | ‘~’

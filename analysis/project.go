@@ -1,6 +1,9 @@
 package analysis
 
-import "lualsp/syntax"
+import (
+	"lualsp/syntax"
+	"sync"
+)
 
 //Project 工程对象
 type Project struct {
@@ -24,6 +27,7 @@ type File struct {
 	SymbolList *SymbolList           //文件符号表,作用域
 	TypeList   map[string]SymbolInfo //文件中包含的所有类型列表
 	BeRequire  []*File               //所有依赖此文件的文件
+	Mutex      sync.Mutex            //互斥锁
 }
 
 //SymbolList 符号表结构
