@@ -8,7 +8,7 @@ package syntax
   stmts  []Stmt
   stmt   Stmt
 
-  exprs  []Expr 
+  exprs  []Expr
   expr   Expr
 
   node   Node
@@ -18,8 +18,8 @@ package syntax
 //keyword
 %token<token> TAnd TBreak TDo TElse TElseIf TEnd TFalse TFor TFunction TGoto TIf TIn TLocal TNil TNot TOr TRepeat TReturn TThen TTrue TUntil TWhile 
 
-//符号         name   ==      ~=     <=       >=      <<     >>    //     ::     ..   ...  string  number    +    @     --
-%token<token> TName TEqual TNequal TLequal TBequal TLmove TRmove TWdiv TTarget TConn TAny TString TNumber AType SType Common
+//符号         name   ==      ~=     <=       >=      <<     >>    //     ::     ..   ...  string  number    +    @    
+%token<token> TName TEqual TNequal TLequal TBequal TLmove TRmove TWdiv TTarget TConn TAny TString TNumber TAType TSType 
 %token<token> '+' '-' '*' '/' '%' '^' '#' '&' '~' '|' '<' '>' '=' '(' ')' '{' '}' '[' ']' ';' ':' ',' '.'
 
 //Precedence
@@ -60,6 +60,7 @@ package syntax
 %type<exprs> fieldlist
 %type<expr> field
 %type<expr> fieldsep
+%type<expr> name
 
 %%
 
@@ -145,12 +146,10 @@ stat:
             $$.(*BreakStmt).Scope = $1.Scope
         } |  
         /*************** goto Name *****************/
-        TGoto TName {
-            name := &NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            temp := &GotoStmt{Name:name}
+        TGoto name {
+            temp := &GotoStmt{Name:$2}
             temp.Start=$1.Start
-            temp.End = $2.End
+            temp.End = $2.end()
             $$ = temp
         } |
         TGoto {
@@ -387,17 +386,13 @@ stat:
             temp.Err.Scope=$1.Scope
         } |
         /*************** TFor TName '=' expr ',' expr TDo block TEnd *****************/
-        TFor TName '=' expr ',' expr TDo block TEnd {
-            name:=&NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            $$ = &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Block: $8}
+        TFor name '=' expr ',' expr TDo block TEnd {
+            $$ = &ForLoopNumStmt{Name: $2, Init: $4, Limit: $6, Block: $8}
             $$.(*ForLoopNumStmt).Start=$1.Start
             $$.(*ForLoopNumStmt).End = $9.End
         } |
-        TFor TName '=' expr ',' expr TDo block {
-            name:=&NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Block: $8}
+        TFor name '=' expr ',' expr TDo block {
+            temp := &ForLoopNumStmt{Name: $2, Init: $4, Limit: $6, Block: $8}
             temp.Start=$1.Start
             if len($8)>0 {
                 temp.End = $8[len($8)-1].end()
@@ -436,40 +431,32 @@ stat:
             temp.Err.Scope=temp.Scope
             $$ = temp
         } |
-        TFor TName TDo block TEnd {
-            name:=&NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            temp := &ForLoopNumStmt{Name: name, Init: nil, Limit: nil, Block: $4}
+        TFor name TDo block TEnd {
+            temp := &ForLoopNumStmt{Name: $2, Init: nil, Limit: nil, Block: $4}
             temp.Start=$1.Start
             temp.End = $5.End
             temp.Err=&SyntaxErr{Info:"缺少循环范围"}
-            temp.Err.Scope=$2.Scope
+            temp.Err.Scope=$2.scope()
             $$ = temp
         } |
-        TFor TName '=' TDo block TEnd {
-            name:=&NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            temp := &ForLoopNumStmt{Name: name, Init: nil, Limit: nil, Block: $5}
+        TFor name '=' TDo block TEnd {
+            temp := &ForLoopNumStmt{Name: $2, Init: nil, Limit: nil, Block: $5}
             temp.Start=$1.Start
             temp.End = $6.End
             temp.Err=&SyntaxErr{Info:"缺少循环范围"}
-            temp.Err.Scope=$2.Scope
+            temp.Err.Scope=$2.scope()
             $$ = temp
         } |
-        TFor TName '=' expr TDo block TEnd {
-            name:=&NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: nil, Block: $6}
+        TFor name '=' expr TDo block TEnd {
+            temp := &ForLoopNumStmt{Name: $2, Init: $4, Limit: nil, Block: $6}
             temp.Start=$1.Start
             temp.End = $7.End
             temp.Err=&SyntaxErr{Info:"缺少循环终点"}
             temp.Err.Scope=$4.scope()
             $$ = temp
         } |
-        TFor TName '=' expr ',' TDo block TEnd {
-            name:=&NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: nil, Block: $7}
+        TFor name '=' expr ',' TDo block TEnd {
+            temp := &ForLoopNumStmt{Name: $2, Init: $4, Limit: nil, Block: $7}
             temp.Start=$1.Start
             temp.End = $8.End
             temp.Err=&SyntaxErr{Info:"缺少循环终点"}
@@ -477,18 +464,14 @@ stat:
             $$ = temp
         } |
         /*************** TFor TName '=' expr ',' expr ',' expr TDo block TEnd *****************/
-        TFor TName '=' expr ',' expr ',' expr TDo block TEnd {
-            name:=&NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Step:$8, Block: $10}
+        TFor name '=' expr ',' expr ',' expr TDo block TEnd {
+            temp := &ForLoopNumStmt{Name: $2, Init: $4, Limit: $6, Step:$8, Block: $10}
             temp.Start=$1.Start
             temp.End = $11.End
             $$ = temp
         } |
-        TFor TName '=' expr ',' expr ',' TDo block TEnd {
-            name:=&NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Step:nil, Block: $9}
+        TFor name '=' expr ',' expr ',' TDo block TEnd {
+            temp := &ForLoopNumStmt{Name: $2, Init: $4, Limit: $6, Step:nil, Block: $9}
             temp.Start=$1.Start
             temp.End = $10.End
             temp.Err=&SyntaxErr{Info:"缺少步进值"}
@@ -496,10 +479,8 @@ stat:
             temp.Err.End=$8.Start
             $$ = temp
         } |
-        TFor TName '=' expr ',' expr ',' expr TDo block {
-            name:=&NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            temp := &ForLoopNumStmt{Name: name, Init: $4, Limit: $6, Step:$8, Block: $10}
+        TFor name '=' expr ',' expr ',' expr TDo block {
+            temp := &ForLoopNumStmt{Name: $2, Init: $4, Limit: $6, Step:$8, Block: $10}
             temp.Start=$1.Start
             if len($10)>0{
                 temp.End = $10[len($10)-1].end()
@@ -581,10 +562,8 @@ stat:
             $$ = temp
         } |*/
         /*************** TLocal TFunction TName funcbody *****************/
-        TLocal TFunction TName funcbody {
-            name:=&NameExpr{Value:$3.Str}
-            name.Scope=$3.Scope
-            temp := &LocalFuncDefStmt{Name: name, Function: $4}
+        TLocal TFunction name funcbody {
+            temp := &LocalFuncDefStmt{Name: $3, Function: $4}
             temp.Start=$1.Start
             temp.End = $4.end()
             $$ = temp
@@ -597,24 +576,20 @@ stat:
             temp.Err.Scope=$2.Scope
             $$ = temp
         } | 
-        TLocal TName funcbody {
-            name:=&NameExpr{Value:$2.Str}
-            name.Scope=$2.Scope
-            temp := &LocalFuncDefStmt{Name: name, Function: $3}
+        TLocal name funcbody {
+            temp := &LocalFuncDefStmt{Name: $2, Function: $3}
             temp.Start=$1.Start
             temp.End = $3.end()
             temp.Err=&SyntaxErr{Info:"缺少function"}
             temp.Err.Scope=$1.Scope
             $$ = temp
         } | 
-        TLocal TFunction TName {
-            name:=&NameExpr{Value:$3.Str}
-            name.Scope=$3.Scope
-            temp := &LocalFuncDefStmt{Name: name}
+        TLocal TFunction name {
+            temp := &LocalFuncDefStmt{Name: $3}
             temp.Start=$1.Start
-            temp.End = $3.End
+            temp.End = $3.end()
             temp.Err=&SyntaxErr{Info:"缺少函数体"}
-            temp.Err.Scope=$3.Scope
+            temp.Err.Scope=$3.scope()
             $$ = temp
         } | 
         TLocal TFunction {
@@ -703,32 +678,26 @@ returnstat:
         }
 
 label:  
-        TTarget TName TTarget {
-            name := &NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            temp := &LabelStmt{Name: name}
+        TTarget name TTarget {
+            temp := &LabelStmt{Name: $2}
             temp.Start=$1.Start
             temp.End=$3.End
             $$ = temp
         }|
-        TName TTarget {
-            name := &NameExpr{Value:$2.Str}
-            name.Scope = $1.Scope
-            temp := &LabelStmt{Name: name}
-            temp.Start=$1.Start
+        name TTarget {
+            temp := &LabelStmt{Name: $1}
+            temp.Start=$1.start()
             temp.End=$2.End
             temp.Err=&SyntaxErr{Info:"标签缺少左侧符号"}
-            temp.Err.Scope=$1.Scope
+            temp.Err.Scope=$1.scope()
             $$ = temp
         }|
-        TTarget TName {
-            name:=&NameExpr{Value:$2.Str}
-            name.Scope = $2.Scope
-            temp := &LabelStmt{Name: name}
+        TTarget name {
+            temp := &LabelStmt{Name: $2}
             temp.Start=$1.Start
-            temp.End=$2.End
+            temp.End=$2.end()
             temp.Err=&SyntaxErr{Info:"标签缺少右侧符号"}
-            temp.Err.Scope=$2.Scope
+            temp.Err.Scope=$2.scope()
             $$ = temp
         }|
         TTarget TTarget {
@@ -753,12 +722,10 @@ funcname:
             temp.Scope=$1.scope()
             $$ = temp
         } |
-        funcnameaux ':' TName {
-            name:= &NameExpr{Value:$3.Str}
-            name.Scope=$3.Scope
-            temp := &FuncDefStmt{Name: name, Receiver:$1}
+        funcnameaux ':' name {
+            temp := &FuncDefStmt{Name: $3, Receiver:$1}
             temp.Start=$1.start()
-            temp.End = $3.End
+            temp.End = $3.end()
             $$ = temp
             
         }|
@@ -770,27 +737,22 @@ funcname:
             temp.Err.Scope=$2.Scope
             $$ = temp
         }|
-        ':' TName {
-            name:= &NameExpr{Value:$2.Str}
-            name.Scope=$2.Scope
-            temp := &FuncDefStmt{Name: name}
+        ':' name {
+            temp := &FuncDefStmt{Name: $2}
             temp.Start=$1.Start
-            temp.End = $2.End
+            temp.End = $2.end()
             $$ = temp
             
         }
 
 funcnameaux:
-        TName {
-            $$ = &NameExpr{Value:$1.Str}
-            $$.(*NameExpr).Scope=$1.Scope
+        name {
+            $$ = $1
         } | 
-        funcnameaux '.' TName {
-            name:= &NameExpr{Value:$3.Str}
-            name.Scope=$3.Scope
-            temp := &GetItemExpr{Table:$1, Key:name}
+        funcnameaux '.' name {
+            temp := &GetItemExpr{Table:$1, Key:$3}
             temp.Start=$1.start()
-            temp.End = $3.End
+            temp.End = $3.end()
             $$ = temp
         } |
         funcnameaux '.' {
@@ -801,12 +763,10 @@ funcnameaux:
             temp.Err.Scope=$2.Scope
             $$ = temp
         } |
-        '.' TName {
-            name:= &NameExpr{Value:$2.Str}
-            name.Scope=$2.Scope
-            temp := &GetItemExpr{Key:name}
+        '.' name {
+            temp := &GetItemExpr{Key:$2}
             temp.Start=$1.Start
-            temp.End = $2.End
+            temp.End = $2.end()
             temp.Err=&SyntaxErr{Info:"缺少父级项目"}
             temp.Err.Scope=$1.Scope
             $$ = temp
@@ -823,9 +783,8 @@ varlist:
         } 
 
 var:
-        TName {
-            $$ = &NameExpr{Value:$1.Str}
-            $$.(*NameExpr).Scope=$1.Scope
+        name {
+            $$ = $1
         } |
         prefixexp '[' expr ']' {
             temp := &GetItemExpr{Table:$1, Key:$3}
@@ -874,16 +833,33 @@ var:
             $$ = temp
         }
 
-namelist:
+name:
         TName {
-            name:= &NameExpr{Value:$1.Str}
-            name.Scope=$1.Scope
-            $$ = []Expr{name}
+            temp:= &NameExpr{Value:$1.Str}
+            temp.Scope=$1.Scope
+            $$ = temp
         } | 
-        namelist ','  TName {
-            name:= &NameExpr{Value:$3.Str}
-            name.Scope=$3.Scope
-            $$ = append($1, name)
+        TName TAType{
+            class:= &ATypeExpr{Value:$2.Str}
+            class.Scope=$2.Scope
+            temp:= &NameExpr{Value:$1.Str, Type:class}
+            temp.Scope=$1.Scope
+            $$ = temp
+        } | 
+        TName TSType{
+            class:= &STypeExpr{Value:$2.Str}
+            class.Scope=$2.Scope
+            temp:= &NameExpr{Value:$1.Str, Type:class}
+            temp.Scope=$1.Scope
+            $$ = temp
+        }
+
+namelist:
+        name {
+            $$ = []Expr{$1}
+        } | 
+        namelist ','  name {
+            $$ = append($1, $3)
         } |
         namelist ',' {
             $$ = $1 ///////////////////////////////////////////////////errrrrrrrrrrrr
@@ -1129,24 +1105,20 @@ functioncall:
             }
             $$ = temp
         } |
-        prefixexp ':' TName args {
-            name:= &NameExpr{Value: $3.Str}
-            name.Scope=$3.Scope
-            temp := &FuncCall{Function: name, Receiver: $1, Args: $4}
+        prefixexp ':' name args {
+            temp := &FuncCall{Function: $3, Receiver: $1, Args: $4}
             temp.Start=$1.start()
             if len($4)>0{
                 temp.End = $4[len($4)-1].end()
             }else{
-                temp.End = $3.End
+                temp.End = $3.end()
             }
             $$ = temp
         } | 
-        prefixexp ':' TName  {
-            name:= &NameExpr{Value: $3.Str}
-            name.Scope=$3.Scope
-            temp := &FuncCall{Function: name, Receiver: $1,}
+        prefixexp ':' name  {
+            temp := &FuncCall{Function: $3, Receiver: $1,}
             temp.Start=$1.start()
-            temp.End = $3.End
+            temp.End = $3.end()
             temp.Err=&SyntaxErr{Info:"缺少函数调用参数(args)"}
             temp.Err.Scope=$2.Scope
             $$ = temp
@@ -1195,10 +1167,12 @@ functiondef:
         }
 
 funcbody:
-        '(' parlist ')' block TEnd {
-            temp := &FuncDefExpr{Param: $2, Block: $4}
+        '(' parlist ')' TSType block TEnd {
+            class:= &STypeExpr{Value:$4.Str}
+            class.Scope=$4.Scope
+            temp := &FuncDefExpr{Param: $2, Block: $5 ,Result:class}
             temp.Start=$1.Start
-            temp.End = $5.End
+            temp.End = $6.End
             $$ = temp
         } | 
         /*'(' parlist ')' block {
@@ -1221,10 +1195,12 @@ funcbody:
             temp.Err.Scope=temp.Scope
             $$ = temp
         } | 
-        '(' ')' block TEnd {
-            temp := &FuncDefExpr{Param: nil, Block: $3}
+        '(' ')' TSType block TEnd {
+            class:= &STypeExpr{Value:$3.Str}
+            class.Scope=$3.Scope
+            temp := &FuncDefExpr{Param: nil, Block: $4 ,Result: class}
             temp.Start=$1.Start
-            temp.End = $4.End
+            temp.End = $5.End
             $$ = temp
         }
 
@@ -1289,19 +1265,15 @@ fieldlist:
         }
 
 field:
-        TName '=' expr {
-            name:= &NameExpr{Value: $1.Str}
-            name.Scope =$1.Scope
-            temp := &FieldExpr{Key: name, Value: $3}
-            temp.Start=$1.Start
+        name '=' expr {
+            temp := &FieldExpr{Key: $1, Value: $3}
+            temp.Start=$1.start()
             temp.End = $3.end()
             $$ = temp
         } | 
-        TName '=' {
-            name:= &NameExpr{Value: $1.Str}
-            name.Scope =$1.Scope
-            temp := &FieldExpr{Key: name}
-            temp.Start=$1.Start
+        name '=' {
+            temp := &FieldExpr{Key: $1}
+            temp.Start=$1.start()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Info:"缺少右值"}
             temp.Err.Scope=$2.Scope

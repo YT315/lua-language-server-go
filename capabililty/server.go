@@ -3,6 +3,7 @@ package capabililty
 import (
 	"context"
 	"fmt"
+	"lualsp/analysis"
 	"lualsp/auxiliary"
 	"lualsp/protocol"
 	"path"
@@ -56,6 +57,9 @@ type Server struct {
 	folders []protocol.WorkspaceFolder
 	// notifications generated before serverInitialized
 	notifications []*protocol.ShowMessageParams
+
+	//工程
+	project *analysis.Project
 }
 
 func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitialize) (*protocol.InitializeResult, error) {

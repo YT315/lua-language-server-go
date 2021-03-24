@@ -159,7 +159,17 @@ func (*exprBase) exprFlag() {}
 type (
 	NameExpr struct {
 		exprBase
+		Type  Expr
+		Value string
+	}
 
+	STypeExpr struct {
+		exprBase
+		Value string
+	}
+
+	ATypeExpr struct {
+		exprBase
 		Value string
 	}
 
@@ -194,8 +204,9 @@ type (
 	FuncDefExpr struct {
 		exprBase
 
-		Param Expr
-		Block []Stmt
+		Param  Expr
+		Result Expr
+		Block  []Stmt
 	}
 
 	ParamExpr struct {

@@ -63,8 +63,9 @@ redo:
 	case '-':
 
 		if lx.nextch(); lx.ch == '-' {
-			lx.lineComment()
-			goto redo
+			if !lx.ParseComment() {
+				goto redo
+			}
 		} else {
 			tok.Type = '-'
 			tok.Str = string(tok.Type)
@@ -248,17 +249,72 @@ func (lx *Lexer) scanIdent() {
 	return
 }
 
-func (lx *Lexer) lineComment() {
-	// directive text
-	lx.skipLine()
-	//s.comment(string(s.segment()))
+func (lx *Lexer) ParseComment() (res bool) {
+	if lx.nextch(); lx.ch == '[' {
+		if lx.nextch(); lx.ch == '[' {
+			lx.nextch()
+			if lx.ch == '+' {
+				if lx.scanUntil(']') {
+					if lx.nextch(); lx.ch == ']' {
+						lit := lx.segment()
+						lx.Token.Str = string(lit)
+						lx.Token.Type = TAType
+						lx.Token.End.col += uint(len(lit))
+						res = true
+						lx.nextch()
+					} else {
+						res = false
+						lx.nextch()
+					}
+				} else {
+					res = false
+				}
+			} else if lx.ch == '@' {
+				if lx.scanUntil(']') {
+					if lx.nextch(); lx.ch == ']' {
+						lit := lx.segment()
+						lx.Token.Str = string(lit)
+						lx.Token.Type = TSType
+						lx.Token.End.col += uint(len(lit))
+						res = true
+						lx.nextch()
+					} else {
+						res = false
+						lx.nextch()
+					}
+				} else {
+					res = false
+				}
+			} else { //注释
+				if lx.scanUntil(']') {
+					if lx.nextch(); lx.ch == ']' {
+						res = false
+						lx.nextch()
+					}
+				} else {
+					res = false
+				}
+			}
+		} else { //注释
+			lx.scanUntil('\n')
+			res = false
+		}
+	} else {
+		lx.scanUntil('\n')
+		res = false
+	}
+	return
 }
 
-func (lx *Lexer) skipLine() {
-	// don't consume '\n' - needed for nlsemi logic
-	for lx.ch >= 0 && lx.ch != '\n' {
+func (lx *Lexer) scanUntil(re rune) (res bool) {
+	res = false
+	for lx.ch >= 0 && lx.ch != re {
 		lx.nextch()
 	}
+	if lx.ch == re {
+		res = true
+	}
+	return
 }
 
 func (lx *Lexer) scanString() {

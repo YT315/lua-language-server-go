@@ -1,5 +1,5 @@
 a=v++
-function ()
+function () --[[@aaaa|fasdf,aaa|asdfasd,aaa|fasdfa]]
     a=100
     b=50
 end
