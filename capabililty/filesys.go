@@ -25,8 +25,8 @@ func (s *Server) DidSave(ctx context.Context, params *protocol.DidSaveTextDocume
 	data := ctx.Value(auxiliary.CtxKey("client"))
 	client, ok := data.(protocol.Client)
 	if ok {
-		res, _ := client.WorkspaceFolders(ctx)
-		logger.Debugln(res)
+		client.WorkspaceFolders(ctx)
+		//logger.Debugln(res)
 	} else {
 		logger.Debugln("fail")
 	}

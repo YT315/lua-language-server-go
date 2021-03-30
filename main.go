@@ -11,6 +11,7 @@ import (
 	"lualsp/syntax"
 	"net"
 	"os"
+	"sync"
 
 	"github.com/sourcegraph/jsonrpc2"
 )
@@ -52,13 +53,13 @@ func main() {
 		auxiliary.DrawTree(lex.Block, "All")
 		return
 	}
-
+	rpclog := logTrace()
 	switch *mode {
 	case "stdio":
 		logger.Debugln("star server in stdio mode")
 		server := capabililty.NewServer()
 		handler := protocol.NewHandler(server)
-		<-jsonrpc2.NewConn(context.Background(), jsonrpc2.NewBufferedStream(stdrwc{}, jsonrpc2.VSCodeObjectCodec{}), handler).DisconnectNotify()
+		<-jsonrpc2.NewConn(context.Background(), jsonrpc2.NewBufferedStream(stdrwc{}, jsonrpc2.VSCodeObjectCodec{}), handler, rpclog).DisconnectNotify()
 		logger.Debugln("connection closed")
 
 	case "tcp":
@@ -77,7 +78,7 @@ func main() {
 			logger.Debugln("received incoming connection ", conn.RemoteAddr())
 			server := capabililty.NewServer()
 			handler := protocol.NewHandler(server)
-			jsonrpc2Connection := jsonrpc2.NewConn(context.Background(), jsonrpc2.NewBufferedStream(conn, jsonrpc2.VSCodeObjectCodec{}), handler)
+			jsonrpc2Connection := jsonrpc2.NewConn(context.Background(), jsonrpc2.NewBufferedStream(conn, jsonrpc2.VSCodeObjectCodec{}), handler, rpclog)
 			go func() {
 				<-jsonrpc2Connection.DisconnectNotify()
 				defer jsonrpc2Connection.Close()
@@ -90,30 +91,14 @@ func main() {
 	}
 }
 
-/*
 func logTrace() jsonrpc2.ConnOpt {
 	return func(c *jsonrpc2.Conn) {
-		// Remember reqs we have received so we can helpfully show the
-		// request method in OnSend for responses.
 		var (
 			mu         sync.Mutex
 			reqMethods = map[jsonrpc2.ID]string{}
 		)
 		jsonrpc2.OnRecv(func(req *jsonrpc2.Request, resp *jsonrpc2.Response) {
 			switch {
-			case req != nil:
-				mu.Lock()
-				reqMethods[req.ID] = req.Method
-				mu.Unlock()
-
-				params, _ := json.Marshal(req.Params)
-				if req.Notif {
-					logger.Debugf("")
-					logger.Printf("jsonrpc2: --> notif: %s: %s\n", req.Method, params)
-				} else {
-					logger.Printf("jsonrpc2: --> request #%s: %s: %s\n", req.ID, req.Method, params)
-				}
-
 			case resp != nil:
 				var method string
 				if req != nil {
@@ -123,24 +108,24 @@ func logTrace() jsonrpc2.ConnOpt {
 				}
 				switch {
 				case resp.Result != nil:
-					result, _ := json.Marshal(resp.Result)
-					logger.Printf("jsonrpc2: --> result #%s: %s: %s\n", resp.ID, method, result)
+					logger.Debugf("recv:<--:result : %s\n", method)
 				case resp.Error != nil:
-					err, _ := json.Marshal(resp.Error)
-					logger.Printf("jsonrpc2: --> error #%s: %s: %s\n", resp.ID, method, err)
+					logger.Debugf("recv:<--:error  : %s\n", method)
+				}
+
+			case req != nil:
+				mu.Lock()
+				reqMethods[req.ID] = req.Method
+				mu.Unlock()
+				if req.Notif {
+					logger.Debugf("recv:<--:notif  : %s\n", req.Method)
+				} else {
+					logger.Debugf("recv:<--:request: %s\n", req.Method)
 				}
 			}
 		})(c)
 		jsonrpc2.OnSend(func(req *jsonrpc2.Request, resp *jsonrpc2.Response) {
 			switch {
-			case req != nil:
-				params, _ := json.Marshal(req.Params)
-				if req.Notif {
-					logger.Printf("jsonrpc2: <-- notif: %s: %s\n", req.Method, params)
-				} else {
-					logger.Printf("jsonrpc2: <-- request #%s: %s: %s\n", req.ID, req.Method, params)
-				}
-
 			case resp != nil:
 				mu.Lock()
 				method := reqMethods[resp.ID]
@@ -151,17 +136,22 @@ func logTrace() jsonrpc2.ConnOpt {
 				}
 
 				if resp.Result != nil {
-					result, _ := json.Marshal(resp.Result)
-					logger.Printf("jsonrpc2: <-- result #%s: %s: %s\n", resp.ID, method, result)
+					logger.Debugf("send:-->:result : %s\n", method)
 				} else {
-					err, _ := json.Marshal(resp.Error)
-					logger.Printf("jsonrpc2: <-- error #%s: %s: %s\n", resp.ID, method, err)
+					logger.Debugf("send:-->:error  : %s\n", method)
+				}
+
+			case req != nil:
+				if req.Notif {
+					logger.Debugf("send:-->:notif  : %s\n", req.Method)
+				} else {
+					logger.Debugf("send:-->:request: %s\n", req.Method)
 				}
 			}
 		})(c)
 	}
 }
-//*/
+
 //stdio
 type stdrwc struct{}
 
