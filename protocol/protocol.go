@@ -9,9 +9,18 @@ import (
 
 //NewHandler 事件
 func NewHandler(server Server) jsonrpc2.Handler {
-	return jsonrpc2.HandlerWithError(protocolHandler{
+	return lspHandler{jsonrpc2.HandlerWithError(protocolHandler{
 		server: server,
-	}.handle)
+	}.handle)}
+}
+
+type lspHandler struct {
+	jsonrpc2.Handler
+}
+
+// 异步执行
+func (h lspHandler) Handle(ctx context.Context, conn *jsonrpc2.Conn, req *jsonrpc2.Request) {
+	go h.Handler.Handle(ctx, conn, req)
 }
 
 type protocolHandler struct {

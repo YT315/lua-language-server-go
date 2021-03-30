@@ -2,7 +2,10 @@ package capabililty
 
 import (
 	"context"
+	"lualsp/auxiliary"
 	"lualsp/protocol"
+
+	"lualsp/logger"
 )
 
 //文本变化
@@ -18,7 +21,16 @@ func (s *Server) DidClose(context.Context, *protocol.DidCloseTextDocumentParams)
 	return nil
 }
 
-func (s *Server) DidSave(context.Context, *protocol.DidSaveTextDocumentParams) error {
+func (s *Server) DidSave(ctx context.Context, params *protocol.DidSaveTextDocumentParams) error {
+	data := ctx.Value(auxiliary.CtxKey("client"))
+	client, ok := data.(protocol.Client)
+	if ok {
+		res, _ := client.WorkspaceFolders(ctx)
+		logger.Debugln(res)
+	} else {
+		logger.Debugln("fail")
+	}
+
 	return nil
 }
 

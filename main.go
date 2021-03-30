@@ -19,7 +19,7 @@ const version = "0.1"
 
 var (
 	ast      = flag.String("AST", "", "输出文件的抽象语法树并退出")
-	mode     = flag.String("mode", "stdio", "与客户端的通信模式 stdio|tcp|websocket")
+	mode     = flag.String("mode", "stdio", "与客户端的通信模式 stdio|tcp")
 	addr     = flag.String("addr", ":61358", "服务器监听地址在stdio和websocket模式下")
 	logLevel = flag.String("logLevel", "none", "设置日志等级 debug|info|warning|error|none")
 	logWay   = flag.String("logWay", "file", "设置日志输出方式,当mode是stdio时,此项不可以设置stdio, file|stdio|all")
@@ -90,6 +90,79 @@ func main() {
 	}
 }
 
+/*
+func logTrace() jsonrpc2.ConnOpt {
+	return func(c *jsonrpc2.Conn) {
+		// Remember reqs we have received so we can helpfully show the
+		// request method in OnSend for responses.
+		var (
+			mu         sync.Mutex
+			reqMethods = map[jsonrpc2.ID]string{}
+		)
+		jsonrpc2.OnRecv(func(req *jsonrpc2.Request, resp *jsonrpc2.Response) {
+			switch {
+			case req != nil:
+				mu.Lock()
+				reqMethods[req.ID] = req.Method
+				mu.Unlock()
+
+				params, _ := json.Marshal(req.Params)
+				if req.Notif {
+					logger.Debugf("")
+					logger.Printf("jsonrpc2: --> notif: %s: %s\n", req.Method, params)
+				} else {
+					logger.Printf("jsonrpc2: --> request #%s: %s: %s\n", req.ID, req.Method, params)
+				}
+
+			case resp != nil:
+				var method string
+				if req != nil {
+					method = req.Method
+				} else {
+					method = "(no matching request)"
+				}
+				switch {
+				case resp.Result != nil:
+					result, _ := json.Marshal(resp.Result)
+					logger.Printf("jsonrpc2: --> result #%s: %s: %s\n", resp.ID, method, result)
+				case resp.Error != nil:
+					err, _ := json.Marshal(resp.Error)
+					logger.Printf("jsonrpc2: --> error #%s: %s: %s\n", resp.ID, method, err)
+				}
+			}
+		})(c)
+		jsonrpc2.OnSend(func(req *jsonrpc2.Request, resp *jsonrpc2.Response) {
+			switch {
+			case req != nil:
+				params, _ := json.Marshal(req.Params)
+				if req.Notif {
+					logger.Printf("jsonrpc2: <-- notif: %s: %s\n", req.Method, params)
+				} else {
+					logger.Printf("jsonrpc2: <-- request #%s: %s: %s\n", req.ID, req.Method, params)
+				}
+
+			case resp != nil:
+				mu.Lock()
+				method := reqMethods[resp.ID]
+				delete(reqMethods, resp.ID)
+				mu.Unlock()
+				if method == "" {
+					method = "(no previous request)"
+				}
+
+				if resp.Result != nil {
+					result, _ := json.Marshal(resp.Result)
+					logger.Printf("jsonrpc2: <-- result #%s: %s: %s\n", resp.ID, method, result)
+				} else {
+					err, _ := json.Marshal(resp.Error)
+					logger.Printf("jsonrpc2: <-- error #%s: %s: %s\n", resp.ID, method, err)
+				}
+			}
+		})(c)
+	}
+}
+//*/
+//stdio
 type stdrwc struct{}
 
 func (stdrwc) Read(p []byte) (int, error) {

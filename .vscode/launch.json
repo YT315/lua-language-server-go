@@ -18,7 +18,7 @@
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/main.go",
-            "args": ["-mode","tcp","-logLevel","debug"]
+            "args": ["-mode","tcp","-logLevel","debug","-logWay","stdio"]
         },
         {
             "name": "print AST",
