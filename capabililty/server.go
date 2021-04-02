@@ -53,8 +53,6 @@ type Server struct {
 	//进度条管理
 	progress progressManager
 
-	//工作区文件夹
-	folders []protocol.WorkspaceFolder
 	// notifications generated before serverInitialized
 	notifications []*protocol.ShowMessageParams
 
@@ -76,6 +74,9 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 	s.clientPID = int(params.ProcessID)
 	s.progress.supportpro = params.Capabilities.Window.WorkDoneProgress
 
+	//初始化工作区
+	s.project = &analysis.Project{}
+	//工作区文件夹
 	folders := params.WorkspaceFolders
 	if len(folders) == 0 {
 		if params.RootURI != "" {
@@ -90,29 +91,12 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 		if !uri.IsFile() {
 			continue
 		}
-		s.folders = append(s.folders, folder)
+		s.project.Workspaces = append(s.project.Workspaces, &analysis.Workspace{RootPath: folder.URI})
 	}
-	if len(folders) > 0 && len(s.folders) == 0 {
+	if len(folders) > 0 && len(s.project.Workspaces) == 0 {
 		return nil, &jsonrpc2.Error{Code: jsonrpc2.CodeInvalidRequest}
 	}
-	/*
-		var codeActionProvider interface{} = true
-		if ca := params.Capabilities.TextDocument.CodeAction; len(ca.CodeActionLiteralSupport.CodeActionKind.ValueSet) > 0 {
-			// If the client has specified CodeActionLiteralSupport,
-			// send the code actions we support.
-			//
-			// Using CodeActionOptions is only valid if codeActionLiteralSupport is set.
-			codeActionProvider = &protocol.CodeActionOptions{
-				CodeActionKinds: s.getSupportedCodeActions(),
-			}
-		}
-		var renameOpts interface{} = true
-		if r := params.Capabilities.TextDocument.Rename; r.PrepareSupport {
-			renameOpts = protocol.RenameOptions{
-				PrepareProvider: r.PrepareSupport,
-			}
-		}
-	*/
+
 	return &protocol.InitializeResult{
 		Capabilities: protocol.ServerCapabilities{
 			TextDocumentSync: &protocol.TextDocumentSyncOptions{

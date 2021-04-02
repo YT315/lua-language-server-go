@@ -108,9 +108,9 @@ func logTrace() jsonrpc2.ConnOpt {
 				}
 				switch {
 				case resp.Result != nil:
-					logger.Debugf("recv:<--:result : %s\n", method)
+					logger.Debugf("recv:<--:result :%s,%s\n", resp.ID, method)
 				case resp.Error != nil:
-					logger.Debugf("recv:<--:error  : %s\n", method)
+					logger.Debugf("recv:<--:error  :%s,%s\n", resp.ID, method)
 				}
 
 			case req != nil:
@@ -118,9 +118,9 @@ func logTrace() jsonrpc2.ConnOpt {
 				reqMethods[req.ID] = req.Method
 				mu.Unlock()
 				if req.Notif {
-					logger.Debugf("recv:<--:notif  : %s\n", req.Method)
+					logger.Debugf("recv:<--:notif  :%s,%s\n", req.ID, req.Method)
 				} else {
-					logger.Debugf("recv:<--:request: %s\n", req.Method)
+					logger.Debugf("recv:<--:request:%s,%s\n", req.ID, req.Method)
 				}
 			}
 		})(c)
@@ -136,16 +136,16 @@ func logTrace() jsonrpc2.ConnOpt {
 				}
 
 				if resp.Result != nil {
-					logger.Debugf("send:-->:result : %s\n", method)
+					logger.Debugf("send:-->:result :%s,%s\n", resp.ID, method)
 				} else {
-					logger.Debugf("send:-->:error  : %s\n", method)
+					logger.Debugf("send:-->:error  :%s,%s\n", resp.ID, method)
 				}
 
 			case req != nil:
 				if req.Notif {
-					logger.Debugf("send:-->:notif  : %s\n", req.Method)
+					logger.Debugf("send:-->:notif  :%s,%s\n", req.ID, req.Method)
 				} else {
-					logger.Debugf("send:-->:request: %s\n", req.Method)
+					logger.Debugf("send:-->:request:%s,%s\n", req.ID, req.Method)
 				}
 			}
 		})(c)

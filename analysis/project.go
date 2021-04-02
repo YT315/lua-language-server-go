@@ -5,9 +5,22 @@ import (
 	"sync"
 )
 
+type projectState int
+
+const (
+	projectCreated     = projectState(iota)
+	projectSet // set once the server has received "initialize" request
+	serverInitialized  // set once the server has received "initialized" request
+	serverShutDown
+)
+
 //Project 工程对象
 type Project struct {
-	Workspaces []*Workspace //工作区列表
+	//工程状态机
+	stateMu    sync.Mutex
+	state      projectState
+	wg         sync.WaitGroup //等待工作区初始化完成
+	Workspaces []*Workspace   //工作区列表
 }
 
 //Workspace 工作区
