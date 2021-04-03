@@ -26,17 +26,24 @@ func PathExists(path string) (bool, error) {
 		return false, nil
 	}
 	return false, err
-}
-
-//URIFromURI
-func URIFromURI(s string) URI {
-	if !strings.HasPrefix(s, "file://") {
-		return URI(s)
+} /*
+func UriToPath(uri URI) string {
+	u, err := url.Parse(string(uri))
+	if err != nil {
+		return trimFilePrefix(string(uri))
 	}
-
-	if !strings.HasPrefix(s, "file:///") {
-		// VS Code sends URLs with only two slashes, which are invalid. golang/go#39789.
-		s = "file:///" + s[len("file://"):]
+	return u.Path
+}
+*/
+//UriToPath
+func UriToPath(s string) string {
+	//文件路径不是双斜杠
+	if !strings.HasPrefix(s, "file://") {
+		return s
+	}
+	//将三斜杠转化为双斜杠
+	if strings.HasPrefix(s, "file:///") {
+		s = "file://" + s[len("file:///"):]
 	}
 	// Even though the input is a URI, it may not be in canonical form. VS Code
 	// in particular over-escapes :, @, etc. Unescape and re-encode to canonicalize.
@@ -52,8 +59,7 @@ func URIFromURI(s string) URI {
 	if isWindowsDriveURIPath(path) {
 		path = path[:1] + strings.ToUpper(string(path[1])) + path[2:]
 	}
-	u := url.URL{Scheme: fileScheme, Path: path}
-	return URI(u.String())
+	return path
 }
 
 func isWindowsDriveURIPath(uri string) bool {
@@ -61,4 +67,8 @@ func isWindowsDriveURIPath(uri string) bool {
 		return false
 	}
 	return uri[0] == '/' && unicode.IsLetter(rune(uri[1])) && uri[2] == ':'
+}
+
+func trimFilePrefix(s string) string {
+	return strings.TrimPrefix(s, "file://")
 }

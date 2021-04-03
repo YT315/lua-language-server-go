@@ -7,6 +7,7 @@ import (
 	"lualsp/auxiliary"
 	"lualsp/protocol"
 	"path"
+	"strings"
 	"sync"
 
 	"github.com/sourcegraph/jsonrpc2"
@@ -82,21 +83,25 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 		if params.RootURI != "" {
 			folders = []protocol.WorkspaceFolder{{
 				URI:  string(params.RootURI),
-				Name: path.Base(string(auxiliary.URIFromURI(string(params.RootURI)))),
+				Name: path.Base(string(params.RootURI)),
 			}}
 		}
 	}
 	for _, folder := range folders {
-		uri := auxiliary.URIFromURI(folder.URI)
-		if !uri.IsFile() {
+		if !strings.HasPrefix(folder.URI, "file://") {
 			continue
 		}
-		s.project.Workspaces = append(s.project.Workspaces, &analysis.Workspace{RootPath: folder.URI})
+		path := auxiliary.UriToPath(folder.URI)
+		s.project.Workspaces = append(s.project.Workspaces, &analysis.Workspace{
+			RootPath: path,
+			Files:    make(map[string]*analysis.File)})
 	}
 	if len(folders) > 0 && len(s.project.Workspaces) == 0 {
 		return nil, &jsonrpc2.Error{Code: jsonrpc2.CodeInvalidRequest}
 	}
-
+	//开始扫描文件
+	go s.project.Scan()
+	//返回配置
 	return &protocol.InitializeResult{
 		Capabilities: protocol.ServerCapabilities{
 			TextDocumentSync: &protocol.TextDocumentSyncOptions{
