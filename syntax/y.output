@@ -130,7 +130,7 @@ state 6
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 68 (src line 664)
+	.  reduce 68 (src line 689)
 
 	exprlist  goto 29
 	functioncall  goto 47
@@ -190,39 +190,39 @@ state 10
 	stat:  functioncall.    (12)
 	prefixexp:  functioncall.    (139)
 
-	$end  reduce 12 (src line 130)
-	error  reduce 12 (src line 130)
-	TBreak  reduce 12 (src line 130)
-	TDo  reduce 12 (src line 130)
-	TElse  reduce 12 (src line 130)
-	TElseIf  reduce 12 (src line 130)
-	TEnd  reduce 12 (src line 130)
-	TFor  reduce 12 (src line 130)
-	TFunction  reduce 12 (src line 130)
-	TGoto  reduce 12 (src line 130)
-	TIf  reduce 12 (src line 130)
-	TLocal  reduce 12 (src line 130)
-	TRepeat  reduce 12 (src line 130)
-	TReturn  reduce 12 (src line 130)
-	TUntil  reduce 12 (src line 130)
-	TWhile  reduce 12 (src line 130)
-	TName  reduce 12 (src line 130)
-	TTarget  reduce 12 (src line 130)
-	'='  reduce 12 (src line 130)
-	';'  reduce 12 (src line 130)
-	.  reduce 139 (src line 1088)
+	$end  reduce 12 (src line 139)
+	error  reduce 12 (src line 139)
+	TBreak  reduce 12 (src line 139)
+	TDo  reduce 12 (src line 139)
+	TElse  reduce 12 (src line 139)
+	TElseIf  reduce 12 (src line 139)
+	TEnd  reduce 12 (src line 139)
+	TFor  reduce 12 (src line 139)
+	TFunction  reduce 12 (src line 139)
+	TGoto  reduce 12 (src line 139)
+	TIf  reduce 12 (src line 139)
+	TLocal  reduce 12 (src line 139)
+	TRepeat  reduce 12 (src line 139)
+	TReturn  reduce 12 (src line 139)
+	TUntil  reduce 12 (src line 139)
+	TWhile  reduce 12 (src line 139)
+	TName  reduce 12 (src line 139)
+	TTarget  reduce 12 (src line 139)
+	'='  reduce 12 (src line 139)
+	';'  reduce 12 (src line 139)
+	.  reduce 139 (src line 1119)
 
 
 state 11
 	stat:  label.    (13)
 
-	.  reduce 13 (src line 138)
+	.  reduce 13 (src line 147)
 
 
 state 12
 	stat:  TBreak.    (14)
 
-	.  reduce 14 (src line 142)
+	.  reduce 14 (src line 151)
 
 
 13: shift/reduce conflict (shift 26(0), red'n 16(0)) on TName
@@ -231,7 +231,7 @@ state 13
 	stat:  TGoto.    (16)
 
 	TName  shift 26
-	.  reduce 16 (src line 154)
+	.  reduce 16 (src line 163)
 
 	name  goto 53
 
@@ -313,7 +313,7 @@ state 15
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 23 (src line 217)
+	.  reduce 23 (src line 226)
 
 	functioncall  goto 47
 	var  goto 46
@@ -512,7 +512,7 @@ state 20
 	TFunction  shift 72
 	TName  shift 26
 	'='  shift 75
-	.  reduce 64 (src line 632)
+	.  reduce 64 (src line 657)
 
 	namelist  goto 74
 	name  goto 73
@@ -520,16 +520,16 @@ state 20
 state 21
 	stat:  error.    (65)
 
-	.  reduce 65 (src line 639)
+	.  reduce 65 (src line 664)
 
 
 state 22
 	varlist:  var.    (84)
 	prefixexp:  var.    (138)
 
-	'='  reduce 84 (src line 774)
-	','  reduce 84 (src line 774)
-	.  reduce 138 (src line 1085)
+	'='  reduce 84 (src line 803)
+	','  reduce 84 (src line 803)
+	.  reduce 138 (src line 1116)
 
 
 state 23
@@ -565,7 +565,7 @@ state 24
 
 	TName  shift 26
 	TTarget  shift 84
-	.  reduce 75 (src line 710)
+	.  reduce 75 (src line 739)
 
 	name  goto 83
 
@@ -574,7 +574,7 @@ state 25
 	var:  name.    (87)
 
 	TTarget  shift 85
-	.  reduce 87 (src line 785)
+	.  reduce 87 (src line 814)
 
 
 state 26
@@ -584,7 +584,7 @@ state 26
 
 	TAType  shift 86
 	TSType  shift 87
-	.  reduce 94 (src line 836)
+	.  reduce 94 (src line 865)
 
 
 state 27
@@ -608,7 +608,7 @@ state 29
 
 	';'  shift 88
 	','  shift 89
-	.  reduce 69 (src line 668)
+	.  reduce 69 (src line 693)
 
 
 30: shift/reduce conflict (shift 109(2), red'n 100(0)) on TAnd
@@ -677,49 +677,49 @@ state 30
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 100 (src line 868)
+	.  reduce 100 (src line 897)
 
 
 state 31
 	expr:  TNil.    (103)
 
-	.  reduce 103 (src line 879)
+	.  reduce 103 (src line 908)
 
 
 state 32
 	expr:  TFalse.    (104)
 
-	.  reduce 104 (src line 884)
+	.  reduce 104 (src line 913)
 
 
 state 33
 	expr:  TTrue.    (105)
 
-	.  reduce 105 (src line 889)
+	.  reduce 105 (src line 918)
 
 
 state 34
 	expr:  TNumber.    (106)
 
-	.  reduce 106 (src line 894)
+	.  reduce 106 (src line 923)
 
 
 state 35
 	expr:  TString.    (107)
 
-	.  reduce 107 (src line 899)
+	.  reduce 107 (src line 928)
 
 
 state 36
 	expr:  TAny.    (108)
 
-	.  reduce 108 (src line 903)
+	.  reduce 108 (src line 933)
 
 
 state 37
 	expr:  functiondef.    (109)
 
-	.  reduce 109 (src line 907)
+	.  reduce 109 (src line 938)
 
 
 38: shift/reduce conflict (shift 82(0), red'n 110(0)) on TString
@@ -747,7 +747,7 @@ state 38
 	'['  shift 76
 	':'  shift 79
 	'.'  shift 77
-	.  reduce 110 (src line 910)
+	.  reduce 110 (src line 941)
 
 	args  goto 78
 	tableconstructor  goto 81
@@ -755,7 +755,7 @@ state 38
 state 39
 	expr:  tableconstructor.    (111)
 
-	.  reduce 111 (src line 913)
+	.  reduce 111 (src line 944)
 
 
 state 40
@@ -899,20 +899,20 @@ state 45
 	functiondef:  TFunction.    (151)
 
 	'('  shift 117
-	.  reduce 151 (src line 1160)
+	.  reduce 151 (src line 1191)
 
 	funcbody  goto 116
 
 state 46
 	prefixexp:  var.    (138)
 
-	.  reduce 138 (src line 1085)
+	.  reduce 138 (src line 1116)
 
 
 state 47
 	prefixexp:  functioncall.    (139)
 
-	.  reduce 139 (src line 1088)
+	.  reduce 139 (src line 1119)
 
 
 48: shift/reduce conflict (shift 45(0), red'n 159(0)) on TFunction
@@ -946,7 +946,7 @@ state 48
 	'{'  shift 48
 	'}'  shift 118
 	'['  shift 122
-	.  reduce 159 (src line 1231)
+	.  reduce 159 (src line 1267)
 
 	functioncall  goto 47
 	var  goto 46
@@ -961,7 +961,7 @@ state 48
 state 49
 	var:  name.    (87)
 
-	.  reduce 87 (src line 785)
+	.  reduce 87 (src line 814)
 
 
 50: shift/reduce conflict (shift 45(0), red'n 10(0)) on TFunction
@@ -984,7 +984,7 @@ state 50
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 10 (src line 114)
+	.  reduce 10 (src line 119)
 
 	exprlist  goto 124
 	functioncall  goto 47
@@ -1000,7 +1000,7 @@ state 51
 	varlist:  varlist ','.    (86)
 
 	TName  shift 26
-	.  reduce 86 (src line 780)
+	.  reduce 86 (src line 809)
 
 	functioncall  goto 47
 	var  goto 125
@@ -1013,13 +1013,13 @@ state 52
 	exprlist:  exprlist.',' 
 
 	','  shift 89
-	.  reduce 11 (src line 122)
+	.  reduce 11 (src line 127)
 
 
 state 53
 	stat:  TGoto name.    (15)
 
-	.  reduce 15 (src line 147)
+	.  reduce 15 (src line 156)
 
 
 54: shift/reduce conflict (shift 126(0), red'n 18(0)) on TEnd
@@ -1028,7 +1028,7 @@ state 54
 	stat:  TDo block.    (18)
 
 	TEnd  shift 126
-	.  reduce 18 (src line 168)
+	.  reduce 18 (src line 177)
 
 
 55: shift/reduce conflict (shift 127(0), red'n 22(0)) on TDo
@@ -1080,7 +1080,7 @@ state 55
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 22 (src line 209)
+	.  reduce 22 (src line 218)
 
 
 state 56
@@ -1123,7 +1123,7 @@ state 57
 	stat:  TRepeat block.    (26)
 
 	TUntil  shift 129
-	.  reduce 26 (src line 239)
+	.  reduce 26 (src line 248)
 
 
 state 58
@@ -1220,7 +1220,7 @@ state 60
 	stat:  TIf block.elseifs TElse block TEnd 
 	elseifs: .    (66)
 
-	.  reduce 66 (src line 648)
+	.  reduce 66 (src line 673)
 
 	elseifs  goto 132
 
@@ -1234,7 +1234,7 @@ state 61
 	'('  shift 117
 	':'  shift 69
 	'.'  shift 71
-	.  reduce 151 (src line 1160)
+	.  reduce 151 (src line 1191)
 
 	funcname  goto 67
 	funcnameaux  goto 68
@@ -1255,7 +1255,7 @@ state 62
 
 	TDo  shift 134
 	'='  shift 133
-	.  reduce 97 (src line 857)
+	.  reduce 97 (src line 886)
 
 
 state 63
@@ -1384,7 +1384,7 @@ state 67
 	stat:  TFunction funcname.    (54)
 
 	'('  shift 117
-	.  reduce 54 (src line 547)
+	.  reduce 54 (src line 559)
 
 	funcbody  goto 140
 
@@ -1397,7 +1397,7 @@ state 68
 
 	':'  shift 141
 	'.'  shift 142
-	.  reduce 76 (src line 719)
+	.  reduce 76 (src line 748)
 
 
 state 69
@@ -1411,7 +1411,7 @@ state 69
 state 70
 	funcnameaux:  name.    (80)
 
-	.  reduce 80 (src line 748)
+	.  reduce 80 (src line 777)
 
 
 state 71
@@ -1431,7 +1431,7 @@ state 72
 
 	TName  shift 26
 	'('  shift 117
-	.  reduce 59 (src line 594)
+	.  reduce 59 (src line 606)
 
 	funcbody  goto 146
 	name  goto 145
@@ -1441,7 +1441,7 @@ state 73
 	namelist:  name.    (97)
 
 	'('  shift 117
-	.  reduce 97 (src line 857)
+	.  reduce 97 (src line 886)
 
 	funcbody  goto 147
 
@@ -1455,7 +1455,7 @@ state 74
 
 	'='  shift 148
 	','  shift 138
-	.  reduce 63 (src line 625)
+	.  reduce 63 (src line 646)
 
 
 state 75
@@ -1515,7 +1515,7 @@ state 76
 	'('  shift 44
 	'{'  shift 48
 	']'  shift 151
-	.  reduce 91 (src line 810)
+	.  reduce 91 (src line 839)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1531,13 +1531,13 @@ state 77
 	var:  prefixexp '.'.    (93)
 
 	TName  shift 152
-	.  reduce 93 (src line 826)
+	.  reduce 93 (src line 855)
 
 
 state 78
 	functioncall:  prefixexp args.    (140)
 
-	.  reduce 140 (src line 1097)
+	.  reduce 140 (src line 1128)
 
 
 79: shift/reduce conflict (shift 26(0), red'n 143(0)) on TName
@@ -1547,7 +1547,7 @@ state 79
 	functioncall:  prefixexp ':'.    (143)
 
 	TName  shift 26
-	.  reduce 143 (src line 1125)
+	.  reduce 143 (src line 1156)
 
 	name  goto 153
 
@@ -1580,7 +1580,7 @@ state 80
 	'('  shift 44
 	')'  shift 154
 	'{'  shift 48
-	.  reduce 145 (src line 1138)
+	.  reduce 145 (src line 1169)
 
 	exprlist  goto 155
 	functioncall  goto 47
@@ -1594,13 +1594,13 @@ state 80
 state 81
 	args:  tableconstructor.    (148)
 
-	.  reduce 148 (src line 1147)
+	.  reduce 148 (src line 1178)
 
 
 state 82
 	args:  TString.    (149)
 
-	.  reduce 149 (src line 1150)
+	.  reduce 149 (src line 1181)
 
 
 83: shift/reduce conflict (shift 156(0), red'n 73(0)) on TTarget
@@ -1609,37 +1609,37 @@ state 83
 	label:  TTarget name.    (73)
 
 	TTarget  shift 156
-	.  reduce 73 (src line 694)
+	.  reduce 73 (src line 723)
 
 
 state 84
 	label:  TTarget TTarget.    (74)
 
-	.  reduce 74 (src line 702)
+	.  reduce 74 (src line 731)
 
 
 state 85
 	label:  name TTarget.    (72)
 
-	.  reduce 72 (src line 686)
+	.  reduce 72 (src line 715)
 
 
 state 86
 	name:  TName TAType.    (95)
 
-	.  reduce 95 (src line 841)
+	.  reduce 95 (src line 870)
 
 
 state 87
 	name:  TName TSType.    (96)
 
-	.  reduce 96 (src line 848)
+	.  reduce 96 (src line 877)
 
 
 state 88
 	returnstat:  TReturn exprlist ';'.    (70)
 
-	.  reduce 70 (src line 673)
+	.  reduce 70 (src line 702)
 
 
 89: shift/reduce conflict (shift 45(0), red'n 102(0)) on TFunction
@@ -1667,7 +1667,7 @@ state 89
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 102 (src line 874)
+	.  reduce 102 (src line 903)
 
 	functioncall  goto 47
 	var  goto 46
@@ -2269,7 +2269,7 @@ state 111
 	expr:  '-' expr.    (133)
 
 	'^'  shift 95
-	.  reduce 133 (src line 1042)
+	.  reduce 133 (src line 1073)
 
 
 state 112
@@ -2297,7 +2297,7 @@ state 112
 	expr:  TNot expr.    (134)
 
 	'^'  shift 95
-	.  reduce 134 (src line 1048)
+	.  reduce 134 (src line 1079)
 
 
 state 113
@@ -2325,7 +2325,7 @@ state 113
 	expr:  '#' expr.    (135)
 
 	'^'  shift 95
-	.  reduce 135 (src line 1054)
+	.  reduce 135 (src line 1085)
 
 
 state 114
@@ -2353,7 +2353,7 @@ state 114
 	expr:  '~' expr.    (136)
 
 	'^'  shift 95
-	.  reduce 136 (src line 1060)
+	.  reduce 136 (src line 1091)
 
 
 state 115
@@ -2408,7 +2408,7 @@ state 115
 state 116
 	functiondef:  TFunction funcbody.    (150)
 
-	.  reduce 150 (src line 1157)
+	.  reduce 150 (src line 1188)
 
 
 state 117
@@ -2428,7 +2428,7 @@ state 117
 state 118
 	tableconstructor:  '{' '}'.    (158)
 
-	.  reduce 158 (src line 1226)
+	.  reduce 158 (src line 1262)
 
 
 119: shift/reduce conflict (shift 185(0), red'n 161(0)) on '}'
@@ -2443,14 +2443,14 @@ state 119
 	'}'  shift 185
 	';'  shift 188
 	','  shift 187
-	.  reduce 161 (src line 1245)
+	.  reduce 161 (src line 1281)
 
 	fieldsep  goto 186
 
 state 120
 	fieldlist:  field.    (162)
 
-	.  reduce 162 (src line 1256)
+	.  reduce 162 (src line 1296)
 
 
 121: shift/reduce conflict (shift 189(0), red'n 87(0)) on '='
@@ -2460,7 +2460,7 @@ state 121
 	field:  name.'=' 
 
 	'='  shift 189
-	.  reduce 87 (src line 785)
+	.  reduce 87 (src line 814)
 
 
 122: shift/reduce conflict (shift 45(0), red'n 171(0)) on TFunction
@@ -2494,7 +2494,7 @@ state 122
 	'('  shift 44
 	'{'  shift 48
 	']'  shift 191
-	.  reduce 171 (src line 1311)
+	.  reduce 171 (src line 1351)
 
 	functioncall  goto 47
 	var  goto 46
@@ -2570,7 +2570,7 @@ state 123
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 173 (src line 1327)
+	.  reduce 173 (src line 1367)
 
 
 state 124
@@ -2586,15 +2586,15 @@ state 125
 	varlist:  varlist ',' var.    (85)
 	prefixexp:  var.    (138)
 
-	'='  reduce 85 (src line 777)
-	','  reduce 85 (src line 777)
-	.  reduce 138 (src line 1085)
+	'='  reduce 85 (src line 806)
+	','  reduce 85 (src line 806)
+	.  reduce 138 (src line 1116)
 
 
 state 126
 	stat:  TDo block TEnd.    (17)
 
-	.  reduce 17 (src line 161)
+	.  reduce 17 (src line 170)
 
 
 127: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
@@ -2677,7 +2677,7 @@ state 129
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 25 (src line 231)
+	.  reduce 25 (src line 240)
 
 	functioncall  goto 47
 	var  goto 46
@@ -2747,7 +2747,7 @@ state 131
 	stat:  TIf TThen block.elseifs TElse block TEnd 
 	elseifs: .    (66)
 
-	.  reduce 66 (src line 648)
+	.  reduce 66 (src line 673)
 
 	elseifs  goto 196
 
@@ -2763,7 +2763,7 @@ state 132
 	TElse  shift 198
 	TElseIf  shift 199
 	TEnd  shift 197
-	.  reduce 31 (src line 308)
+	.  reduce 31 (src line 317)
 
 
 state 133
@@ -2889,7 +2889,7 @@ state 136
 	stat:  TFor TDo block.    (40)
 
 	TEnd  shift 204
-	.  reduce 40 (src line 421)
+	.  reduce 40 (src line 430)
 
 
 state 137
@@ -2930,7 +2930,7 @@ state 138
 	namelist:  namelist ','.    (99)
 
 	TName  shift 26
-	.  reduce 99 (src line 863)
+	.  reduce 99 (src line 892)
 
 	name  goto 207
 
@@ -2947,7 +2947,7 @@ state 139
 state 140
 	stat:  TFunction funcname funcbody.    (53)
 
-	.  reduce 53 (src line 539)
+	.  reduce 53 (src line 551)
 
 
 141: shift/reduce conflict (shift 26(0), red'n 78(0)) on TName
@@ -2956,7 +2956,7 @@ state 141
 	funcname:  funcnameaux ':'.    (78)
 
 	TName  shift 26
-	.  reduce 78 (src line 731)
+	.  reduce 78 (src line 760)
 
 	name  goto 209
 
@@ -2966,20 +2966,20 @@ state 142
 	funcnameaux:  funcnameaux '.'.    (82)
 
 	TName  shift 26
-	.  reduce 82 (src line 757)
+	.  reduce 82 (src line 786)
 
 	name  goto 210
 
 state 143
 	funcname:  ':' name.    (79)
 
-	.  reduce 79 (src line 739)
+	.  reduce 79 (src line 768)
 
 
 state 144
 	funcnameaux:  '.' name.    (83)
 
-	.  reduce 83 (src line 765)
+	.  reduce 83 (src line 794)
 
 
 state 145
@@ -2987,20 +2987,20 @@ state 145
 	stat:  TLocal TFunction name.    (58)
 
 	'('  shift 117
-	.  reduce 58 (src line 586)
+	.  reduce 58 (src line 598)
 
 	funcbody  goto 211
 
 state 146
 	stat:  TLocal TFunction funcbody.    (56)
 
-	.  reduce 56 (src line 570)
+	.  reduce 56 (src line 582)
 
 
 state 147
 	stat:  TLocal name funcbody.    (57)
 
-	.  reduce 57 (src line 578)
+	.  reduce 57 (src line 590)
 
 
 148: shift/reduce conflict (shift 45(0), red'n 61(0)) on TFunction
@@ -3023,7 +3023,7 @@ state 148
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 61 (src line 609)
+	.  reduce 61 (src line 626)
 
 	exprlist  goto 212
 	functioncall  goto 47
@@ -3040,7 +3040,7 @@ state 149
 	exprlist:  exprlist.',' 
 
 	','  shift 89
-	.  reduce 62 (src line 617)
+	.  reduce 62 (src line 634)
 
 
 150: shift/reduce conflict (shift 109(2), red'n 90(0)) on TAnd
@@ -3112,19 +3112,19 @@ state 150
 	'<'  shift 103
 	'>'  shift 105
 	']'  shift 213
-	.  reduce 90 (src line 802)
+	.  reduce 90 (src line 831)
 
 
 state 151
 	var:  prefixexp '[' ']'.    (89)
 
-	.  reduce 89 (src line 794)
+	.  reduce 89 (src line 823)
 
 
 state 152
 	var:  prefixexp '.' TName.    (92)
 
-	.  reduce 92 (src line 818)
+	.  reduce 92 (src line 847)
 
 
 153: shift/reduce conflict (shift 82(0), red'n 142(0)) on TString
@@ -3137,7 +3137,7 @@ state 153
 	TString  shift 82
 	'('  shift 80
 	'{'  shift 48
-	.  reduce 142 (src line 1117)
+	.  reduce 142 (src line 1148)
 
 	args  goto 214
 	tableconstructor  goto 81
@@ -3145,7 +3145,7 @@ state 153
 state 154
 	args:  '(' ')'.    (144)
 
-	.  reduce 144 (src line 1135)
+	.  reduce 144 (src line 1166)
 
 
 155: shift/reduce conflict (shift 215(0), red'n 147(0)) on ')'
@@ -3158,13 +3158,13 @@ state 155
 
 	')'  shift 215
 	','  shift 89
-	.  reduce 147 (src line 1144)
+	.  reduce 147 (src line 1175)
 
 
 state 156
 	label:  TTarget name TTarget.    (71)
 
-	.  reduce 71 (src line 680)
+	.  reduce 71 (src line 709)
 
 
 157: shift/reduce conflict (shift 109(2), red'n 101(0)) on TAnd
@@ -3233,7 +3233,7 @@ state 157
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 101 (src line 871)
+	.  reduce 101 (src line 900)
 
 
 state 158
@@ -3265,7 +3265,7 @@ state 158
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	.  reduce 112 (src line 916)
+	.  reduce 112 (src line 947)
 
 
 state 159
@@ -3297,7 +3297,7 @@ state 159
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	.  reduce 113 (src line 922)
+	.  reduce 113 (src line 953)
 
 
 state 160
@@ -3325,7 +3325,7 @@ state 160
 	expr:  expr.TOr expr 
 
 	'^'  shift 95
-	.  reduce 114 (src line 928)
+	.  reduce 114 (src line 959)
 
 
 state 161
@@ -3353,7 +3353,7 @@ state 161
 	expr:  expr.TOr expr 
 
 	'^'  shift 95
-	.  reduce 115 (src line 934)
+	.  reduce 115 (src line 965)
 
 
 state 162
@@ -3381,7 +3381,7 @@ state 162
 	expr:  expr.TOr expr 
 
 	'^'  shift 95
-	.  reduce 116 (src line 940)
+	.  reduce 116 (src line 971)
 
 
 state 163
@@ -3409,7 +3409,7 @@ state 163
 	expr:  expr.TOr expr 
 
 	'^'  shift 95
-	.  reduce 117 (src line 946)
+	.  reduce 117 (src line 977)
 
 
 state 164
@@ -3437,7 +3437,7 @@ state 164
 	expr:  expr.TOr expr 
 
 	'^'  shift 95
-	.  reduce 118 (src line 952)
+	.  reduce 118 (src line 983)
 
 
 state 165
@@ -3474,7 +3474,7 @@ state 165
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	.  reduce 119 (src line 958)
+	.  reduce 119 (src line 989)
 
 
 state 166
@@ -3512,7 +3512,7 @@ state 166
 	'%'  shift 96
 	'^'  shift 95
 	'&'  shift 97
-	.  reduce 120 (src line 964)
+	.  reduce 120 (src line 995)
 
 
 state 167
@@ -3551,7 +3551,7 @@ state 167
 	'^'  shift 95
 	'&'  shift 97
 	'~'  shift 98
-	.  reduce 121 (src line 970)
+	.  reduce 121 (src line 1001)
 
 
 state 168
@@ -3586,7 +3586,7 @@ state 168
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	.  reduce 122 (src line 976)
+	.  reduce 122 (src line 1007)
 
 
 state 169
@@ -3621,7 +3621,7 @@ state 169
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	.  reduce 123 (src line 982)
+	.  reduce 123 (src line 1013)
 
 
 state 170
@@ -3656,7 +3656,7 @@ state 170
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	.  reduce 124 (src line 988)
+	.  reduce 124 (src line 1019)
 
 
 state 171
@@ -3696,7 +3696,7 @@ state 171
 	'&'  shift 97
 	'~'  shift 98
 	'|'  shift 99
-	.  reduce 125 (src line 994)
+	.  reduce 125 (src line 1025)
 
 
 state 172
@@ -3736,7 +3736,7 @@ state 172
 	'&'  shift 97
 	'~'  shift 98
 	'|'  shift 99
-	.  reduce 126 (src line 1000)
+	.  reduce 126 (src line 1031)
 
 
 state 173
@@ -3776,7 +3776,7 @@ state 173
 	'&'  shift 97
 	'~'  shift 98
 	'|'  shift 99
-	.  reduce 127 (src line 1006)
+	.  reduce 127 (src line 1037)
 
 
 state 174
@@ -3816,7 +3816,7 @@ state 174
 	'&'  shift 97
 	'~'  shift 98
 	'|'  shift 99
-	.  reduce 128 (src line 1012)
+	.  reduce 128 (src line 1043)
 
 
 state 175
@@ -3856,7 +3856,7 @@ state 175
 	'&'  shift 97
 	'~'  shift 98
 	'|'  shift 99
-	.  reduce 129 (src line 1018)
+	.  reduce 129 (src line 1049)
 
 
 state 176
@@ -3896,7 +3896,7 @@ state 176
 	'&'  shift 97
 	'~'  shift 98
 	'|'  shift 99
-	.  reduce 130 (src line 1024)
+	.  reduce 130 (src line 1055)
 
 
 state 177
@@ -3942,7 +3942,7 @@ state 177
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 131 (src line 1030)
+	.  reduce 131 (src line 1061)
 
 
 state 178
@@ -3989,13 +3989,13 @@ state 178
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 132 (src line 1036)
+	.  reduce 132 (src line 1067)
 
 
 state 179
 	expr:  '(' expr ')'.    (137)
 
-	.  reduce 137 (src line 1066)
+	.  reduce 137 (src line 1097)
 
 
 180: shift/reduce conflict (shift 216(0), red'n 153(0)) on ')'
@@ -4004,7 +4004,7 @@ state 180
 	funcbody:  '(' parlist.    (153)
 
 	')'  shift 216
-	.  reduce 153 (src line 1177)
+	.  reduce 153 (src line 1208)
 
 
 state 181
@@ -4017,7 +4017,7 @@ state 181
 state 182
 	parlist:  TAny.    (155)
 
-	.  reduce 155 (src line 1207)
+	.  reduce 155 (src line 1238)
 
 
 183: shift/reduce conflict (shift 218(0), red'n 156(0)) on ','
@@ -4028,19 +4028,19 @@ state 183
 	parlist:  namelist.',' TAny 
 
 	','  shift 218
-	.  reduce 156 (src line 1212)
+	.  reduce 156 (src line 1243)
 
 
 state 184
 	namelist:  name.    (97)
 
-	.  reduce 97 (src line 857)
+	.  reduce 97 (src line 886)
 
 
 state 185
 	tableconstructor:  '{' fieldlist '}'.    (160)
 
-	.  reduce 160 (src line 1239)
+	.  reduce 160 (src line 1275)
 
 
 186: shift/reduce conflict (shift 45(0), red'n 164(0)) on TFunction
@@ -4070,7 +4070,7 @@ state 186
 	'('  shift 44
 	'{'  shift 48
 	'['  shift 122
-	.  reduce 164 (src line 1262)
+	.  reduce 164 (src line 1302)
 
 	functioncall  goto 47
 	var  goto 46
@@ -4084,13 +4084,13 @@ state 186
 state 187
 	fieldsep:  ','.    (174)
 
-	.  reduce 174 (src line 1334)
+	.  reduce 174 (src line 1374)
 
 
 state 188
 	fieldsep:  ';'.    (175)
 
-	.  reduce 175 (src line 1337)
+	.  reduce 175 (src line 1377)
 
 
 189: shift/reduce conflict (shift 45(0), red'n 166(0)) on TFunction
@@ -4118,7 +4118,7 @@ state 189
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 166 (src line 1273)
+	.  reduce 166 (src line 1313)
 
 	functioncall  goto 47
 	var  goto 46
@@ -4199,13 +4199,13 @@ state 190
 	'<'  shift 103
 	'>'  shift 105
 	']'  shift 221
-	.  reduce 172 (src line 1319)
+	.  reduce 172 (src line 1359)
 
 
 state 191
 	field:  '[' ']'.    (170)
 
-	.  reduce 170 (src line 1303)
+	.  reduce 170 (src line 1343)
 
 
 192: shift/reduce conflict (shift 222(0), red'n 20(0)) on TEnd
@@ -4214,13 +4214,13 @@ state 192
 	stat:  TWhile expr TDo block.    (20)
 
 	TEnd  shift 222
-	.  reduce 20 (src line 188)
+	.  reduce 20 (src line 197)
 
 
 state 193
 	stat:  TWhile TDo block TEnd.    (21)
 
-	.  reduce 21 (src line 200)
+	.  reduce 21 (src line 209)
 
 
 state 194
@@ -4268,7 +4268,7 @@ state 194
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 24 (src line 224)
+	.  reduce 24 (src line 233)
 
 
 state 195
@@ -4278,7 +4278,7 @@ state 195
 	stat:  TIf expr TThen block.elseifs TElse block 
 	elseifs: .    (66)
 
-	.  reduce 66 (src line 648)
+	.  reduce 66 (src line 673)
 
 	elseifs  goto 223
 
@@ -4296,7 +4296,7 @@ state 196
 state 197
 	stat:  TIf block elseifs TEnd.    (30)
 
-	.  reduce 30 (src line 295)
+	.  reduce 30 (src line 304)
 
 
 state 198
@@ -4485,7 +4485,7 @@ state 203
 state 204
 	stat:  TFor TDo block TEnd.    (39)
 
-	.  reduce 39 (src line 413)
+	.  reduce 39 (src line 422)
 
 
 205: shift/reduce conflict (shift 233(0), red'n 52(0)) on TDo
@@ -4498,7 +4498,7 @@ state 205
 
 	TDo  shift 233
 	','  shift 89
-	.  reduce 52 (src line 527)
+	.  reduce 52 (src line 539)
 
 
 state 206
@@ -4537,7 +4537,7 @@ state 206
 state 207
 	namelist:  namelist ',' name.    (98)
 
-	.  reduce 98 (src line 860)
+	.  reduce 98 (src line 889)
 
 
 state 208
@@ -4576,19 +4576,19 @@ state 208
 state 209
 	funcname:  funcnameaux ':' name.    (77)
 
-	.  reduce 77 (src line 724)
+	.  reduce 77 (src line 753)
 
 
 state 210
 	funcnameaux:  funcnameaux '.' name.    (81)
 
-	.  reduce 81 (src line 751)
+	.  reduce 81 (src line 780)
 
 
 state 211
 	stat:  TLocal TFunction name funcbody.    (55)
 
-	.  reduce 55 (src line 554)
+	.  reduce 55 (src line 566)
 
 
 state 212
@@ -4597,25 +4597,25 @@ state 212
 	exprlist:  exprlist.',' 
 
 	','  shift 89
-	.  reduce 60 (src line 602)
+	.  reduce 60 (src line 614)
 
 
 state 213
 	var:  prefixexp '[' expr ']'.    (88)
 
-	.  reduce 88 (src line 788)
+	.  reduce 88 (src line 817)
 
 
 state 214
 	functioncall:  prefixexp ':' name args.    (141)
 
-	.  reduce 141 (src line 1107)
+	.  reduce 141 (src line 1138)
 
 
 state 215
 	args:  '(' exprlist ')'.    (146)
 
-	.  reduce 146 (src line 1141)
+	.  reduce 146 (src line 1172)
 
 
 state 216
@@ -4666,14 +4666,14 @@ state 218
 
 	TName  shift 26
 	TAny  shift 238
-	.  reduce 99 (src line 863)
+	.  reduce 99 (src line 892)
 
 	name  goto 207
 
 state 219
 	fieldlist:  fieldlist fieldsep field.    (163)
 
-	.  reduce 163 (src line 1259)
+	.  reduce 163 (src line 1299)
 
 
 220: shift/reduce conflict (shift 109(2), red'n 165(0)) on TAnd
@@ -4742,7 +4742,7 @@ state 220
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 165 (src line 1267)
+	.  reduce 165 (src line 1307)
 
 
 221: shift/reduce conflict (shift 239(0), red'n 169(0)) on '='
@@ -4752,13 +4752,13 @@ state 221
 	field:  '[' expr ']'.    (169)
 
 	'='  shift 239
-	.  reduce 169 (src line 1295)
+	.  reduce 169 (src line 1335)
 
 
 state 222
 	stat:  TWhile expr TDo block TEnd.    (19)
 
-	.  reduce 19 (src line 181)
+	.  reduce 19 (src line 190)
 
 
 223: shift/reduce conflict (shift 241(0), red'n 28(0)) on TElse
@@ -4774,13 +4774,13 @@ state 223
 	TElse  shift 241
 	TElseIf  shift 199
 	TEnd  shift 240
-	.  reduce 28 (src line 262)
+	.  reduce 28 (src line 271)
 
 
 state 224
 	stat:  TIf TThen block elseifs TEnd.    (29)
 
-	.  reduce 29 (src line 281)
+	.  reduce 29 (src line 290)
 
 
 state 225
@@ -4948,7 +4948,7 @@ state 230
 state 231
 	stat:  TFor name TDo block TEnd.    (41)
 
-	.  reduce 41 (src line 433)
+	.  reduce 41 (src line 442)
 
 
 state 232
@@ -5110,7 +5110,7 @@ state 237
 state 238
 	parlist:  namelist ',' TAny.    (157)
 
-	.  reduce 157 (src line 1217)
+	.  reduce 157 (src line 1248)
 
 
 239: shift/reduce conflict (shift 45(0), red'n 168(0)) on TFunction
@@ -5138,7 +5138,7 @@ state 239
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 168 (src line 1287)
+	.  reduce 168 (src line 1327)
 
 	functioncall  goto 47
 	var  goto 46
@@ -5151,7 +5151,7 @@ state 239
 state 240
 	stat:  TIf expr TThen block elseifs TEnd.    (27)
 
-	.  reduce 27 (src line 251)
+	.  reduce 27 (src line 260)
 
 
 241: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
@@ -5217,7 +5217,7 @@ state 242
 state 243
 	stat:  TIf block elseifs TElse block TEnd.    (35)
 
-	.  reduce 35 (src line 373)
+	.  reduce 35 (src line 382)
 
 
 244: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
@@ -5369,7 +5369,7 @@ state 247
 state 248
 	stat:  TFor name '=' TDo block TEnd.    (42)
 
-	.  reduce 42 (src line 441)
+	.  reduce 42 (src line 450)
 
 
 state 249
@@ -5411,19 +5411,19 @@ state 250
 	stat:  TFor namelist TIn exprlist TDo block.    (51)
 
 	TEnd  shift 264
-	.  reduce 51 (src line 515)
+	.  reduce 51 (src line 527)
 
 
 state 251
 	stat:  TFor namelist TIn TDo block TEnd.    (50)
 
-	.  reduce 50 (src line 507)
+	.  reduce 50 (src line 516)
 
 
 state 252
 	stat:  TFor TIn exprlist TDo block TEnd.    (49)
 
-	.  reduce 49 (src line 499)
+	.  reduce 49 (src line 508)
 
 
 state 253
@@ -5436,7 +5436,7 @@ state 253
 state 254
 	funcbody:  '(' ')' TSType block TEnd.    (154)
 
-	.  reduce 154 (src line 1197)
+	.  reduce 154 (src line 1228)
 
 
 255: shift/reduce conflict (shift 109(2), red'n 167(0)) on TAnd
@@ -5505,7 +5505,7 @@ state 255
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 167 (src line 1281)
+	.  reduce 167 (src line 1321)
 
 
 256: shift/reduce conflict (shift 266(0), red'n 34(0)) on TEnd
@@ -5514,19 +5514,19 @@ state 256
 	stat:  TIf expr TThen block elseifs TElse block.    (34)
 
 	TEnd  shift 266
-	.  reduce 34 (src line 354)
+	.  reduce 34 (src line 363)
 
 
 state 257
 	stat:  TIf TThen block elseifs TElse block TEnd.    (33)
 
-	.  reduce 33 (src line 340)
+	.  reduce 33 (src line 349)
 
 
 state 258
 	elseifs:  elseifs TElseIf expr TThen block.    (67)
 
-	.  reduce 67 (src line 651)
+	.  reduce 67 (src line 676)
 
 
 259: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
@@ -5622,7 +5622,7 @@ state 261
 state 262
 	stat:  TFor name '=' expr TDo block TEnd.    (43)
 
-	.  reduce 43 (src line 449)
+	.  reduce 43 (src line 458)
 
 
 state 263
@@ -5635,19 +5635,19 @@ state 263
 state 264
 	stat:  TFor namelist TIn exprlist TDo block TEnd.    (48)
 
-	.  reduce 48 (src line 493)
+	.  reduce 48 (src line 502)
 
 
 state 265
 	funcbody:  '(' parlist ')' TSType block TEnd.    (152)
 
-	.  reduce 152 (src line 1169)
+	.  reduce 152 (src line 1200)
 
 
 state 266
 	stat:  TIf expr TThen block elseifs TElse block TEnd.    (32)
 
-	.  reduce 32 (src line 328)
+	.  reduce 32 (src line 337)
 
 
 267: shift/reduce conflict (shift 272(0), red'n 37(0)) on TEnd
@@ -5656,7 +5656,7 @@ state 267
 	stat:  TFor name '=' expr ',' expr TDo block.    (37)
 
 	TEnd  shift 272
-	.  reduce 37 (src line 393)
+	.  reduce 37 (src line 402)
 
 
 state 268
@@ -5745,19 +5745,19 @@ state 269
 state 270
 	stat:  TFor name '=' expr ',' TDo block TEnd.    (44)
 
-	.  reduce 44 (src line 457)
+	.  reduce 44 (src line 466)
 
 
 state 271
 	stat:  TFor '=' expr ',' expr TDo block TEnd.    (38)
 
-	.  reduce 38 (src line 405)
+	.  reduce 38 (src line 414)
 
 
 state 272
 	stat:  TFor name '=' expr ',' expr TDo block TEnd.    (36)
 
-	.  reduce 36 (src line 387)
+	.  reduce 36 (src line 396)
 
 
 273: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
@@ -5826,19 +5826,19 @@ state 275
 	stat:  TFor name '=' expr ',' expr ',' expr TDo block.    (47)
 
 	TEnd  shift 277
-	.  reduce 47 (src line 481)
+	.  reduce 47 (src line 490)
 
 
 state 276
 	stat:  TFor name '=' expr ',' expr ',' TDo block TEnd.    (46)
 
-	.  reduce 46 (src line 472)
+	.  reduce 46 (src line 481)
 
 
 state 277
 	stat:  TFor name '=' expr ',' expr ',' expr TDo block TEnd.    (45)
 
-	.  reduce 45 (src line 465)
+	.  reduce 45 (src line 474)
 
 
 64 terminals, 26 nonterminals

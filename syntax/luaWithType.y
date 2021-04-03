@@ -109,7 +109,12 @@ stat:
         varlist '=' exprlist {
             temp := &AssignStmt{Left: $1, Right: $3}
             temp.Start = $1[0].start()
-            temp.End = $3[len($3)-1].end()
+            if len($3)>0{
+                temp.End = $3[len($3)-1].end()
+            }else{
+                temp.End = $2.End
+            }
+            
             $$ = temp
         } |
         varlist '=' {
@@ -123,7 +128,11 @@ stat:
         '=' exprlist {
             temp := &AssignStmt{Left: nil, Right: $2}
             temp.Start=$1.Start
-            temp.End=$2[len($2)-1].end()
+            if len($2)>0{
+                temp.End = $2[len($2)-1].end()
+            }else{
+                temp.End = $1.End
+            }
             temp.Err=&SyntaxErr{Info:"赋值表达式缺少左值"}
             temp.Err.Scope=$1.Scope
             $$ = temp
@@ -510,7 +519,10 @@ stat:
             temp.Start=$1.Start
             temp.End = $6.End
             temp.Err=&SyntaxErr{Info:"缺少迭代对象表达式"}
-            temp.Err.Scope=$2[len($2)-1].scope()
+            if len($2)>0{
+                temp.Err.Scope=$2[len($2)-1].scope()
+            }
+            temp.Err.Scope=$1.Scope
             $$ = temp
         } |
         TFor namelist TIn exprlist TDo block {
@@ -604,7 +616,12 @@ stat:
         TLocal namelist '=' exprlist {
             temp := &LocalVarDef{Names: $2, Inits:$4}
             temp.Start=$1.Start
-            temp.End = $4[len($4)-1].end()
+            if len($4)>0{
+                temp.End = $4[len($4)-1].end()
+            }else{
+                temp.End = $3.End
+            }
+            
             $$ = temp
         } |
         TLocal namelist '=' {
@@ -618,7 +635,11 @@ stat:
         TLocal '=' exprlist {
             temp := &LocalVarDef{Inits:$3}
             temp.Start=$1.Start
-            temp.End = $3[len($3)-1].end()
+            if len($3)>0{
+                temp.End = $3[len($3)-1].end()
+            }else{
+                temp.End = $2.End
+            }
             temp.Err=&SyntaxErr{Info:"缺少变量名称"}
             temp.Err.Scope=$2.Scope
             $$ = temp
@@ -627,7 +648,11 @@ stat:
         TLocal namelist {
             temp := &LocalVarDef{Names: $2}
             temp.Start=$1.Start
-            temp.End = $2[len($2)-1].end()
+            if len($2)>0{
+                temp.End = $2[len($2)-1].end()
+            }else{
+                temp.End = $1.End
+            }
             $$ = temp
         }|
         TLocal {
@@ -669,7 +694,11 @@ returnstat:
         TReturn exprlist {
             $$ = &ReturnStmt{Exprs:$2}
             $$.(*ReturnStmt).Start=$1.Start
-            $$.(*ReturnStmt).End = $2[len($2)-1].end()
+            if len($2)>0{
+                $$.(*ReturnStmt).End = $2[len($2)-1].end()
+            }else{
+                $$.(*ReturnStmt).End = $1.End
+            }
         } |
         TReturn exprlist ';' {
             $$ = &ReturnStmt{Exprs:$2}
@@ -900,10 +929,12 @@ expr:
         TString {
             temp := &StringExpr{Value: $1.Str}
             temp.Scope =$1.Scope
+            $$ = temp
         } |
         TAny {
             temp := &AnyExpr{}
             temp.Scope =$1.Scope
+            $$ = temp
         } |
         functiondef {
             $$ = $1
@@ -1217,7 +1248,12 @@ parlist:
         } | 
         namelist ',' TAny {
             temp := &ParamExpr{Params: $1, IsAny: true}
-            temp.Start=$1[len($1)-1].start()
+            if len($1)>0{
+                temp.Start=$1[len($1)-1].start()
+            }else{
+                temp.Start=$2.Start
+            }
+            
             temp.End = $3.End
             $$ = temp
         }
@@ -1246,7 +1282,11 @@ tableconstructor:
         '{' fieldlist {
             temp := &TableExpr{Fields: $2}
             temp.Start=$1.Start
-            temp.End = $2[len($2)-1].end()
+              if len($2)>0{
+                temp.End = $2[len($2)-1].end()
+            }else{
+                temp.End = $1.End
+            }
             temp.Err=&SyntaxErr{Info:"缺少右括号"}
             temp.Err.Scope=$1.Scope
             $$ = temp
