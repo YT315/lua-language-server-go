@@ -76,7 +76,10 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 	s.progress.supportpro = params.Capabilities.Window.WorkDoneProgress
 
 	//初始化工作区
-	s.project = &analysis.Project{}
+	s.project = &analysis.Project{
+		State:      analysis.ProjectCreated,
+		SymbolList: &analysis.SymbolList{Deep: 0},
+	}
 	//工作区文件夹
 	folders := params.WorkspaceFolders
 	if len(folders) == 0 {
@@ -94,7 +97,9 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 		path := auxiliary.UriToPath(folder.URI)
 		s.project.Workspaces = append(s.project.Workspaces, &analysis.Workspace{
 			RootPath: path,
-			Files:    make(map[string]*analysis.File)})
+			Files:    make(map[string]*analysis.File),
+			Project:  s.project,
+		})
 	}
 	if len(folders) > 0 && len(s.project.Workspaces) == 0 {
 		return nil, &jsonrpc2.Error{Code: jsonrpc2.CodeInvalidRequest}

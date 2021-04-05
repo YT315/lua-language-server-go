@@ -15,52 +15,54 @@ import (
 type projectState int
 
 const (
-	projectCreated      = projectState(iota)
-	projectFileScanning //正在扫描并计算AST
-	projectFileScanned  //扫描完成
-	projectAnalysising  //正在分析
-	projectAnalysised   //分析完成
+	ProjectCreated      = projectState(iota)
+	ProjectFileScanning //正在扫描并计算AST
+	ProjectFileScanned  //扫描完成
+	ProjectAnalysising  //正在分析
+	ProjectAnalysised   //分析完成
 )
 
 //Project 工程对象
 type Project struct {
 	//工程状态机
-	stateMu    sync.Mutex
-	state      projectState
+	StateMu    sync.Mutex
+	State      projectState
 	Wg         sync.WaitGroup //等待工作区初始化完成
 	Workspaces []*Workspace   //工作区列表
+	SymbolList *SymbolList    //全局符号表
 }
 
 //扫描所有工作区
 func (p *Project) Scan() {
-	p.stateMu.Lock()
-	p.state = projectFileScanning
-	p.stateMu.Unlock()
+	p.StateMu.Lock()
+	p.State = ProjectFileScanning
+	p.StateMu.Unlock()
 	for _, ws := range p.Workspaces {
 		go ws.Scan(&p.Wg)
 	}
 	p.Wg.Wait()
-	p.stateMu.Lock()
-	p.state = projectFileScanned
-	p.stateMu.Unlock()
+	p.StateMu.Lock()
+	p.State = ProjectFileScanned
+	p.StateMu.Unlock()
 	logger.Debugln("scan finish")
 	p.analysis()
 }
 
 //开始分析
 func (p *Project) analysis() {
-	p.stateMu.Lock()
-	p.state = projectAnalysising
-	p.stateMu.Unlock()
+	p.StateMu.Lock()
+	p.State = ProjectAnalysising
+	p.StateMu.Unlock()
 
-	p.stateMu.Lock()
-	p.state = projectAnalysised
-	p.stateMu.Unlock()
+	p.StateMu.Lock()
+	p.State = ProjectAnalysised
+	p.StateMu.Unlock()
 
 }
 
 //Workspace 工作区
 type Workspace struct {
+	Project  *Project
 	RootPath string
 	Files    map[string]*File //key:文件的相对路径
 }
@@ -77,8 +79,10 @@ func (w *Workspace) Scan(wg *sync.WaitGroup) {
 			}
 			if strings.HasSuffix(path, ".lua") { //只要lua文件
 				f := &File{
-					Name: info.Name(),
-					Path: path,
+					Name:       info.Name(),
+					Path:       path,
+					Workspace:  w,
+					SymbolList: w.Project.SymbolList,
 				}
 				w.Files[path] = f
 				wg.Add(1)
@@ -103,6 +107,7 @@ func (w *Workspace) Scan(wg *sync.WaitGroup) {
 
 //File 文件对象
 type File struct {
+	Workspace  *Workspace
 	Name       string                //文件名,不包含后缀
 	Path       string                //文件路径,包括文件名
 	content    []byte                //文件内容实时

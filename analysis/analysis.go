@@ -1,7 +1,99 @@
 package analysis
 
+import "lualsp/syntax"
+
 //Analysis 语义分析器
 type Analysis struct {
 	previous *Analysis //对象包含依赖,分析过程通过单项链表连接
-	FilePath string    //正在分析的文件路径包含文件名
+	file     *File     //正在分析的文件指针
+}
+
+func (a *Analysis) star() {
+	//遍历ast
+	for _, stmt := range a.file.Ast {
+		a.analysisStmt(stmt)
+	}
+}
+
+//分析语句
+func (a *Analysis) analysisStmt(st syntax.Stmt) {
+	switch tp := st.(type) {
+	case *syntax.SemStmt:
+		a.analysisSemStmt(tp)
+	case *syntax.AssignStmt:
+		a.analysisAssignStmt(tp)
+	case *syntax.LabelStmt:
+		a.analysisLabelStmt(tp)
+	case *syntax.BreakStmt:
+		a.analysisBreakStmt(tp)
+	case *syntax.GotoStmt:
+		a.analysisGotoStmt(tp)
+	case *syntax.DoEndStmt:
+		a.analysisDoEndStmt(tp)
+	case *syntax.WhileStmt:
+		a.analysisWhileStmt(tp)
+	case *syntax.RepeatStmt:
+		a.analysisRepeatStmt(tp)
+	case *syntax.IfStmt:
+		a.analysisIfStmt(tp)
+	case *syntax.ForLoopNumStmt:
+		a.analysisForLoopNumStmt(tp)
+	case *syntax.ForLoopListStmt:
+		a.analysisForLoopListStmt(tp)
+	case *syntax.FuncDefStmt:
+		a.analysisFuncDefStmt(tp)
+	case *syntax.LocalFuncDefStmt:
+		a.analysisLocalFuncDefStmt(tp)
+	case *syntax.LocalVarDef:
+		a.analysisLocalVarDef(tp)
+	case *syntax.ReturnStmt:
+		a.analysisReturnStmt(tp)
+	case *syntax.ErrorStmt:
+		a.analysisErrorStmt(tp)
+	case *syntax.FuncCall:
+		a.analysisFuncCall(tp)
+	}
+}
+
+//分析表达式
+func (a *Analysis) analysisExpr(ep syntax.Expr) {
+	switch tp := ep.(type) {
+	case *syntax.NameExpr:
+		a.analysisNameExpr(tp)
+	case *syntax.STypeExpr:
+		a.analysisSTypeExpr(tp)
+	case *syntax.ATypeExpr:
+		a.analysisATypeExpr(tp)
+	case *syntax.NilExpr:
+		a.analysisNilExpr(tp)
+	case *syntax.FalseExpr:
+		a.analysisFalseExpr(tp)
+	case *syntax.TrueExpr:
+		a.analysisTrueExpr(tp)
+	case *syntax.NumberExpr:
+		a.analysisNumberExpr(tp)
+	case *syntax.StringExpr:
+		a.analysisStringExpr(tp)
+	case *syntax.AnyExpr:
+		a.analysisAnyExpr(tp)
+	case *syntax.FuncDefExpr:
+		a.analysisFuncDefExpr(tp)
+	case *syntax.ParamExpr:
+		a.analysisParamExpr(tp)
+	case *syntax.GetItemExpr:
+		a.analysisGetItemExpr(tp)
+	case *syntax.TableExpr:
+		a.analysisTableExpr(tp)
+	case *syntax.FieldExpr:
+		a.analysisFieldExpr(tp)
+	case *syntax.TwoOpExpr:
+		a.analysisTwoOpExpr(tp)
+	case *syntax.OneOpExpr:
+		a.analysisOneOpExpr(tp)
+	case *syntax.FuncCall:
+		a.analysisFuncCall(tp)
+	}
+}
+
+func (a *Analysis) analysisFuncCall(n *syntax.FuncCall) {
 }
