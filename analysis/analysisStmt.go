@@ -7,7 +7,7 @@ func (a *Analysis) analysisSemStmt(st *syntax.SemStmt) {
 }
 
 func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
-	if len(st.Left) != len(st.Right) {
+	/*if len(st.Left) != len(st.Right) {
 		//warrrrrrrrrrrrr
 	}
 	rlens := len(st.Right)
@@ -17,9 +17,9 @@ func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 		}
 		switch tp := tvar.(type) {
 		case *syntax.NameExpr:
-			name:=tp.Value 
-			
-			if 
+			name:=tp.Value
+
+			if
 			syb := &Symbol{
 				Node: tvar,
 				File: a.file,
@@ -28,7 +28,7 @@ func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 			//a.file.SymbolList.Symbols=append(a.file.SymbolList.Symbols,)
 		}
 
-	}
+	}*/
 
 }
 func (a *Analysis) analysisLabelStmt(st *syntax.LabelStmt) {

@@ -1,12 +1,15 @@
-a=v++
-function () --[[@aaaa|fasdf,aaa|asdfasd,aaa|fasdfa]]
-    a=100
-    b=50
+--闭包
+function getfunc()
+    local a=200
+    return function()
+        a=a+100
+        --此处获取a类型
+        print(a)
+        return a
+    end
 end
 
+getfunc()()
+func = getfunc()
+return func()
 
-print(a)
-
-test()
-
-print(a)

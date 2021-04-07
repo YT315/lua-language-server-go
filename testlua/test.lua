@@ -1,4 +1,4 @@
-a--[[data]]=100
+a.b
 do
     
 end

@@ -1,10 +1,7 @@
---函数变量
+--函数级闭包
+local a=100
 function change()
     a=300
 end
-local a=100
-
-
 change()
-a
 print(a)

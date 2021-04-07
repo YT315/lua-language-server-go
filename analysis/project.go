@@ -111,11 +111,13 @@ type File struct {
 	Name       string                //文件名,不包含后缀
 	Path       string                //文件路径,包括文件名
 	content    []byte                //文件内容实时
+	linePos    map[int]int           //行号对应的字节偏移方便有变动时插入
 	IsEditing  bool                  //文件是否正在编辑,编辑时,文件的实际内容和content不一定相同
 	Ast        []syntax.Stmt         //文件的抽象语法树
 	SymbolPos  []*Symbol             //文件中所有符号列表,按照位置顺序向后排列
 	SymbolList *SymbolList           //文件符号表,作用域
 	TypeList   map[string]SymbolInfo //文件中包含的所有类型列表
+	ReturnType [][]TypeInfo          //返回列表
 	BeRequire  []*File               //所有依赖此文件的文件
 	Mutex      sync.Mutex            //互斥锁
 }

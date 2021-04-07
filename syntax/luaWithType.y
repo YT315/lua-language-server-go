@@ -117,6 +117,14 @@ stat:
             
             $$ = temp
         } |
+        varlist{
+            temp := &AssignStmt{Left: $1, Right: nil}
+            temp.Start=$1[0].start()
+            temp.End=$1[0].end()
+            temp.Err=&SyntaxErr{Info:"赋值表达式缺少等于右值"}
+            temp.Err.Scope=temp.Scope
+            $$ = temp
+        } |  
         varlist '=' {
             temp := &AssignStmt{Left: $1, Right: nil}
             temp.Start=$1[0].start()
