@@ -137,11 +137,11 @@ func (f *File) Parse() {
 
 //SymbolList 符号表结构
 type SymbolList struct {
-	Deep     int                //此作用域的深度
-	Position int                //此符号表作用范围
-	Outside  *SymbolList        //此符号表外部符号表
-	Inside   []*SymbolList      //此符号表内部符号表
-	Symbols  map[string]*Symbol //包含的符号
+	Deep     int                    //此作用域的深度
+	Position int                    //此符号表作用范围
+	Outside  *SymbolList            //此符号表外部符号表
+	Inside   []*SymbolList          //此符号表内部符号表
+	Symbols  map[string]*SymbolInfo //包含的符号
 }
 
 //Symbol 符号对象
@@ -154,6 +154,7 @@ type Symbol struct {
 
 //SymbolInfo 符号信息
 type SymbolInfo struct {
+	TypeInfo    TypeInfo  //符号当前的类型
 	Definitions []*Symbol //符号定义处
 	References  []*Symbol //符号所有引用处
 }
@@ -164,7 +165,9 @@ type TypeInfo interface {
 }
 
 //TypeBool 布尔类型
-type TypeBool struct{}
+type TypeBool struct {
+	Value bool
+}
 
 //TypeName 类型名称
 func (*TypeBool) TypeName() string {
@@ -172,7 +175,9 @@ func (*TypeBool) TypeName() string {
 }
 
 //TypeNumber 数字类型
-type TypeNumber struct{}
+type TypeNumber struct {
+	Value float64
+}
 
 //TypeName 类型名称
 func (*TypeNumber) TypeName() string {
@@ -180,7 +185,9 @@ func (*TypeNumber) TypeName() string {
 }
 
 //TypeString 字符串类型
-type TypeString struct{}
+type TypeString struct {
+	Value string
+}
 
 //TypeName 类型名称
 func (*TypeString) TypeName() string {
