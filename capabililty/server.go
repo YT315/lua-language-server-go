@@ -77,8 +77,7 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 
 	//初始化工作区
 	s.project = &analysis.Project{
-		State:      analysis.ProjectCreated,
-		SymbolList: &analysis.SymbolList{Deep: 0},
+		State: analysis.ProjectCreated,
 	}
 	//工作区文件夹
 	folders := params.WorkspaceFolders

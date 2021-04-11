@@ -56,44 +56,46 @@ func (a *Analysis) analysisStmt(st syntax.Stmt) {
 }
 
 //分析表达式
-func (a *Analysis) analysisExpr(ep syntax.Expr) {
+func (a *Analysis) analysisExpr(ep syntax.Expr) interface{} {
 	switch tp := ep.(type) {
 	case *syntax.NameExpr:
-		a.analysisNameExpr(tp)
+		return a.analysisNameExpr(tp)
 	case *syntax.STypeExpr:
-		a.analysisSTypeExpr(tp)
+		return a.analysisSTypeExpr(tp)
 	case *syntax.ATypeExpr:
-		a.analysisATypeExpr(tp)
+		return a.analysisATypeExpr(tp)
 	case *syntax.NilExpr:
-		a.analysisNilExpr(tp)
+		return a.analysisNilExpr(tp)
 	case *syntax.FalseExpr:
-		a.analysisFalseExpr(tp)
+		return a.analysisFalseExpr(tp)
 	case *syntax.TrueExpr:
-		a.analysisTrueExpr(tp)
+		return a.analysisTrueExpr(tp)
 	case *syntax.NumberExpr:
-		a.analysisNumberExpr(tp)
+		return a.analysisNumberExpr(tp)
 	case *syntax.StringExpr:
-		a.analysisStringExpr(tp)
+		return a.analysisStringExpr(tp)
 	case *syntax.AnyExpr:
-		a.analysisAnyExpr(tp)
+		return a.analysisAnyExpr(tp)
 	case *syntax.FuncDefExpr:
-		a.analysisFuncDefExpr(tp)
+		return a.analysisFuncDefExpr(tp)
 	case *syntax.ParamExpr:
-		a.analysisParamExpr(tp)
+		return a.analysisParamExpr(tp)
 	case *syntax.GetItemExpr:
-		a.analysisGetItemExpr(tp)
+		return a.analysisGetItemExpr(tp)
 	case *syntax.TableExpr:
-		a.analysisTableExpr(tp)
+		return a.analysisTableExpr(tp)
 	case *syntax.FieldExpr:
-		a.analysisFieldExpr(tp)
+		return a.analysisFieldExpr(tp)
 	case *syntax.TwoOpExpr:
-		a.analysisTwoOpExpr(tp)
+		return a.analysisTwoOpExpr(tp)
 	case *syntax.OneOpExpr:
-		a.analysisOneOpExpr(tp)
+		return a.analysisOneOpExpr(tp)
 	case *syntax.FuncCall:
-		a.analysisFuncCall(tp)
+		return a.analysisFuncCall(tp)
+	default:
+		return nil
 	}
 }
-
-func (a *Analysis) analysisFuncCall(n *syntax.FuncCall) {
+func (a *Analysis) analysisFuncCall(n *syntax.FuncCall) interface{} {
+	return nil
 }

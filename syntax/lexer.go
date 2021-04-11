@@ -256,12 +256,12 @@ func (lx *Lexer) ParseComment() (res bool) {
 			if lx.ch == '+' {
 				if lx.scanUntil(']') {
 					if lx.nextch(); lx.ch == ']' {
+						lx.nextch()
 						lit := lx.segment()
 						lx.Token.Str = string(lit)
 						lx.Token.Type = TAType
 						lx.Token.End.col += uint(len(lit))
 						res = true
-						lx.nextch()
 					} else {
 						res = false
 						lx.nextch()
@@ -272,12 +272,12 @@ func (lx *Lexer) ParseComment() (res bool) {
 			} else if lx.ch == '@' {
 				if lx.scanUntil(']') {
 					if lx.nextch(); lx.ch == ']' {
+						lx.nextch()
 						lit := lx.segment()
 						lx.Token.Str = string(lit)
 						lx.Token.Type = TSType
 						lx.Token.End.col += uint(len(lit))
 						res = true
-						lx.nextch()
 					} else {
 						res = false
 						lx.nextch()

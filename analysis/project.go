@@ -25,11 +25,14 @@ const (
 //Project 工程对象
 type Project struct {
 	//工程状态机
-	StateMu    sync.Mutex
+	StateMu    sync.RWMutex
 	State      projectState
-	Wg         sync.WaitGroup //等待工作区初始化完成
-	Workspaces []*Workspace   //工作区列表
-	SymbolList *SymbolList    //全局符号表
+	Wg         sync.WaitGroup     //等待工作区初始化完成
+	Workspaces []*Workspace       //工作区列表
+	SymbolsMu  sync.RWMutex       //符号表读写锁
+	SymbolList SymbolList         //全局符号表
+	TypesMu    sync.RWMutex       //类型表读写锁
+	TypeList   map[string]*Symbol //所有类型列表,类型其实是对某个符号的引用
 }
 
 //扫描所有工作区
@@ -79,10 +82,9 @@ func (w *Workspace) Scan(wg *sync.WaitGroup) {
 			}
 			if strings.HasSuffix(path, ".lua") { //只要lua文件
 				f := &File{
-					Name:       info.Name(),
-					Path:       path,
-					Workspace:  w,
-					SymbolList: w.Project.SymbolList,
+					Name:    info.Name(),
+					Path:    path,
+					Project: w.Project,
 				}
 				w.Files[path] = f
 				wg.Add(1)
@@ -107,25 +109,48 @@ func (w *Workspace) Scan(wg *sync.WaitGroup) {
 
 //File 文件对象
 type File struct {
-	Workspace  *Workspace
-	Name       string                //文件名,不包含后缀
-	Path       string                //文件路径,包括文件名
-	content    []byte                //文件内容实时
-	linePos    map[int]int           //行号对应的字节偏移方便有变动时插入
-	IsEditing  bool                  //文件是否正在编辑,编辑时,文件的实际内容和content不一定相同
-	Ast        []syntax.Stmt         //文件的抽象语法树
-	SymbolPos  []*Symbol             //文件中所有符号列表,按照位置顺序向后排列
-	SymbolList *SymbolList           //文件符号表,作用域
-	TypeList   map[string]SymbolInfo //文件中包含的所有类型列表
-	ReturnType [][]TypeInfo          //返回列表
-	BeRequire  []*File               //所有依赖此文件的文件
-	Mutex      sync.Mutex            //互斥锁
+	Project    *Project      //所属工程
+	Name       string        //文件名,不包含后缀
+	Path       string        //文件路径,包括文件名
+	content    []byte        //文件内容实时
+	linePos    map[int]int   //行号对应的字节偏移方便有变动时插入
+	IsEditing  bool          //文件是否正在编辑,编辑时,文件的实际内容和content不一定相同
+	Ast        []syntax.Stmt //文件的抽象语法树
+	SymbolPos  []*Symbol     //文件中所有符号列表,按照位置顺序向后排列
+	Symbolbase *SymbolList   //文件符号表,作用域深度为1层
+	Symbolcur  *SymbolList   //文件符号表,作用域
+	ReturnType [][]TypeInfo  //返回列表
+	BeRequire  []*File       //所有依赖此文件的文件
+	Mutex      sync.Mutex    //互斥锁
 }
 
+//创建一个新的作用域
+func (f *File) createInside() (list *SymbolList) {
+	list = &SymbolList{
+		Deep:    f.Symbolcur.Deep + 1,
+		Outside: f.Symbolcur,
+	}
+	f.Symbolcur.Inside = append(f.Symbolcur.Inside, list)
+	f.Symbolcur = list
+	return
+}
+
+//返回上一层作用域
+func (f *File) backOutside() (list *SymbolList) {
+	if f.Symbolcur.Outside != nil {
+		f.Symbolcur = f.Symbolcur.Outside
+		list = f.Symbolcur
+	}
+	return
+}
+
+//将文件内容读取缓存
 func (f *File) updata() (err error) {
 	f.content, err = ioutil.ReadFile(f.Path)
 	return
 }
+
+//解析
 func (f *File) Parse() {
 	reader := bytes.NewReader(f.content)
 	lex := syntax.NewLexer(reader, func(line, col uint, msg string) {
@@ -137,15 +162,16 @@ func (f *File) Parse() {
 
 //SymbolList 符号表结构
 type SymbolList struct {
-	Deep     int                    //此作用域的深度
-	Position int                    //此符号表作用范围
-	Outside  *SymbolList            //此符号表外部符号表
-	Inside   []*SymbolList          //此符号表内部符号表
-	Symbols  map[string]*SymbolInfo //包含的符号
+	Deep    int                    //此作用域的深度,全局变量深度为0,文件为1
+	Scope   syntax.Scope           //此符号表作用范围
+	Outside *SymbolList            //此符号表外部符号表
+	Inside  []*SymbolList          //此符号表内部符号表
+	Symbols map[string]*SymbolInfo //包含的符号
 }
 
 //Symbol 符号对象
 type Symbol struct {
+	Name       string
 	Node       syntax.Node //此符号对应的语法树节点
 	File       *File       //此符号所在文件
 	Types      []TypeInfo  //符号的类型在未知判断的情况下可能有多个
@@ -154,9 +180,9 @@ type Symbol struct {
 
 //SymbolInfo 符号信息
 type SymbolInfo struct {
-	CurType     TypeInfo  //符号当前的类型
-	Definitions []*Symbol //符号定义处
-	References  []*Symbol //符号所有引用处
+	CurType     []TypeInfo //符号当前的类型
+	Definitions []*Symbol  //符号定义处
+	References  []*Symbol  //符号所有引用处
 }
 
 //TypeInfo 类型接口
@@ -206,7 +232,9 @@ func (*TypeAny) TypeName() string {
 type TypeTable struct {
 	Name        string
 	IsAnonymous bool
-	Fields      map[string]SymbolInfo
+	Fields      map[string]SymbolInfo //hash
+	Items       map[int]SymbolInfo    //array
+	Metatable   *TypeTable            //元表
 }
 
 //TypeName 类型名称
@@ -216,13 +244,10 @@ func (me *TypeTable) TypeName() string {
 
 //TypeFunction 函数类型
 type TypeFunction struct {
-	Name     string
-	Returns  []TypeInfo
-	Symbols  map[string]*Symbol
-	TypeList []TypeInfo
+	Returns []TypeInfo //返回值1.x版本对函数处理返回值
 }
 
 //TypeName 类型名称
 func (me *TypeFunction) TypeName() string {
-	return me.Name
+	return "function"
 }

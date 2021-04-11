@@ -854,7 +854,7 @@ var:
             $$ = temp
         } |
         prefixexp '.' TName {
-            name:= &NameExpr{Value:$3.Str}
+            name := &StringExpr{Value: $3.Str}
             name.Scope=$3.Scope
             temp := &GetItemExpr{Table:$1, Key:name}
             temp.Start=$1.start()
