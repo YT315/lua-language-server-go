@@ -169,6 +169,19 @@ type SymbolList struct {
 	Symbols map[string]*SymbolInfo //包含的符号
 }
 
+//查找符号
+func (sl *SymbolList) FindSymbol(name string) (result *SymbolInfo) {
+	var temp *SymbolList
+	//循环向外层寻找
+	for temp = sl; temp != nil; temp = temp.Outside {
+		if info, ok := temp.Symbols[name]; ok {
+			result = info
+			break
+		}
+	}
+	return
+}
+
 //Symbol 符号对象
 type Symbol struct {
 	Name       string

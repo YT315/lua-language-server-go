@@ -55,6 +55,7 @@ func (a *Analysis) analysisStmt(st syntax.Stmt) {
 	}
 }
 
+/*
 //分析表达式
 func (a *Analysis) analysisExpr(ep syntax.Expr) interface{} {
 	switch tp := ep.(type) {
@@ -95,7 +96,7 @@ func (a *Analysis) analysisExpr(ep syntax.Expr) interface{} {
 	default:
 		return nil
 	}
-}
+}*/
 func (a *Analysis) analysisFuncCall(n *syntax.FuncCall) interface{} {
 	return nil
 }

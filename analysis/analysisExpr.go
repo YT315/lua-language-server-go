@@ -23,21 +23,23 @@ func (a *Analysis) analysisNameExpr(ep *syntax.NameExpr) (result *Symbol) {
 		Node: ep,
 		File: a.file,
 	}
-	if ep.Type != nil {
-		if res := a.analysisExpr(ep.Type); res != nil {
-			switch etype := res.(type) {
-			case []TypeInfo: //设置类型
-				result.Types = append(result.Types, etype...)
-			case addType: //添加类型
-				etype(result)
-			default:
-				//errrrrrrrrrrrrrrr
-			}
+	switch data := ep.Type.(type) {
+	case *syntax.ATypeExpr:
+		if res := a.analysisATypeExpr(data); res != nil {
+			res(result)
 		}
+	case *syntax.STypeExpr:
+		if res := a.analysisSTypeExpr(data); res != nil {
+			result.Types = append(result.Types, res...)
+		}
+	case nil:
+	default:
+		//errrrrrrrrrrrrrrrr
 	}
 	return result
 }
 
+//type
 //设置类型@
 func (a *Analysis) analysisSTypeExpr(ep *syntax.STypeExpr) (result []TypeInfo) {
 	result = []TypeInfo{}
@@ -77,25 +79,29 @@ func (a *Analysis) analysisATypeExpr(ep *syntax.ATypeExpr) (result addType) {
 	}
 	return result
 }
-func (a *Analysis) analysisNilExpr(ep *syntax.NilExpr) interface{} {
+
+//TypeInfo
+func (a *Analysis) analysisNilExpr(ep *syntax.NilExpr) TypeInfo {
 	return nil
 }
-func (a *Analysis) analysisFalseExpr(ep *syntax.FalseExpr) interface{} {
-	return TypeBool{Value: false}
+func (a *Analysis) analysisFalseExpr(ep *syntax.FalseExpr) TypeInfo {
+	return &TypeBool{Value: false}
 }
-func (a *Analysis) analysisTrueExpr(ep *syntax.TrueExpr) interface{} {
-	return TypeBool{Value: true}
+func (a *Analysis) analysisTrueExpr(ep *syntax.TrueExpr) TypeInfo {
+	return &TypeBool{Value: true}
 }
-func (a *Analysis) analysisNumberExpr(ep *syntax.NumberExpr) interface{} {
+func (a *Analysis) analysisNumberExpr(ep *syntax.NumberExpr) TypeInfo {
 	num, _ := strconv.ParseFloat(ep.Value, 64)
-	return TypeNumber{Value: num}
+	return &TypeNumber{Value: num}
 }
-func (a *Analysis) analysisStringExpr(ep *syntax.StringExpr) interface{} {
-	return TypeString{Value: ep.Value}
+func (a *Analysis) analysisStringExpr(ep *syntax.StringExpr) TypeInfo {
+	return &TypeString{Value: ep.Value}
 }
-func (a *Analysis) analysisAnyExpr(ep *syntax.AnyExpr) interface{} {
-	return TypeAny{}
+func (a *Analysis) analysisAnyExpr(ep *syntax.AnyExpr) TypeInfo {
+	return &TypeAny{}
 }
+
+//解析函数体
 func (a *Analysis) analysisFuncDefExpr(ep *syntax.FuncDefExpr) (result *TypeFunction) {
 	a.file.createInside()      //创建新作用域
 	defer a.file.backOutside() //退出作用域
@@ -127,6 +133,8 @@ func (a *Analysis) analysisFuncDefExpr(ep *syntax.FuncDefExpr) (result *TypeFunc
 	}
 	return
 }
+
+//解析函数参数
 func (a *Analysis) analysisParamExpr(ep *syntax.ParamExpr) (result []*Symbol) {
 	result = make([]*Symbol, len(ep.Params))
 	for _, param := range ep.Params {
@@ -142,8 +150,23 @@ func (a *Analysis) analysisParamExpr(ep *syntax.ParamExpr) (result []*Symbol) {
 	}
 	return result
 }
-func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result *Symbol) {
 
+//解析属性获取
+func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result *Symbol) {
+	var tab *Symbol
+	switch data := ep.Table.(type) {
+	case *syntax.GetItemExpr:
+		tab = a.analysisGetItemExpr(data)
+	case *syntax.NameExpr:
+		//寻找此符号,查看符号类型,如果不是table,//报警并添加table类型,是table则ok
+		name := a.analysisNameExpr(data)
+		if info := a.file.Symbolcur.FindSymbol(name.Name); info != nil {
+
+		}
+	case *syntax.FuncCall:
+	default:
+		//errrrrrrrrrrrrrrrr
+	}
 	return nil
 }
 func (a *Analysis) analysisTableExpr(ep *syntax.TableExpr) interface{} {
