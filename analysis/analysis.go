@@ -97,6 +97,6 @@ func (a *Analysis) analysisExpr(ep syntax.Expr) interface{} {
 		return nil
 	}
 }*/
-func (a *Analysis) analysisFuncCall(n *syntax.FuncCall) interface{} {
+func (a *Analysis) analysisFuncCall(n *syntax.FuncCall) *TypeFunction {
 	return nil
 }

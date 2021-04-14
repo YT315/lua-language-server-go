@@ -6,5 +6,5 @@ local a=100
 
 
 change()
-a
+--a
 print(a)

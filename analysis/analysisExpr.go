@@ -119,17 +119,18 @@ func (a *Analysis) analysisFuncDefExpr(ep *syntax.FuncDefExpr) (result *TypeFunc
 	} else {
 		//errrrrrrrrrrrrrrrrrrrrrrr
 	}
-	//分析语句
+	//分析语句////////////////////////////////////////////获取中间返回值
 	for _, stmt := range ep.Block {
 		a.analysisStmt(stmt)
 	}
 	//分析返回值
-	if ste, ok := ep.Param.(*syntax.STypeExpr); ok {
-		result = &TypeFunction{
-			Returns: a.analysisSTypeExpr(ste),
+	if ep.Result != nil {
+		if ste, ok := ep.Result.(*syntax.STypeExpr); ok {
+			result = &TypeFunction{}
+			result.Returns = append(result.Returns, a.analysisSTypeExpr(ste))
+		} else {
+			//errrrrrrrrrrrr
 		}
-	} else {
-		//errrrrrrrrrrrr
 	}
 	return
 }
@@ -152,20 +153,78 @@ func (a *Analysis) analysisParamExpr(ep *syntax.ParamExpr) (result []*Symbol) {
 }
 
 //解析属性获取
-func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result *Symbol) {
-	var tab *Symbol
+func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*SymbolInfo) {
+	//------------获取tab表达式的类型
+	var types []*TypeTable
 	switch data := ep.Table.(type) {
+	//如果需要索引
 	case *syntax.GetItemExpr:
-		tab = a.analysisGetItemExpr(data)
+		if syifs := a.analysisGetItemExpr(data); syifs != nil {
+			for _, syif := range syifs {
+				for _, tp := range syif.CurType {
+					if tp.TypeName() == "table" {
+						types = append(types, tp) //将table类型添加
+					}
+				}
+			}
+		} else {
+			//errrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+			return nil
+		}
+	//是名字
 	case *syntax.NameExpr:
 		//寻找此符号,查看符号类型,如果不是table,//报警并添加table类型,是table则ok
 		name := a.analysisNameExpr(data)
 		if info := a.file.Symbolcur.FindSymbol(name.Name); info != nil {
-
+			info.CurType = append(info.CurType, name.Types...)
+			//判断是否有表类型
+			for _, tp := range info.CurType {
+				if tp.TypeName() == "table" {
+					types = append(types, tp) //将table类型添加
+				}
+			}
+			//未找到表类型,则给name添加表类型,并报错误
+			if len(types) == 0 {
+				//errrrrrrrrrrrrrrrrrrr
+				//创建一个表类型
+				newtab := &TypeTable{}
+				name.SymbolInfo.CurType = append(name.SymbolInfo.CurType, newtab)
+				types = append(types, newtab) //添加到返回值
+			}
+		} else {
+			//errrrrrrrrrrrrrrrrrrr
 		}
 	case *syntax.FuncCall:
+		funres := a.analysisFuncCall(data)
+		if len(funres.Returns) > 0 {
+			for _, tp := range funres.Returns[0] {
+				if tp.TypeName() == "table" {
+					types = append(types, tp) //将table类型添加
+				}
+			}
+		} else {
+			//errrrrrrrrrrrrrrrrrrrrrr
+			return nil
+		}
 	default:
 		//errrrrrrrrrrrrrrrr
+		return nil
+	}
+	if len(types) == 0 {
+		return nil
+	}
+	//------------获取key表达式的类型
+	switch data := ep.Key.(type) {
+	//是字符串
+	case *syntax.StringExpr:
+		for _,ty:=range types{
+			if 
+		}
+	//是数字
+	case *syntax.NumberExpr:
+	default:
+		//errrrrrrrrrrrrrrrr
+		return nil
 	}
 	return nil
 }

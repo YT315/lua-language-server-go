@@ -203,6 +203,15 @@ type TypeInfo interface {
 	TypeName() string //类型名称
 }
 
+//TypeNil 空类型
+type TypeNil struct {
+}
+
+//TypeName 类型名称
+func (*TypeNil) TypeName() string {
+	return "nil"
+}
+
 //TypeBool 布尔类型
 type TypeBool struct {
 	Value bool
@@ -252,12 +261,12 @@ type TypeTable struct {
 
 //TypeName 类型名称
 func (me *TypeTable) TypeName() string {
-	return me.Name
+	return "table"
 }
 
 //TypeFunction 函数类型
 type TypeFunction struct {
-	Returns []TypeInfo //返回值1.x版本对函数处理返回值
+	Returns [][]TypeInfo //函数可能有多种返回值情况,数字第一索引表示,返回值索引,第二索引,表示此返回值的类型范围
 }
 
 //TypeName 类型名称
