@@ -188,7 +188,7 @@ type (
 	NumberExpr struct {
 		exprBase
 
-		Value string
+		Value float64
 	}
 
 	StringExpr struct {

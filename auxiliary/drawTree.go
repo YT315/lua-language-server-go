@@ -113,6 +113,14 @@ func DrawTree(node interface{}, arg ...string) {
 		flag[deep] = false
 		fmt.Println(v.Bool())
 
+	case reflect.Float64:
+		fmt.Printf(v.Kind().String())
+		fmt.Printf("\n")
+		putvid()
+		putend()
+		flag[deep] = false
+		fmt.Println(v.Float())
+
 	default:
 		panic(v.Kind())
 	}

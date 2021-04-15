@@ -1,5 +1,7 @@
 %{
 package syntax
+
+import("strconv")
 %}
 
 %union {
@@ -930,7 +932,8 @@ expr:
             $$ = temp
         } | 
         TNumber {
-            temp := &NumberExpr{Value: $1.Str}
+            temp := &NumberExpr{}
+            temp.Value,_ = strconv.ParseFloat($1.Str, 64)
             temp.Scope =$1.Scope
             $$ = temp
         } | 

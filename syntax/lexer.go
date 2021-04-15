@@ -216,6 +216,7 @@ func (lx *Lexer) scanNum() {
 			lx.nextch()
 		}
 		if lx.ch == '.' {
+			lx.nextch()
 			for isDecimal(lx.ch) {
 				lx.nextch()
 			}

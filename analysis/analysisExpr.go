@@ -3,7 +3,6 @@ package analysis
 import (
 	"lualsp/syntax"
 	"regexp"
-	"strconv"
 	"strings"
 )
 
@@ -91,8 +90,7 @@ func (a *Analysis) analysisTrueExpr(ep *syntax.TrueExpr) TypeInfo {
 	return &TypeBool{Value: true}
 }
 func (a *Analysis) analysisNumberExpr(ep *syntax.NumberExpr) TypeInfo {
-	num, _ := strconv.ParseFloat(ep.Value, 64)
-	return &TypeNumber{Value: num}
+	return &TypeNumber{Value: ep.Value}
 }
 func (a *Analysis) analysisStringExpr(ep *syntax.StringExpr) TypeInfo {
 	return &TypeString{Value: ep.Value}
@@ -162,8 +160,8 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 		if syifs := a.analysisGetItemExpr(data); syifs != nil {
 			for _, syif := range syifs {
 				for _, tp := range syif.CurType {
-					if tp.TypeName() == "table" {
-						types = append(types, tp) //将table类型添加
+					if tb, ok := tp.(*TypeTable); ok {
+						types = append(types, tb) //将table类型添加
 					}
 				}
 			}
@@ -179,8 +177,8 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 			info.CurType = append(info.CurType, name.Types...)
 			//判断是否有表类型
 			for _, tp := range info.CurType {
-				if tp.TypeName() == "table" {
-					types = append(types, tp) //将table类型添加
+				if tb, ok := tp.(*TypeTable); ok {
+					types = append(types, tb) //将table类型添加
 				}
 			}
 			//未找到表类型,则给name添加表类型,并报错误
@@ -198,8 +196,8 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 		funres := a.analysisFuncCall(data)
 		if len(funres.Returns) > 0 {
 			for _, tp := range funres.Returns[0] {
-				if tp.TypeName() == "table" {
-					types = append(types, tp) //将table类型添加
+				if tb, ok := tp.(*TypeTable); ok {
+					types = append(types, tb) //将table类型添加
 				}
 			}
 		} else {
@@ -217,18 +215,27 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 	switch data := ep.Key.(type) {
 	//是字符串
 	case *syntax.StringExpr:
-		for _,ty:=range types{
-			if 
+		for _, ty := range types {
+			if syif, ok := ty.Fields[data.Value]; ok {
+				result = append(result, syif)
+			}
 		}
 	//是数字
 	case *syntax.NumberExpr:
+		for _, ty := range types {
+			if syif, ok := ty.Items[data.Value]; ok {
+				result = append(result, syif)
+			}
+		}
 	default:
-		//errrrrrrrrrrrrrrrr
+		//?????????//errrrrrrrrrrrrrrrr
 		return nil
 	}
-	return nil
+	return
 }
-func (a *Analysis) analysisTableExpr(ep *syntax.TableExpr) interface{} {
+func (a *Analysis) analysisTableExpr(ep *syntax.TableExpr) (result *TypeTable) {
+	result = &TypeTable{}
+
 	return nil
 }
 func (a *Analysis) analysisFieldExpr(ep *syntax.FieldExpr) interface{} {
