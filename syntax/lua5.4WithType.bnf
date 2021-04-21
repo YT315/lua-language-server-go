@@ -40,7 +40,7 @@ namelist ::= name {‘,’ name}
 explist ::= exp {‘,’ exp}
 
 #exp ::=  nil | false | true | Numeral | LiteralString | ‘...’ | functiondef | 
-#    prefixexp | tableconstructor | exp binop exp | unop exp |‘(’ exp ‘)’
+#    prefixexp | tableconstructor | exp binop exp | unop exp
 
 exp ::=  nil | false | true | Numeral | LiteralString | ‘...’ | functiondef | 
      prefixexp | tableconstructor | exp binop exp | unop exp |‘(’ exp ‘)’

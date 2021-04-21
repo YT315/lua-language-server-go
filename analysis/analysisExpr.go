@@ -234,12 +234,78 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 	return
 }
 func (a *Analysis) analysisTableExpr(ep *syntax.TableExpr) (result *TypeTable) {
+
 	result = &TypeTable{}
 
 	return nil
 }
-func (a *Analysis) analysisFieldExpr(ep *syntax.FieldExpr) interface{} {
-	return nil
+
+//分析表字段,返回字段索引以及字段字段内容,如果此字段没有索引,则只返回内容
+func (a *Analysis) analysisFieldExpr(ep *syntax.FieldExpr) (key interface{}, value *SymbolInfo) {
+	//分析value
+	valtype := []TypeInfo{}
+	if ep.Value != nil {
+		vres := a.analysisExpr(ep.Value)
+		switch res := vres.(type) {
+		case TypeInfo:
+			valtype = append(valtype, res)
+		case []*SymbolInfo:
+			for _, sybif := range res {
+				valtype = append(valtype, sybif.CurType...)
+			}
+
+		case *Symbol:
+			if res := a.file.Symbolcur.FindSymbol(res.Name); res != nil {
+				valtype = append(valtype, res.CurType...)
+			} else {
+				//errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+			}
+		case nil:
+		default:
+			//errrrrrrrrrrrrrrrrrrrrrr
+		}
+	}
+	if len(valtype) == 0 {
+		valtype = append(valtype, &TypeAny{})
+	}
+	//分析key
+	switch data := ep.Key.(type) {
+	case *syntax.StringExpr:
+		key = data.Value //key是一个字符串
+		syb := &Symbol{
+			Name: data.Value,
+			Node: ep.Key,
+			File: a.file,
+		}
+		value = &SymbolInfo{
+			CurType:     valtype,
+			Definitions: []*Symbol{syb}, //符号定义处
+			References:  []*Symbol{syb}, //符号所有引用处
+		}
+	case *syntax.NumberExpr:
+		value = &SymbolInfo{
+			CurType: valtype,
+		}
+	case *syntax.NameExpr:
+		key = data.Value //key是一个字符串
+		syb := &Symbol{
+			Name: data.Value,
+			Node: ep.Key,
+			File: a.file,
+		}
+		value = &SymbolInfo{
+			CurType:     valtype,
+			Definitions: []*Symbol{syb}, //符号定义处
+			References:  []*Symbol{syb}, //符号所有引用处
+		}
+	case nil:
+		value = &SymbolInfo{
+			CurType: valtype,
+		}
+	default:
+		//errrrrrrrrrrrrrrrr
+	}
+	return
 }
 func (a *Analysis) analysisTwoOpExpr(ep *syntax.TwoOpExpr) interface{} {
 	return nil

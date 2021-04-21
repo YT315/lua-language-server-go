@@ -55,16 +55,9 @@ func (a *Analysis) analysisStmt(st syntax.Stmt) {
 	}
 }
 
-/*
 //分析表达式
 func (a *Analysis) analysisExpr(ep syntax.Expr) interface{} {
 	switch tp := ep.(type) {
-	case *syntax.NameExpr:
-		return a.analysisNameExpr(tp)
-	case *syntax.STypeExpr:
-		return a.analysisSTypeExpr(tp)
-	case *syntax.ATypeExpr:
-		return a.analysisATypeExpr(tp)
 	case *syntax.NilExpr:
 		return a.analysisNilExpr(tp)
 	case *syntax.FalseExpr:
@@ -79,24 +72,23 @@ func (a *Analysis) analysisExpr(ep syntax.Expr) interface{} {
 		return a.analysisAnyExpr(tp)
 	case *syntax.FuncDefExpr:
 		return a.analysisFuncDefExpr(tp)
-	case *syntax.ParamExpr:
-		return a.analysisParamExpr(tp)
-	case *syntax.GetItemExpr:
-		return a.analysisGetItemExpr(tp)
 	case *syntax.TableExpr:
 		return a.analysisTableExpr(tp)
-	case *syntax.FieldExpr:
-		return a.analysisFieldExpr(tp)
 	case *syntax.TwoOpExpr:
 		return a.analysisTwoOpExpr(tp)
 	case *syntax.OneOpExpr:
 		return a.analysisOneOpExpr(tp)
 	case *syntax.FuncCall:
 		return a.analysisFuncCall(tp)
+
+	case *syntax.NameExpr:
+		return a.analysisNameExpr(tp)
+	case *syntax.GetItemExpr:
+		return a.analysisGetItemExpr(tp)
 	default:
 		return nil
 	}
-}*/
+}
 func (a *Analysis) analysisFuncCall(n *syntax.FuncCall) *TypeFunction {
 	return nil
 }
