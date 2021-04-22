@@ -236,8 +236,28 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 func (a *Analysis) analysisTableExpr(ep *syntax.TableExpr) (result *TypeTable) {
 
 	result = &TypeTable{}
-
-	return nil
+	var itemIndex float64 = 1.0
+	for _, fieldExpr := range ep.Fields {
+		if field, ok := fieldExpr.(*syntax.FieldExpr); ok {
+			k, v := a.analysisFieldExpr(field)
+			if v != nil {
+				switch key := k.(type) {
+				case string:
+					result.Fields[key] = v
+				case float64:
+					result.Items[key] = v
+				case nil:
+					result.Items[itemIndex] = v
+					itemIndex = itemIndex + 1
+				}
+			} else {
+				//errrrrrrrrrrrr
+			}
+		} else {
+			//errrrrrrrrrrrr
+		}
+	}
+	return
 }
 
 //分析表字段,返回字段索引以及字段字段内容,如果此字段没有索引,则只返回内容
@@ -283,6 +303,7 @@ func (a *Analysis) analysisFieldExpr(ep *syntax.FieldExpr) (key interface{}, val
 			References:  []*Symbol{syb}, //符号所有引用处
 		}
 	case *syntax.NumberExpr:
+		key = data.Value //key是一个数字
 		value = &SymbolInfo{
 			CurType: valtype,
 		}
@@ -307,9 +328,25 @@ func (a *Analysis) analysisFieldExpr(ep *syntax.FieldExpr) (key interface{}, val
 	}
 	return
 }
-func (a *Analysis) analysisTwoOpExpr(ep *syntax.TwoOpExpr) interface{} {
-	return nil
+func (a *Analysis) analysisTwoOpExpr(ep *syntax.TwoOpExpr) TypeInfo {
+	switch ep.Operator {
+	case "+", "-", "*", "/", "//", "^", "%":
+		return &TypeNumber{}
+	case "&", "~", "|", ">>", "<<", "<", "<=", ">", ">=", "==", "~=", "and", "or":
+		return &TypeBool{}
+	case "..":
+		return &TypeString{}
+	default:
+		return nil
+	}
 }
-func (a *Analysis) analysisOneOpExpr(ep *syntax.OneOpExpr) interface{} {
-	return nil
+func (a *Analysis) analysisOneOpExpr(ep *syntax.OneOpExpr) TypeInfo {
+	switch ep.Operator {
+	case "-", "#":
+		return &TypeNumber{}
+	case "not", "~":
+		return &TypeBool{}
+	default:
+		return nil
+	}
 }
