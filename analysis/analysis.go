@@ -18,8 +18,6 @@ func (a *Analysis) star() {
 //分析语句
 func (a *Analysis) analysisStmt(st syntax.Stmt) {
 	switch tp := st.(type) {
-	case *syntax.SemStmt:
-		a.analysisSemStmt(tp)
 	case *syntax.AssignStmt:
 		a.analysisAssignStmt(tp)
 	case *syntax.LabelStmt:
@@ -58,6 +56,7 @@ func (a *Analysis) analysisStmt(st syntax.Stmt) {
 //分析表达式
 func (a *Analysis) analysisExpr(ep syntax.Expr) interface{} {
 	switch tp := ep.(type) {
+	//return TypeInfo
 	case *syntax.NilExpr:
 		return a.analysisNilExpr(tp)
 	case *syntax.FalseExpr:
@@ -78,17 +77,20 @@ func (a *Analysis) analysisExpr(ep syntax.Expr) interface{} {
 		return a.analysisTwoOpExpr(tp)
 	case *syntax.OneOpExpr:
 		return a.analysisOneOpExpr(tp)
+	//return [][]TypeInfo
 	case *syntax.FuncCall:
 		return a.analysisFuncCall(tp)
-
+	//return *Symbol
 	case *syntax.NameExpr:
 		return a.analysisNameExpr(tp)
+
+		//result []*SymbolInfo
 	case *syntax.GetItemExpr:
 		return a.analysisGetItemExpr(tp)
 	default:
 		return nil
 	}
 }
-func (a *Analysis) analysisFuncCall(n *syntax.FuncCall) *TypeFunction {
+func (a *Analysis) analysisFuncCall(n *syntax.FuncCall) [][]TypeInfo {
 	return nil
 }

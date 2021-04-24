@@ -33,10 +33,6 @@ type (
 func (*stmtBase) stmtFlag() {}
 
 type (
-	SemStmt struct {
-		stmtBase
-	}
-
 	AssignStmt struct {
 		stmtBase
 

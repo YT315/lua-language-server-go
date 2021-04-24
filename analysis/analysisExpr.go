@@ -101,7 +101,7 @@ func (a *Analysis) analysisAnyExpr(ep *syntax.AnyExpr) TypeInfo {
 
 //解析函数体
 func (a *Analysis) analysisFuncDefExpr(ep *syntax.FuncDefExpr) (result *TypeFunction) {
-	a.file.createInside()      //创建新作用域
+	a.file.createInside(ep)    //创建新作用域
 	defer a.file.backOutside() //退出作用域
 	//分析参数
 	if pe, ok := ep.Param.(*syntax.ParamExpr); ok {
@@ -194,8 +194,8 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 		}
 	case *syntax.FuncCall:
 		funres := a.analysisFuncCall(data)
-		if len(funres.Returns) > 0 {
-			for _, tp := range funres.Returns[0] {
+		if len(funres) > 0 {
+			for _, tp := range funres[0] {
 				if tb, ok := tp.(*TypeTable); ok {
 					types = append(types, tb) //将table类型添加
 				}

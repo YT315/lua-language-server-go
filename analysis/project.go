@@ -125,8 +125,9 @@ type File struct {
 }
 
 //创建一个新的作用域
-func (f *File) createInside() (list *SymbolList) {
+func (f *File) createInside(node syntax.Node) (list *SymbolList) {
 	list = &SymbolList{
+		Node:    node,
 		Deep:    f.Symbolcur.Deep + 1,
 		Outside: f.Symbolcur,
 	}
@@ -163,10 +164,11 @@ func (f *File) Parse() {
 //SymbolList 符号表结构
 type SymbolList struct {
 	Deep    int                    //此作用域的深度,全局变量深度为0,文件为1
-	Scope   syntax.Scope           //此符号表作用范围
+	Node    syntax.Node            //此范围对应的语法树节点,if/while,for....
 	Outside *SymbolList            //此符号表外部符号表
 	Inside  []*SymbolList          //此符号表内部符号表
 	Symbols map[string]*SymbolInfo //包含的符号
+	Labels  map[string]*SymbolInfo //包含的标签
 }
 
 //查找符号
@@ -177,6 +179,37 @@ func (sl *SymbolList) FindSymbol(name string) (result *SymbolInfo) {
 		if info, ok := temp.Symbols[name]; ok {
 			result = info
 			break
+		}
+	}
+	return
+}
+
+//查找label
+func (sl *SymbolList) FindLabel(name string) (result *SymbolInfo) {
+	var temp *SymbolList
+	//循环向外层寻找
+	for temp = sl; temp != nil; temp = temp.Outside {
+		if info, ok := temp.Symbols[name]; ok {
+			result = info
+			break
+		}
+		if _, ok := temp.Node.(*syntax.FuncDefExpr); ok { //函数级寻找
+			break
+		}
+	}
+	return
+}
+
+//查找空的label
+func (sl *SymbolList) FindlonelyLabel(name string) (list []*SymbolList) {
+	if _, ok := sl.Symbols[name]; ok {
+		list = append(list, sl)
+	}
+	//循环向内层寻找
+	for _, temp := range sl.Inside {
+
+		if _, ok := temp.Node.(*syntax.FuncDefExpr); !ok { //函数级寻找
+			list = append(list, temp.FindlonelyLabel(name)...)
 		}
 	}
 	return
@@ -240,6 +273,16 @@ type TypeString struct {
 //TypeName 类型名称
 func (*TypeString) TypeName() string {
 	return "string"
+}
+
+//Typelabel 字符串类型
+type Typelabel struct {
+	Value string
+}
+
+//TypeName 类型名称
+func (*Typelabel) TypeName() string {
+	return "label"
 }
 
 //TypeAny 任意类型
