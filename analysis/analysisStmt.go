@@ -186,8 +186,46 @@ func (a *Analysis) analysisIfStmt(st *syntax.IfStmt) {
 	}
 }
 func (a *Analysis) analysisForLoopNumStmt(st *syntax.ForLoopNumStmt) {
+	a.file.createInside(st)    //创建新作用域
+	defer a.file.backOutside() //退出作用域
+	//分析名称
+	if nameExpr, ok := st.Name.(*syntax.NameExpr); ok {
+		res := a.analysisNameExpr(nameExpr)
+		res.SymbolInfo = &SymbolInfo{
+			CurType:     []TypeInfo{&TypeNumber{}},
+			Definitions: []*Symbol{res},
+			References:  []*Symbol{res},
+		}
+		a.file.Symbolcur.Symbols[res.Name] = res.SymbolInfo
+	}
+	//分析后面的数字表达式
+	for _, exp := range []syntax.Expr{st.Init, st.Limit, st.Step} {
+		switch res := a.analysisExpr(exp).(type) {
+		case *Symbol: //名字
+			if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
+				res.SymbolInfo = sybif
+				sybif.References = append(sybif.References, res)
+				//检查类型是否为数字
+			} else {
+				//errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+			}
+		case [][]TypeInfo: //检查类型是否为数字
+		case TypeInfo: //检查类型是否为数字
+		case []*SymbolInfo: //检查类型是否为数字
+		case nil:
+			//errrrrrrrrrrrrrrrrrrrrrr
+		default:
+			//errrrrrrrrrrrrrrrrrrrrrr
+		}
+	}
+
+	//分析内容
+	for _, stmt := range st.Block {
+		a.analysisStmt(stmt)
+	}
 }
 func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
+
 }
 func (a *Analysis) analysisFuncDefStmt(st *syntax.FuncDefStmt) {
 }
