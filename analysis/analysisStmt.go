@@ -197,6 +197,8 @@ func (a *Analysis) analysisForLoopNumStmt(st *syntax.ForLoopNumStmt) {
 			References:  []*Symbol{res},
 		}
 		a.file.Symbolcur.Symbols[res.Name] = res.SymbolInfo
+	} else {
+
 	}
 	//分析后面的数字表达式
 	for _, exp := range []syntax.Expr{st.Init, st.Limit, st.Step} {
@@ -225,6 +227,42 @@ func (a *Analysis) analysisForLoopNumStmt(st *syntax.ForLoopNumStmt) {
 	}
 }
 func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
+	a.file.createInside(st)    //创建新作用域
+	defer a.file.backOutside() //退出作用域
+	//分析名称
+	for _, name := range st.Names {
+		if nameExpr, ok := name.(*syntax.NameExpr); ok {
+			res := a.analysisNameExpr(nameExpr)
+			res.SymbolInfo = &SymbolInfo{
+				CurType:     []TypeInfo{&TypeNumber{}},
+				Definitions: []*Symbol{res},
+				References:  []*Symbol{res},
+			}
+			a.file.Symbolcur.Symbols[res.Name] = res.SymbolInfo
+		} else {
+
+		}
+	}
+	//分析迭代表达式
+	switch expr := st.Exprs[0].(type) {
+	case *syntax.FuncCall:
+		res := a.analysisFuncCall(expr) //返回值的第一个必须是function
+		if len(res) > 0 {
+			count := 0
+			for _, tp := range res[0] {
+				if tp.TypeName() == "function" {
+					count++
+				}
+			}
+			if count == 0 {
+				//errrrrrrrrrrrrrr
+			}
+		} else {
+			//errrrrrrrrrrrrrr
+		}
+	case *syntax.NameExpr:
+
+	}
 
 }
 func (a *Analysis) analysisFuncDefStmt(st *syntax.FuncDefStmt) {
