@@ -244,28 +244,76 @@ func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
 		}
 	}
 	//分析迭代表达式
-	switch expr := st.Exprs[0].(type) {
-	case *syntax.FuncCall:
-		res := a.analysisFuncCall(expr) //返回值的第一个必须是function
-		if len(res) > 0 {
-			count := 0
-			for _, tp := range res[0] {
-				if tp.TypeName() == "function" {
-					count++
+	if len(st.Exprs) > 0 {
+		switch expr := st.Exprs[0].(type) {
+		case *syntax.FuncCall:
+			res := a.analysisFuncCall(expr) //返回值的第一个必须是function
+			if len(res) > 0 {
+				count := 0
+				for _, tp := range res[0] {
+					if tp.TypeName() == "function" {
+						count++
+					}
 				}
-			}
-			if count == 0 {
+				if count == 0 {
+					//errrrrrrrrrrrrrr
+				}
+			} else {
 				//errrrrrrrrrrrrrr
 			}
-		} else {
-			//errrrrrrrrrrrrrr
+		case *syntax.NameExpr:
+			res := a.analysisNameExpr(expr)
+			if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
+				res.SymbolInfo = sybif
+				sybif.References = append(sybif.References, res)
+				//检查类型是否为函数
+				count := 0
+				for _, tp := range sybif.CurType {
+					if tp.TypeName() == "function" {
+						count++
+					}
+				}
+				if count == 0 {
+					//errrrrrrrrrrrrrr
+				}
+			} else {
+				//errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+			}
 		}
-	case *syntax.NameExpr:
 
+		for i := 1; i < len(st.Exprs); i++ {
+			if res, ok := a.analysisExpr(st.Exprs[i]).(*Symbol); ok {
+				if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
+					res.SymbolInfo = sybif
+					sybif.References = append(sybif.References, res)
+				} else {
+					//errrrrrrrrrrrrrr
+				}
+			}
+		}
+	} else {
+		//errrrrrrrrrrrr
 	}
-
+	if len(st.Exprs) > 3 {
+		//errrrrrrrrrrrrrrrr
+	}
+	//分析内容
+	for _, stmt := range st.Block {
+		a.analysisStmt(stmt)
+	}
 }
 func (a *Analysis) analysisFuncDefStmt(st *syntax.FuncDefStmt) {
+	if st.Receiver != nil {
+		switch expr := st.Receiver.(type) {
+		case *syntax.GetItemExpr:
+			if res := a.analysisGetItemExpr(expr); res != nil {
+
+			}
+
+		}
+	} else {
+
+	}
 }
 func (a *Analysis) analysisLocalFuncDefStmt(st *syntax.LocalFuncDefStmt) {
 }

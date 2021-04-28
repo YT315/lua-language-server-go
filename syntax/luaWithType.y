@@ -1209,6 +1209,12 @@ functiondef:
         }
 
 funcbody:
+        '(' parlist ')' block TEnd {
+            temp := &FuncDefExpr{Param: $2, Block: $4}
+            temp.Start=$1.Start
+            temp.End = $5.End
+            $$ = temp
+        } | 
         '(' parlist ')' TSType block TEnd {
             class:= &STypeExpr{Value:$4.Str}
             class.Scope=$4.Scope
@@ -1243,6 +1249,12 @@ funcbody:
             temp := &FuncDefExpr{Param: nil, Block: $4 ,Result: class}
             temp.Start=$1.Start
             temp.End = $5.End
+            $$ = temp
+        } |
+        '(' ')' block TEnd {
+            temp := &FuncDefExpr{Param: nil, Block: $3}
+            temp.Start=$1.Start
+            temp.End = $4.End
             $$ = temp
         }
 
