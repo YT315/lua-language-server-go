@@ -102,7 +102,7 @@ func (w *Workspace) Scan(wg *sync.WaitGroup) {
 			return nil
 		})
 	if err != nil {
-		logger.Errorln(err)
+		//logger.Errorln(err)
 	}
 	wg.Done()
 }

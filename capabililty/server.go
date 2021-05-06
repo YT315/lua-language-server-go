@@ -125,9 +125,9 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 				},
 				ResolveProvider: true,
 			},
-			/*
-				CallHierarchyProvider: true,
-				CodeActionProvider:    codeActionProvider,
+
+			CodeActionProvider: true, // codeActionProvider,
+			/*	CallHierarchyProvider: true,
 				CompletionProvider: protocol.CompletionOptions{
 					TriggerCharacters: []string{"."},
 				},
