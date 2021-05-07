@@ -1108,6 +1108,7 @@ expr:
         } |
         '(' expr ')' {
             $$ = $2
+            $$.setBracket(true)
         } /*|
         '(' expr  {
             temp := $2

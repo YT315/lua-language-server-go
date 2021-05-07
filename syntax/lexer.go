@@ -3,6 +3,7 @@ package syntax
 import (
 	"fmt"
 	"io"
+	"lualsp/protocol"
 )
 
 func lower(ch rune) rune     { return ('a' - 'A') | ch } // returns lower-case ch iff ch is ASCII letter
@@ -23,6 +24,7 @@ var keywordMap = map[string]rune{
 type Lexer struct {
 	source
 	Block         []Stmt
+	Diagnostics   []protocol.Diagnostic
 	Token         Token
 	PrevTokenType int
 }
