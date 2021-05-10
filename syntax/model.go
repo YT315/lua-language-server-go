@@ -1,6 +1,9 @@
 package syntax
 
-import "lualsp/protocol"
+import (
+	"lualsp/logger"
+	"lualsp/protocol"
+)
 
 type Token struct {
 	Type rune //对应的tocken做
@@ -42,7 +45,7 @@ func (s *SyntaxErr) insertInto(llex luaLexer) {
 		}
 		lex.Diagnostics = append(lex.Diagnostics, diag)
 	} else {
-		//logger
+		logger.Errorln("lex对象错误")
 	}
 }
 

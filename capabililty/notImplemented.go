@@ -46,7 +46,33 @@ func (s *Server) SignatureHelp(context.Context, *protocol.SignatureHelpParams) (
 }
 
 //界面显示小灯泡,选择命令
-func (s *Server) CodeAction(context.Context, *protocol.CodeActionParams) ([]protocol.CodeAction /*(Command | CodeAction)[] | null*/, error) {
+func (s *Server) CodeAction(ctx context.Context, param *protocol.CodeActionParams) ([]protocol.CodeAction /*(Command | CodeAction)[] | null*/, error) {
+	if len(param.Context.Diagnostics) != 0 {
+
+		tx := protocol.TextEdit{
+			Range: protocol.Range{
+				Start: protocol.Position{
+					Line: 3, Character: 0,
+				},
+				End: protocol.Position{
+					Line: 3, Character: 10,
+				},
+			},
+			NewText: "hello my baby",
+		}
+		ca := protocol.CodeAction{
+			Title:       "test_codeaction",
+			Kind:        protocol.QuickFix,
+			Diagnostics: param.Context.Diagnostics,
+
+			Edit: &protocol.WorkspaceEdit{
+				Changes: make(map[string][]protocol.TextEdit),
+			},
+		}
+		ca.Edit.Changes[string(param.TextDocument.URI)] = []protocol.TextEdit{tx}
+
+		return []protocol.CodeAction{ca}, nil
+	}
 	return nil, nil
 }
 func (s *Server) ResolveCodeAction(context.Context, *protocol.CodeAction) (*protocol.CodeAction, error) {

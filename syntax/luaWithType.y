@@ -123,7 +123,7 @@ stat:
             temp := &AssignStmt{Left: $1, Right: nil}
             temp.Start=$1[0].start()
             temp.End=$1[0].end()
-            temp.Err=&SyntaxErr{Info:"赋值表达式缺少等于右值"}
+            temp.Err=&SyntaxErr{Errtype:"赋值表达式缺少等于右值"}
             temp.Err.Scope=temp.Scope
             $$ = temp
         } |  
@@ -131,7 +131,7 @@ stat:
             temp := &AssignStmt{Left: $1, Right: nil}
             temp.Start=$1[0].start()
             temp.End=$2.End
-            temp.Err=&SyntaxErr{Info:"赋值表达式缺少右值"}
+            temp.Err=&SyntaxErr{Errtype:"赋值表达式缺少右值"}
             temp.Err.Scope=$2.Scope
             $$ = temp
         } |  
@@ -143,7 +143,7 @@ stat:
             }else{
                 temp.End = $1.End
             }
-            temp.Err=&SyntaxErr{Info:"赋值表达式缺少左值"}
+            temp.Err=&SyntaxErr{Errtype:"赋值表达式缺少左值"}
             temp.Err.Scope=$1.Scope
             $$ = temp
         } |
@@ -174,7 +174,7 @@ stat:
         TGoto {
             temp := &GotoStmt{Name:nil}
             temp.Scope = $1.Scope
-            temp.Err=&SyntaxErr{Info:"缺少goto目标名称"}
+            temp.Err=&SyntaxErr{Errtype:"缺少goto目标名称"}
             temp.Err.Scope=$1.Scope
             $$ = temp
         } |
@@ -193,7 +193,7 @@ stat:
             }else{
                 temp.End = $1.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少End"}
+            temp.Err=&SyntaxErr{Errtype:"缺少End"}
             temp.Err.Start = temp.End
             temp.Err.End = temp.End
             $$ = temp
@@ -213,7 +213,7 @@ stat:
             }else{
                 temp.End = $3.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少end"}
+            temp.Err=&SyntaxErr{Errtype:"缺少end"}
             temp.Err.Scope=$1.Scope
             $$ = temp
         } |
@@ -221,7 +221,7 @@ stat:
             temp := &WhileStmt{Condition: nil, Block: $3}
             temp.Start=$1.Start
             temp.End = $4.End
-            temp.Err=&SyntaxErr{Info:"缺少条件表达式"}
+            temp.Err=&SyntaxErr{Errtype:"缺少条件表达式"}
             temp.Err.Start=$1.End
             temp.Err.End=$2.Start     
             $$ = temp
@@ -230,14 +230,14 @@ stat:
             temp := &WhileStmt{Condition: $2, Block: nil}
             temp.Start=$1.Start
             temp.End = $2.end()
-            temp.Err=&SyntaxErr{Info:"缺少语句do..end"}
+            temp.Err=&SyntaxErr{Errtype:"缺少语句do..end"}
             temp.Err.Scope=$1.Scope
             $$ = temp
         } |
         TWhile {
             temp := &WhileStmt{Condition: nil, Block: nil}
             temp.Scope=$1.Scope
-            temp.Err=&SyntaxErr{Info:"缺少语句expr do..end"}
+            temp.Err=&SyntaxErr{Errtype:"缺少语句expr do..end"}
             temp.Err.Scope=$1.Scope
             $$ = temp
         } |
@@ -252,7 +252,7 @@ stat:
             temp := &RepeatStmt{Condition: nil, Block: $2}
             temp.Start=$1.Start
             temp.End = $3.End
-            temp.Err=&SyntaxErr{Info:"缺少语句条件表达式"}
+            temp.Err=&SyntaxErr{Errtype:"缺少语句条件表达式"}
             temp.Err.Scope=$3.Scope
             $$ = temp
         } |
@@ -264,7 +264,7 @@ stat:
             }else{
                 temp.End = $1.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少条件以及Until"}
+            temp.Err=&SyntaxErr{Errtype:"缺少条件以及Until"}
             temp.Err.Scope=$1.Scope
             $$ = temp
         } |
@@ -295,7 +295,7 @@ stat:
             }else{
                 temp.End = $3.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少end"}
+            temp.Err=&SyntaxErr{Errtype:"缺少end"}
             temp.Err.Scope=$1.Scope
         } |
         TIf TThen block elseifs TEnd {
@@ -308,7 +308,7 @@ stat:
             temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             temp.End = $5.End
-            temp.Err=&SyntaxErr{Info:"缺少条件表达式"}
+            temp.Err=&SyntaxErr{Errtype:"缺少条件表达式"}
             temp.Err.Start=$1.End
             temp.Err.End=$2.Start   
         } |
@@ -322,7 +322,7 @@ stat:
             temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             temp.End = $4.End
-            temp.Err=&SyntaxErr{Info:"缺少条件表达式及then"}
+            temp.Err=&SyntaxErr{Errtype:"缺少条件表达式及then"}
             temp.Err.Scope=$1.Scope
         } |
         //err
@@ -342,7 +342,7 @@ stat:
             }else{
                 temp.End=$1.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少条件,then和end"}
+            temp.Err=&SyntaxErr{Errtype:"缺少条件,then和end"}
             temp.Err.Scope=temp.Scope
         } |
         /*************** TIf expr TThen block elseifs TElse block TEnd *****************/ 
@@ -368,7 +368,7 @@ stat:
             temp :=$$.(*IfStmt)
             temp.Start = $1.Start
             temp.End = $7.End
-            temp.Err=&SyntaxErr{Info:"缺少条件表达式"}
+            temp.Err=&SyntaxErr{Errtype:"缺少条件表达式"}
             temp.Err.Scope=temp.Scope
         } |
         TIf expr TThen block elseifs TElse block {
@@ -386,7 +386,7 @@ stat:
             }else{
                 temp.End = $6.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少end"}
+            temp.Err=&SyntaxErr{Errtype:"缺少end"}
             temp.Err.Start=temp.End
             temp.Err.End=temp.End
         } |
@@ -401,7 +401,7 @@ stat:
             temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             temp.End = $6.End
-            temp.Err=&SyntaxErr{Info:"缺少条件表达式及then"}
+            temp.Err=&SyntaxErr{Errtype:"缺少条件表达式及then"}
             temp.Err.Scope=$1.Scope
         } |
         /*************** TFor TName '=' expr ',' expr TDo block TEnd *****************/
@@ -418,24 +418,33 @@ stat:
             }else{
                 temp.End = $7.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少end"}
-            temp.Err.Scope=$1.Scope
+
+            err:=&SyntaxErr{Errtype:LackEnd}
+            err.Scope=$1.Scope
+            err.insertInto(lualex)
+
             $$ = temp
         } |
         TFor '=' expr ',' expr TDo block TEnd {
             temp := &ForLoopNumStmt{Name: nil, Init: $3, Limit: $5, Block: $7}
             temp.Start=$1.Start
             temp.End = $8.End
-            temp.Err=&SyntaxErr{Info:"缺少名称"}
+
+            temp.Err=&SyntaxErr{Errtype:LackName}
             temp.Err.Scope=$1.Scope
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } |
         TFor TDo block TEnd {
             temp := &ForLoopNumStmt{Name: nil, Init: nil, Limit: nil, Block: $3}
             temp.Start=$1.Start
             temp.End = $4.End
-            temp.Err=&SyntaxErr{Info:"缺少循环条件"}
+
+            temp.Err=&SyntaxErr{Errtype:lackForCond}
             temp.Err.Scope=$1.Scope
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } |
         TFor TDo block {
@@ -446,40 +455,53 @@ stat:
             }else{
                 temp.End = $2.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少循环条件及end"}
+
+            temp.Err=&SyntaxErr{Errtype:lackForCond}
             temp.Err.Scope=temp.Scope
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } |
         TFor name TDo block TEnd {
             temp := &ForLoopNumStmt{Name: $2, Init: nil, Limit: nil, Block: $4}
             temp.Start=$1.Start
             temp.End = $5.End
-            temp.Err=&SyntaxErr{Info:"缺少循环范围"}
-            temp.Err.Scope=$2.scope()
+
+            temp.Err=&SyntaxErr{Errtype:lackForScope}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } |
         TFor name '=' TDo block TEnd {
             temp := &ForLoopNumStmt{Name: $2, Init: nil, Limit: nil, Block: $5}
             temp.Start=$1.Start
             temp.End = $6.End
-            temp.Err=&SyntaxErr{Info:"缺少循环范围"}
-            temp.Err.Scope=$2.scope()
+            
+            temp.Err=&SyntaxErr{Errtype:lackForScope}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } |
         TFor name '=' expr TDo block TEnd {
             temp := &ForLoopNumStmt{Name: $2, Init: $4, Limit: nil, Block: $6}
             temp.Start=$1.Start
             temp.End = $7.End
-            temp.Err=&SyntaxErr{Info:"缺少循环终点"}
-            temp.Err.Scope=$4.scope()
+
+            temp.Err=&SyntaxErr{Errtype:lackForScope}
+            temp.Err.Scope=$4.Scope
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } |
         TFor name '=' expr ',' TDo block TEnd {
             temp := &ForLoopNumStmt{Name: $2, Init: $4, Limit: nil, Block: $7}
             temp.Start=$1.Start
             temp.End = $8.End
-            temp.Err=&SyntaxErr{Info:"缺少循环终点"}
+            temp.Err=&SyntaxErr{Errtype:lackForScope}
             temp.Err.Scope=$5.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         /*************** TFor TName '=' expr ',' expr ',' expr TDo block TEnd *****************/
@@ -493,9 +515,12 @@ stat:
             temp := &ForLoopNumStmt{Name: $2, Init: $4, Limit: $6, Step:nil, Block: $9}
             temp.Start=$1.Start
             temp.End = $10.End
-            temp.Err=&SyntaxErr{Info:"缺少步进值"}
+
+            temp.Err=&SyntaxErr{Errtype:lackForStep}
             temp.Err.Start=$7.End
             temp.Err.End=$8.Start
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } |
         TFor name '=' expr ',' expr ',' expr TDo block {
@@ -506,8 +531,11 @@ stat:
             }else{
                 temp.End = $9.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少end"}
+
+            temp.Err=&SyntaxErr{Errtype:LackEnd}
             temp.Err.Scope=$1.Scope
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } |
         /*************** TFor namelist TIn exprlist TDo block TEnd *****************/
@@ -520,19 +548,24 @@ stat:
             temp := &ForLoopListStmt{Exprs:$3, Block: $5}
             temp.Start=$1.Start
             temp.End = $6.End
-            temp.Err=&SyntaxErr{Info:"缺少迭代表达式"}
+
+            temp.Err=&SyntaxErr{Errtype:LackExpr}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } |
         TFor namelist TIn TDo block TEnd {
             temp := &ForLoopListStmt{Names:$2, Block: $5}
             temp.Start=$1.Start
             temp.End = $6.End
-            temp.Err=&SyntaxErr{Info:"缺少迭代对象表达式"}
+            temp.Err=&SyntaxErr{Errtype:LackExpr}
             if len($2)>0{
                 temp.Err.Scope=$2[len($2)-1].scope()
             }
             temp.Err.Scope=$1.Scope
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } |
         TFor namelist TIn exprlist TDo block {
@@ -543,8 +576,11 @@ stat:
             }else{
                 temp.End = $5.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少end"}
-            temp.Err.Scope=$1.Scope
+            
+            err:=&SyntaxErr{Errtype:LackEnd}
+            err.Scope=$1.Scope
+            err.insertInto(lualex)
+            
             $$ = temp
         } |
         TFor namelist TIn exprlist{
@@ -556,8 +592,15 @@ stat:
             }else{
                 temp.End = $3.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少执行语句end"}
+            temp.Err=&SyntaxErr{Errtype:LackBlock}
             temp.Err.Scope=$1.Scope
+            temp.Err.insertInto(lualex)
+
+            err:=&SyntaxErr{Errtype:LackEnd}
+            err.Scope=$1.Scope
+            err.insertInto(lualex)
+
+            $$ = temp
         } |
         /*************** TFunction funcname funcbody *****************/
         TFunction funcname funcbody {
@@ -570,8 +613,9 @@ stat:
         TFunction funcname {
             temp := $2.(*FuncDefStmt)
             temp.Start=$1.Start
-            temp.Err=&SyntaxErr{Info:"缺少函数体"}
+            temp.Err=&SyntaxErr{Errtype:LackFunctionContent},
             temp.Err.Scope=$1.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         /*TFunction funcbody {
@@ -579,7 +623,7 @@ stat:
             temp.Function= $2
             temp.Start=$1.Start
             temp.End = $2.end()
-            temp.Err=&SyntaxErr{Info:"缺少函数名"}
+            temp.Err=&SyntaxErr{Errtype:"缺少函数名"}
             temp.Err.Scope=$1.Scope
             $$ = temp
         } |*/
@@ -594,32 +638,40 @@ stat:
             temp := &LocalFuncDefStmt{Function: $3}
             temp.Start=$1.Start
             temp.End = $3.end()
-            temp.Err=&SyntaxErr{Info:"缺少函数名"}
+
+            temp.Err=&SyntaxErr{Errtype:LackFunctionName}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } | 
         TLocal name funcbody {
             temp := &LocalFuncDefStmt{Name: $2, Function: $3}
             temp.Start=$1.Start
             temp.End = $3.end()
-            temp.Err=&SyntaxErr{Info:"缺少function"}
-            temp.Err.Scope=$1.Scope
+
+            err:=&SyntaxErr{Errtype:LackFunctionkeyword}
+            err.Scope=$1.Scope
+            err.insertInto(lualex)
+
             $$ = temp
         } | 
         TLocal TFunction name {
             temp := &LocalFuncDefStmt{Name: $3}
             temp.Start=$1.Start
             temp.End = $3.end()
-            temp.Err=&SyntaxErr{Info:"缺少函数体"}
+            temp.Err=&SyntaxErr{Errtype:LackFunctionContent}
             temp.Err.Scope=$3.scope()
+            temp.Err.insertInto(lualex)
             $$ = temp
         } | 
         TLocal TFunction {
             temp := &LocalFuncDefStmt{}
             temp.Start=$1.Start
             temp.End = $2.End
-            temp.Err=&SyntaxErr{Info:"缺少函数内容"}
+            temp.Err=&SyntaxErr{Errtype:LackFunction}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } | 
         /*************** TLocal namelist '=' exprlist *****************/
@@ -638,8 +690,9 @@ stat:
             temp := &LocalVarDef{Names: $2}
             temp.Start=$1.Start
             temp.End = $3.End
-            temp.Err=&SyntaxErr{Info:"缺少初始值"}
+            temp.Err=&SyntaxErr{Errtype:LackInitValue}
             temp.Err.Scope=$3.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         TLocal '=' exprlist {
@@ -650,8 +703,9 @@ stat:
             }else{
                 temp.End = $2.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少变量名称"}
+            temp.Err=&SyntaxErr{Errtype:LackName}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         /*************** TLocal namelist *****************/
@@ -668,15 +722,15 @@ stat:
         TLocal {
             temp := &LocalVarDef{}
             temp.Scope=$1.Scope
-            temp.Err=&SyntaxErr{Info:"缺少变量名称"}
+            temp.Err=&SyntaxErr{Errtype:LackName}
             temp.Err.Scope=$1.Scope
             $$ = temp
         }|
         error{
-            temp := &ErrorStmt{Info:"解析错误"}
-            tk:=lualex.(*Lexer).Token
-            temp.Err=&SyntaxErr{Info:tk.Str+"附近解析错误"}
+            temp := &ErrorStmt{Info:StmtErr}
+            temp.Err=&SyntaxErr{Errtype:StmtErr}
             temp.Err.Scope=tk.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         }
 
@@ -727,31 +781,43 @@ label:
             temp := &LabelStmt{Name: $1}
             temp.Start=$1.start()
             temp.End=$2.End
-            temp.Err=&SyntaxErr{Info:"标签缺少左侧符号"}
-            temp.Err.Scope=$1.scope()
+
+            err:=&SyntaxErr{Errtype:LabelIncomplete}
+            err.Scope=$1.scope()
+            err.insertInto(lualex)
+
             $$ = temp
         }|
         TTarget name {
             temp := &LabelStmt{Name: $2}
             temp.Start=$1.Start
             temp.End=$2.end()
-            temp.Err=&SyntaxErr{Info:"标签缺少右侧符号"}
-            temp.Err.Scope=$2.scope()
+
+            err:=&SyntaxErr{Errtype:LabelIncomplete}
+            err.Scope=$2.scope()
+            err.insertInto(lualex)
+
             $$ = temp
         }|
         TTarget TTarget {
             temp := &LabelStmt{Name: nil}
             temp.Start=$1.Start
             temp.End=$2.End
-            temp.Err=&SyntaxErr{Info:"标签缺少名称"}
+            temp.Err=&SyntaxErr{Errtype:LackLabelName}
             temp.Err.Scope=temp.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         }|
         TTarget {
             temp := &LabelStmt{Name: nil}
             temp.Scope=$1.Scope
-            temp.Err=&SyntaxErr{Info:"标签不完整"}
+            temp.Err=&SyntaxErr{Errtype:LackLabelName}
             temp.Err.Scope=temp.Scope
+            temp.Err.insertInto(lualex)
+            //不完整标签
+            err:=&SyntaxErr{Errtype:LabelIncomplete}
+            err.Scope=temp.Scope
+            err.insertInto(lualex)
             $$ = temp
         }
         
@@ -766,14 +832,14 @@ funcname:
             temp.Start=$1.start()
             temp.End = $3.end()
             $$ = temp
-            
         }|
         funcnameaux ':' {
             temp := &FuncDefStmt{Receiver:$1}
             temp.Start=$1.start()
             temp.End = $2.End
-            temp.Err=&SyntaxErr{Info:"缺少名称"}
+            temp.Err=&SyntaxErr{Errtype:LackfuncName}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         }|
         ':' name {
@@ -798,16 +864,18 @@ funcnameaux:
             temp := &GetItemExpr{Table:$1}
             temp.Start=$1.start()
             temp.End = $2.End
-            temp.Err=&SyntaxErr{Info:"缺少子项目"}
+            temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         '.' name {
             temp := &GetItemExpr{Key:$2}
             temp.Start=$1.Start
             temp.End = $2.end()
-            temp.Err=&SyntaxErr{Info:"缺少父级项目"}
+            temp.Err=&SyntaxErr{Errtype:LackObject}
             temp.Err.Scope=$1.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } 
 varlist:
@@ -835,24 +903,27 @@ var:
             temp := &GetItemExpr{Table:$1}
             temp.Start=$1.start()
             temp.End = $3.End
-            temp.Err=&SyntaxErr{Info:"缺少索引"}
+            temp.Err=&SyntaxErr{Errtype:LackIndex}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         prefixexp '[' expr {
             temp := &GetItemExpr{Table:$1, Key:$3}
             temp.Start=$1.start()
             temp.End = $3.end()
-            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err=&SyntaxErr{Errtype:LackRightSquareBrackets}
             temp.Err.Scope=$3.scope()
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         prefixexp '[' {
             temp := &GetItemExpr{Table:$1}
             temp.Start=$1.start()
             temp.End = $2.End
-            temp.Err=&SyntaxErr{Info:"缺少索引"}
+            temp.Err=&SyntaxErr{Errtype:LackIndex}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         prefixexp '.' TName {
@@ -864,11 +935,12 @@ var:
             $$ = temp
         } |
         prefixexp '.' {
-            temp := &GetItemExpr{Table:$1}
+            temp := &c{Table:$1}
             temp.Start=$1.start()
             temp.End = $2.End
-            temp.Err=&SyntaxErr{Info:"缺少子项目"}
+            temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         }
 
@@ -1114,14 +1186,14 @@ expr:
             temp := $2
             temp.Start=$1.Start
             temp.End = $2.end()
-            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err=&SyntaxErr{Errtype:"缺少右括号"}
             temp.Err.Scope=$1.Scope
         } |
         '(' {
             temp := $2
             temp.Start=$1.Start
             temp.End = $3.End
-            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err=&SyntaxErr{Errtype:"缺少右括号"}
             temp.Err.Scope=$2.Scope
         }*/
 
@@ -1162,16 +1234,18 @@ functioncall:
             temp := &FuncCall{Function: $3, Receiver: $1,}
             temp.Start=$1.start()
             temp.End = $3.end()
-            temp.Err=&SyntaxErr{Info:"缺少函数调用参数(args)"}
+            temp.Err=&SyntaxErr{Errtype:LackfuncArgs}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } | 
         prefixexp ':'  {
             temp := &FuncCall{ Receiver: $1}
             temp.Start=$1.start()
             temp.End = $2.End
-            temp.Err=&SyntaxErr{Info:"缺少函数调用"}
+            temp.Err=&SyntaxErr{Errtype:LackfuncName}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         }
 
@@ -1179,15 +1253,15 @@ args:
         '(' ')' {
             $$ = []Expr{}
         } |
-        '(' {
-            $$ = []Expr{}/////////////////////////////errrrrrrrrrrr
-        } |
+        // '(' {
+        //     $$ = []Expr{}/////////////////////////////errrrrrrrrrrr
+        // } |
         '(' exprlist ')' {
             $$ = $2
         } |
-        '(' exprlist {
-            $$ = $2 //////////////////////////////////errrrrrrrrrrrrrrrr
-        } |
+        // '(' exprlist {
+        //     $$ = $2 //////////////////////////////////errrrrrrrrrrrrrrrr
+        // } |
         tableconstructor {
             $$ = []Expr{$1}
         } | 
@@ -1204,8 +1278,9 @@ functiondef:
         TFunction {
             temp :=  &FuncDefExpr{}
             temp.Scope =$1.Scope
-            temp.Err=&SyntaxErr{Info:"未定义函数体"}
+            temp.Err=&SyntaxErr{Errtype:Lackfuncbody}
             temp.Err.Scope=$1.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         }
 
@@ -1224,26 +1299,26 @@ funcbody:
             temp.End = $6.End
             $$ = temp
         } | 
-        /*'(' parlist ')' block {
-            temp := &FuncDefExpr{Param: $2, Block: $4}
-            temp.Start=$1.Start
-            if len($4)>0 {
-                temp.End = $4[len($4)-1].end()
-            }else{
-                temp.End = $3.End
-            }
-            temp.Err=&SyntaxErr{Info:"缺少end"}
-            temp.Err.Scope=temp.Scope
-            $$ = temp
-        } | */
-        '(' parlist {
-            temp := &FuncDefExpr{Param: $2}
-            temp.Start=$1.Start
-            temp.End = $2.end()
-            temp.Err=&SyntaxErr{Info:"缺少右括号及函数体"}
-            temp.Err.Scope=temp.Scope
-            $$ = temp
-        } | 
+        // '(' parlist ')' block {
+        //     temp := &FuncDefExpr{Param: $2, Block: $4}
+        //     temp.Start=$1.Start
+        //     if len($4)>0 {
+        //         temp.End = $4[len($4)-1].end()
+        //     }else{
+        //         temp.End = $3.End
+        //     }
+        //     temp.Err=&SyntaxErr{Errtype:"缺少end"}
+        //     temp.Err.Scope=temp.Scope
+        //     $$ = temp
+        // } | 
+        // '(' parlist {
+        //     temp := &FuncDefExpr{Param: $2}
+        //     temp.Start=$1.Start
+        //     temp.End = $2.end()
+        //     temp.Err=&SyntaxErr{Errtype:"缺少右括号及函数体"}
+        //     temp.Err.Scope=temp.Scope
+        //     $$ = temp
+        // } | 
         '(' ')' TSType block TEnd {
             class:= &STypeExpr{Value:$3.Str}
             class.Scope=$3.Scope
@@ -1293,8 +1368,9 @@ tableconstructor:
             temp := &TableExpr{Fields: []Expr{}}
             temp.Start=$1.Start
             temp.End = $1.End
-            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err=&SyntaxErr{Errtype:LackRightCurlyBrackets}
             temp.Err.Scope=$1.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         '{' fieldlist '}' {
@@ -1311,8 +1387,9 @@ tableconstructor:
             }else{
                 temp.End = $1.End
             }
-            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err=&SyntaxErr{Errtype:LackRightCurlyBrackets}
             temp.Err.Scope=$1.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         }
 
@@ -1339,8 +1416,9 @@ field:
             temp := &FieldExpr{Key: $1}
             temp.Start=$1.start()
             temp.End = $2.End
-            temp.Err=&SyntaxErr{Info:"缺少右值"}
+            temp.Err=&SyntaxErr{Errtype:LackRV}
             temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } | 
         '[' expr ']' '=' expr {
@@ -1353,40 +1431,47 @@ field:
             temp := &FieldExpr{Key: $2}
             temp.Start=$1.Start
             temp.End = $4.End
-            temp.Err=&SyntaxErr{Info:"缺少右值"}
+            temp.Err=&SyntaxErr{Errtype:LackRight}
             temp.Err.Scope=$3.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         '[' expr ']' {
             temp := &FieldExpr{Key: $2}
             temp.Start=$1.Start
             temp.End = $3.End
-            temp.Err=&SyntaxErr{Info:"缺少等号及右值"}
+            temp.Err=&SyntaxErr{Errtype:LackRight}
             temp.Err.Scope=$3.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         '[' ']' {
             temp := &FieldExpr{}
             temp.Start=$1.Start
             temp.End = $2.End
-            temp.Err=&SyntaxErr{Info:"缺少索引表达式"}
+            temp.Err=&SyntaxErr{Errtype:LackIndex}
             temp.Err.Scope=temp.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         '[' {
             temp := &FieldExpr{}
             temp.Start=$1.Start
             temp.End = $1.End
-            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+            temp.Err=&SyntaxErr{Errtype:LackRightSquareBrackets}
             temp.Err.Scope=temp.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         '[' expr {
             temp := &FieldExpr{Key: $2}
             temp.Start=$1.Start
             temp.End = $2.end()
-            temp.Err=&SyntaxErr{Info:"缺少右括号"}
+
+            temp.Err=&SyntaxErr{Errtype:LackRightSquareBrackets}
             temp.Err.Scope=$1.Scope
+            temp.Err.insertInto(lualex)
+
             $$ = temp
         } |
         expr {

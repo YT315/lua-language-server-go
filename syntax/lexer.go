@@ -49,7 +49,6 @@ redo:
 	tok.Start.line, tok.Start.col = lx.pos()
 	tok.End = tok.Start
 	lx.start()
-
 	if isLetter(lx.ch) {
 		lx.nextch()
 		lx.scanIdent()
