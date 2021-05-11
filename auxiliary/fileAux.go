@@ -42,9 +42,9 @@ func UriToPath(s string) string {
 		return s
 	}
 	//将三斜杠转化为双斜杠
-	if strings.HasPrefix(s, "file:///") {
+	/*if strings.HasPrefix(s, "file:///") {
 		s = "file://" + s[len("file:///"):]
-	}
+	}*/
 	// Even though the input is a URI, it may not be in canonical form. VS Code
 	// in particular over-escapes :, @, etc. Unescape and re-encode to canonicalize.
 	path, err := url.PathUnescape(s[len("file://"):])

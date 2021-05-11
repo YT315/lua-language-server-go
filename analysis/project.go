@@ -2,8 +2,11 @@ package analysis
 
 import (
 	"bytes"
+	"context"
 	"io/ioutil"
+	"lualsp/auxiliary"
 	"lualsp/logger"
+	"lualsp/protocol"
 	"lualsp/syntax"
 	"os"
 	"path/filepath"
@@ -36,7 +39,7 @@ type Project struct {
 }
 
 //扫描所有工作区
-func (p *Project) Scan() {
+func (p *Project) Scan(ctx context.Context) {
 	p.StateMu.Lock()
 	p.State = ProjectFileScanning
 	p.StateMu.Unlock()
@@ -44,10 +47,28 @@ func (p *Project) Scan() {
 		go ws.Scan(&p.Wg)
 	}
 	p.Wg.Wait()
+
 	p.StateMu.Lock()
 	p.State = ProjectFileScanned
 	p.StateMu.Unlock()
 	logger.Debugln("scan finish")
+	//发送诊断
+	data := ctx.Value(auxiliary.CtxKey("client"))
+	client, ok := data.(protocol.Client)
+	if ok {
+		for _, ws := range p.Workspaces {
+			for uri, file := range ws.Files {
+				if len(file.Diagnostics) > 0 {
+					client.PublishDiagnostics(ctx, &protocol.PublishDiagnosticsParams{
+						URI:         protocol.DocumentURI(uri),
+						Diagnostics: file.Diagnostics,
+					})
+				}
+
+			}
+		}
+	}
+
 	p.analysis()
 }
 
@@ -102,26 +123,27 @@ func (w *Workspace) Scan(wg *sync.WaitGroup) {
 			return nil
 		})
 	if err != nil {
-		//logger.Errorln(err)
+		logger.Errorln(err)
 	}
 	wg.Done()
 }
 
 //File 文件对象
 type File struct {
-	Project    *Project      //所属工程
-	Name       string        //文件名,不包含后缀
-	Path       string        //文件路径,包括文件名
-	content    []byte        //文件内容实时
-	linePos    map[int]int   //行号对应的字节偏移方便有变动时插入
-	IsEditing  bool          //文件是否正在编辑,编辑时,文件的实际内容和content不一定相同
-	Ast        []syntax.Stmt //文件的抽象语法树
-	SymbolPos  []*Symbol     //文件中所有符号列表,按照位置顺序向后排列
-	Symbolbase *SymbolList   //文件符号表,作用域深度为1层
-	Symbolcur  *SymbolList   //文件符号表,作用域
-	ReturnType [][]TypeInfo  //返回列表
-	BeRequire  []*File       //所有依赖此文件的文件
-	Mutex      sync.Mutex    //互斥锁
+	Project     *Project      //所属工程
+	Name        string        //文件名,不包含后缀
+	Path        string        //文件路径,包括文件名
+	content     []byte        //文件内容实时
+	linePos     map[int]int   //行号对应的字节偏移方便有变动时插入
+	IsEditing   bool          //文件是否正在编辑,编辑时,文件的实际内容和content不一定相同
+	Ast         []syntax.Stmt //文件的抽象语法树
+	Diagnostics []protocol.Diagnostic
+	SymbolPos   []*Symbol    //文件中所有符号列表,按照位置顺序向后排列
+	Symbolbase  *SymbolList  //文件符号表,作用域深度为1层
+	Symbolcur   *SymbolList  //文件符号表,作用域
+	ReturnType  [][]TypeInfo //返回列表
+	BeRequire   []*File      //所有依赖此文件的文件
+	Mutex       sync.Mutex   //互斥锁
 }
 
 //创建一个新的作用域
@@ -158,7 +180,9 @@ func (f *File) Parse() {
 		println("err:- line:", line, "col:", col, "msg:", msg)
 	})
 	lex.Parse()
-	f.Ast = lex.Block
+	f.Ast = append(f.Ast, lex.Block...)
+	f.Diagnostics = append(f.Diagnostics, lex.Diagnostics...)
+
 }
 
 //SymbolList 符号表结构

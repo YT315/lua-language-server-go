@@ -104,7 +104,7 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 		return nil, &jsonrpc2.Error{Code: jsonrpc2.CodeInvalidRequest}
 	}
 	//开始扫描文件
-	go s.project.Scan()
+	go s.project.Scan(ctx)
 	//返回配置
 	return &protocol.InitializeResult{
 		Capabilities: protocol.ServerCapabilities{

@@ -4,7 +4,8 @@ type SyntaxErrBase string
 
 const (
 	StmtErr                 SyntaxErrBase = "语句错误"         //ErrorStmt
-	LackRight               SyntaxErrBase = "缺少右值"         //FieldExpr
+	LackRight               SyntaxErrBase = "缺少右值"         //FieldExpr	AssignStmt
+	LackLeft                SyntaxErrBase = "缺少左值"         //AssignStmt
 	LackIndex               SyntaxErrBase = "缺少索引"         //FieldExpr	GetItemExpr
 	LackRightSquareBrackets SyntaxErrBase = "缺少右侧中括号"      //FieldExpr	GetItemExpr
 	LackRightCurlyBrackets  SyntaxErrBase = "缺少右侧大括号"      //TableExpr
@@ -22,9 +23,14 @@ const (
 	LackFunctionkeyword     SyntaxErrBase = "缺少函数function" //LocalFuncDefStmt
 	LackFunctionName        SyntaxErrBase = "缺少函数名称"       //LocalFuncDefStmt
 	LackBlock               SyntaxErrBase = "缺少语句块"        //ForLoopListStmt
-	LackEnd                 SyntaxErrBase = "缺少END"        //ForLoopListStmt
+	LackEnd                 SyntaxErrBase = "缺少END"        //ForLoopListStmt	IfStmt	WhileStmt	DoEndStmt
 	LackExpr                SyntaxErrBase = "缺少表达式"        //ForLoopListStmt
-	lackForScope            SyntaxErrBase = "缺少循环范围"       //ForLoopNumStmt
-	lackForStep             SyntaxErrBase = "缺少循环步进"       //ForLoopNumStmt
-	lackForCond             SyntaxErrBase = "缺少循环条件"       //ForLoopNumStmt
+	LackForScope            SyntaxErrBase = "缺少循环范围"       //ForLoopNumStmt
+	LackForStep             SyntaxErrBase = "缺少循环步进"       //ForLoopNumStmt
+	LackForCond             SyntaxErrBase = "缺少循环条件"       //ForLoopNumStmt
+	LackIfCond              SyntaxErrBase = "缺少判断条件"       //IfStmt
+	LackUntilCond           SyntaxErrBase = "缺少until条件"    //RepeatStmt
+	LackWhileCond           SyntaxErrBase = "缺少while条件"    //WhileStmt
+	LackWhileBlock          SyntaxErrBase = "缺少while语句"    //WhileStmt
+	LackGotoName            SyntaxErrBase = "缺少goto名称"     //GotoStmt
 )

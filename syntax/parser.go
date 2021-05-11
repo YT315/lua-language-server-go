@@ -552,10 +552,10 @@ var luaR1 = [...]int{
 	15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
 	15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
 	15, 15, 15, 15, 15, 15, 15, 15, 15, 18,
-	18, 8, 8, 8, 8, 19, 19, 19, 19, 19,
-	19, 16, 16, 17, 17, 17, 17, 17, 20, 20,
-	20, 21, 21, 21, 21, 22, 22, 22, 23, 23,
-	23, 23, 23, 23, 23, 23, 23, 24, 24,
+	18, 8, 8, 8, 8, 19, 19, 19, 19, 16,
+	16, 17, 17, 17, 17, 20, 20, 20, 21, 21,
+	21, 21, 22, 22, 22, 23, 23, 23, 23, 23,
+	23, 23, 23, 23, 24, 24,
 }
 
 var luaR2 = [...]int{
@@ -573,10 +573,10 @@ var luaR2 = [...]int{
 	1, 1, 1, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 2, 2, 2, 2, 3, 1,
-	1, 2, 4, 3, 2, 2, 1, 3, 2, 1,
-	1, 2, 1, 5, 6, 2, 5, 4, 1, 1,
-	3, 2, 1, 3, 2, 1, 3, 2, 3, 2,
-	5, 4, 3, 2, 1, 2, 1, 1, 1,
+	1, 2, 4, 3, 2, 2, 3, 1, 1, 2,
+	1, 5, 6, 5, 4, 1, 1, 3, 2, 1,
+	3, 2, 1, 3, 2, 3, 2, 5, 4, 3,
+	2, 1, 2, 1, 1, 1,
 }
 
 var luaChk = [...]int{
@@ -616,29 +616,29 @@ var luaDef = [...]int{
 	-2, 14, 15, 17, -2, 24, -2, -2, 0, 0,
 	65, 66, -2, 0, 76, 88, 95, 5, 7, 70,
 	101, 104, 105, 106, 107, 108, 109, 110, 111, 112,
-	0, 0, 0, 0, 0, 152, 139, 140, 162, 88,
+	0, 0, 0, 0, 0, 150, 139, 140, 159, 88,
 	11, 87, 12, 16, 19, 23, -2, 27, 0, -2,
-	67, 152, 98, 0, -2, 0, 0, 55, 77, 0,
+	67, 150, 98, 0, -2, 0, 0, 55, 77, 0,
 	81, 0, 60, 98, 64, 0, 92, 94, 141, 144,
-	146, 149, 150, 74, 75, 73, 96, 97, 71, 103,
+	0, 147, 148, 74, 75, 73, 96, 97, 71, 103,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 134, 135, 136, 137, 0, 151, 0, 161, 164,
-	165, 88, 174, 176, 9, -2, 18, -2, 0, 26,
+	0, 134, 135, 136, 137, 0, 149, 0, 158, 161,
+	162, 88, 171, 173, 9, -2, 18, -2, 0, 26,
 	-2, 67, 32, 0, -2, 0, 41, 0, 100, 0,
 	54, 79, 83, 80, 84, 59, 57, 58, 62, 63,
-	91, 90, 93, 143, 145, 148, 72, 102, 113, 114,
+	91, 90, 93, 143, 145, 0, 72, 102, 113, 114,
 	115, 116, 117, 118, 119, 120, 121, 122, 123, 124,
 	125, 126, 127, 128, 129, 130, 131, 132, 133, 138,
-	155, -2, 158, 159, 98, 163, 167, 177, 178, 169,
-	175, 173, 21, 22, 25, 67, 0, 31, -2, 0,
+	0, -2, 155, 156, 98, 160, 164, 174, 175, 166,
+	172, 170, 21, 22, 25, 67, 0, 31, -2, 0,
 	0, -2, 0, 0, 40, 53, -2, 99, -2, 78,
-	82, 56, 61, 89, 142, 147, -2, -2, 0, 100,
-	166, 168, 172, 20, 29, 30, -2, 0, 0, 0,
+	82, 56, 61, 89, 142, 146, -2, -2, 0, 100,
+	163, 165, 169, 20, 29, 30, -2, 0, 0, 0,
 	-2, 0, 42, 0, -2, 0, 0, 0, -2, 0,
-	157, 160, 171, 28, -2, 0, 36, -2, 0, -2,
-	0, 43, -2, 52, 51, 50, 153, 0, 156, 170,
-	35, 34, 68, -2, 0, 0, 44, 0, 49, 154,
+	154, 157, 168, 28, -2, 0, 36, -2, 0, -2,
+	0, 43, -2, 52, 51, 50, 151, 0, 153, 167,
+	35, 34, 68, -2, 0, 0, 44, 0, 49, 152,
 	33, 38, 0, -2, 45, 39, 37, -2, 0, 48,
 	47, 46,
 }
@@ -1075,8 +1075,9 @@ luadefault:
 			temp := &AssignStmt{Left: luaDollar[1].exprs, Right: nil}
 			temp.Start = luaDollar[1].exprs[0].start()
 			temp.End = luaDollar[1].exprs[0].end()
-			temp.Err = &SyntaxErr{Info: "赋值表达式缺少等于右值"}
+			temp.Err = &SyntaxErr{Errtype: LackRight}
 			temp.Err.Scope = temp.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 11:
@@ -1085,8 +1086,9 @@ luadefault:
 			temp := &AssignStmt{Left: luaDollar[1].exprs, Right: nil}
 			temp.Start = luaDollar[1].exprs[0].start()
 			temp.End = luaDollar[2].token.End
-			temp.Err = &SyntaxErr{Info: "赋值表达式缺少右值"}
+			temp.Err = &SyntaxErr{Errtype: LackRight}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 12:
@@ -1099,8 +1101,9 @@ luadefault:
 			} else {
 				temp.End = luaDollar[1].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "赋值表达式缺少左值"}
+			temp.Err = &SyntaxErr{Errtype: LackLeft}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 13:
@@ -1136,8 +1139,9 @@ luadefault:
 		{
 			temp := &GotoStmt{Name: nil}
 			temp.Scope = luaDollar[1].token.Scope
-			temp.Err = &SyntaxErr{Info: "缺少goto目标名称"}
+			temp.Err = &SyntaxErr{Errtype: LackGotoName}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 18:
@@ -1158,9 +1162,10 @@ luadefault:
 			} else {
 				temp.End = luaDollar[1].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少End"}
+			temp.Err = &SyntaxErr{Errtype: LackEnd}
 			temp.Err.Start = temp.End
 			temp.Err.End = temp.End
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 20:
@@ -1181,8 +1186,9 @@ luadefault:
 			} else {
 				temp.End = luaDollar[3].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少end"}
+			temp.Err = &SyntaxErr{Errtype: LackEnd}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 22:
@@ -1191,9 +1197,10 @@ luadefault:
 			temp := &WhileStmt{Condition: nil, Block: luaDollar[3].stmts}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[4].token.End
-			temp.Err = &SyntaxErr{Info: "缺少条件表达式"}
+			temp.Err = &SyntaxErr{Errtype: LackWhileCond}
 			temp.Err.Start = luaDollar[1].token.End
 			temp.Err.End = luaDollar[2].token.Start
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 23:
@@ -1202,8 +1209,9 @@ luadefault:
 			temp := &WhileStmt{Condition: luaDollar[2].expr, Block: nil}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[2].expr.end()
-			temp.Err = &SyntaxErr{Info: "缺少语句do..end"}
+			temp.Err = &SyntaxErr{Errtype: LackWhileBlock}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 24:
@@ -1211,8 +1219,9 @@ luadefault:
 		{
 			temp := &WhileStmt{Condition: nil, Block: nil}
 			temp.Scope = luaDollar[1].token.Scope
-			temp.Err = &SyntaxErr{Info: "缺少语句expr do..end"}
+			temp.Err = &SyntaxErr{Errtype: LackWhileCond}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 25:
@@ -1229,8 +1238,9 @@ luadefault:
 			temp := &RepeatStmt{Condition: nil, Block: luaDollar[2].stmts}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[3].token.End
-			temp.Err = &SyntaxErr{Info: "缺少语句条件表达式"}
+			temp.Err = &SyntaxErr{Errtype: LackUntilCond}
 			temp.Err.Scope = luaDollar[3].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 27:
@@ -1243,8 +1253,10 @@ luadefault:
 			} else {
 				temp.End = luaDollar[1].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少条件以及Until"}
+			temp.Err = &SyntaxErr{Errtype: LackUntilCond}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 28:
@@ -1277,8 +1289,9 @@ luadefault:
 			} else {
 				temp.End = luaDollar[3].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少end"}
+			temp.Err = &SyntaxErr{Errtype: LackEnd}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 		}
 	case 30:
 		luaDollar = luaS[luapt-5 : luapt+1]
@@ -1292,9 +1305,11 @@ luadefault:
 			temp := luaVAL.stmt.(*IfStmt)
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[5].token.End
-			temp.Err = &SyntaxErr{Info: "缺少条件表达式"}
+
+			temp.Err = &SyntaxErr{Errtype: LackIfCond}
 			temp.Err.Start = luaDollar[1].token.End
 			temp.Err.End = luaDollar[2].token.Start
+			temp.Err.insertInto(lualex)
 		}
 	case 31:
 		luaDollar = luaS[luapt-4 : luapt+1]
@@ -1308,8 +1323,11 @@ luadefault:
 			temp := luaVAL.stmt.(*IfStmt)
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[4].token.End
-			temp.Err = &SyntaxErr{Info: "缺少条件表达式及then"}
+
+			temp.Err = &SyntaxErr{Errtype: LackIfCond}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
+
 		}
 	case 32:
 		luaDollar = luaS[luapt-3 : luapt+1]
@@ -1329,8 +1347,11 @@ luadefault:
 			} else {
 				temp.End = luaDollar[1].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少条件,then和end"}
+
+			temp.Err = &SyntaxErr{Errtype: LackIfCond}
 			temp.Err.Scope = temp.Scope
+			temp.Err.insertInto(lualex)
+
 		}
 	case 33:
 		luaDollar = luaS[luapt-8 : luapt+1]
@@ -1358,8 +1379,11 @@ luadefault:
 			temp := luaVAL.stmt.(*IfStmt)
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[7].token.End
-			temp.Err = &SyntaxErr{Info: "缺少条件表达式"}
+
+			temp.Err = &SyntaxErr{Errtype: LackIfCond}
 			temp.Err.Scope = temp.Scope
+			temp.Err.insertInto(lualex)
+
 		}
 	case 35:
 		luaDollar = luaS[luapt-7 : luapt+1]
@@ -1378,9 +1402,12 @@ luadefault:
 			} else {
 				temp.End = luaDollar[6].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少end"}
+
+			temp.Err = &SyntaxErr{Errtype: LackEnd}
 			temp.Err.Start = temp.End
 			temp.Err.End = temp.End
+			temp.Err.insertInto(lualex)
+
 		}
 	case 36:
 		luaDollar = luaS[luapt-6 : luapt+1]
@@ -1395,8 +1422,10 @@ luadefault:
 			temp := luaVAL.stmt.(*IfStmt)
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[6].token.End
-			temp.Err = &SyntaxErr{Info: "缺少条件表达式及then"}
+
+			temp.Err = &SyntaxErr{Errtype: LackIfCond}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 		}
 	case 37:
 		luaDollar = luaS[luapt-9 : luapt+1]
@@ -1415,8 +1444,11 @@ luadefault:
 			} else {
 				temp.End = luaDollar[7].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少end"}
-			temp.Err.Scope = luaDollar[1].token.Scope
+
+			err := &SyntaxErr{Errtype: LackEnd}
+			err.Scope = luaDollar[1].token.Scope
+			err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 39:
@@ -1425,8 +1457,11 @@ luadefault:
 			temp := &ForLoopNumStmt{Name: nil, Init: luaDollar[3].expr, Limit: luaDollar[5].expr, Block: luaDollar[7].stmts}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[8].token.End
-			temp.Err = &SyntaxErr{Info: "缺少名称"}
+
+			temp.Err = &SyntaxErr{Errtype: LackName}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 40:
@@ -1435,8 +1470,11 @@ luadefault:
 			temp := &ForLoopNumStmt{Name: nil, Init: nil, Limit: nil, Block: luaDollar[3].stmts}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[4].token.End
-			temp.Err = &SyntaxErr{Info: "缺少循环条件"}
+
+			temp.Err = &SyntaxErr{Errtype: LackForCond}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 41:
@@ -1449,8 +1487,11 @@ luadefault:
 			} else {
 				temp.End = luaDollar[2].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少循环条件及end"}
+
+			temp.Err = &SyntaxErr{Errtype: LackForCond}
 			temp.Err.Scope = temp.Scope
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 42:
@@ -1459,8 +1500,11 @@ luadefault:
 			temp := &ForLoopNumStmt{Name: luaDollar[2].expr, Init: nil, Limit: nil, Block: luaDollar[4].stmts}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[5].token.End
-			temp.Err = &SyntaxErr{Info: "缺少循环范围"}
+
+			temp.Err = &SyntaxErr{Errtype: LackForScope}
 			temp.Err.Scope = luaDollar[2].expr.scope()
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 43:
@@ -1469,8 +1513,11 @@ luadefault:
 			temp := &ForLoopNumStmt{Name: luaDollar[2].expr, Init: nil, Limit: nil, Block: luaDollar[5].stmts}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[6].token.End
-			temp.Err = &SyntaxErr{Info: "缺少循环范围"}
+
+			temp.Err = &SyntaxErr{Errtype: LackForScope}
 			temp.Err.Scope = luaDollar[2].expr.scope()
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 44:
@@ -1479,8 +1526,11 @@ luadefault:
 			temp := &ForLoopNumStmt{Name: luaDollar[2].expr, Init: luaDollar[4].expr, Limit: nil, Block: luaDollar[6].stmts}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[7].token.End
-			temp.Err = &SyntaxErr{Info: "缺少循环终点"}
+
+			temp.Err = &SyntaxErr{Errtype: LackForScope}
 			temp.Err.Scope = luaDollar[4].expr.scope()
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 45:
@@ -1489,8 +1539,9 @@ luadefault:
 			temp := &ForLoopNumStmt{Name: luaDollar[2].expr, Init: luaDollar[4].expr, Limit: nil, Block: luaDollar[7].stmts}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[8].token.End
-			temp.Err = &SyntaxErr{Info: "缺少循环终点"}
+			temp.Err = &SyntaxErr{Errtype: LackForScope}
 			temp.Err.Scope = luaDollar[5].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 46:
@@ -1507,9 +1558,12 @@ luadefault:
 			temp := &ForLoopNumStmt{Name: luaDollar[2].expr, Init: luaDollar[4].expr, Limit: luaDollar[6].expr, Step: nil, Block: luaDollar[9].stmts}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[10].token.End
-			temp.Err = &SyntaxErr{Info: "缺少步进值"}
+
+			temp.Err = &SyntaxErr{Errtype: LackForStep}
 			temp.Err.Start = luaDollar[7].token.End
 			temp.Err.End = luaDollar[8].token.Start
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 48:
@@ -1522,8 +1576,11 @@ luadefault:
 			} else {
 				temp.End = luaDollar[9].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少end"}
+
+			temp.Err = &SyntaxErr{Errtype: LackEnd}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 49:
@@ -1539,8 +1596,11 @@ luadefault:
 			temp := &ForLoopListStmt{Exprs: luaDollar[3].exprs, Block: luaDollar[5].stmts}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[6].token.End
-			temp.Err = &SyntaxErr{Info: "缺少迭代表达式"}
+
+			temp.Err = &SyntaxErr{Errtype: LackExpr}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 51:
@@ -1549,11 +1609,13 @@ luadefault:
 			temp := &ForLoopListStmt{Names: luaDollar[2].exprs, Block: luaDollar[5].stmts}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[6].token.End
-			temp.Err = &SyntaxErr{Info: "缺少迭代对象表达式"}
+			temp.Err = &SyntaxErr{Errtype: LackExpr}
 			if len(luaDollar[2].exprs) > 0 {
 				temp.Err.Scope = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].scope()
 			}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 52:
@@ -1566,8 +1628,11 @@ luadefault:
 			} else {
 				temp.End = luaDollar[5].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少end"}
-			temp.Err.Scope = luaDollar[1].token.Scope
+
+			err := &SyntaxErr{Errtype: LackEnd}
+			err.Scope = luaDollar[1].token.Scope
+			err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 53:
@@ -1581,8 +1646,15 @@ luadefault:
 			} else {
 				temp.End = luaDollar[3].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少执行语句end"}
+			temp.Err = &SyntaxErr{Errtype: LackBlock}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
+
+			err := &SyntaxErr{Errtype: LackEnd}
+			err.Scope = luaDollar[1].token.Scope
+			err.insertInto(lualex)
+
+			luaVAL.stmt = temp
 		}
 	case 54:
 		luaDollar = luaS[luapt-3 : luapt+1]
@@ -1598,8 +1670,9 @@ luadefault:
 		{
 			temp := luaDollar[2].stmt.(*FuncDefStmt)
 			temp.Start = luaDollar[1].token.Start
-			temp.Err = &SyntaxErr{Info: "缺少函数体"}
+			temp.Err = &SyntaxErr{Errtype: LackFunctionContent}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 56:
@@ -1616,8 +1689,11 @@ luadefault:
 			temp := &LocalFuncDefStmt{Function: luaDollar[3].expr}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[3].expr.end()
-			temp.Err = &SyntaxErr{Info: "缺少函数名"}
+
+			temp.Err = &SyntaxErr{Errtype: LackFunctionName}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 58:
@@ -1626,8 +1702,11 @@ luadefault:
 			temp := &LocalFuncDefStmt{Name: luaDollar[2].expr, Function: luaDollar[3].expr}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[3].expr.end()
-			temp.Err = &SyntaxErr{Info: "缺少function"}
-			temp.Err.Scope = luaDollar[1].token.Scope
+
+			err := &SyntaxErr{Errtype: LackFunctionkeyword}
+			err.Scope = luaDollar[1].token.Scope
+			err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 59:
@@ -1636,8 +1715,9 @@ luadefault:
 			temp := &LocalFuncDefStmt{Name: luaDollar[3].expr}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[3].expr.end()
-			temp.Err = &SyntaxErr{Info: "缺少函数体"}
+			temp.Err = &SyntaxErr{Errtype: LackFunctionContent}
 			temp.Err.Scope = luaDollar[3].expr.scope()
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 60:
@@ -1646,8 +1726,9 @@ luadefault:
 			temp := &LocalFuncDefStmt{}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[2].token.End
-			temp.Err = &SyntaxErr{Info: "缺少函数内容"}
+			temp.Err = &SyntaxErr{Errtype: LackFunction}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 61:
@@ -1669,8 +1750,9 @@ luadefault:
 			temp := &LocalVarDef{Names: luaDollar[2].exprs}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[3].token.End
-			temp.Err = &SyntaxErr{Info: "缺少初始值"}
+			temp.Err = &SyntaxErr{Errtype: LackInitValue}
 			temp.Err.Scope = luaDollar[3].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 63:
@@ -1683,8 +1765,9 @@ luadefault:
 			} else {
 				temp.End = luaDollar[2].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少变量名称"}
+			temp.Err = &SyntaxErr{Errtype: LackName}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 64:
@@ -1704,17 +1787,18 @@ luadefault:
 		{
 			temp := &LocalVarDef{}
 			temp.Scope = luaDollar[1].token.Scope
-			temp.Err = &SyntaxErr{Info: "缺少变量名称"}
+			temp.Err = &SyntaxErr{Errtype: LackName}
 			temp.Err.Scope = luaDollar[1].token.Scope
 			luaVAL.stmt = temp
 		}
 	case 66:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
-			temp := &ErrorStmt{Info: "解析错误"}
+			temp := &ErrorStmt{Info: "errr"}
+			temp.Err = &SyntaxErr{Errtype: StmtErr}
 			tk := lualex.(*Lexer).Token
-			temp.Err = &SyntaxErr{Info: tk.Str + "附近解析错误"}
 			temp.Err.Scope = tk.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 67:
@@ -1773,8 +1857,11 @@ luadefault:
 			temp := &LabelStmt{Name: luaDollar[1].expr}
 			temp.Start = luaDollar[1].expr.start()
 			temp.End = luaDollar[2].token.End
-			temp.Err = &SyntaxErr{Info: "标签缺少左侧符号"}
-			temp.Err.Scope = luaDollar[1].expr.scope()
+
+			err := &SyntaxErr{Errtype: LabelIncomplete}
+			err.Scope = luaDollar[1].expr.scope()
+			err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 74:
@@ -1783,8 +1870,11 @@ luadefault:
 			temp := &LabelStmt{Name: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[2].expr.end()
-			temp.Err = &SyntaxErr{Info: "标签缺少右侧符号"}
-			temp.Err.Scope = luaDollar[2].expr.scope()
+
+			err := &SyntaxErr{Errtype: LabelIncomplete}
+			err.Scope = luaDollar[2].expr.scope()
+			err.insertInto(lualex)
+
 			luaVAL.stmt = temp
 		}
 	case 75:
@@ -1793,8 +1883,9 @@ luadefault:
 			temp := &LabelStmt{Name: nil}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[2].token.End
-			temp.Err = &SyntaxErr{Info: "标签缺少名称"}
+			temp.Err = &SyntaxErr{Errtype: LackLabelName}
 			temp.Err.Scope = temp.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 76:
@@ -1802,8 +1893,13 @@ luadefault:
 		{
 			temp := &LabelStmt{Name: nil}
 			temp.Scope = luaDollar[1].token.Scope
-			temp.Err = &SyntaxErr{Info: "标签不完整"}
+			temp.Err = &SyntaxErr{Errtype: LackLabelName}
 			temp.Err.Scope = temp.Scope
+			temp.Err.insertInto(lualex)
+			//不完整标签
+			err := &SyntaxErr{Errtype: LabelIncomplete}
+			err.Scope = temp.Scope
+			err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 77:
@@ -1820,7 +1916,6 @@ luadefault:
 			temp.Start = luaDollar[1].expr.start()
 			temp.End = luaDollar[3].expr.end()
 			luaVAL.stmt = temp
-
 		}
 	case 79:
 		luaDollar = luaS[luapt-2 : luapt+1]
@@ -1828,8 +1923,9 @@ luadefault:
 			temp := &FuncDefStmt{Receiver: luaDollar[1].expr}
 			temp.Start = luaDollar[1].expr.start()
 			temp.End = luaDollar[2].token.End
-			temp.Err = &SyntaxErr{Info: "缺少名称"}
+			temp.Err = &SyntaxErr{Errtype: LackfuncName}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
 	case 80:
@@ -1860,8 +1956,9 @@ luadefault:
 			temp := &GetItemExpr{Table: luaDollar[1].expr}
 			temp.Start = luaDollar[1].expr.start()
 			temp.End = luaDollar[2].token.End
-			temp.Err = &SyntaxErr{Info: "缺少子项目"}
+			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
 	case 84:
@@ -1870,8 +1967,9 @@ luadefault:
 			temp := &GetItemExpr{Key: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[2].expr.end()
-			temp.Err = &SyntaxErr{Info: "缺少父级项目"}
+			temp.Err = &SyntaxErr{Errtype: LackObject}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
 	case 85:
@@ -1908,8 +2006,9 @@ luadefault:
 			temp := &GetItemExpr{Table: luaDollar[1].expr}
 			temp.Start = luaDollar[1].expr.start()
 			temp.End = luaDollar[3].token.End
-			temp.Err = &SyntaxErr{Info: "缺少索引"}
+			temp.Err = &SyntaxErr{Errtype: LackIndex}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
 	case 91:
@@ -1918,8 +2017,9 @@ luadefault:
 			temp := &GetItemExpr{Table: luaDollar[1].expr, Key: luaDollar[3].expr}
 			temp.Start = luaDollar[1].expr.start()
 			temp.End = luaDollar[3].expr.end()
-			temp.Err = &SyntaxErr{Info: "缺少右括号"}
+			temp.Err = &SyntaxErr{Errtype: LackRightSquareBrackets}
 			temp.Err.Scope = luaDollar[3].expr.scope()
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
 	case 92:
@@ -1928,8 +2028,9 @@ luadefault:
 			temp := &GetItemExpr{Table: luaDollar[1].expr}
 			temp.Start = luaDollar[1].expr.start()
 			temp.End = luaDollar[2].token.End
-			temp.Err = &SyntaxErr{Info: "缺少索引"}
+			temp.Err = &SyntaxErr{Errtype: LackIndex}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
 	case 93:
@@ -1948,8 +2049,9 @@ luadefault:
 			temp := &GetItemExpr{Table: luaDollar[1].expr}
 			temp.Start = luaDollar[1].expr.start()
 			temp.End = luaDollar[2].token.End
-			temp.Err = &SyntaxErr{Info: "缺少子项目"}
+			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
 	case 95:
@@ -2315,8 +2417,9 @@ luadefault:
 			temp := &FuncCall{Function: luaDollar[3].expr, Receiver: luaDollar[1].expr}
 			temp.Start = luaDollar[1].expr.start()
 			temp.End = luaDollar[3].expr.end()
-			temp.Err = &SyntaxErr{Info: "缺少函数调用参数(args)"}
+			temp.Err = &SyntaxErr{Errtype: LackfuncArgs}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.node = temp
 		}
 	case 144:
@@ -2325,8 +2428,9 @@ luadefault:
 			temp := &FuncCall{Receiver: luaDollar[1].expr}
 			temp.Start = luaDollar[1].expr.start()
 			temp.End = luaDollar[2].token.End
-			temp.Err = &SyntaxErr{Info: "缺少函数调用"}
+			temp.Err = &SyntaxErr{Errtype: LackfuncName}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.node = temp
 		}
 	case 145:
@@ -2335,47 +2439,38 @@ luadefault:
 			luaVAL.exprs = []Expr{}
 		}
 	case 146:
-		luaDollar = luaS[luapt-1 : luapt+1]
-		{
-			luaVAL.exprs = []Expr{} /////////////////////////////errrrrrrrrrrr
-		}
-	case 147:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			luaVAL.exprs = luaDollar[2].exprs
 		}
-	case 148:
-		luaDollar = luaS[luapt-2 : luapt+1]
-		{
-			luaVAL.exprs = luaDollar[2].exprs //////////////////////////////////errrrrrrrrrrrrrrrr
-		}
-	case 149:
+	case 147:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			luaVAL.exprs = []Expr{luaDollar[1].expr}
 		}
-	case 150:
+	case 148:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			str := &StringExpr{Value: luaDollar[1].token.Str}
 			str.Scope = luaDollar[1].token.Scope
 			luaVAL.exprs = []Expr{str}
 		}
-	case 151:
+	case 149:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			luaVAL.expr = luaDollar[2].expr
 		}
-	case 152:
+	case 150:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			temp := &FuncDefExpr{}
 			temp.Scope = luaDollar[1].token.Scope
-			temp.Err = &SyntaxErr{Info: "未定义函数体"}
+			temp.Err = &SyntaxErr{Errtype: Lackfuncbody}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
-	case 153:
+	case 151:
 		luaDollar = luaS[luapt-5 : luapt+1]
 		{
 			temp := &FuncDefExpr{Param: luaDollar[2].expr, Block: luaDollar[4].stmts}
@@ -2383,7 +2478,7 @@ luadefault:
 			temp.End = luaDollar[5].token.End
 			luaVAL.expr = temp
 		}
-	case 154:
+	case 152:
 		luaDollar = luaS[luapt-6 : luapt+1]
 		{
 			class := &STypeExpr{Value: luaDollar[4].token.Str}
@@ -2393,17 +2488,7 @@ luadefault:
 			temp.End = luaDollar[6].token.End
 			luaVAL.expr = temp
 		}
-	case 155:
-		luaDollar = luaS[luapt-2 : luapt+1]
-		{
-			temp := &FuncDefExpr{Param: luaDollar[2].expr}
-			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[2].expr.end()
-			temp.Err = &SyntaxErr{Info: "缺少右括号及函数体"}
-			temp.Err.Scope = temp.Scope
-			luaVAL.expr = temp
-		}
-	case 156:
+	case 153:
 		luaDollar = luaS[luapt-5 : luapt+1]
 		{
 			class := &STypeExpr{Value: luaDollar[3].token.Str}
@@ -2413,7 +2498,7 @@ luadefault:
 			temp.End = luaDollar[5].token.End
 			luaVAL.expr = temp
 		}
-	case 157:
+	case 154:
 		luaDollar = luaS[luapt-4 : luapt+1]
 		{
 			temp := &FuncDefExpr{Param: nil, Block: luaDollar[3].stmts}
@@ -2421,21 +2506,21 @@ luadefault:
 			temp.End = luaDollar[4].token.End
 			luaVAL.expr = temp
 		}
-	case 158:
+	case 155:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			temp := &ParamExpr{IsAny: true}
 			temp.Scope = luaDollar[1].token.Scope
 			luaVAL.expr = temp
 		}
-	case 159:
+	case 156:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			temp := &ParamExpr{Params: luaDollar[1].exprs, IsAny: false}
 			temp.Scope = luaDollar[1].exprs[len(luaDollar[1].exprs)-1].scope()
 			luaVAL.expr = temp
 		}
-	case 160:
+	case 157:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &ParamExpr{Params: luaDollar[1].exprs, IsAny: true}
@@ -2448,24 +2533,25 @@ luadefault:
 			temp.End = luaDollar[3].token.End
 			luaVAL.expr = temp
 		}
-	case 161:
+	case 158:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TableExpr{Fields: []Expr{}}
 			temp.Scope = luaDollar[1].token.Scope
 			luaVAL.expr = temp
 		}
-	case 162:
+	case 159:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			temp := &TableExpr{Fields: []Expr{}}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[1].token.End
-			temp.Err = &SyntaxErr{Info: "缺少右括号"}
+			temp.Err = &SyntaxErr{Errtype: LackRightCurlyBrackets}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
-	case 163:
+	case 160:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TableExpr{Fields: luaDollar[2].exprs}
@@ -2473,7 +2559,7 @@ luadefault:
 			temp.End = luaDollar[3].token.End
 			luaVAL.expr = temp
 		}
-	case 164:
+	case 161:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TableExpr{Fields: luaDollar[2].exprs}
@@ -2483,26 +2569,27 @@ luadefault:
 			} else {
 				temp.End = luaDollar[1].token.End
 			}
-			temp.Err = &SyntaxErr{Info: "缺少右括号"}
+			temp.Err = &SyntaxErr{Errtype: LackRightCurlyBrackets}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
-	case 165:
+	case 162:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			luaVAL.exprs = []Expr{luaDollar[1].expr}
 		}
-	case 166:
+	case 163:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			luaVAL.exprs = append(luaDollar[1].exprs, luaDollar[3].expr)
 		}
-	case 167:
+	case 164:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			luaVAL.exprs = luaDollar[1].exprs
 		}
-	case 168:
+	case 165:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &FieldExpr{Key: luaDollar[1].expr, Value: luaDollar[3].expr}
@@ -2510,17 +2597,18 @@ luadefault:
 			temp.End = luaDollar[3].expr.end()
 			luaVAL.expr = temp
 		}
-	case 169:
+	case 166:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &FieldExpr{Key: luaDollar[1].expr}
 			temp.Start = luaDollar[1].expr.start()
 			temp.End = luaDollar[2].token.End
-			temp.Err = &SyntaxErr{Info: "缺少右值"}
+			temp.Err = &SyntaxErr{Errtype: LackRight}
 			temp.Err.Scope = luaDollar[2].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
-	case 170:
+	case 167:
 		luaDollar = luaS[luapt-5 : luapt+1]
 		{
 			temp := &FieldExpr{Key: luaDollar[2].expr, Value: luaDollar[5].expr}
@@ -2528,69 +2616,76 @@ luadefault:
 			temp.End = luaDollar[5].expr.end()
 			luaVAL.expr = temp
 		}
-	case 171:
+	case 168:
 		luaDollar = luaS[luapt-4 : luapt+1]
 		{
 			temp := &FieldExpr{Key: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[4].token.End
-			temp.Err = &SyntaxErr{Info: "缺少右值"}
+			temp.Err = &SyntaxErr{Errtype: LackRight}
 			temp.Err.Scope = luaDollar[3].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
-	case 172:
+	case 169:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &FieldExpr{Key: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[3].token.End
-			temp.Err = &SyntaxErr{Info: "缺少等号及右值"}
+			temp.Err = &SyntaxErr{Errtype: LackRight}
 			temp.Err.Scope = luaDollar[3].token.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
-	case 173:
+	case 170:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &FieldExpr{}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[2].token.End
-			temp.Err = &SyntaxErr{Info: "缺少索引表达式"}
+			temp.Err = &SyntaxErr{Errtype: LackIndex}
 			temp.Err.Scope = temp.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
-	case 174:
+	case 171:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			temp := &FieldExpr{}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[1].token.End
-			temp.Err = &SyntaxErr{Info: "缺少右括号"}
+			temp.Err = &SyntaxErr{Errtype: LackRightSquareBrackets}
 			temp.Err.Scope = temp.Scope
+			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
-	case 175:
+	case 172:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &FieldExpr{Key: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
 			temp.End = luaDollar[2].expr.end()
-			temp.Err = &SyntaxErr{Info: "缺少右括号"}
+
+			temp.Err = &SyntaxErr{Errtype: LackRightSquareBrackets}
 			temp.Err.Scope = luaDollar[1].token.Scope
+			temp.Err.insertInto(lualex)
+
 			luaVAL.expr = temp
 		}
-	case 176:
+	case 173:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			temp := &FieldExpr{Value: luaDollar[1].expr}
 			temp.Scope = luaDollar[1].expr.scope()
 			luaVAL.expr = temp
 		}
-	case 177:
+	case 174:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			luaVAL.expr = &NameExpr{Value: luaDollar[1].token.Str}
 		}
-	case 178:
+	case 175:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			luaVAL.expr = &NameExpr{Value: luaDollar[1].token.Str}
