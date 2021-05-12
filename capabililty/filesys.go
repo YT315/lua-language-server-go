@@ -2,6 +2,7 @@ package capabililty
 
 import (
 	"context"
+	"lualsp/auxiliary"
 	"lualsp/protocol"
 )
 
@@ -11,14 +12,32 @@ func (s *Server) DidOpen(context.Context, *protocol.DidOpenTextDocumentParams) e
 }
 
 func (s *Server) DidChange(context.Context, *protocol.DidChangeTextDocumentParams) error {
+	//触发扫描
 	return nil
 }
 
 func (s *Server) DidClose(context.Context, *protocol.DidCloseTextDocumentParams) error {
+	//不需要反应
 	return nil
 }
 
 func (s *Server) DidSave(ctx context.Context, params *protocol.DidSaveTextDocumentParams) error {
+	//暂时用于测试事件
+	data := ctx.Value(auxiliary.CtxKey("client"))
+	client, ok := data.(protocol.Client)
+	if ok {
+		for _, ws := range s.project.Workspaces {
+			for uri, file := range ws.Files {
+				if len(file.Diagnostics) > 0 {
+					client.PublishDiagnostics(ctx, &protocol.PublishDiagnosticsParams{
+						URI:         protocol.DocumentURI(uri),
+						Diagnostics: []protocol.Diagnostic{},
+					})
+				}
+
+			}
+		}
+	}
 	// data := ctx.Value(auxiliary.CtxKey("client"))
 	// client, ok := data.(protocol.Client)
 	// if ok {

@@ -176,6 +176,24 @@ func (s *Server) Initialized(ctx context.Context, params *protocol.InitializedPa
 	}
 	s.state = serverInitialized
 	s.stateMu.Unlock()
+
+	s.project.Wg.Wait()
+	//发送诊断
+	data := ctx.Value(auxiliary.CtxKey("client"))
+	client, ok := data.(protocol.Client)
+	if ok {
+		for _, ws := range s.project.Workspaces {
+			for uri, file := range ws.Files {
+				if len(file.Diagnostics) > 0 {
+					client.PublishDiagnostics(ctx, &protocol.PublishDiagnosticsParams{
+						URI:         protocol.DocumentURI(uri),
+						Diagnostics: file.Diagnostics,
+					})
+				}
+
+			}
+		}
+	}
 	/*
 		for _, not := range s.notifications {
 			s.client.ShowMessage(ctx, not)

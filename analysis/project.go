@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"io/ioutil"
-	"lualsp/auxiliary"
 	"lualsp/logger"
 	"lualsp/protocol"
 	"lualsp/syntax"
@@ -44,6 +43,7 @@ func (p *Project) Scan(ctx context.Context) {
 	p.State = ProjectFileScanning
 	p.StateMu.Unlock()
 	for _, ws := range p.Workspaces {
+		p.Wg.Add(1)
 		go ws.Scan(&p.Wg)
 	}
 	p.Wg.Wait()
@@ -52,22 +52,6 @@ func (p *Project) Scan(ctx context.Context) {
 	p.State = ProjectFileScanned
 	p.StateMu.Unlock()
 	logger.Debugln("scan finish")
-	//发送诊断
-	data := ctx.Value(auxiliary.CtxKey("client"))
-	client, ok := data.(protocol.Client)
-	if ok {
-		for _, ws := range p.Workspaces {
-			for uri, file := range ws.Files {
-				if len(file.Diagnostics) > 0 {
-					client.PublishDiagnostics(ctx, &protocol.PublishDiagnosticsParams{
-						URI:         protocol.DocumentURI(uri),
-						Diagnostics: file.Diagnostics,
-					})
-				}
-
-			}
-		}
-	}
 
 	p.analysis()
 }
@@ -95,7 +79,6 @@ type Workspace struct {
 func (w *Workspace) Scan(wg *sync.WaitGroup) {
 	//限制同时打开的文件数量
 	sem := make(chan struct{}, runtime.GOMAXPROCS(0)+10)
-	wg.Add(1)
 	err := filepath.Walk(w.RootPath,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
@@ -182,7 +165,6 @@ func (f *File) Parse() {
 	lex.Parse()
 	f.Ast = append(f.Ast, lex.Block...)
 	f.Diagnostics = append(f.Diagnostics, lex.Diagnostics...)
-
 }
 
 //SymbolList 符号表结构
