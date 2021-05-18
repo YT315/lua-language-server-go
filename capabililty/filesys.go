@@ -11,7 +11,7 @@ func (s *Server) DidOpen(context.Context, *protocol.DidOpenTextDocumentParams) e
 	return nil
 }
 
-func (s *Server) DidChange(context.Context, *protocol.DidChangeTextDocumentParams) error {
+func (s *Server) DidChange(ctx context.Context, params *protocol.DidChangeTextDocumentParams) error {
 	//触发扫描
 	return nil
 }
