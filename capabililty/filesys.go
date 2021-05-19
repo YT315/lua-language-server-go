@@ -12,7 +12,27 @@ func (s *Server) DidOpen(context.Context, *protocol.DidOpenTextDocumentParams) e
 }
 
 func (s *Server) DidChange(ctx context.Context, params *protocol.DidChangeTextDocumentParams) error {
-	//触发扫描
+	path := auxiliary.UriToPath(string(params.TextDocument.URI))
+	exist := false
+	for _, w := range s.project.Workspaces {
+		if file, ok := w.Files[path]; ok {
+			for _, change := range params.ContentChanges {
+				file.Content.Insert(
+					int(change.Range.Start.Line),
+					int(change.Range.Start.Character),
+					int(change.Range.End.Line),
+					int(change.Range.End.Character),
+					int(change.RangeLength),
+					change.Text,
+				)
+			}
+			exist = true
+			break
+		}
+	}
+	if !exist {
+		return nil
+	}
 	return nil
 }
 
