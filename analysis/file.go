@@ -1,10 +1,11 @@
 package analysis
 
 import (
-	"bytes"
+	"fmt"
 	"io/ioutil"
 	"lualsp/protocol"
 	"lualsp/syntax"
+	"strings"
 	"sync"
 )
 
@@ -49,8 +50,9 @@ func (f *File) backOutside() (list *SymbolList) {
 //将文件内容读取缓存,并更新行号表
 func (f *File) updata() (err error) {
 	content, err := ioutil.ReadFile(f.Path)
-	if err != nil {
-		f.Content.Overwrite(content)
+
+	if err == nil {
+		f.Content.Overwrite(string(content))
 	}
 
 	return
@@ -59,7 +61,8 @@ func (f *File) updata() (err error) {
 //解析
 func (f *File) Parse() {
 	f.Content.mu.RLock()
-	reader := bytes.NewReader(f.Content.content)
+
+	reader := strings.NewReader(string(f.Content.content))
 	lex := syntax.NewLexer(reader, func(line, col uint, msg string) {
 		println("err:- line:", line, "col:", col, "msg:", msg)
 	})
@@ -71,37 +74,32 @@ func (f *File) Parse() {
 
 //文件内容
 type FileContent struct {
-	content []byte       //文件内容实时
+	content []rune       //文件内容实时
 	linePos map[int]int  //行号对应的字节偏移方便有变动时插入
 	mu      sync.RWMutex //行号锁
 }
 
 //	重写内容
-func (f *FileContent) Overwrite(content []byte) {
+func (f *FileContent) Overwrite(content string) {
 	f.mu.Lock()
-	f.content = nil //释放原来内存
+	f.content = []rune(content) //释放原来内存
 	f.linePos = map[int]int{}
-	f.content = append(f.content, content...) //加入内容
-	f.mu.Unlock()
-	//另外线程处理行号
-	go func() {
-		f.mu.RLock()
-		line := 1
-		f.linePos[line] = 0
-		for index, value := range f.content { //更新行号
-			if value == '\n' {
-				line++
-				f.linePos[line] = index
-			}
+
+	line := 0
+	f.linePos[line] = 0
+	for index, value := range f.content { //更新行号
+		if value == rune('\n') {
+			line++
+			f.linePos[line] = index + 1
 		}
-		f.mu.RUnlock()
-	}()
+	}
+	f.mu.Unlock()
 }
 
 //插入内容
 func (f *FileContent) Insert(starline, staroff, endline, endoff, RangeLengthint int, text string) {
 	f.mu.Lock()
-	newtext := []byte(text)
+	newtext := []rune(text)
 	starIndex := f.linePos[starline] + staroff
 	endIndex := f.linePos[endline] + endoff
 	starContent := f.content[:starIndex]
@@ -110,18 +108,15 @@ func (f *FileContent) Insert(starline, staroff, endline, endoff, RangeLengthint 
 	f.content = append(f.content, starContent...)
 	f.content = append(f.content, newtext...)
 	f.content = append(f.content, endContent...)
-	f.mu.Unlock()
-	//另外线程处理行号
-	go func() {
-		f.mu.RLock()
-		line := 1
-		f.linePos[line] = 0
-		for index, value := range f.content { //更新行号
-			if value == '\n' {
-				line++
-				f.linePos[line] = index
-			}
+	line := 0
+	f.linePos[line] = 0
+	for index, value := range f.content { //更新行号
+
+		if value == rune('\n') {
+			line++
+			f.linePos[line] = index + 1
 		}
-		f.mu.RUnlock()
-	}()
+	}
+	fmt.Println(string(f.content))
+	f.mu.Unlock()
 }

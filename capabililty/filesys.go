@@ -3,6 +3,7 @@ package capabililty
 import (
 	"context"
 	"lualsp/auxiliary"
+	"lualsp/logger"
 	"lualsp/protocol"
 )
 
@@ -14,9 +15,13 @@ func (s *Server) DidOpen(context.Context, *protocol.DidOpenTextDocumentParams) e
 func (s *Server) DidChange(ctx context.Context, params *protocol.DidChangeTextDocumentParams) error {
 	path := auxiliary.UriToPath(string(params.TextDocument.URI))
 	exist := false
+	if len(params.ContentChanges) > 1 {
+		logger.Debugf("ddd")
+	}
 	for _, w := range s.project.Workspaces {
 		if file, ok := w.Files[path]; ok {
 			for _, change := range params.ContentChanges {
+				logger.Debugln(change.Text)
 				file.Content.Insert(
 					int(change.Range.Start.Line),
 					int(change.Range.Start.Character),
