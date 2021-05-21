@@ -2,8 +2,8 @@ package capabililty
 
 import (
 	"context"
+	"lualsp/analysis"
 	"lualsp/auxiliary"
-	"lualsp/logger"
 	"lualsp/protocol"
 )
 
@@ -12,31 +12,18 @@ func (s *Server) DidOpen(context.Context, *protocol.DidOpenTextDocumentParams) e
 	return nil
 }
 
+//文件改变时
 func (s *Server) DidChange(ctx context.Context, params *protocol.DidChangeTextDocumentParams) error {
 	path := auxiliary.UriToPath(string(params.TextDocument.URI))
-	exist := false
-	if len(params.ContentChanges) > 1 {
-		logger.Debugf("ddd")
-	}
+	var file *analysis.File
 	for _, w := range s.project.Workspaces {
-		if file, ok := w.Files[path]; ok {
-			for _, change := range params.ContentChanges {
-				logger.Debugln(change.Text)
-				file.Content.Insert(
-					int(change.Range.Start.Line),
-					int(change.Range.Start.Character),
-					int(change.Range.End.Line),
-					int(change.Range.End.Character),
-					int(change.RangeLength),
-					change.Text,
-				)
-			}
-			exist = true
+		if f, ok := w.Files[path]; ok {
+			file = f
 			break
 		}
 	}
-	if !exist {
-		return nil
+	if file != nil {
+		file.Content.Overwrite(params.ContentChanges[0].Text)
 	}
 	return nil
 }

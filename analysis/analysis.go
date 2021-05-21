@@ -83,8 +83,7 @@ func (a *Analysis) analysisExpr(ep syntax.Expr) interface{} {
 	//return *Symbol
 	case *syntax.NameExpr:
 		return a.analysisNameExpr(tp)
-
-		//result []*SymbolInfo
+	//result []*SymbolInfo
 	case *syntax.GetItemExpr:
 		return a.analysisGetItemExpr(tp)
 	default:

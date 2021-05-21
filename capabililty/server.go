@@ -109,9 +109,8 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 	return &protocol.InitializeResult{
 		Capabilities: protocol.ServerCapabilities{
 			TextDocumentSync: &protocol.TextDocumentSyncOptions{
-				Change:    protocol.Incremental,
+				Change:    protocol.Full,
 				OpenClose: true,
-				WillSave:  true,
 				Save: protocol.SaveOptions{
 					IncludeText: true,
 				},

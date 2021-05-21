@@ -93,30 +93,31 @@ func (f *FileContent) Overwrite(content string) {
 			f.linePos[line] = index + 1
 		}
 	}
-	f.mu.Unlock()
-}
-
-//插入内容
-func (f *FileContent) Insert(starline, staroff, endline, endoff, RangeLengthint int, text string) {
-	f.mu.Lock()
-	newtext := []rune(text)
-	starIndex := f.linePos[starline] + staroff
-	endIndex := f.linePos[endline] + endoff
-	starContent := f.content[:starIndex]
-	endContent := f.content[endIndex:]
-	f.content = nil
-	f.content = append(f.content, starContent...)
-	f.content = append(f.content, newtext...)
-	f.content = append(f.content, endContent...)
-	line := 0
-	f.linePos[line] = 0
-	for index, value := range f.content { //更新行号
-
-		if value == rune('\n') {
-			line++
-			f.linePos[line] = index + 1
-		}
-	}
 	fmt.Println(string(f.content))
 	f.mu.Unlock()
 }
+
+// //插入内容
+// func (f *FileContent) Insert(starline, staroff, endline, endoff, RangeLengthint int, text string) {
+// 	f.mu.Lock()
+// 	newtext := []rune(text)
+// 	starIndex := f.linePos[starline] + staroff
+// 	endIndex := f.linePos[endline] + endoff
+// 	starContent := f.content[:starIndex]
+// 	endContent := f.content[endIndex:]
+// 	f.content = nil
+// 	f.content = append(f.content, starContent...)
+// 	f.content = append(f.content, newtext...)
+// 	f.content = append(f.content, endContent...)
+// 	line := 0
+// 	f.linePos[line] = 0
+// 	for index, value := range f.content { //更新行号
+
+// 		if value == rune('\n') {
+// 			line++
+// 			f.linePos[line] = index + 1
+// 		}
+// 	}
+// 	fmt.Println(string(f.content))
+// 	f.mu.Unlock()
+// }
