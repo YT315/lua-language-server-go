@@ -125,7 +125,9 @@ func (s *Server) Initialize(ctx context.Context, params *protocol.ParamInitializ
 				ResolveProvider: true,
 			},
 
-			CodeActionProvider: true, // codeActionProvider,
+			CodeActionProvider: protocol.CodeActionOptions{
+				CodeActionKinds: []protocol.CodeActionKind{protocol.QuickFix},
+			},
 			/*	CallHierarchyProvider: true,
 				CompletionProvider: protocol.CompletionOptions{
 					TriggerCharacters: []string{"."},
@@ -185,7 +187,7 @@ func (s *Server) Initialized(ctx context.Context, params *protocol.InitializedPa
 			for uri, file := range ws.Files {
 				if len(file.Diagnostics) > 0 {
 					client.PublishDiagnostics(ctx, &protocol.PublishDiagnosticsParams{
-						URI:         protocol.DocumentURI(uri),
+						URI:         protocol.DocumentURI(auxiliary.PathToUri(uri)),
 						Diagnostics: file.Diagnostics,
 					})
 				}

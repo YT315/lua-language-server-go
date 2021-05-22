@@ -41,10 +41,6 @@ func UriToPath(s string) string {
 	if !strings.HasPrefix(s, "file://") {
 		return s
 	}
-	//将三斜杠转化为双斜杠
-	/*if strings.HasPrefix(s, "file:///") {
-		s = "file://" + s[len("file:///"):]
-	}*/
 	// Even though the input is a URI, it may not be in canonical form. VS Code
 	// in particular over-escapes :, @, etc. Unescape and re-encode to canonicalize.
 	path, err := url.PathUnescape(s[len("file://"):])
@@ -57,18 +53,25 @@ func UriToPath(s string) string {
 	// we change them to uppercase to remain consistent.
 	// For example, file:///c:/x/y/z becomes file:///C:/x/y/z.
 	if isWindowsDriveURIPath(path) {
-		path = path[:1] + strings.ToUpper(string(path[1])) + path[2:]
+		path = strings.ToUpper(string(path[1])) + path[2:]
 	}
 	return path
 }
 
+func PathToUri(s string) string {
+	//文件路径是双斜杠
+	if strings.HasPrefix(s, "file://") {
+		return s
+	}
+	if isWindowsDriveURIPath("/" + s) {
+		s = "/" + s
+	}
+
+	return "file://" + s
+}
 func isWindowsDriveURIPath(uri string) bool {
 	if len(uri) < 4 {
 		return false
 	}
 	return uri[0] == '/' && unicode.IsLetter(rune(uri[1])) && uri[2] == ':'
-}
-
-func trimFilePrefix(s string) string {
-	return strings.TrimPrefix(s, "file://")
 }

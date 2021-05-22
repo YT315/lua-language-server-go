@@ -86,6 +86,7 @@ func (w *Workspace) Scan(wg *sync.WaitGroup) {
 					Path:    path,
 					Project: w.Project,
 				}
+				path = filepath.ToSlash(path)
 				w.Files[path] = f
 				wg.Add(1)
 				go func() {
