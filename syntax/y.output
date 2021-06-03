@@ -109,10 +109,10 @@ state 5
 	.  reduce 6 (src line 91)
 
 
-6: shift/reduce conflict (shift 45(0), red'n 69(0)) on TFunction
-6: shift/reduce conflict (shift 26(0), red'n 69(0)) on TName
+6: shift/reduce conflict (shift 45(0), red'n 68(0)) on TFunction
+6: shift/reduce conflict (shift 26(0), red'n 68(0)) on TName
 state 6
-	returnstat:  TReturn.    (69)
+	returnstat:  TReturn.    (68)
 	returnstat:  TReturn.exprlist 
 	returnstat:  TReturn.exprlist ';' 
 
@@ -130,7 +130,7 @@ state 6
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 69 (src line 784)
+	.  reduce 68 (src line 785)
 
 	exprlist  goto 29
 	functioncall  goto 47
@@ -190,7 +190,7 @@ state 9
 
 state 10
 	stat:  functioncall.    (13)
-	prefixexp:  functioncall.    (140)
+	prefixexp:  functioncall.    (160)
 
 	$end  reduce 13 (src line 152)
 	error  reduce 13 (src line 152)
@@ -212,7 +212,7 @@ state 10
 	TTarget  reduce 13 (src line 152)
 	'='  reduce 13 (src line 152)
 	';'  reduce 13 (src line 152)
-	.  reduce 140 (src line 1234)
+	.  reduce 160 (src line 1425)
 
 
 state 11
@@ -315,7 +315,7 @@ state 15
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 24 (src line 244)
+	.  reduce 24 (src line 245)
 
 	functioncall  goto 47
 	var  goto 46
@@ -496,61 +496,60 @@ state 19
 	funcnameaux  goto 68
 	name  goto 70
 
-20: shift/reduce conflict (shift 72(0), red'n 65(0)) on TFunction
-20: shift/reduce conflict (shift 26(0), red'n 65(0)) on TName
-20: shift/reduce conflict (shift 75(0), red'n 65(0)) on '='
+20: shift/reduce conflict (shift 72(0), red'n 64(0)) on TFunction
+20: shift/reduce conflict (shift 26(0), red'n 64(0)) on TName
+20: shift/reduce conflict (shift 74(0), red'n 64(0)) on '='
 state 20
 	stat:  TLocal.TFunction name funcbody 
 	stat:  TLocal.TFunction funcbody 
-	stat:  TLocal.name funcbody 
 	stat:  TLocal.TFunction name 
 	stat:  TLocal.TFunction 
 	stat:  TLocal.namelist '=' exprlist 
 	stat:  TLocal.namelist '=' 
 	stat:  TLocal.'=' exprlist 
 	stat:  TLocal.namelist 
-	stat:  TLocal.    (65)
+	stat:  TLocal.    (64)
 
 	TFunction  shift 72
 	TName  shift 26
-	'='  shift 75
-	.  reduce 65 (src line 751)
+	'='  shift 74
+	.  reduce 64 (src line 752)
 
-	namelist  goto 74
-	name  goto 73
+	namelist  goto 73
+	name  goto 75
 
 state 21
-	stat:  error.    (66)
+	stat:  error.    (65)
 
-	.  reduce 66 (src line 758)
+	.  reduce 65 (src line 759)
 
 
 state 22
-	varlist:  var.    (85)
-	prefixexp:  var.    (139)
+	varlist:  var.    (84)
+	prefixexp:  var.    (159)
 
-	$end  reduce 85 (src line 912)
-	error  reduce 85 (src line 912)
-	TBreak  reduce 85 (src line 912)
-	TDo  reduce 85 (src line 912)
-	TElse  reduce 85 (src line 912)
-	TElseIf  reduce 85 (src line 912)
-	TEnd  reduce 85 (src line 912)
-	TFor  reduce 85 (src line 912)
-	TFunction  reduce 85 (src line 912)
-	TGoto  reduce 85 (src line 912)
-	TIf  reduce 85 (src line 912)
-	TLocal  reduce 85 (src line 912)
-	TRepeat  reduce 85 (src line 912)
-	TReturn  reduce 85 (src line 912)
-	TUntil  reduce 85 (src line 912)
-	TWhile  reduce 85 (src line 912)
-	TName  reduce 85 (src line 912)
-	TTarget  reduce 85 (src line 912)
-	'='  reduce 85 (src line 912)
-	';'  reduce 85 (src line 912)
-	','  reduce 85 (src line 912)
-	.  reduce 139 (src line 1231)
+	$end  reduce 84 (src line 913)
+	error  reduce 84 (src line 913)
+	TBreak  reduce 84 (src line 913)
+	TDo  reduce 84 (src line 913)
+	TElse  reduce 84 (src line 913)
+	TElseIf  reduce 84 (src line 913)
+	TEnd  reduce 84 (src line 913)
+	TFor  reduce 84 (src line 913)
+	TFunction  reduce 84 (src line 913)
+	TGoto  reduce 84 (src line 913)
+	TIf  reduce 84 (src line 913)
+	TLocal  reduce 84 (src line 913)
+	TRepeat  reduce 84 (src line 913)
+	TReturn  reduce 84 (src line 913)
+	TUntil  reduce 84 (src line 913)
+	TWhile  reduce 84 (src line 913)
+	TName  reduce 84 (src line 913)
+	TTarget  reduce 84 (src line 913)
+	'='  reduce 84 (src line 913)
+	';'  reduce 84 (src line 913)
+	','  reduce 84 (src line 913)
+	.  reduce 159 (src line 1422)
 
 
 state 23
@@ -576,37 +575,37 @@ state 23
 	args  goto 78
 	tableconstructor  goto 81
 
-24: shift/reduce conflict (shift 26(0), red'n 76(0)) on TName
-24: shift/reduce conflict (shift 84(0), red'n 76(0)) on TTarget
+24: shift/reduce conflict (shift 26(0), red'n 75(0)) on TName
+24: shift/reduce conflict (shift 84(0), red'n 75(0)) on TTarget
 state 24
 	label:  TTarget.name TTarget 
 	label:  TTarget.name 
 	label:  TTarget.TTarget 
-	label:  TTarget.    (76)
+	label:  TTarget.    (75)
 
 	TName  shift 26
 	TTarget  shift 84
-	.  reduce 76 (src line 841)
+	.  reduce 75 (src line 842)
 
 	name  goto 83
 
-25: shift/reduce conflict (shift 85(0), red'n 88(0)) on TTarget
+25: shift/reduce conflict (shift 85(0), red'n 87(0)) on TTarget
 state 25
 	label:  name.TTarget 
-	var:  name.    (88)
+	var:  name.    (87)
 
 	TTarget  shift 85
-	.  reduce 88 (src line 923)
+	.  reduce 87 (src line 924)
 
 
 state 26
-	name:  TName.    (95)
+	name:  TName.    (94)
 	name:  TName.TAType 
 	name:  TName.TSType 
 
 	TAType  shift 86
 	TSType  shift 87
-	.  reduce 95 (src line 978)
+	.  reduce 94 (src line 979)
 
 
 state 27
@@ -621,41 +620,62 @@ state 28
 	.  reduce 7 (src line 98)
 
 
-29: shift/reduce conflict (shift 88(0), red'n 70(0)) on ';'
+29: shift/reduce conflict (shift 88(0), red'n 69(0)) on ';'
 state 29
-	returnstat:  TReturn exprlist.    (70)
+	returnstat:  TReturn exprlist.    (69)
 	returnstat:  TReturn exprlist.';' 
 	exprlist:  exprlist.',' expr 
 	exprlist:  exprlist.',' 
 
 	';'  shift 88
 	','  shift 89
-	.  reduce 70 (src line 788)
+	.  reduce 69 (src line 789)
 
 
 state 30
-	exprlist:  expr.    (101)
+	exprlist:  expr.    (100)
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
 	TOr  shift 110
@@ -678,57 +698,57 @@ state 30
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 101 (src line 1010)
+	.  reduce 100 (src line 1011)
 
 
 state 31
-	expr:  TNil.    (104)
+	expr:  TNil.    (103)
 
-	.  reduce 104 (src line 1021)
+	.  reduce 103 (src line 1022)
 
 
 state 32
-	expr:  TFalse.    (105)
+	expr:  TFalse.    (104)
 
-	.  reduce 105 (src line 1026)
+	.  reduce 104 (src line 1027)
 
 
 state 33
-	expr:  TTrue.    (106)
+	expr:  TTrue.    (105)
 
-	.  reduce 106 (src line 1031)
+	.  reduce 105 (src line 1032)
 
 
 state 34
-	expr:  TNumber.    (107)
+	expr:  TNumber.    (106)
 
-	.  reduce 107 (src line 1036)
+	.  reduce 106 (src line 1037)
 
 
 state 35
-	expr:  TString.    (108)
+	expr:  TString.    (107)
 
-	.  reduce 108 (src line 1042)
+	.  reduce 107 (src line 1043)
 
 
 state 36
-	expr:  TAny.    (109)
+	expr:  TAny.    (108)
 
-	.  reduce 109 (src line 1047)
+	.  reduce 108 (src line 1048)
 
 
 state 37
-	expr:  functiondef.    (110)
+	expr:  functiondef.    (109)
 
-	.  reduce 110 (src line 1052)
+	.  reduce 109 (src line 1053)
 
 
-38: shift/reduce conflict (shift 82(0), red'n 111(0)) on TString
-38: shift/reduce conflict (shift 80(0), red'n 111(0)) on '('
-38: shift/reduce conflict (shift 48(0), red'n 111(0)) on '{'
-38: shift/reduce conflict (shift 76(0), red'n 111(0)) on '['
-38: shift/reduce conflict (shift 79(0), red'n 111(0)) on ':'
-38: shift/reduce conflict (shift 77(0), red'n 111(0)) on '.'
+38: shift/reduce conflict (shift 82(0), red'n 110(0)) on TString
+38: shift/reduce conflict (shift 80(0), red'n 110(0)) on '('
+38: shift/reduce conflict (shift 48(0), red'n 110(0)) on '{'
+38: shift/reduce conflict (shift 76(0), red'n 110(0)) on '['
+38: shift/reduce conflict (shift 79(0), red'n 110(0)) on ':'
+38: shift/reduce conflict (shift 77(0), red'n 110(0)) on '.'
 state 38
 	var:  prefixexp.'[' expr ']' 
 	var:  prefixexp.'[' ']' 
@@ -736,7 +756,7 @@ state 38
 	var:  prefixexp.'[' 
 	var:  prefixexp.'.' TName 
 	var:  prefixexp.'.' 
-	expr:  prefixexp.    (111)
+	expr:  prefixexp.    (110)
 	functioncall:  prefixexp.args 
 	functioncall:  prefixexp.':' name args 
 	functioncall:  prefixexp.':' name 
@@ -748,15 +768,15 @@ state 38
 	'['  shift 76
 	':'  shift 79
 	'.'  shift 77
-	.  reduce 111 (src line 1055)
+	.  reduce 110 (src line 1056)
 
 	args  goto 78
 	tableconstructor  goto 81
 
 state 39
-	expr:  tableconstructor.    (112)
+	expr:  tableconstructor.    (111)
 
-	.  reduce 112 (src line 1058)
+	.  reduce 111 (src line 1059)
 
 
 state 40
@@ -894,40 +914,40 @@ state 44
 	tableconstructor  goto 39
 	name  goto 49
 
-45: shift/reduce conflict (shift 117(0), red'n 150(0)) on '('
+45: shift/reduce conflict (shift 117(0), red'n 170(0)) on '('
 state 45
 	functiondef:  TFunction.funcbody 
-	functiondef:  TFunction.    (150)
+	functiondef:  TFunction.    (170)
 
 	'('  shift 117
-	.  reduce 150 (src line 1308)
+	.  reduce 170 (src line 1499)
 
 	funcbody  goto 116
 
 state 46
-	prefixexp:  var.    (139)
+	prefixexp:  var.    (159)
 
-	.  reduce 139 (src line 1231)
+	.  reduce 159 (src line 1422)
 
 
 state 47
-	prefixexp:  functioncall.    (140)
+	prefixexp:  functioncall.    (160)
 
-	.  reduce 140 (src line 1234)
+	.  reduce 160 (src line 1425)
 
 
-48: shift/reduce conflict (shift 45(0), red'n 159(0)) on TFunction
-48: shift/reduce conflict (shift 26(0), red'n 159(0)) on TName
-48: shift/reduce conflict (shift 35(0), red'n 159(0)) on TString
-48: shift/reduce conflict (shift 40(9), red'n 159(0)) on '-'
-48: shift/reduce conflict (shift 43(5), red'n 159(0)) on '~'
-48: shift/reduce conflict (shift 44(0), red'n 159(0)) on '('
-48: shift/reduce conflict (shift 48(0), red'n 159(0)) on '{'
-48: shift/reduce conflict (shift 118(0), red'n 159(0)) on '}'
-48: shift/reduce conflict (shift 122(0), red'n 159(0)) on '['
+48: shift/reduce conflict (shift 45(0), red'n 179(0)) on TFunction
+48: shift/reduce conflict (shift 26(0), red'n 179(0)) on TName
+48: shift/reduce conflict (shift 35(0), red'n 179(0)) on TString
+48: shift/reduce conflict (shift 40(9), red'n 179(0)) on '-'
+48: shift/reduce conflict (shift 43(5), red'n 179(0)) on '~'
+48: shift/reduce conflict (shift 44(0), red'n 179(0)) on '('
+48: shift/reduce conflict (shift 48(0), red'n 179(0)) on '{'
+48: shift/reduce conflict (shift 118(0), red'n 179(0)) on '}'
+48: shift/reduce conflict (shift 122(0), red'n 179(0)) on '['
 state 48
 	tableconstructor:  '{'.'}' 
-	tableconstructor:  '{'.    (159)
+	tableconstructor:  '{'.    (179)
 	tableconstructor:  '{'.fieldlist '}' 
 	tableconstructor:  '{'.fieldlist 
 
@@ -947,7 +967,7 @@ state 48
 	'{'  shift 48
 	'}'  shift 118
 	'['  shift 122
-	.  reduce 159 (src line 1397)
+	.  reduce 179 (src line 1588)
 
 	functioncall  goto 47
 	var  goto 46
@@ -960,9 +980,9 @@ state 48
 	name  goto 121
 
 state 49
-	var:  name.    (88)
+	var:  name.    (87)
 
-	.  reduce 88 (src line 923)
+	.  reduce 87 (src line 924)
 
 
 50: shift/reduce conflict (shift 45(0), red'n 11(0)) on TFunction
@@ -996,13 +1016,13 @@ state 50
 	tableconstructor  goto 39
 	name  goto 49
 
-51: shift/reduce conflict (shift 26(0), red'n 87(0)) on TName
+51: shift/reduce conflict (shift 26(0), red'n 86(0)) on TName
 state 51
 	varlist:  varlist ','.var 
-	varlist:  varlist ','.    (87)
+	varlist:  varlist ','.    (86)
 
 	TName  shift 26
-	.  reduce 87 (src line 918)
+	.  reduce 86 (src line 919)
 
 	functioncall  goto 47
 	var  goto 125
@@ -1039,26 +1059,47 @@ state 55
 	stat:  TWhile expr.TDo block 
 	stat:  TWhile expr.    (23)
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
 	TDo  shift 127
@@ -1082,7 +1123,7 @@ state 55
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 23 (src line 235)
+	.  reduce 23 (src line 236)
 
 
 state 56
@@ -1125,7 +1166,7 @@ state 57
 	stat:  TRepeat block.    (27)
 
 	TUntil  shift 129
-	.  reduce 27 (src line 268)
+	.  reduce 27 (src line 269)
 
 
 state 58
@@ -1134,26 +1175,47 @@ state 58
 	stat:  TIf expr.TThen block elseifs TElse block TEnd 
 	stat:  TIf expr.TThen block elseifs TElse block 
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
 	TOr  shift 110
@@ -1220,9 +1282,9 @@ state 60
 	stat:  TIf block.elseifs TEnd 
 	stat:  TIf block.elseifs 
 	stat:  TIf block.elseifs TElse block TEnd 
-	elseifs: .    (67)
+	elseifs: .    (66)
 
-	.  reduce 67 (src line 768)
+	.  reduce 66 (src line 769)
 
 	elseifs  goto 132
 
@@ -1230,13 +1292,13 @@ state 61
 	stat:  TFunction.funcname funcbody 
 	stat:  TFunction.funcname 
 	functiondef:  TFunction.funcbody 
-	functiondef:  TFunction.    (150)
+	functiondef:  TFunction.    (170)
 
 	TName  shift 26
 	'('  shift 117
 	':'  shift 69
 	'.'  shift 71
-	.  reduce 150 (src line 1308)
+	.  reduce 170 (src line 1499)
 
 	funcname  goto 67
 	funcnameaux  goto 68
@@ -1253,11 +1315,11 @@ state 62
 	stat:  TFor name.'=' expr ',' expr ',' expr TDo block TEnd 
 	stat:  TFor name.'=' expr ',' expr ',' TDo block TEnd 
 	stat:  TFor name.'=' expr ',' expr ',' expr TDo block 
-	namelist:  name.    (98)
+	namelist:  name.    (97)
 
 	TDo  shift 134
 	'='  shift 133
-	.  reduce 98 (src line 999)
+	.  reduce 97 (src line 1000)
 
 
 state 63
@@ -1386,12 +1448,12 @@ state 67
 	stat:  TFunction funcname.    (55)
 
 	'('  shift 117
-	.  reduce 55 (src line 642)
+	.  reduce 55 (src line 643)
 
 	funcbody  goto 140
 
 state 68
-	funcname:  funcnameaux.    (77)
+	funcname:  funcnameaux.    (76)
 	funcname:  funcnameaux.':' name 
 	funcname:  funcnameaux.':' 
 	funcnameaux:  funcnameaux.'.' name 
@@ -1399,7 +1461,7 @@ state 68
 
 	':'  shift 141
 	'.'  shift 142
-	.  reduce 77 (src line 855)
+	.  reduce 76 (src line 856)
 
 
 state 69
@@ -1411,9 +1473,9 @@ state 69
 	name  goto 143
 
 state 70
-	funcnameaux:  name.    (81)
+	funcnameaux:  name.    (80)
 
-	.  reduce 81 (src line 884)
+	.  reduce 80 (src line 885)
 
 
 state 71
@@ -1424,43 +1486,34 @@ state 71
 
 	name  goto 144
 
-72: shift/reduce conflict (shift 26(0), red'n 60(0)) on TName
+72: shift/reduce conflict (shift 26(0), red'n 59(0)) on TName
 state 72
 	stat:  TLocal TFunction.name funcbody 
 	stat:  TLocal TFunction.funcbody 
 	stat:  TLocal TFunction.name 
-	stat:  TLocal TFunction.    (60)
+	stat:  TLocal TFunction.    (59)
 
 	TName  shift 26
 	'('  shift 117
-	.  reduce 60 (src line 697)
+	.  reduce 59 (src line 698)
 
 	funcbody  goto 146
 	name  goto 145
 
+73: shift/reduce conflict (shift 147(0), red'n 63(0)) on '='
 state 73
-	stat:  TLocal name.funcbody 
-	namelist:  name.    (98)
-
-	'('  shift 117
-	.  reduce 98 (src line 999)
-
-	funcbody  goto 147
-
-74: shift/reduce conflict (shift 148(0), red'n 64(0)) on '='
-state 74
 	stat:  TLocal namelist.'=' exprlist 
 	stat:  TLocal namelist.'=' 
-	stat:  TLocal namelist.    (64)
+	stat:  TLocal namelist.    (63)
 	namelist:  namelist.',' name 
 	namelist:  namelist.',' 
 
-	'='  shift 148
+	'='  shift 147
 	','  shift 138
-	.  reduce 64 (src line 740)
+	.  reduce 63 (src line 741)
 
 
-state 75
+state 74
 	stat:  TLocal '='.exprlist 
 
 	TFalse  shift 32
@@ -1479,7 +1532,7 @@ state 75
 	'{'  shift 48
 	.  error
 
-	exprlist  goto 149
+	exprlist  goto 148
 	functioncall  goto 47
 	var  goto 46
 	expr  goto 30
@@ -1488,19 +1541,25 @@ state 75
 	tableconstructor  goto 39
 	name  goto 49
 
-76: shift/reduce conflict (shift 45(0), red'n 92(0)) on TFunction
-76: shift/reduce conflict (shift 26(0), red'n 92(0)) on TName
-76: shift/reduce conflict (shift 35(0), red'n 92(0)) on TString
-76: shift/reduce conflict (shift 40(9), red'n 92(0)) on '-'
-76: shift/reduce conflict (shift 43(5), red'n 92(0)) on '~'
-76: shift/reduce conflict (shift 44(0), red'n 92(0)) on '('
-76: shift/reduce conflict (shift 48(0), red'n 92(0)) on '{'
-76: shift/reduce conflict (shift 151(0), red'n 92(0)) on ']'
+state 75
+	namelist:  name.    (97)
+
+	.  reduce 97 (src line 1000)
+
+
+76: shift/reduce conflict (shift 45(0), red'n 91(0)) on TFunction
+76: shift/reduce conflict (shift 26(0), red'n 91(0)) on TName
+76: shift/reduce conflict (shift 35(0), red'n 91(0)) on TString
+76: shift/reduce conflict (shift 40(9), red'n 91(0)) on '-'
+76: shift/reduce conflict (shift 43(5), red'n 91(0)) on '~'
+76: shift/reduce conflict (shift 44(0), red'n 91(0)) on '('
+76: shift/reduce conflict (shift 48(0), red'n 91(0)) on '{'
+76: shift/reduce conflict (shift 150(0), red'n 91(0)) on ']'
 state 76
 	var:  prefixexp '['.expr ']' 
 	var:  prefixexp '['.']' 
 	var:  prefixexp '['.expr 
-	var:  prefixexp '['.    (92)
+	var:  prefixexp '['.    (91)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1516,42 +1575,42 @@ state 76
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	']'  shift 151
-	.  reduce 92 (src line 950)
+	']'  shift 150
+	.  reduce 91 (src line 951)
 
 	functioncall  goto 47
 	var  goto 46
-	expr  goto 150
+	expr  goto 149
 	functiondef  goto 37
 	prefixexp  goto 38
 	tableconstructor  goto 39
 	name  goto 49
 
-77: shift/reduce conflict (shift 152(0), red'n 94(0)) on TName
+77: shift/reduce conflict (shift 151(0), red'n 93(0)) on TName
 state 77
 	var:  prefixexp '.'.TName 
-	var:  prefixexp '.'.    (94)
+	var:  prefixexp '.'.    (93)
 
-	TName  shift 152
-	.  reduce 94 (src line 967)
+	TName  shift 151
+	.  reduce 93 (src line 968)
 
 
 state 78
-	functioncall:  prefixexp args.    (141)
+	functioncall:  prefixexp args.    (161)
 
-	.  reduce 141 (src line 1243)
+	.  reduce 161 (src line 1434)
 
 
-79: shift/reduce conflict (shift 26(0), red'n 144(0)) on TName
+79: shift/reduce conflict (shift 26(0), red'n 164(0)) on TName
 state 79
 	functioncall:  prefixexp ':'.name args 
 	functioncall:  prefixexp ':'.name 
-	functioncall:  prefixexp ':'.    (144)
+	functioncall:  prefixexp ':'.    (164)
 
 	TName  shift 26
-	.  reduce 144 (src line 1272)
+	.  reduce 164 (src line 1463)
 
-	name  goto 153
+	name  goto 152
 
 state 80
 	args:  '('.')' 
@@ -1570,11 +1629,11 @@ state 80
 	'#'  shift 42
 	'~'  shift 43
 	'('  shift 44
-	')'  shift 154
+	')'  shift 153
 	'{'  shift 48
 	.  error
 
-	exprlist  goto 155
+	exprlist  goto 154
 	functioncall  goto 47
 	var  goto 46
 	expr  goto 30
@@ -1584,61 +1643,61 @@ state 80
 	name  goto 49
 
 state 81
-	args:  tableconstructor.    (147)
+	args:  tableconstructor.    (167)
 
-	.  reduce 147 (src line 1292)
+	.  reduce 167 (src line 1483)
 
 
 state 82
-	args:  TString.    (148)
+	args:  TString.    (168)
 
-	.  reduce 148 (src line 1298)
+	.  reduce 168 (src line 1489)
 
 
-83: shift/reduce conflict (shift 156(0), red'n 74(0)) on TTarget
+83: shift/reduce conflict (shift 155(0), red'n 73(0)) on TTarget
 state 83
 	label:  TTarget name.TTarget 
-	label:  TTarget name.    (74)
+	label:  TTarget name.    (73)
 
-	TTarget  shift 156
-	.  reduce 74 (src line 821)
+	TTarget  shift 155
+	.  reduce 73 (src line 822)
 
 
 state 84
-	label:  TTarget TTarget.    (75)
+	label:  TTarget TTarget.    (74)
 
-	.  reduce 75 (src line 832)
+	.  reduce 74 (src line 833)
 
 
 state 85
-	label:  name TTarget.    (73)
+	label:  name TTarget.    (72)
 
-	.  reduce 73 (src line 810)
+	.  reduce 72 (src line 811)
 
 
 state 86
-	name:  TName TAType.    (96)
+	name:  TName TAType.    (95)
 
-	.  reduce 96 (src line 983)
+	.  reduce 95 (src line 984)
 
 
 state 87
-	name:  TName TSType.    (97)
+	name:  TName TSType.    (96)
 
-	.  reduce 97 (src line 990)
+	.  reduce 96 (src line 991)
 
 
 state 88
-	returnstat:  TReturn exprlist ';'.    (71)
+	returnstat:  TReturn exprlist ';'.    (70)
 
-	.  reduce 71 (src line 797)
+	.  reduce 70 (src line 798)
 
 
-89: shift/reduce conflict (shift 45(0), red'n 103(0)) on TFunction
-89: shift/reduce conflict (shift 26(0), red'n 103(0)) on TName
+89: shift/reduce conflict (shift 45(0), red'n 102(0)) on TFunction
+89: shift/reduce conflict (shift 26(0), red'n 102(0)) on TName
 state 89
 	exprlist:  exprlist ','.expr 
-	exprlist:  exprlist ','.    (103)
+	exprlist:  exprlist ','.    (102)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1654,7 +1713,38 @@ state 89
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 103 (src line 1016)
+	.  reduce 102 (src line 1017)
+
+	functioncall  goto 47
+	var  goto 46
+	expr  goto 156
+	functiondef  goto 37
+	prefixexp  goto 38
+	tableconstructor  goto 39
+	name  goto 49
+
+90: shift/reduce conflict (shift 45(0), red'n 113(9)) on TFunction
+90: shift/reduce conflict (shift 26(0), red'n 113(9)) on TName
+90: shift/reduce conflict (shift 35(0), red'n 113(9)) on TString
+90: shift/reduce conflict (shift 44(0), red'n 113(9)) on '('
+90: shift/reduce conflict (shift 48(0), red'n 113(9)) on '{'
+state 90
+	expr:  expr '+'.expr 
+	expr:  expr '+'.    (113)
+
+	TFalse  shift 32
+	TFunction  shift 45
+	TNil  shift 31
+	TNot  shift 41
+	TTrue  shift 33
+	TName  shift 26
+	TAny  shift 36
+	TString  shift 35
+	TNumber  shift 34
+	'#'  shift 42
+	'('  shift 44
+	'{'  shift 48
+	.  reduce 113 (src line 1068)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1664,8 +1754,14 @@ state 89
 	tableconstructor  goto 39
 	name  goto 49
 
-state 90
-	expr:  expr '+'.expr 
+91: shift/reduce conflict (shift 45(0), red'n 115(9)) on TFunction
+91: shift/reduce conflict (shift 26(0), red'n 115(9)) on TName
+91: shift/reduce conflict (shift 35(0), red'n 115(9)) on TString
+91: shift/reduce conflict (shift 44(0), red'n 115(9)) on '('
+91: shift/reduce conflict (shift 48(0), red'n 115(9)) on '{'
+state 91
+	expr:  expr '-'.expr 
+	expr:  expr '-'.    (115)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1676,12 +1772,10 @@ state 90
 	TAny  shift 36
 	TString  shift 35
 	TNumber  shift 34
-	'-'  shift 40
 	'#'  shift 42
-	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 115 (src line 1084)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1691,8 +1785,14 @@ state 90
 	tableconstructor  goto 39
 	name  goto 49
 
-state 91
-	expr:  expr '-'.expr 
+92: shift/reduce conflict (shift 45(0), red'n 117(10)) on TFunction
+92: shift/reduce conflict (shift 26(0), red'n 117(10)) on TName
+92: shift/reduce conflict (shift 35(0), red'n 117(10)) on TString
+92: shift/reduce conflict (shift 44(0), red'n 117(10)) on '('
+92: shift/reduce conflict (shift 48(0), red'n 117(10)) on '{'
+state 92
+	expr:  expr '*'.expr 
+	expr:  expr '*'.    (117)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1703,12 +1803,10 @@ state 91
 	TAny  shift 36
 	TString  shift 35
 	TNumber  shift 34
-	'-'  shift 40
 	'#'  shift 42
-	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 117 (src line 1099)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1718,8 +1816,14 @@ state 91
 	tableconstructor  goto 39
 	name  goto 49
 
-state 92
-	expr:  expr '*'.expr 
+93: shift/reduce conflict (shift 45(0), red'n 119(10)) on TFunction
+93: shift/reduce conflict (shift 26(0), red'n 119(10)) on TName
+93: shift/reduce conflict (shift 35(0), red'n 119(10)) on TString
+93: shift/reduce conflict (shift 44(0), red'n 119(10)) on '('
+93: shift/reduce conflict (shift 48(0), red'n 119(10)) on '{'
+state 93
+	expr:  expr '/'.expr 
+	expr:  expr '/'.    (119)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1730,12 +1834,10 @@ state 92
 	TAny  shift 36
 	TString  shift 35
 	TNumber  shift 34
-	'-'  shift 40
 	'#'  shift 42
-	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 119 (src line 1114)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1745,8 +1847,14 @@ state 92
 	tableconstructor  goto 39
 	name  goto 49
 
-state 93
-	expr:  expr '/'.expr 
+94: shift/reduce conflict (shift 45(0), red'n 121(10)) on TFunction
+94: shift/reduce conflict (shift 26(0), red'n 121(10)) on TName
+94: shift/reduce conflict (shift 35(0), red'n 121(10)) on TString
+94: shift/reduce conflict (shift 44(0), red'n 121(10)) on '('
+94: shift/reduce conflict (shift 48(0), red'n 121(10)) on '{'
+state 94
+	expr:  expr TWdiv.expr 
+	expr:  expr TWdiv.    (121)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1757,12 +1865,10 @@ state 93
 	TAny  shift 36
 	TString  shift 35
 	TNumber  shift 34
-	'-'  shift 40
 	'#'  shift 42
-	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 121 (src line 1129)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1772,8 +1878,14 @@ state 93
 	tableconstructor  goto 39
 	name  goto 49
 
-state 94
-	expr:  expr TWdiv.expr 
+95: shift/reduce conflict (shift 45(0), red'n 123(12)) on TFunction
+95: shift/reduce conflict (shift 26(0), red'n 123(12)) on TName
+95: shift/reduce conflict (shift 35(0), red'n 123(12)) on TString
+95: shift/reduce conflict (shift 44(0), red'n 123(12)) on '('
+95: shift/reduce conflict (shift 48(0), red'n 123(12)) on '{'
+state 95
+	expr:  expr '^'.expr 
+	expr:  expr '^'.    (123)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1784,12 +1896,10 @@ state 94
 	TAny  shift 36
 	TString  shift 35
 	TNumber  shift 34
-	'-'  shift 40
 	'#'  shift 42
-	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 123 (src line 1144)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1799,8 +1909,14 @@ state 94
 	tableconstructor  goto 39
 	name  goto 49
 
-state 95
-	expr:  expr '^'.expr 
+96: shift/reduce conflict (shift 45(0), red'n 125(10)) on TFunction
+96: shift/reduce conflict (shift 26(0), red'n 125(10)) on TName
+96: shift/reduce conflict (shift 35(0), red'n 125(10)) on TString
+96: shift/reduce conflict (shift 44(0), red'n 125(10)) on '('
+96: shift/reduce conflict (shift 48(0), red'n 125(10)) on '{'
+state 96
+	expr:  expr '%'.expr 
+	expr:  expr '%'.    (125)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1811,12 +1927,10 @@ state 95
 	TAny  shift 36
 	TString  shift 35
 	TNumber  shift 34
-	'-'  shift 40
 	'#'  shift 42
-	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 125 (src line 1159)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1826,8 +1940,14 @@ state 95
 	tableconstructor  goto 39
 	name  goto 49
 
-state 96
-	expr:  expr '%'.expr 
+97: shift/reduce conflict (shift 45(0), red'n 127(6)) on TFunction
+97: shift/reduce conflict (shift 26(0), red'n 127(6)) on TName
+97: shift/reduce conflict (shift 35(0), red'n 127(6)) on TString
+97: shift/reduce conflict (shift 44(0), red'n 127(6)) on '('
+97: shift/reduce conflict (shift 48(0), red'n 127(6)) on '{'
+state 97
+	expr:  expr '&'.expr 
+	expr:  expr '&'.    (127)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1840,10 +1960,9 @@ state 96
 	TNumber  shift 34
 	'-'  shift 40
 	'#'  shift 42
-	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 127 (src line 1174)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1853,8 +1972,14 @@ state 96
 	tableconstructor  goto 39
 	name  goto 49
 
-state 97
-	expr:  expr '&'.expr 
+98: shift/reduce conflict (shift 45(0), red'n 129(5)) on TFunction
+98: shift/reduce conflict (shift 26(0), red'n 129(5)) on TName
+98: shift/reduce conflict (shift 35(0), red'n 129(5)) on TString
+98: shift/reduce conflict (shift 44(0), red'n 129(5)) on '('
+98: shift/reduce conflict (shift 48(0), red'n 129(5)) on '{'
+state 98
+	expr:  expr '~'.expr 
+	expr:  expr '~'.    (129)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1867,10 +1992,9 @@ state 97
 	TNumber  shift 34
 	'-'  shift 40
 	'#'  shift 42
-	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 129 (src line 1189)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1880,8 +2004,14 @@ state 97
 	tableconstructor  goto 39
 	name  goto 49
 
-state 98
-	expr:  expr '~'.expr 
+99: shift/reduce conflict (shift 45(0), red'n 131(4)) on TFunction
+99: shift/reduce conflict (shift 26(0), red'n 131(4)) on TName
+99: shift/reduce conflict (shift 35(0), red'n 131(4)) on TString
+99: shift/reduce conflict (shift 44(0), red'n 131(4)) on '('
+99: shift/reduce conflict (shift 48(0), red'n 131(4)) on '{'
+state 99
+	expr:  expr '|'.expr 
+	expr:  expr '|'.    (131)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1897,7 +2027,7 @@ state 98
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 131 (src line 1204)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1907,8 +2037,14 @@ state 98
 	tableconstructor  goto 39
 	name  goto 49
 
-state 99
-	expr:  expr '|'.expr 
+100: shift/reduce conflict (shift 45(0), red'n 133(7)) on TFunction
+100: shift/reduce conflict (shift 26(0), red'n 133(7)) on TName
+100: shift/reduce conflict (shift 35(0), red'n 133(7)) on TString
+100: shift/reduce conflict (shift 44(0), red'n 133(7)) on '('
+100: shift/reduce conflict (shift 48(0), red'n 133(7)) on '{'
+state 100
+	expr:  expr TRmove.expr 
+	expr:  expr TRmove.    (133)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1921,10 +2057,9 @@ state 99
 	TNumber  shift 34
 	'-'  shift 40
 	'#'  shift 42
-	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 133 (src line 1219)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1934,8 +2069,14 @@ state 99
 	tableconstructor  goto 39
 	name  goto 49
 
-state 100
-	expr:  expr TRmove.expr 
+101: shift/reduce conflict (shift 45(0), red'n 135(7)) on TFunction
+101: shift/reduce conflict (shift 26(0), red'n 135(7)) on TName
+101: shift/reduce conflict (shift 35(0), red'n 135(7)) on TString
+101: shift/reduce conflict (shift 44(0), red'n 135(7)) on '('
+101: shift/reduce conflict (shift 48(0), red'n 135(7)) on '{'
+state 101
+	expr:  expr TLmove.expr 
+	expr:  expr TLmove.    (135)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1948,10 +2089,9 @@ state 100
 	TNumber  shift 34
 	'-'  shift 40
 	'#'  shift 42
-	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 135 (src line 1234)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1961,8 +2101,14 @@ state 100
 	tableconstructor  goto 39
 	name  goto 49
 
-state 101
-	expr:  expr TLmove.expr 
+102: shift/reduce conflict (shift 45(0), red'n 137(8)) on TFunction
+102: shift/reduce conflict (shift 26(0), red'n 137(8)) on TName
+102: shift/reduce conflict (shift 35(0), red'n 137(8)) on TString
+102: shift/reduce conflict (shift 44(0), red'n 137(8)) on '('
+102: shift/reduce conflict (shift 48(0), red'n 137(8)) on '{'
+state 102
+	expr:  expr TConn.expr 
+	expr:  expr TConn.    (137)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -1975,10 +2121,9 @@ state 101
 	TNumber  shift 34
 	'-'  shift 40
 	'#'  shift 42
-	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 137 (src line 1249)
 
 	functioncall  goto 47
 	var  goto 46
@@ -1988,8 +2133,14 @@ state 101
 	tableconstructor  goto 39
 	name  goto 49
 
-state 102
-	expr:  expr TConn.expr 
+103: shift/reduce conflict (shift 45(0), red'n 139(3)) on TFunction
+103: shift/reduce conflict (shift 26(0), red'n 139(3)) on TName
+103: shift/reduce conflict (shift 35(0), red'n 139(3)) on TString
+103: shift/reduce conflict (shift 44(0), red'n 139(3)) on '('
+103: shift/reduce conflict (shift 48(0), red'n 139(3)) on '{'
+state 103
+	expr:  expr '<'.expr 
+	expr:  expr '<'.    (139)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -2005,7 +2156,7 @@ state 102
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 139 (src line 1264)
 
 	functioncall  goto 47
 	var  goto 46
@@ -2015,8 +2166,14 @@ state 102
 	tableconstructor  goto 39
 	name  goto 49
 
-state 103
-	expr:  expr '<'.expr 
+104: shift/reduce conflict (shift 45(0), red'n 141(3)) on TFunction
+104: shift/reduce conflict (shift 26(0), red'n 141(3)) on TName
+104: shift/reduce conflict (shift 35(0), red'n 141(3)) on TString
+104: shift/reduce conflict (shift 44(0), red'n 141(3)) on '('
+104: shift/reduce conflict (shift 48(0), red'n 141(3)) on '{'
+state 104
+	expr:  expr TLequal.expr 
+	expr:  expr TLequal.    (141)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -2032,7 +2189,7 @@ state 103
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 141 (src line 1279)
 
 	functioncall  goto 47
 	var  goto 46
@@ -2042,8 +2199,14 @@ state 103
 	tableconstructor  goto 39
 	name  goto 49
 
-state 104
-	expr:  expr TLequal.expr 
+105: shift/reduce conflict (shift 45(0), red'n 143(3)) on TFunction
+105: shift/reduce conflict (shift 26(0), red'n 143(3)) on TName
+105: shift/reduce conflict (shift 35(0), red'n 143(3)) on TString
+105: shift/reduce conflict (shift 44(0), red'n 143(3)) on '('
+105: shift/reduce conflict (shift 48(0), red'n 143(3)) on '{'
+state 105
+	expr:  expr '>'.expr 
+	expr:  expr '>'.    (143)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -2059,7 +2222,7 @@ state 104
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 143 (src line 1294)
 
 	functioncall  goto 47
 	var  goto 46
@@ -2069,8 +2232,14 @@ state 104
 	tableconstructor  goto 39
 	name  goto 49
 
-state 105
-	expr:  expr '>'.expr 
+106: shift/reduce conflict (shift 45(0), red'n 145(3)) on TFunction
+106: shift/reduce conflict (shift 26(0), red'n 145(3)) on TName
+106: shift/reduce conflict (shift 35(0), red'n 145(3)) on TString
+106: shift/reduce conflict (shift 44(0), red'n 145(3)) on '('
+106: shift/reduce conflict (shift 48(0), red'n 145(3)) on '{'
+state 106
+	expr:  expr TBequal.expr 
+	expr:  expr TBequal.    (145)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -2086,7 +2255,7 @@ state 105
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 145 (src line 1309)
 
 	functioncall  goto 47
 	var  goto 46
@@ -2096,8 +2265,14 @@ state 105
 	tableconstructor  goto 39
 	name  goto 49
 
-state 106
-	expr:  expr TBequal.expr 
+107: shift/reduce conflict (shift 45(0), red'n 147(3)) on TFunction
+107: shift/reduce conflict (shift 26(0), red'n 147(3)) on TName
+107: shift/reduce conflict (shift 35(0), red'n 147(3)) on TString
+107: shift/reduce conflict (shift 44(0), red'n 147(3)) on '('
+107: shift/reduce conflict (shift 48(0), red'n 147(3)) on '{'
+state 107
+	expr:  expr TEqual.expr 
+	expr:  expr TEqual.    (147)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -2113,7 +2288,7 @@ state 106
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 147 (src line 1324)
 
 	functioncall  goto 47
 	var  goto 46
@@ -2123,8 +2298,14 @@ state 106
 	tableconstructor  goto 39
 	name  goto 49
 
-state 107
-	expr:  expr TEqual.expr 
+108: shift/reduce conflict (shift 45(0), red'n 149(3)) on TFunction
+108: shift/reduce conflict (shift 26(0), red'n 149(3)) on TName
+108: shift/reduce conflict (shift 35(0), red'n 149(3)) on TString
+108: shift/reduce conflict (shift 44(0), red'n 149(3)) on '('
+108: shift/reduce conflict (shift 48(0), red'n 149(3)) on '{'
+state 108
+	expr:  expr TNequal.expr 
+	expr:  expr TNequal.    (149)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -2140,7 +2321,7 @@ state 107
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 149 (src line 1339)
 
 	functioncall  goto 47
 	var  goto 46
@@ -2150,8 +2331,14 @@ state 107
 	tableconstructor  goto 39
 	name  goto 49
 
-state 108
-	expr:  expr TNequal.expr 
+109: shift/reduce conflict (shift 45(0), red'n 151(2)) on TFunction
+109: shift/reduce conflict (shift 26(0), red'n 151(2)) on TName
+109: shift/reduce conflict (shift 35(0), red'n 151(2)) on TString
+109: shift/reduce conflict (shift 44(0), red'n 151(2)) on '('
+109: shift/reduce conflict (shift 48(0), red'n 151(2)) on '{'
+state 109
+	expr:  expr TAnd.expr 
+	expr:  expr TAnd.    (151)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -2167,7 +2354,7 @@ state 108
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 151 (src line 1354)
 
 	functioncall  goto 47
 	var  goto 46
@@ -2177,8 +2364,14 @@ state 108
 	tableconstructor  goto 39
 	name  goto 49
 
-state 109
-	expr:  expr TAnd.expr 
+110: shift/reduce conflict (shift 45(0), red'n 153(1)) on TFunction
+110: shift/reduce conflict (shift 26(0), red'n 153(1)) on TName
+110: shift/reduce conflict (shift 35(0), red'n 153(1)) on TString
+110: shift/reduce conflict (shift 44(0), red'n 153(1)) on '('
+110: shift/reduce conflict (shift 48(0), red'n 153(1)) on '{'
+state 110
+	expr:  expr TOr.expr 
+	expr:  expr TOr.    (153)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -2194,7 +2387,7 @@ state 109
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  error
+	.  reduce 153 (src line 1369)
 
 	functioncall  goto 47
 	var  goto 46
@@ -2204,167 +2397,245 @@ state 109
 	tableconstructor  goto 39
 	name  goto 49
 
-state 110
-	expr:  expr TOr.expr 
-
-	TFalse  shift 32
-	TFunction  shift 45
-	TNil  shift 31
-	TNot  shift 41
-	TTrue  shift 33
-	TName  shift 26
-	TAny  shift 36
-	TString  shift 35
-	TNumber  shift 34
-	'-'  shift 40
-	'#'  shift 42
-	'~'  shift 43
-	'('  shift 44
-	'{'  shift 48
-	.  error
-
-	functioncall  goto 47
-	var  goto 46
-	expr  goto 178
-	functiondef  goto 37
-	prefixexp  goto 38
-	tableconstructor  goto 39
-	name  goto 49
-
 state 111
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
-	expr:  '-' expr.    (134)
+	expr:  expr.TOr 
+	expr:  '-' expr.    (154)
 
 	'^'  shift 95
-	.  reduce 134 (src line 1187)
+	.  reduce 154 (src line 1378)
 
 
 state 112
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
-	expr:  TNot expr.    (135)
+	expr:  expr.TOr 
+	expr:  TNot expr.    (155)
 
 	'^'  shift 95
-	.  reduce 135 (src line 1193)
+	.  reduce 155 (src line 1384)
 
 
 state 113
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
-	expr:  '#' expr.    (136)
+	expr:  expr.TOr 
+	expr:  '#' expr.    (156)
 
 	'^'  shift 95
-	.  reduce 136 (src line 1199)
+	.  reduce 156 (src line 1390)
 
 
 state 114
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
-	expr:  '~' expr.    (137)
+	expr:  expr.TOr 
+	expr:  '~' expr.    (157)
 
 	'^'  shift 95
-	.  reduce 137 (src line 1205)
+	.  reduce 157 (src line 1396)
 
 
 state 115
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 	expr:  '(' expr.')' 
 
 	TAnd  shift 109
@@ -2388,14 +2659,14 @@ state 115
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	')'  shift 179
+	')'  shift 178
 	.  error
 
 
 state 116
-	functiondef:  TFunction funcbody.    (149)
+	functiondef:  TFunction funcbody.    (169)
 
-	.  reduce 149 (src line 1305)
+	.  reduce 169 (src line 1496)
 
 
 state 117
@@ -2405,66 +2676,66 @@ state 117
 	funcbody:  '('.')' block TEnd 
 
 	TName  shift 26
-	TAny  shift 182
-	')'  shift 181
+	TAny  shift 181
+	')'  shift 180
 	.  error
 
-	namelist  goto 183
-	parlist  goto 180
-	name  goto 184
+	namelist  goto 182
+	parlist  goto 179
+	name  goto 75
 
 state 118
-	tableconstructor:  '{' '}'.    (158)
+	tableconstructor:  '{' '}'.    (178)
 
-	.  reduce 158 (src line 1392)
+	.  reduce 178 (src line 1583)
 
 
-119: shift/reduce conflict (shift 185(0), red'n 161(0)) on '}'
-119: shift/reduce conflict (shift 188(0), red'n 161(0)) on ';'
-119: shift/reduce conflict (shift 187(0), red'n 161(0)) on ','
+119: shift/reduce conflict (shift 183(0), red'n 181(0)) on '}'
+119: shift/reduce conflict (shift 186(0), red'n 181(0)) on ';'
+119: shift/reduce conflict (shift 185(0), red'n 181(0)) on ','
 state 119
 	tableconstructor:  '{' fieldlist.'}' 
-	tableconstructor:  '{' fieldlist.    (161)
+	tableconstructor:  '{' fieldlist.    (181)
 	fieldlist:  fieldlist.fieldsep field 
 	fieldlist:  fieldlist.fieldsep 
 
-	'}'  shift 185
-	';'  shift 188
-	','  shift 187
-	.  reduce 161 (src line 1412)
+	'}'  shift 183
+	';'  shift 186
+	','  shift 185
+	.  reduce 181 (src line 1603)
 
-	fieldsep  goto 186
+	fieldsep  goto 184
 
 state 120
-	fieldlist:  field.    (162)
+	fieldlist:  field.    (182)
 
-	.  reduce 162 (src line 1428)
+	.  reduce 182 (src line 1619)
 
 
-121: shift/reduce conflict (shift 189(0), red'n 88(0)) on '='
+121: shift/reduce conflict (shift 187(0), red'n 87(0)) on '='
 state 121
-	var:  name.    (88)
+	var:  name.    (87)
 	field:  name.'=' expr 
 	field:  name.'=' 
 
-	'='  shift 189
-	.  reduce 88 (src line 923)
+	'='  shift 187
+	.  reduce 87 (src line 924)
 
 
-122: shift/reduce conflict (shift 45(0), red'n 171(0)) on TFunction
-122: shift/reduce conflict (shift 26(0), red'n 171(0)) on TName
-122: shift/reduce conflict (shift 35(0), red'n 171(0)) on TString
-122: shift/reduce conflict (shift 40(9), red'n 171(0)) on '-'
-122: shift/reduce conflict (shift 43(5), red'n 171(0)) on '~'
-122: shift/reduce conflict (shift 44(0), red'n 171(0)) on '('
-122: shift/reduce conflict (shift 48(0), red'n 171(0)) on '{'
-122: shift/reduce conflict (shift 191(0), red'n 171(0)) on ']'
+122: shift/reduce conflict (shift 45(0), red'n 191(0)) on TFunction
+122: shift/reduce conflict (shift 26(0), red'n 191(0)) on TName
+122: shift/reduce conflict (shift 35(0), red'n 191(0)) on TString
+122: shift/reduce conflict (shift 40(9), red'n 191(0)) on '-'
+122: shift/reduce conflict (shift 43(5), red'n 191(0)) on '~'
+122: shift/reduce conflict (shift 44(0), red'n 191(0)) on '('
+122: shift/reduce conflict (shift 48(0), red'n 191(0)) on '{'
+122: shift/reduce conflict (shift 189(0), red'n 191(0)) on ']'
 state 122
 	field:  '['.expr ']' '=' expr 
 	field:  '['.expr ']' '=' 
 	field:  '['.expr ']' 
 	field:  '['.']' 
-	field:  '['.    (171)
+	field:  '['.    (191)
 	field:  '['.expr 
 
 	TFalse  shift 32
@@ -2481,61 +2752,82 @@ state 122
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	']'  shift 191
-	.  reduce 171 (src line 1487)
+	']'  shift 189
+	.  reduce 191 (src line 1678)
 
 	functioncall  goto 47
 	var  goto 46
-	expr  goto 190
+	expr  goto 188
 	functiondef  goto 37
 	prefixexp  goto 38
 	tableconstructor  goto 39
 	name  goto 49
 
-123: shift/reduce conflict (shift 109(2), red'n 173(0)) on TAnd
-123: shift/reduce conflict (shift 110(1), red'n 173(0)) on TOr
-123: shift/reduce conflict (shift 107(3), red'n 173(0)) on TEqual
-123: shift/reduce conflict (shift 108(3), red'n 173(0)) on TNequal
-123: shift/reduce conflict (shift 104(3), red'n 173(0)) on TLequal
-123: shift/reduce conflict (shift 106(3), red'n 173(0)) on TBequal
-123: shift/reduce conflict (shift 101(7), red'n 173(0)) on TLmove
-123: shift/reduce conflict (shift 100(7), red'n 173(0)) on TRmove
-123: shift/reduce conflict (shift 94(10), red'n 173(0)) on TWdiv
-123: shift/reduce conflict (shift 102(8), red'n 173(0)) on TConn
-123: shift/reduce conflict (shift 90(9), red'n 173(0)) on '+'
-123: shift/reduce conflict (shift 91(9), red'n 173(0)) on '-'
-123: shift/reduce conflict (shift 92(10), red'n 173(0)) on '*'
-123: shift/reduce conflict (shift 93(10), red'n 173(0)) on '/'
-123: shift/reduce conflict (shift 96(10), red'n 173(0)) on '%'
-123: shift/reduce conflict (shift 95(12), red'n 173(0)) on '^'
-123: shift/reduce conflict (shift 97(6), red'n 173(0)) on '&'
-123: shift/reduce conflict (shift 98(5), red'n 173(0)) on '~'
-123: shift/reduce conflict (shift 99(4), red'n 173(0)) on '|'
-123: shift/reduce conflict (shift 103(3), red'n 173(0)) on '<'
-123: shift/reduce conflict (shift 105(3), red'n 173(0)) on '>'
+123: shift/reduce conflict (shift 109(2), red'n 193(0)) on TAnd
+123: shift/reduce conflict (shift 110(1), red'n 193(0)) on TOr
+123: shift/reduce conflict (shift 107(3), red'n 193(0)) on TEqual
+123: shift/reduce conflict (shift 108(3), red'n 193(0)) on TNequal
+123: shift/reduce conflict (shift 104(3), red'n 193(0)) on TLequal
+123: shift/reduce conflict (shift 106(3), red'n 193(0)) on TBequal
+123: shift/reduce conflict (shift 101(7), red'n 193(0)) on TLmove
+123: shift/reduce conflict (shift 100(7), red'n 193(0)) on TRmove
+123: shift/reduce conflict (shift 94(10), red'n 193(0)) on TWdiv
+123: shift/reduce conflict (shift 102(8), red'n 193(0)) on TConn
+123: shift/reduce conflict (shift 90(9), red'n 193(0)) on '+'
+123: shift/reduce conflict (shift 91(9), red'n 193(0)) on '-'
+123: shift/reduce conflict (shift 92(10), red'n 193(0)) on '*'
+123: shift/reduce conflict (shift 93(10), red'n 193(0)) on '/'
+123: shift/reduce conflict (shift 96(10), red'n 193(0)) on '%'
+123: shift/reduce conflict (shift 95(12), red'n 193(0)) on '^'
+123: shift/reduce conflict (shift 97(6), red'n 193(0)) on '&'
+123: shift/reduce conflict (shift 98(5), red'n 193(0)) on '~'
+123: shift/reduce conflict (shift 99(4), red'n 193(0)) on '|'
+123: shift/reduce conflict (shift 103(3), red'n 193(0)) on '<'
+123: shift/reduce conflict (shift 105(3), red'n 193(0)) on '>'
 state 123
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
-	field:  expr.    (173)
+	expr:  expr.TOr 
+	field:  expr.    (193)
 
 	TAnd  shift 109
 	TOr  shift 110
@@ -2558,7 +2850,7 @@ state 123
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 173 (src line 1507)
+	.  reduce 193 (src line 1698)
 
 
 state 124
@@ -2571,16 +2863,16 @@ state 124
 
 
 state 125
-	varlist:  varlist ',' var.    (86)
-	prefixexp:  var.    (139)
+	varlist:  varlist ',' var.    (85)
+	prefixexp:  var.    (159)
 
-	TString  reduce 139 (src line 1231)
-	'('  reduce 139 (src line 1231)
-	'{'  reduce 139 (src line 1231)
-	'['  reduce 139 (src line 1231)
-	':'  reduce 139 (src line 1231)
-	'.'  reduce 139 (src line 1231)
-	.  reduce 86 (src line 915)
+	TString  reduce 159 (src line 1422)
+	'('  reduce 159 (src line 1422)
+	'{'  reduce 159 (src line 1422)
+	'['  reduce 159 (src line 1422)
+	':'  reduce 159 (src line 1422)
+	'.'  reduce 159 (src line 1422)
+	.  reduce 85 (src line 916)
 
 
 state 126
@@ -2631,7 +2923,7 @@ state 127
 	';'  shift 7
 	.  error
 
-	block  goto 192
+	block  goto 190
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -2645,7 +2937,7 @@ state 127
 state 128
 	stat:  TWhile TDo block.TEnd 
 
-	TEnd  shift 193
+	TEnd  shift 191
 	.  error
 
 
@@ -2669,11 +2961,11 @@ state 129
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 26 (src line 259)
+	.  reduce 26 (src line 260)
 
 	functioncall  goto 47
 	var  goto 46
-	expr  goto 194
+	expr  goto 192
 	functiondef  goto 37
 	prefixexp  goto 38
 	tableconstructor  goto 39
@@ -2723,7 +3015,7 @@ state 130
 	';'  shift 7
 	.  error
 
-	block  goto 195
+	block  goto 193
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -2737,25 +3029,25 @@ state 130
 state 131
 	stat:  TIf TThen block.elseifs TEnd 
 	stat:  TIf TThen block.elseifs TElse block TEnd 
-	elseifs: .    (67)
+	elseifs: .    (66)
 
-	.  reduce 67 (src line 768)
+	.  reduce 66 (src line 769)
 
-	elseifs  goto 196
+	elseifs  goto 194
 
-132: shift/reduce conflict (shift 198(0), red'n 32(0)) on TElse
-132: shift/reduce conflict (shift 199(0), red'n 32(0)) on TElseIf
-132: shift/reduce conflict (shift 197(0), red'n 32(0)) on TEnd
+132: shift/reduce conflict (shift 196(0), red'n 32(0)) on TElse
+132: shift/reduce conflict (shift 197(0), red'n 32(0)) on TElseIf
+132: shift/reduce conflict (shift 195(0), red'n 32(0)) on TEnd
 state 132
 	stat:  TIf block elseifs.TEnd 
 	stat:  TIf block elseifs.    (32)
 	stat:  TIf block elseifs.TElse block TEnd 
 	elseifs:  elseifs.TElseIf expr TThen block 
 
-	TElse  shift 198
-	TElseIf  shift 199
-	TEnd  shift 197
-	.  reduce 32 (src line 346)
+	TElse  shift 196
+	TElseIf  shift 197
+	TEnd  shift 195
+	.  reduce 32 (src line 348)
 
 
 state 133
@@ -2768,7 +3060,7 @@ state 133
 	stat:  TFor name '='.expr ',' expr ',' TDo block TEnd 
 	stat:  TFor name '='.expr ',' expr ',' expr TDo block 
 
-	TDo  shift 201
+	TDo  shift 199
 	TFalse  shift 32
 	TFunction  shift 45
 	TNil  shift 31
@@ -2787,7 +3079,7 @@ state 133
 
 	functioncall  goto 47
 	var  goto 46
-	expr  goto 200
+	expr  goto 198
 	functiondef  goto 37
 	prefixexp  goto 38
 	tableconstructor  goto 39
@@ -2815,7 +3107,7 @@ state 134
 	';'  shift 7
 	.  error
 
-	block  goto 202
+	block  goto 200
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -2829,26 +3121,47 @@ state 134
 state 135
 	stat:  TFor '=' expr.',' expr TDo block TEnd 
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
 	TOr  shift 110
@@ -2871,17 +3184,17 @@ state 135
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	','  shift 203
+	','  shift 201
 	.  error
 
 
-136: shift/reduce conflict (shift 204(0), red'n 41(0)) on TEnd
+136: shift/reduce conflict (shift 202(0), red'n 41(0)) on TEnd
 state 136
 	stat:  TFor TDo block.TEnd 
 	stat:  TFor TDo block.    (41)
 
-	TEnd  shift 204
-	.  reduce 41 (src line 479)
+	TEnd  shift 202
+	.  reduce 41 (src line 480)
 
 
 state 137
@@ -2890,7 +3203,7 @@ state 137
 	stat:  TFor namelist TIn.exprlist TDo block 
 	stat:  TFor namelist TIn.exprlist 
 
-	TDo  shift 206
+	TDo  shift 204
 	TFalse  shift 32
 	TFunction  shift 45
 	TNil  shift 31
@@ -2907,7 +3220,7 @@ state 137
 	'{'  shift 48
 	.  error
 
-	exprlist  goto 205
+	exprlist  goto 203
 	functioncall  goto 47
 	var  goto 46
 	expr  goto 30
@@ -2916,22 +3229,22 @@ state 137
 	tableconstructor  goto 39
 	name  goto 49
 
-138: shift/reduce conflict (shift 26(0), red'n 100(0)) on TName
+138: shift/reduce conflict (shift 26(0), red'n 99(0)) on TName
 state 138
 	namelist:  namelist ','.name 
-	namelist:  namelist ','.    (100)
+	namelist:  namelist ','.    (99)
 
 	TName  shift 26
-	.  reduce 100 (src line 1005)
+	.  reduce 99 (src line 1006)
 
-	name  goto 207
+	name  goto 205
 
 state 139
 	stat:  TFor TIn exprlist.TDo block TEnd 
 	exprlist:  exprlist.',' expr 
 	exprlist:  exprlist.',' 
 
-	TDo  shift 208
+	TDo  shift 206
 	','  shift 89
 	.  error
 
@@ -2939,67 +3252,61 @@ state 139
 state 140
 	stat:  TFunction funcname funcbody.    (54)
 
-	.  reduce 54 (src line 634)
+	.  reduce 54 (src line 635)
 
 
-141: shift/reduce conflict (shift 26(0), red'n 79(0)) on TName
+141: shift/reduce conflict (shift 26(0), red'n 78(0)) on TName
 state 141
 	funcname:  funcnameaux ':'.name 
-	funcname:  funcnameaux ':'.    (79)
+	funcname:  funcnameaux ':'.    (78)
 
 	TName  shift 26
-	.  reduce 79 (src line 866)
+	.  reduce 78 (src line 867)
 
-	name  goto 209
+	name  goto 207
 
-142: shift/reduce conflict (shift 26(0), red'n 83(0)) on TName
+142: shift/reduce conflict (shift 26(0), red'n 82(0)) on TName
 state 142
 	funcnameaux:  funcnameaux '.'.name 
-	funcnameaux:  funcnameaux '.'.    (83)
+	funcnameaux:  funcnameaux '.'.    (82)
 
 	TName  shift 26
-	.  reduce 83 (src line 893)
+	.  reduce 82 (src line 894)
 
-	name  goto 210
+	name  goto 208
 
 state 143
-	funcname:  ':' name.    (80)
+	funcname:  ':' name.    (79)
 
-	.  reduce 80 (src line 875)
+	.  reduce 79 (src line 876)
 
 
 state 144
-	funcnameaux:  '.' name.    (84)
+	funcnameaux:  '.' name.    (83)
 
-	.  reduce 84 (src line 902)
+	.  reduce 83 (src line 903)
 
 
 state 145
 	stat:  TLocal TFunction name.funcbody 
-	stat:  TLocal TFunction name.    (59)
+	stat:  TLocal TFunction name.    (58)
 
 	'('  shift 117
-	.  reduce 59 (src line 688)
+	.  reduce 58 (src line 678)
 
-	funcbody  goto 211
+	funcbody  goto 209
 
 state 146
 	stat:  TLocal TFunction funcbody.    (57)
 
-	.  reduce 57 (src line 666)
+	.  reduce 57 (src line 667)
 
 
+147: shift/reduce conflict (shift 45(0), red'n 61(0)) on TFunction
+147: shift/reduce conflict (shift 26(0), red'n 61(0)) on TName
 state 147
-	stat:  TLocal name funcbody.    (58)
-
-	.  reduce 58 (src line 677)
-
-
-148: shift/reduce conflict (shift 45(0), red'n 62(0)) on TFunction
-148: shift/reduce conflict (shift 26(0), red'n 62(0)) on TName
-state 148
 	stat:  TLocal namelist '='.exprlist 
-	stat:  TLocal namelist '='.    (62)
+	stat:  TLocal namelist '='.    (61)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -3015,9 +3322,9 @@ state 148
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 62 (src line 718)
+	.  reduce 61 (src line 719)
 
-	exprlist  goto 212
+	exprlist  goto 210
 	functioncall  goto 47
 	var  goto 46
 	expr  goto 30
@@ -3026,61 +3333,82 @@ state 148
 	tableconstructor  goto 39
 	name  goto 49
 
-state 149
-	stat:  TLocal '=' exprlist.    (63)
+state 148
+	stat:  TLocal '=' exprlist.    (62)
 	exprlist:  exprlist.',' expr 
 	exprlist:  exprlist.',' 
 
 	','  shift 89
-	.  reduce 63 (src line 727)
+	.  reduce 62 (src line 728)
 
 
-150: shift/reduce conflict (shift 109(2), red'n 91(0)) on TAnd
-150: shift/reduce conflict (shift 110(1), red'n 91(0)) on TOr
-150: shift/reduce conflict (shift 107(3), red'n 91(0)) on TEqual
-150: shift/reduce conflict (shift 108(3), red'n 91(0)) on TNequal
-150: shift/reduce conflict (shift 104(3), red'n 91(0)) on TLequal
-150: shift/reduce conflict (shift 106(3), red'n 91(0)) on TBequal
-150: shift/reduce conflict (shift 101(7), red'n 91(0)) on TLmove
-150: shift/reduce conflict (shift 100(7), red'n 91(0)) on TRmove
-150: shift/reduce conflict (shift 94(10), red'n 91(0)) on TWdiv
-150: shift/reduce conflict (shift 102(8), red'n 91(0)) on TConn
-150: shift/reduce conflict (shift 90(9), red'n 91(0)) on '+'
-150: shift/reduce conflict (shift 91(9), red'n 91(0)) on '-'
-150: shift/reduce conflict (shift 92(10), red'n 91(0)) on '*'
-150: shift/reduce conflict (shift 93(10), red'n 91(0)) on '/'
-150: shift/reduce conflict (shift 96(10), red'n 91(0)) on '%'
-150: shift/reduce conflict (shift 95(12), red'n 91(0)) on '^'
-150: shift/reduce conflict (shift 97(6), red'n 91(0)) on '&'
-150: shift/reduce conflict (shift 98(5), red'n 91(0)) on '~'
-150: shift/reduce conflict (shift 99(4), red'n 91(0)) on '|'
-150: shift/reduce conflict (shift 103(3), red'n 91(0)) on '<'
-150: shift/reduce conflict (shift 105(3), red'n 91(0)) on '>'
-150: shift/reduce conflict (shift 213(0), red'n 91(0)) on ']'
-state 150
+149: shift/reduce conflict (shift 109(2), red'n 90(0)) on TAnd
+149: shift/reduce conflict (shift 110(1), red'n 90(0)) on TOr
+149: shift/reduce conflict (shift 107(3), red'n 90(0)) on TEqual
+149: shift/reduce conflict (shift 108(3), red'n 90(0)) on TNequal
+149: shift/reduce conflict (shift 104(3), red'n 90(0)) on TLequal
+149: shift/reduce conflict (shift 106(3), red'n 90(0)) on TBequal
+149: shift/reduce conflict (shift 101(7), red'n 90(0)) on TLmove
+149: shift/reduce conflict (shift 100(7), red'n 90(0)) on TRmove
+149: shift/reduce conflict (shift 94(10), red'n 90(0)) on TWdiv
+149: shift/reduce conflict (shift 102(8), red'n 90(0)) on TConn
+149: shift/reduce conflict (shift 90(9), red'n 90(0)) on '+'
+149: shift/reduce conflict (shift 91(9), red'n 90(0)) on '-'
+149: shift/reduce conflict (shift 92(10), red'n 90(0)) on '*'
+149: shift/reduce conflict (shift 93(10), red'n 90(0)) on '/'
+149: shift/reduce conflict (shift 96(10), red'n 90(0)) on '%'
+149: shift/reduce conflict (shift 95(12), red'n 90(0)) on '^'
+149: shift/reduce conflict (shift 97(6), red'n 90(0)) on '&'
+149: shift/reduce conflict (shift 98(5), red'n 90(0)) on '~'
+149: shift/reduce conflict (shift 99(4), red'n 90(0)) on '|'
+149: shift/reduce conflict (shift 103(3), red'n 90(0)) on '<'
+149: shift/reduce conflict (shift 105(3), red'n 90(0)) on '>'
+149: shift/reduce conflict (shift 211(0), red'n 90(0)) on ']'
+state 149
 	var:  prefixexp '[' expr.']' 
-	var:  prefixexp '[' expr.    (91)
+	var:  prefixexp '[' expr.    (90)
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
 	TOr  shift 110
@@ -3103,82 +3431,103 @@ state 150
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	']'  shift 213
-	.  reduce 91 (src line 941)
+	']'  shift 211
+	.  reduce 90 (src line 942)
+
+
+state 150
+	var:  prefixexp '[' ']'.    (89)
+
+	.  reduce 89 (src line 933)
 
 
 state 151
-	var:  prefixexp '[' ']'.    (90)
+	var:  prefixexp '.' TName.    (92)
 
-	.  reduce 90 (src line 932)
+	.  reduce 92 (src line 960)
 
 
+152: shift/reduce conflict (shift 82(0), red'n 163(0)) on TString
+152: shift/reduce conflict (shift 80(0), red'n 163(0)) on '('
+152: shift/reduce conflict (shift 48(0), red'n 163(0)) on '{'
 state 152
-	var:  prefixexp '.' TName.    (93)
-
-	.  reduce 93 (src line 959)
-
-
-153: shift/reduce conflict (shift 82(0), red'n 143(0)) on TString
-153: shift/reduce conflict (shift 80(0), red'n 143(0)) on '('
-153: shift/reduce conflict (shift 48(0), red'n 143(0)) on '{'
-state 153
 	functioncall:  prefixexp ':' name.args 
-	functioncall:  prefixexp ':' name.    (143)
+	functioncall:  prefixexp ':' name.    (163)
 
 	TString  shift 82
 	'('  shift 80
 	'{'  shift 48
-	.  reduce 143 (src line 1263)
+	.  reduce 163 (src line 1454)
 
-	args  goto 214
+	args  goto 212
 	tableconstructor  goto 81
 
+state 153
+	args:  '(' ')'.    (165)
+
+	.  reduce 165 (src line 1474)
+
+
 state 154
-	args:  '(' ')'.    (145)
-
-	.  reduce 145 (src line 1283)
-
-
-state 155
 	exprlist:  exprlist.',' expr 
 	exprlist:  exprlist.',' 
 	args:  '(' exprlist.')' 
 
-	')'  shift 215
+	')'  shift 213
 	','  shift 89
 	.  error
 
 
+state 155
+	label:  TTarget name TTarget.    (71)
+
+	.  reduce 71 (src line 805)
+
+
 state 156
-	label:  TTarget name TTarget.    (72)
-
-	.  reduce 72 (src line 804)
-
-
-state 157
-	exprlist:  exprlist ',' expr.    (102)
+	exprlist:  exprlist ',' expr.    (101)
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
 	TOr  shift 110
@@ -3201,236 +3550,462 @@ state 157
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 102 (src line 1013)
+	.  reduce 101 (src line 1014)
+
+
+state 157
+	expr:  expr.'+' expr 
+	expr:  expr '+' expr.    (112)
+	expr:  expr.'+' 
+	expr:  expr.'-' expr 
+	expr:  expr.'-' 
+	expr:  expr.'*' expr 
+	expr:  expr.'*' 
+	expr:  expr.'/' expr 
+	expr:  expr.'/' 
+	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
+	expr:  expr.'^' expr 
+	expr:  expr.'^' 
+	expr:  expr.'%' expr 
+	expr:  expr.'%' 
+	expr:  expr.'&' expr 
+	expr:  expr.'&' 
+	expr:  expr.'~' expr 
+	expr:  expr.'~' 
+	expr:  expr.'|' expr 
+	expr:  expr.'|' 
+	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
+	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
+	expr:  expr.TConn expr 
+	expr:  expr.TConn 
+	expr:  expr.'<' expr 
+	expr:  expr.'<' 
+	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
+	expr:  expr.'>' expr 
+	expr:  expr.'>' 
+	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
+	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
+	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
+	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
+	expr:  expr.TOr expr 
+	expr:  expr.TOr 
+
+	TWdiv  shift 94
+	'*'  shift 92
+	'/'  shift 93
+	'%'  shift 96
+	'^'  shift 95
+	.  reduce 112 (src line 1062)
 
 
 state 158
 	expr:  expr.'+' expr 
-	expr:  expr '+' expr.    (113)
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr '-' expr.    (114)
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TWdiv  shift 94
 	'*'  shift 92
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	.  reduce 113 (src line 1061)
+	.  reduce 114 (src line 1077)
 
 
 state 159
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
-	expr:  expr '-' expr.    (114)
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr '*' expr.    (116)
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
-	TWdiv  shift 94
-	'*'  shift 92
-	'/'  shift 93
-	'%'  shift 96
 	'^'  shift 95
-	.  reduce 114 (src line 1067)
+	.  reduce 116 (src line 1093)
 
 
 state 160
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
-	expr:  expr '*' expr.    (115)
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr '/' expr.    (118)
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	'^'  shift 95
-	.  reduce 115 (src line 1073)
+	.  reduce 118 (src line 1108)
 
 
 state 161
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
-	expr:  expr '/' expr.    (116)
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr TWdiv expr.    (120)
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	'^'  shift 95
-	.  reduce 116 (src line 1079)
+	.  reduce 120 (src line 1123)
 
 
 state 162
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
-	expr:  expr TWdiv expr.    (117)
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr '^' expr.    (122)
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	'^'  shift 95
-	.  reduce 117 (src line 1085)
+	.  reduce 122 (src line 1138)
 
 
 state 163
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
-	expr:  expr '^' expr.    (118)
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr '%' expr.    (124)
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	'^'  shift 95
-	.  reduce 118 (src line 1091)
+	.  reduce 124 (src line 1153)
 
 
 state 164
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
-	expr:  expr '%' expr.    (119)
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr '&' expr.    (126)
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
+	TLmove  shift 101
+	TRmove  shift 100
+	TWdiv  shift 94
+	TConn  shift 102
+	'+'  shift 90
+	'-'  shift 91
+	'*'  shift 92
+	'/'  shift 93
+	'%'  shift 96
 	'^'  shift 95
-	.  reduce 119 (src line 1097)
+	.  reduce 126 (src line 1168)
 
 
 state 165
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
-	expr:  expr '&' expr.    (120)
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr '~' expr.    (128)
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TLmove  shift 101
 	TRmove  shift 100
@@ -3442,32 +4017,54 @@ state 165
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	.  reduce 120 (src line 1103)
+	'&'  shift 97
+	.  reduce 128 (src line 1183)
 
 
 state 166
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
-	expr:  expr '~' expr.    (121)
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr '|' expr.    (130)
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TLmove  shift 101
 	TRmove  shift 100
@@ -3480,35 +4077,55 @@ state 166
 	'%'  shift 96
 	'^'  shift 95
 	'&'  shift 97
-	.  reduce 121 (src line 1109)
+	'~'  shift 98
+	.  reduce 130 (src line 1198)
 
 
 state 167
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
-	expr:  expr '|' expr.    (122)
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr TRmove expr.    (132)
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
-	TLmove  shift 101
-	TRmove  shift 100
 	TWdiv  shift 94
 	TConn  shift 102
 	'+'  shift 90
@@ -3517,34 +4134,53 @@ state 167
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	'&'  shift 97
-	'~'  shift 98
-	.  reduce 122 (src line 1115)
+	.  reduce 132 (src line 1213)
 
 
 state 168
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
-	expr:  expr TRmove expr.    (123)
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr TLmove expr.    (134)
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TWdiv  shift 94
 	TConn  shift 102
@@ -3554,32 +4190,53 @@ state 168
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	.  reduce 123 (src line 1121)
+	.  reduce 134 (src line 1228)
 
 
 state 169
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
-	expr:  expr TLmove expr.    (124)
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr TConn expr.    (136)
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TWdiv  shift 94
 	TConn  shift 102
@@ -3589,33 +4246,56 @@ state 169
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	.  reduce 124 (src line 1127)
+	.  reduce 136 (src line 1243)
 
 
 state 170
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
-	expr:  expr TConn expr.    (125)
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr '<' expr.    (138)
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
+	TLmove  shift 101
+	TRmove  shift 100
 	TWdiv  shift 94
 	TConn  shift 102
 	'+'  shift 90
@@ -3624,32 +4304,56 @@ state 170
 	'/'  shift 93
 	'%'  shift 96
 	'^'  shift 95
-	.  reduce 125 (src line 1133)
+	'&'  shift 97
+	'~'  shift 98
+	'|'  shift 99
+	.  reduce 138 (src line 1258)
 
 
 state 171
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
-	expr:  expr '<' expr.    (126)
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr TLequal expr.    (140)
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TLmove  shift 101
 	TRmove  shift 100
@@ -3664,32 +4368,53 @@ state 171
 	'&'  shift 97
 	'~'  shift 98
 	'|'  shift 99
-	.  reduce 126 (src line 1139)
+	.  reduce 140 (src line 1273)
 
 
 state 172
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
-	expr:  expr TLequal expr.    (127)
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr '>' expr.    (142)
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TLmove  shift 101
 	TRmove  shift 100
@@ -3704,32 +4429,53 @@ state 172
 	'&'  shift 97
 	'~'  shift 98
 	'|'  shift 99
-	.  reduce 127 (src line 1145)
+	.  reduce 142 (src line 1288)
 
 
 state 173
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
-	expr:  expr '>' expr.    (128)
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr TBequal expr.    (144)
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TLmove  shift 101
 	TRmove  shift 100
@@ -3744,32 +4490,53 @@ state 173
 	'&'  shift 97
 	'~'  shift 98
 	'|'  shift 99
-	.  reduce 128 (src line 1151)
+	.  reduce 144 (src line 1303)
 
 
 state 174
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
-	expr:  expr TBequal expr.    (129)
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr TEqual expr.    (146)
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TLmove  shift 101
 	TRmove  shift 100
@@ -3784,32 +4551,53 @@ state 174
 	'&'  shift 97
 	'~'  shift 98
 	'|'  shift 99
-	.  reduce 129 (src line 1157)
+	.  reduce 146 (src line 1318)
 
 
 state 175
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
-	expr:  expr TEqual expr.    (130)
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr TNequal expr.    (148)
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TLmove  shift 101
 	TRmove  shift 100
@@ -3824,72 +4612,53 @@ state 175
 	'&'  shift 97
 	'~'  shift 98
 	'|'  shift 99
-	.  reduce 130 (src line 1163)
+	.  reduce 148 (src line 1333)
 
 
 state 176
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
-	expr:  expr TNequal expr.    (131)
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr TAnd expr.    (150)
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
-
-	TLmove  shift 101
-	TRmove  shift 100
-	TWdiv  shift 94
-	TConn  shift 102
-	'+'  shift 90
-	'-'  shift 91
-	'*'  shift 92
-	'/'  shift 93
-	'%'  shift 96
-	'^'  shift 95
-	'&'  shift 97
-	'~'  shift 98
-	'|'  shift 99
-	.  reduce 131 (src line 1169)
-
-
-state 177
-	expr:  expr.'+' expr 
-	expr:  expr.'-' expr 
-	expr:  expr.'*' expr 
-	expr:  expr.'/' expr 
-	expr:  expr.TWdiv expr 
-	expr:  expr.'^' expr 
-	expr:  expr.'%' expr 
-	expr:  expr.'&' expr 
-	expr:  expr.'~' expr 
-	expr:  expr.'|' expr 
-	expr:  expr.TRmove expr 
-	expr:  expr.TLmove expr 
-	expr:  expr.TConn expr 
-	expr:  expr.'<' expr 
-	expr:  expr.TLequal expr 
-	expr:  expr.'>' expr 
-	expr:  expr.TBequal expr 
-	expr:  expr.TEqual expr 
-	expr:  expr.TNequal expr 
-	expr:  expr.TAnd expr 
-	expr:  expr TAnd expr.    (132)
-	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TEqual  shift 107
 	TNequal  shift 108
@@ -3910,32 +4679,53 @@ state 177
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 132 (src line 1175)
+	.  reduce 150 (src line 1348)
 
 
-state 178
+state 177
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
-	expr:  expr TOr expr.    (133)
+	expr:  expr TOr expr.    (152)
+	expr:  expr.TOr 
 
 	TAnd  shift 109
 	TEqual  shift 107
@@ -3957,24 +4747,24 @@ state 178
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 133 (src line 1181)
+	.  reduce 152 (src line 1363)
+
+
+state 178
+	expr:  '(' expr ')'.    (158)
+
+	.  reduce 158 (src line 1402)
 
 
 state 179
-	expr:  '(' expr ')'.    (138)
-
-	.  reduce 138 (src line 1211)
-
-
-state 180
 	funcbody:  '(' parlist.')' block TEnd 
 	funcbody:  '(' parlist.')' TSType block TEnd 
 
-	')'  shift 216
+	')'  shift 214
 	.  error
 
 
-state 181
+state 180
 	funcbody:  '(' ')'.TSType block TEnd 
 	funcbody:  '(' ')'.block TEnd 
 	block: .    (2)
@@ -3993,12 +4783,12 @@ state 181
 	TWhile  shift 15
 	TName  shift 26
 	TTarget  shift 24
-	TSType  shift 217
+	TSType  shift 215
 	'='  shift 9
 	';'  shift 7
 	.  error
 
-	block  goto 218
+	block  goto 216
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -4009,45 +4799,39 @@ state 181
 	prefixexp  goto 23
 	name  goto 25
 
-state 182
-	parlist:  TAny.    (155)
+state 181
+	parlist:  TAny.    (175)
 
-	.  reduce 155 (src line 1368)
+	.  reduce 175 (src line 1559)
+
+
+state 182
+	namelist:  namelist.',' name 
+	namelist:  namelist.',' 
+	parlist:  namelist.    (176)
+	parlist:  namelist.',' TAny 
+
+	','  shift 217
+	.  reduce 176 (src line 1564)
 
 
 state 183
-	namelist:  namelist.',' name 
-	namelist:  namelist.',' 
-	parlist:  namelist.    (156)
-	parlist:  namelist.',' TAny 
+	tableconstructor:  '{' fieldlist '}'.    (180)
 
-	','  shift 219
-	.  reduce 156 (src line 1373)
+	.  reduce 180 (src line 1597)
 
 
+184: shift/reduce conflict (shift 45(0), red'n 184(0)) on TFunction
+184: shift/reduce conflict (shift 26(0), red'n 184(0)) on TName
+184: shift/reduce conflict (shift 35(0), red'n 184(0)) on TString
+184: shift/reduce conflict (shift 40(9), red'n 184(0)) on '-'
+184: shift/reduce conflict (shift 43(5), red'n 184(0)) on '~'
+184: shift/reduce conflict (shift 44(0), red'n 184(0)) on '('
+184: shift/reduce conflict (shift 48(0), red'n 184(0)) on '{'
+184: shift/reduce conflict (shift 122(0), red'n 184(0)) on '['
 state 184
-	namelist:  name.    (98)
-
-	.  reduce 98 (src line 999)
-
-
-state 185
-	tableconstructor:  '{' fieldlist '}'.    (160)
-
-	.  reduce 160 (src line 1406)
-
-
-186: shift/reduce conflict (shift 45(0), red'n 164(0)) on TFunction
-186: shift/reduce conflict (shift 26(0), red'n 164(0)) on TName
-186: shift/reduce conflict (shift 35(0), red'n 164(0)) on TString
-186: shift/reduce conflict (shift 40(9), red'n 164(0)) on '-'
-186: shift/reduce conflict (shift 43(5), red'n 164(0)) on '~'
-186: shift/reduce conflict (shift 44(0), red'n 164(0)) on '('
-186: shift/reduce conflict (shift 48(0), red'n 164(0)) on '{'
-186: shift/reduce conflict (shift 122(0), red'n 164(0)) on '['
-state 186
 	fieldlist:  fieldlist fieldsep.field 
-	fieldlist:  fieldlist fieldsep.    (164)
+	fieldlist:  fieldlist fieldsep.    (184)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -4064,7 +4848,7 @@ state 186
 	'('  shift 44
 	'{'  shift 48
 	'['  shift 122
-	.  reduce 164 (src line 1434)
+	.  reduce 184 (src line 1625)
 
 	functioncall  goto 47
 	var  goto 46
@@ -4072,31 +4856,31 @@ state 186
 	functiondef  goto 37
 	prefixexp  goto 38
 	tableconstructor  goto 39
-	field  goto 220
+	field  goto 218
 	name  goto 121
 
+state 185
+	fieldsep:  ','.    (194)
+
+	.  reduce 194 (src line 1705)
+
+
+state 186
+	fieldsep:  ';'.    (195)
+
+	.  reduce 195 (src line 1708)
+
+
+187: shift/reduce conflict (shift 45(0), red'n 186(0)) on TFunction
+187: shift/reduce conflict (shift 26(0), red'n 186(0)) on TName
+187: shift/reduce conflict (shift 35(0), red'n 186(0)) on TString
+187: shift/reduce conflict (shift 40(9), red'n 186(0)) on '-'
+187: shift/reduce conflict (shift 43(5), red'n 186(0)) on '~'
+187: shift/reduce conflict (shift 44(0), red'n 186(0)) on '('
+187: shift/reduce conflict (shift 48(0), red'n 186(0)) on '{'
 state 187
-	fieldsep:  ','.    (174)
-
-	.  reduce 174 (src line 1514)
-
-
-state 188
-	fieldsep:  ';'.    (175)
-
-	.  reduce 175 (src line 1517)
-
-
-189: shift/reduce conflict (shift 45(0), red'n 166(0)) on TFunction
-189: shift/reduce conflict (shift 26(0), red'n 166(0)) on TName
-189: shift/reduce conflict (shift 35(0), red'n 166(0)) on TString
-189: shift/reduce conflict (shift 40(9), red'n 166(0)) on '-'
-189: shift/reduce conflict (shift 43(5), red'n 166(0)) on '~'
-189: shift/reduce conflict (shift 44(0), red'n 166(0)) on '('
-189: shift/reduce conflict (shift 48(0), red'n 166(0)) on '{'
-state 189
 	field:  name '='.expr 
-	field:  name '='.    (166)
+	field:  name '='.    (186)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -4112,64 +4896,85 @@ state 189
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 166 (src line 1445)
+	.  reduce 186 (src line 1636)
 
 	functioncall  goto 47
 	var  goto 46
-	expr  goto 221
+	expr  goto 219
 	functiondef  goto 37
 	prefixexp  goto 38
 	tableconstructor  goto 39
 	name  goto 49
 
-190: shift/reduce conflict (shift 109(2), red'n 172(0)) on TAnd
-190: shift/reduce conflict (shift 110(1), red'n 172(0)) on TOr
-190: shift/reduce conflict (shift 107(3), red'n 172(0)) on TEqual
-190: shift/reduce conflict (shift 108(3), red'n 172(0)) on TNequal
-190: shift/reduce conflict (shift 104(3), red'n 172(0)) on TLequal
-190: shift/reduce conflict (shift 106(3), red'n 172(0)) on TBequal
-190: shift/reduce conflict (shift 101(7), red'n 172(0)) on TLmove
-190: shift/reduce conflict (shift 100(7), red'n 172(0)) on TRmove
-190: shift/reduce conflict (shift 94(10), red'n 172(0)) on TWdiv
-190: shift/reduce conflict (shift 102(8), red'n 172(0)) on TConn
-190: shift/reduce conflict (shift 90(9), red'n 172(0)) on '+'
-190: shift/reduce conflict (shift 91(9), red'n 172(0)) on '-'
-190: shift/reduce conflict (shift 92(10), red'n 172(0)) on '*'
-190: shift/reduce conflict (shift 93(10), red'n 172(0)) on '/'
-190: shift/reduce conflict (shift 96(10), red'n 172(0)) on '%'
-190: shift/reduce conflict (shift 95(12), red'n 172(0)) on '^'
-190: shift/reduce conflict (shift 97(6), red'n 172(0)) on '&'
-190: shift/reduce conflict (shift 98(5), red'n 172(0)) on '~'
-190: shift/reduce conflict (shift 99(4), red'n 172(0)) on '|'
-190: shift/reduce conflict (shift 103(3), red'n 172(0)) on '<'
-190: shift/reduce conflict (shift 105(3), red'n 172(0)) on '>'
-190: shift/reduce conflict (shift 222(0), red'n 172(0)) on ']'
-state 190
+188: shift/reduce conflict (shift 109(2), red'n 192(0)) on TAnd
+188: shift/reduce conflict (shift 110(1), red'n 192(0)) on TOr
+188: shift/reduce conflict (shift 107(3), red'n 192(0)) on TEqual
+188: shift/reduce conflict (shift 108(3), red'n 192(0)) on TNequal
+188: shift/reduce conflict (shift 104(3), red'n 192(0)) on TLequal
+188: shift/reduce conflict (shift 106(3), red'n 192(0)) on TBequal
+188: shift/reduce conflict (shift 101(7), red'n 192(0)) on TLmove
+188: shift/reduce conflict (shift 100(7), red'n 192(0)) on TRmove
+188: shift/reduce conflict (shift 94(10), red'n 192(0)) on TWdiv
+188: shift/reduce conflict (shift 102(8), red'n 192(0)) on TConn
+188: shift/reduce conflict (shift 90(9), red'n 192(0)) on '+'
+188: shift/reduce conflict (shift 91(9), red'n 192(0)) on '-'
+188: shift/reduce conflict (shift 92(10), red'n 192(0)) on '*'
+188: shift/reduce conflict (shift 93(10), red'n 192(0)) on '/'
+188: shift/reduce conflict (shift 96(10), red'n 192(0)) on '%'
+188: shift/reduce conflict (shift 95(12), red'n 192(0)) on '^'
+188: shift/reduce conflict (shift 97(6), red'n 192(0)) on '&'
+188: shift/reduce conflict (shift 98(5), red'n 192(0)) on '~'
+188: shift/reduce conflict (shift 99(4), red'n 192(0)) on '|'
+188: shift/reduce conflict (shift 103(3), red'n 192(0)) on '<'
+188: shift/reduce conflict (shift 105(3), red'n 192(0)) on '>'
+188: shift/reduce conflict (shift 220(0), red'n 192(0)) on ']'
+state 188
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 	field:  '[' expr.']' '=' expr 
 	field:  '[' expr.']' '=' 
 	field:  '[' expr.']' 
-	field:  '[' expr.    (172)
+	field:  '[' expr.    (192)
 
 	TAnd  shift 109
 	TOr  shift 110
@@ -4192,54 +4997,75 @@ state 190
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	']'  shift 222
-	.  reduce 172 (src line 1496)
+	']'  shift 220
+	.  reduce 192 (src line 1687)
 
 
-state 191
-	field:  '[' ']'.    (170)
+state 189
+	field:  '[' ']'.    (190)
 
-	.  reduce 170 (src line 1478)
+	.  reduce 190 (src line 1669)
 
 
-192: shift/reduce conflict (shift 223(0), red'n 21(0)) on TEnd
-state 192
+190: shift/reduce conflict (shift 221(0), red'n 21(0)) on TEnd
+state 190
 	stat:  TWhile expr TDo block.TEnd 
 	stat:  TWhile expr TDo block.    (21)
 
-	TEnd  shift 223
+	TEnd  shift 221
 	.  reduce 21 (src line 212)
 
 
-state 193
+state 191
 	stat:  TWhile TDo block TEnd.    (22)
 
-	.  reduce 22 (src line 225)
+	.  reduce 22 (src line 226)
 
 
-state 194
+state 192
 	stat:  TRepeat block TUntil expr.    (25)
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
 	TOr  shift 110
@@ -4262,38 +5088,38 @@ state 194
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 25 (src line 252)
+	.  reduce 25 (src line 253)
 
 
-state 195
+state 193
 	stat:  TIf expr TThen block.elseifs TEnd 
 	stat:  TIf expr TThen block.elseifs 
 	stat:  TIf expr TThen block.elseifs TElse block TEnd 
 	stat:  TIf expr TThen block.elseifs TElse block 
-	elseifs: .    (67)
+	elseifs: .    (66)
 
-	.  reduce 67 (src line 768)
+	.  reduce 66 (src line 769)
 
-	elseifs  goto 224
+	elseifs  goto 222
 
-state 196
+state 194
 	stat:  TIf TThen block elseifs.TEnd 
 	stat:  TIf TThen block elseifs.TElse block TEnd 
 	elseifs:  elseifs.TElseIf expr TThen block 
 
-	TElse  shift 226
-	TElseIf  shift 199
-	TEnd  shift 225
+	TElse  shift 224
+	TElseIf  shift 197
+	TEnd  shift 223
 	.  error
 
 
-state 197
+state 195
 	stat:  TIf block elseifs TEnd.    (31)
 
-	.  reduce 31 (src line 330)
+	.  reduce 31 (src line 332)
 
 
-state 198
+state 196
 	stat:  TIf block elseifs TElse.block TEnd 
 	block: .    (2)
 
@@ -4315,7 +5141,7 @@ state 198
 	';'  shift 7
 	.  error
 
-	block  goto 227
+	block  goto 225
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -4326,7 +5152,7 @@ state 198
 	prefixexp  goto 23
 	name  goto 25
 
-state 199
+state 197
 	elseifs:  elseifs TElseIf.expr TThen block 
 
 	TFalse  shift 32
@@ -4347,13 +5173,13 @@ state 199
 
 	functioncall  goto 47
 	var  goto 46
-	expr  goto 228
+	expr  goto 226
 	functiondef  goto 37
 	prefixexp  goto 38
 	tableconstructor  goto 39
 	name  goto 49
 
-state 200
+state 198
 	stat:  TFor name '=' expr.',' expr TDo block TEnd 
 	stat:  TFor name '=' expr.',' expr TDo block 
 	stat:  TFor name '=' expr.TDo block TEnd 
@@ -4362,29 +5188,50 @@ state 200
 	stat:  TFor name '=' expr.',' expr ',' TDo block TEnd 
 	stat:  TFor name '=' expr.',' expr ',' expr TDo block 
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
-	TDo  shift 230
+	TDo  shift 228
 	TOr  shift 110
 	TEqual  shift 107
 	TNequal  shift 108
@@ -4405,11 +5252,11 @@ state 200
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	','  shift 229
+	','  shift 227
 	.  error
 
 
-state 201
+state 199
 	stat:  TFor name '=' TDo.block TEnd 
 	block: .    (2)
 
@@ -4431,7 +5278,7 @@ state 201
 	';'  shift 7
 	.  error
 
-	block  goto 231
+	block  goto 229
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -4442,14 +5289,14 @@ state 201
 	prefixexp  goto 23
 	name  goto 25
 
-state 202
+state 200
 	stat:  TFor name TDo block.TEnd 
 
-	TEnd  shift 232
+	TEnd  shift 230
 	.  error
 
 
-state 203
+state 201
 	stat:  TFor '=' expr ','.expr TDo block TEnd 
 
 	TFalse  shift 32
@@ -4470,32 +5317,32 @@ state 203
 
 	functioncall  goto 47
 	var  goto 46
-	expr  goto 233
+	expr  goto 231
 	functiondef  goto 37
 	prefixexp  goto 38
 	tableconstructor  goto 39
 	name  goto 49
 
-state 204
+state 202
 	stat:  TFor TDo block TEnd.    (40)
 
-	.  reduce 40 (src line 468)
+	.  reduce 40 (src line 469)
 
 
-205: shift/reduce conflict (shift 234(0), red'n 53(0)) on TDo
-state 205
+203: shift/reduce conflict (shift 232(0), red'n 53(0)) on TDo
+state 203
 	stat:  TFor namelist TIn exprlist.TDo block TEnd 
 	stat:  TFor namelist TIn exprlist.TDo block 
 	stat:  TFor namelist TIn exprlist.    (53)
 	exprlist:  exprlist.',' expr 
 	exprlist:  exprlist.',' 
 
-	TDo  shift 234
+	TDo  shift 232
 	','  shift 89
-	.  reduce 53 (src line 615)
+	.  reduce 53 (src line 616)
 
 
-state 206
+state 204
 	stat:  TFor namelist TIn TDo.block TEnd 
 	block: .    (2)
 
@@ -4517,7 +5364,7 @@ state 206
 	';'  shift 7
 	.  error
 
-	block  goto 235
+	block  goto 233
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -4528,13 +5375,13 @@ state 206
 	prefixexp  goto 23
 	name  goto 25
 
-state 207
-	namelist:  namelist ',' name.    (99)
+state 205
+	namelist:  namelist ',' name.    (98)
 
-	.  reduce 99 (src line 1002)
+	.  reduce 98 (src line 1003)
 
 
-state 208
+state 206
 	stat:  TFor TIn exprlist TDo.block TEnd 
 	block: .    (2)
 
@@ -4556,7 +5403,7 @@ state 208
 	';'  shift 7
 	.  error
 
-	block  goto 236
+	block  goto 234
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -4567,52 +5414,52 @@ state 208
 	prefixexp  goto 23
 	name  goto 25
 
-state 209
-	funcname:  funcnameaux ':' name.    (78)
+state 207
+	funcname:  funcnameaux ':' name.    (77)
 
-	.  reduce 78 (src line 860)
+	.  reduce 77 (src line 861)
+
+
+state 208
+	funcnameaux:  funcnameaux '.' name.    (81)
+
+	.  reduce 81 (src line 888)
+
+
+state 209
+	stat:  TLocal TFunction name funcbody.    (56)
+
+	.  reduce 56 (src line 651)
 
 
 state 210
-	funcnameaux:  funcnameaux '.' name.    (82)
-
-	.  reduce 82 (src line 887)
-
-
-state 211
-	stat:  TLocal TFunction name funcbody.    (56)
-
-	.  reduce 56 (src line 650)
-
-
-state 212
-	stat:  TLocal namelist '=' exprlist.    (61)
+	stat:  TLocal namelist '=' exprlist.    (60)
 	exprlist:  exprlist.',' expr 
 	exprlist:  exprlist.',' 
 
 	','  shift 89
-	.  reduce 61 (src line 706)
+	.  reduce 60 (src line 707)
+
+
+state 211
+	var:  prefixexp '[' expr ']'.    (88)
+
+	.  reduce 88 (src line 927)
+
+
+state 212
+	functioncall:  prefixexp ':' name args.    (162)
+
+	.  reduce 162 (src line 1444)
 
 
 state 213
-	var:  prefixexp '[' expr ']'.    (89)
+	args:  '(' exprlist ')'.    (166)
 
-	.  reduce 89 (src line 926)
+	.  reduce 166 (src line 1477)
 
 
 state 214
-	functioncall:  prefixexp ':' name args.    (142)
-
-	.  reduce 142 (src line 1253)
-
-
-state 215
-	args:  '(' exprlist ')'.    (146)
-
-	.  reduce 146 (src line 1286)
-
-
-state 216
 	funcbody:  '(' parlist ')'.block TEnd 
 	funcbody:  '(' parlist ')'.TSType block TEnd 
 	block: .    (2)
@@ -4631,12 +5478,12 @@ state 216
 	TWhile  shift 15
 	TName  shift 26
 	TTarget  shift 24
-	TSType  shift 238
+	TSType  shift 236
 	'='  shift 9
 	';'  shift 7
 	.  error
 
-	block  goto 237
+	block  goto 235
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -4647,7 +5494,7 @@ state 216
 	prefixexp  goto 23
 	name  goto 25
 
-state 217
+state 215
 	funcbody:  '(' ')' TSType.block TEnd 
 	block: .    (2)
 
@@ -4669,7 +5516,7 @@ state 217
 	';'  shift 7
 	.  error
 
-	block  goto 239
+	block  goto 237
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -4680,74 +5527,95 @@ state 217
 	prefixexp  goto 23
 	name  goto 25
 
-state 218
+state 216
 	funcbody:  '(' ')' block.TEnd 
 
-	TEnd  shift 240
+	TEnd  shift 238
 	.  error
 
 
-state 219
+state 217
 	namelist:  namelist ','.name 
-	namelist:  namelist ','.    (100)
+	namelist:  namelist ','.    (99)
 	parlist:  namelist ','.TAny 
 
 	TName  shift 26
-	TAny  shift 241
-	.  reduce 100 (src line 1005)
+	TAny  shift 239
+	.  reduce 99 (src line 1006)
 
-	name  goto 207
+	name  goto 205
 
-state 220
-	fieldlist:  fieldlist fieldsep field.    (163)
+state 218
+	fieldlist:  fieldlist fieldsep field.    (183)
 
-	.  reduce 163 (src line 1431)
+	.  reduce 183 (src line 1622)
 
 
-221: shift/reduce conflict (shift 109(2), red'n 165(0)) on TAnd
-221: shift/reduce conflict (shift 110(1), red'n 165(0)) on TOr
-221: shift/reduce conflict (shift 107(3), red'n 165(0)) on TEqual
-221: shift/reduce conflict (shift 108(3), red'n 165(0)) on TNequal
-221: shift/reduce conflict (shift 104(3), red'n 165(0)) on TLequal
-221: shift/reduce conflict (shift 106(3), red'n 165(0)) on TBequal
-221: shift/reduce conflict (shift 101(7), red'n 165(0)) on TLmove
-221: shift/reduce conflict (shift 100(7), red'n 165(0)) on TRmove
-221: shift/reduce conflict (shift 94(10), red'n 165(0)) on TWdiv
-221: shift/reduce conflict (shift 102(8), red'n 165(0)) on TConn
-221: shift/reduce conflict (shift 90(9), red'n 165(0)) on '+'
-221: shift/reduce conflict (shift 91(9), red'n 165(0)) on '-'
-221: shift/reduce conflict (shift 92(10), red'n 165(0)) on '*'
-221: shift/reduce conflict (shift 93(10), red'n 165(0)) on '/'
-221: shift/reduce conflict (shift 96(10), red'n 165(0)) on '%'
-221: shift/reduce conflict (shift 95(12), red'n 165(0)) on '^'
-221: shift/reduce conflict (shift 97(6), red'n 165(0)) on '&'
-221: shift/reduce conflict (shift 98(5), red'n 165(0)) on '~'
-221: shift/reduce conflict (shift 99(4), red'n 165(0)) on '|'
-221: shift/reduce conflict (shift 103(3), red'n 165(0)) on '<'
-221: shift/reduce conflict (shift 105(3), red'n 165(0)) on '>'
-state 221
+219: shift/reduce conflict (shift 109(2), red'n 185(0)) on TAnd
+219: shift/reduce conflict (shift 110(1), red'n 185(0)) on TOr
+219: shift/reduce conflict (shift 107(3), red'n 185(0)) on TEqual
+219: shift/reduce conflict (shift 108(3), red'n 185(0)) on TNequal
+219: shift/reduce conflict (shift 104(3), red'n 185(0)) on TLequal
+219: shift/reduce conflict (shift 106(3), red'n 185(0)) on TBequal
+219: shift/reduce conflict (shift 101(7), red'n 185(0)) on TLmove
+219: shift/reduce conflict (shift 100(7), red'n 185(0)) on TRmove
+219: shift/reduce conflict (shift 94(10), red'n 185(0)) on TWdiv
+219: shift/reduce conflict (shift 102(8), red'n 185(0)) on TConn
+219: shift/reduce conflict (shift 90(9), red'n 185(0)) on '+'
+219: shift/reduce conflict (shift 91(9), red'n 185(0)) on '-'
+219: shift/reduce conflict (shift 92(10), red'n 185(0)) on '*'
+219: shift/reduce conflict (shift 93(10), red'n 185(0)) on '/'
+219: shift/reduce conflict (shift 96(10), red'n 185(0)) on '%'
+219: shift/reduce conflict (shift 95(12), red'n 185(0)) on '^'
+219: shift/reduce conflict (shift 97(6), red'n 185(0)) on '&'
+219: shift/reduce conflict (shift 98(5), red'n 185(0)) on '~'
+219: shift/reduce conflict (shift 99(4), red'n 185(0)) on '|'
+219: shift/reduce conflict (shift 103(3), red'n 185(0)) on '<'
+219: shift/reduce conflict (shift 105(3), red'n 185(0)) on '>'
+state 219
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
-	field:  name '=' expr.    (165)
+	expr:  expr.TOr 
+	field:  name '=' expr.    (185)
 
 	TAnd  shift 109
 	TOr  shift 110
@@ -4770,48 +5638,48 @@ state 221
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 165 (src line 1439)
+	.  reduce 185 (src line 1630)
 
 
-222: shift/reduce conflict (shift 242(0), red'n 169(0)) on '='
-state 222
+220: shift/reduce conflict (shift 240(0), red'n 189(0)) on '='
+state 220
 	field:  '[' expr ']'.'=' expr 
 	field:  '[' expr ']'.'=' 
-	field:  '[' expr ']'.    (169)
+	field:  '[' expr ']'.    (189)
 
-	'='  shift 242
-	.  reduce 169 (src line 1469)
+	'='  shift 240
+	.  reduce 189 (src line 1660)
 
 
-state 223
+state 221
 	stat:  TWhile expr TDo block TEnd.    (20)
 
 	.  reduce 20 (src line 205)
 
 
-224: shift/reduce conflict (shift 244(0), red'n 29(0)) on TElse
-224: shift/reduce conflict (shift 199(0), red'n 29(0)) on TElseIf
-224: shift/reduce conflict (shift 243(0), red'n 29(0)) on TEnd
-state 224
+222: shift/reduce conflict (shift 242(0), red'n 29(0)) on TElse
+222: shift/reduce conflict (shift 197(0), red'n 29(0)) on TElseIf
+222: shift/reduce conflict (shift 241(0), red'n 29(0)) on TEnd
+state 222
 	stat:  TIf expr TThen block elseifs.TEnd 
 	stat:  TIf expr TThen block elseifs.    (29)
 	stat:  TIf expr TThen block elseifs.TElse block TEnd 
 	stat:  TIf expr TThen block elseifs.TElse block 
 	elseifs:  elseifs.TElseIf expr TThen block 
 
-	TElse  shift 244
-	TElseIf  shift 199
-	TEnd  shift 243
-	.  reduce 29 (src line 294)
+	TElse  shift 242
+	TElseIf  shift 197
+	TEnd  shift 241
+	.  reduce 29 (src line 295)
 
 
-state 225
+state 223
 	stat:  TIf TThen block elseifs TEnd.    (30)
 
-	.  reduce 30 (src line 314)
+	.  reduce 30 (src line 316)
 
 
-state 226
+state 224
 	stat:  TIf TThen block elseifs TElse.block TEnd 
 	block: .    (2)
 
@@ -4833,7 +5701,7 @@ state 226
 	';'  shift 7
 	.  error
 
-	block  goto 245
+	block  goto 243
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -4844,40 +5712,61 @@ state 226
 	prefixexp  goto 23
 	name  goto 25
 
-state 227
+state 225
 	stat:  TIf block elseifs TElse block.TEnd 
 
-	TEnd  shift 246
+	TEnd  shift 244
 	.  error
 
 
-state 228
+state 226
 	elseifs:  elseifs TElseIf expr.TThen block 
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
 	TOr  shift 110
-	TThen  shift 247
+	TThen  shift 245
 	TEqual  shift 107
 	TNequal  shift 108
 	TLequal  shift 104
@@ -4900,7 +5789,7 @@ state 228
 	.  error
 
 
-state 229
+state 227
 	stat:  TFor name '=' expr ','.expr TDo block TEnd 
 	stat:  TFor name '=' expr ','.expr TDo block 
 	stat:  TFor name '=' expr ','.TDo block TEnd 
@@ -4908,7 +5797,7 @@ state 229
 	stat:  TFor name '=' expr ','.expr ',' TDo block TEnd 
 	stat:  TFor name '=' expr ','.expr ',' expr TDo block 
 
-	TDo  shift 249
+	TDo  shift 247
 	TFalse  shift 32
 	TFunction  shift 45
 	TNil  shift 31
@@ -4927,13 +5816,13 @@ state 229
 
 	functioncall  goto 47
 	var  goto 46
-	expr  goto 248
+	expr  goto 246
 	functiondef  goto 37
 	prefixexp  goto 38
 	tableconstructor  goto 39
 	name  goto 49
 
-state 230
+state 228
 	stat:  TFor name '=' expr TDo.block TEnd 
 	block: .    (2)
 
@@ -4955,7 +5844,7 @@ state 230
 	';'  shift 7
 	.  error
 
-	block  goto 250
+	block  goto 248
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -4966,45 +5855,66 @@ state 230
 	prefixexp  goto 23
 	name  goto 25
 
-state 231
+state 229
 	stat:  TFor name '=' TDo block.TEnd 
 
-	TEnd  shift 251
+	TEnd  shift 249
 	.  error
 
 
-state 232
+state 230
 	stat:  TFor name TDo block TEnd.    (42)
 
-	.  reduce 42 (src line 494)
+	.  reduce 42 (src line 495)
 
 
-state 233
+state 231
 	stat:  TFor '=' expr ',' expr.TDo block TEnd 
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
-	TDo  shift 252
+	TDo  shift 250
 	TOr  shift 110
 	TEqual  shift 107
 	TNequal  shift 108
@@ -5028,22 +5938,22 @@ state 233
 	.  error
 
 
-234: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
-234: shift/reduce conflict (shift 12(0), red'n 2(0)) on TBreak
-234: shift/reduce conflict (shift 14(0), red'n 2(0)) on TDo
-234: shift/reduce conflict (shift 18(0), red'n 2(0)) on TFor
-234: shift/reduce conflict (shift 19(0), red'n 2(0)) on TFunction
-234: shift/reduce conflict (shift 13(0), red'n 2(0)) on TGoto
-234: shift/reduce conflict (shift 17(0), red'n 2(0)) on TIf
-234: shift/reduce conflict (shift 20(0), red'n 2(0)) on TLocal
-234: shift/reduce conflict (shift 16(0), red'n 2(0)) on TRepeat
-234: shift/reduce conflict (shift 6(0), red'n 2(0)) on TReturn
-234: shift/reduce conflict (shift 15(0), red'n 2(0)) on TWhile
-234: shift/reduce conflict (shift 26(0), red'n 2(0)) on TName
-234: shift/reduce conflict (shift 24(0), red'n 2(0)) on TTarget
-234: shift/reduce conflict (shift 9(0), red'n 2(0)) on '='
-234: shift/reduce conflict (shift 7(0), red'n 2(0)) on ';'
-state 234
+232: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
+232: shift/reduce conflict (shift 12(0), red'n 2(0)) on TBreak
+232: shift/reduce conflict (shift 14(0), red'n 2(0)) on TDo
+232: shift/reduce conflict (shift 18(0), red'n 2(0)) on TFor
+232: shift/reduce conflict (shift 19(0), red'n 2(0)) on TFunction
+232: shift/reduce conflict (shift 13(0), red'n 2(0)) on TGoto
+232: shift/reduce conflict (shift 17(0), red'n 2(0)) on TIf
+232: shift/reduce conflict (shift 20(0), red'n 2(0)) on TLocal
+232: shift/reduce conflict (shift 16(0), red'n 2(0)) on TRepeat
+232: shift/reduce conflict (shift 6(0), red'n 2(0)) on TReturn
+232: shift/reduce conflict (shift 15(0), red'n 2(0)) on TWhile
+232: shift/reduce conflict (shift 26(0), red'n 2(0)) on TName
+232: shift/reduce conflict (shift 24(0), red'n 2(0)) on TTarget
+232: shift/reduce conflict (shift 9(0), red'n 2(0)) on '='
+232: shift/reduce conflict (shift 7(0), red'n 2(0)) on ';'
+state 232
 	stat:  TFor namelist TIn exprlist TDo.block TEnd 
 	stat:  TFor namelist TIn exprlist TDo.block 
 	block: .    (2)
@@ -5070,7 +5980,7 @@ state 234
 	';'  shift 7
 	.  error
 
-	block  goto 253
+	block  goto 251
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -5081,28 +5991,28 @@ state 234
 	prefixexp  goto 23
 	name  goto 25
 
-state 235
+state 233
 	stat:  TFor namelist TIn TDo block.TEnd 
+
+	TEnd  shift 252
+	.  error
+
+
+state 234
+	stat:  TFor TIn exprlist TDo block.TEnd 
+
+	TEnd  shift 253
+	.  error
+
+
+state 235
+	funcbody:  '(' parlist ')' block.TEnd 
 
 	TEnd  shift 254
 	.  error
 
 
 state 236
-	stat:  TFor TIn exprlist TDo block.TEnd 
-
-	TEnd  shift 255
-	.  error
-
-
-state 237
-	funcbody:  '(' parlist ')' block.TEnd 
-
-	TEnd  shift 256
-	.  error
-
-
-state 238
 	funcbody:  '(' parlist ')' TSType.block TEnd 
 	block: .    (2)
 
@@ -5124,7 +6034,7 @@ state 238
 	';'  shift 7
 	.  error
 
-	block  goto 257
+	block  goto 255
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -5135,35 +6045,35 @@ state 238
 	prefixexp  goto 23
 	name  goto 25
 
-state 239
+state 237
 	funcbody:  '(' ')' TSType block.TEnd 
 
-	TEnd  shift 258
+	TEnd  shift 256
 	.  error
 
 
+state 238
+	funcbody:  '(' ')' block TEnd.    (174)
+
+	.  reduce 174 (src line 1551)
+
+
+state 239
+	parlist:  namelist ',' TAny.    (177)
+
+	.  reduce 177 (src line 1569)
+
+
+240: shift/reduce conflict (shift 45(0), red'n 188(0)) on TFunction
+240: shift/reduce conflict (shift 26(0), red'n 188(0)) on TName
+240: shift/reduce conflict (shift 35(0), red'n 188(0)) on TString
+240: shift/reduce conflict (shift 40(9), red'n 188(0)) on '-'
+240: shift/reduce conflict (shift 43(5), red'n 188(0)) on '~'
+240: shift/reduce conflict (shift 44(0), red'n 188(0)) on '('
+240: shift/reduce conflict (shift 48(0), red'n 188(0)) on '{'
 state 240
-	funcbody:  '(' ')' block TEnd.    (154)
-
-	.  reduce 154 (src line 1360)
-
-
-state 241
-	parlist:  namelist ',' TAny.    (157)
-
-	.  reduce 157 (src line 1378)
-
-
-242: shift/reduce conflict (shift 45(0), red'n 168(0)) on TFunction
-242: shift/reduce conflict (shift 26(0), red'n 168(0)) on TName
-242: shift/reduce conflict (shift 35(0), red'n 168(0)) on TString
-242: shift/reduce conflict (shift 40(9), red'n 168(0)) on '-'
-242: shift/reduce conflict (shift 43(5), red'n 168(0)) on '~'
-242: shift/reduce conflict (shift 44(0), red'n 168(0)) on '('
-242: shift/reduce conflict (shift 48(0), red'n 168(0)) on '{'
-state 242
 	field:  '[' expr ']' '='.expr 
-	field:  '[' expr ']' '='.    (168)
+	field:  '[' expr ']' '='.    (188)
 
 	TFalse  shift 32
 	TFunction  shift 45
@@ -5179,40 +6089,105 @@ state 242
 	'~'  shift 43
 	'('  shift 44
 	'{'  shift 48
-	.  reduce 168 (src line 1460)
+	.  reduce 188 (src line 1651)
 
 	functioncall  goto 47
 	var  goto 46
-	expr  goto 259
+	expr  goto 257
 	functiondef  goto 37
 	prefixexp  goto 38
 	tableconstructor  goto 39
 	name  goto 49
 
-state 243
+state 241
 	stat:  TIf expr TThen block elseifs TEnd.    (28)
 
-	.  reduce 28 (src line 282)
+	.  reduce 28 (src line 283)
 
 
-244: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
-244: shift/reduce conflict (shift 12(0), red'n 2(0)) on TBreak
-244: shift/reduce conflict (shift 14(0), red'n 2(0)) on TDo
-244: shift/reduce conflict (shift 18(0), red'n 2(0)) on TFor
-244: shift/reduce conflict (shift 19(0), red'n 2(0)) on TFunction
-244: shift/reduce conflict (shift 13(0), red'n 2(0)) on TGoto
-244: shift/reduce conflict (shift 17(0), red'n 2(0)) on TIf
-244: shift/reduce conflict (shift 20(0), red'n 2(0)) on TLocal
-244: shift/reduce conflict (shift 16(0), red'n 2(0)) on TRepeat
-244: shift/reduce conflict (shift 6(0), red'n 2(0)) on TReturn
-244: shift/reduce conflict (shift 15(0), red'n 2(0)) on TWhile
-244: shift/reduce conflict (shift 26(0), red'n 2(0)) on TName
-244: shift/reduce conflict (shift 24(0), red'n 2(0)) on TTarget
-244: shift/reduce conflict (shift 9(0), red'n 2(0)) on '='
-244: shift/reduce conflict (shift 7(0), red'n 2(0)) on ';'
-state 244
+242: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
+242: shift/reduce conflict (shift 12(0), red'n 2(0)) on TBreak
+242: shift/reduce conflict (shift 14(0), red'n 2(0)) on TDo
+242: shift/reduce conflict (shift 18(0), red'n 2(0)) on TFor
+242: shift/reduce conflict (shift 19(0), red'n 2(0)) on TFunction
+242: shift/reduce conflict (shift 13(0), red'n 2(0)) on TGoto
+242: shift/reduce conflict (shift 17(0), red'n 2(0)) on TIf
+242: shift/reduce conflict (shift 20(0), red'n 2(0)) on TLocal
+242: shift/reduce conflict (shift 16(0), red'n 2(0)) on TRepeat
+242: shift/reduce conflict (shift 6(0), red'n 2(0)) on TReturn
+242: shift/reduce conflict (shift 15(0), red'n 2(0)) on TWhile
+242: shift/reduce conflict (shift 26(0), red'n 2(0)) on TName
+242: shift/reduce conflict (shift 24(0), red'n 2(0)) on TTarget
+242: shift/reduce conflict (shift 9(0), red'n 2(0)) on '='
+242: shift/reduce conflict (shift 7(0), red'n 2(0)) on ';'
+state 242
 	stat:  TIf expr TThen block elseifs TElse.block TEnd 
 	stat:  TIf expr TThen block elseifs TElse.block 
+	block: .    (2)
+
+	$end  reduce 2 (src line 77)
+	error  shift 21
+	TBreak  shift 12
+	TDo  shift 14
+	TElse  reduce 2 (src line 77)
+	TElseIf  reduce 2 (src line 77)
+	TEnd  reduce 2 (src line 77)
+	TFor  shift 18
+	TFunction  shift 19
+	TGoto  shift 13
+	TIf  shift 17
+	TLocal  shift 20
+	TRepeat  shift 16
+	TReturn  shift 6
+	TUntil  reduce 2 (src line 77)
+	TWhile  shift 15
+	TName  shift 26
+	TTarget  shift 24
+	'='  shift 9
+	';'  shift 7
+	.  error
+
+	block  goto 258
+	blockaux  goto 3
+	stat  goto 5
+	returnstat  goto 4
+	varlist  goto 8
+	functioncall  goto 10
+	label  goto 11
+	var  goto 22
+	prefixexp  goto 23
+	name  goto 25
+
+state 243
+	stat:  TIf TThen block elseifs TElse block.TEnd 
+
+	TEnd  shift 259
+	.  error
+
+
+state 244
+	stat:  TIf block elseifs TElse block TEnd.    (36)
+
+	.  reduce 36 (src line 421)
+
+
+245: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
+245: shift/reduce conflict (shift 12(0), red'n 2(0)) on TBreak
+245: shift/reduce conflict (shift 14(0), red'n 2(0)) on TDo
+245: shift/reduce conflict (shift 18(0), red'n 2(0)) on TFor
+245: shift/reduce conflict (shift 19(0), red'n 2(0)) on TFunction
+245: shift/reduce conflict (shift 13(0), red'n 2(0)) on TGoto
+245: shift/reduce conflict (shift 17(0), red'n 2(0)) on TIf
+245: shift/reduce conflict (shift 20(0), red'n 2(0)) on TLocal
+245: shift/reduce conflict (shift 16(0), red'n 2(0)) on TRepeat
+245: shift/reduce conflict (shift 6(0), red'n 2(0)) on TReturn
+245: shift/reduce conflict (shift 15(0), red'n 2(0)) on TWhile
+245: shift/reduce conflict (shift 26(0), red'n 2(0)) on TName
+245: shift/reduce conflict (shift 24(0), red'n 2(0)) on TTarget
+245: shift/reduce conflict (shift 9(0), red'n 2(0)) on '='
+245: shift/reduce conflict (shift 7(0), red'n 2(0)) on ';'
+state 245
+	elseifs:  elseifs TElseIf expr TThen.block 
 	block: .    (2)
 
 	$end  reduce 2 (src line 77)
@@ -5248,101 +6223,57 @@ state 244
 	prefixexp  goto 23
 	name  goto 25
 
-state 245
-	stat:  TIf TThen block elseifs TElse block.TEnd 
-
-	TEnd  shift 261
-	.  error
-
-
 state 246
-	stat:  TIf block elseifs TElse block TEnd.    (36)
-
-	.  reduce 36 (src line 420)
-
-
-247: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
-247: shift/reduce conflict (shift 12(0), red'n 2(0)) on TBreak
-247: shift/reduce conflict (shift 14(0), red'n 2(0)) on TDo
-247: shift/reduce conflict (shift 18(0), red'n 2(0)) on TFor
-247: shift/reduce conflict (shift 19(0), red'n 2(0)) on TFunction
-247: shift/reduce conflict (shift 13(0), red'n 2(0)) on TGoto
-247: shift/reduce conflict (shift 17(0), red'n 2(0)) on TIf
-247: shift/reduce conflict (shift 20(0), red'n 2(0)) on TLocal
-247: shift/reduce conflict (shift 16(0), red'n 2(0)) on TRepeat
-247: shift/reduce conflict (shift 6(0), red'n 2(0)) on TReturn
-247: shift/reduce conflict (shift 15(0), red'n 2(0)) on TWhile
-247: shift/reduce conflict (shift 26(0), red'n 2(0)) on TName
-247: shift/reduce conflict (shift 24(0), red'n 2(0)) on TTarget
-247: shift/reduce conflict (shift 9(0), red'n 2(0)) on '='
-247: shift/reduce conflict (shift 7(0), red'n 2(0)) on ';'
-state 247
-	elseifs:  elseifs TElseIf expr TThen.block 
-	block: .    (2)
-
-	$end  reduce 2 (src line 77)
-	error  shift 21
-	TBreak  shift 12
-	TDo  shift 14
-	TElse  reduce 2 (src line 77)
-	TElseIf  reduce 2 (src line 77)
-	TEnd  reduce 2 (src line 77)
-	TFor  shift 18
-	TFunction  shift 19
-	TGoto  shift 13
-	TIf  shift 17
-	TLocal  shift 20
-	TRepeat  shift 16
-	TReturn  shift 6
-	TUntil  reduce 2 (src line 77)
-	TWhile  shift 15
-	TName  shift 26
-	TTarget  shift 24
-	'='  shift 9
-	';'  shift 7
-	.  error
-
-	block  goto 262
-	blockaux  goto 3
-	stat  goto 5
-	returnstat  goto 4
-	varlist  goto 8
-	functioncall  goto 10
-	label  goto 11
-	var  goto 22
-	prefixexp  goto 23
-	name  goto 25
-
-state 248
 	stat:  TFor name '=' expr ',' expr.TDo block TEnd 
 	stat:  TFor name '=' expr ',' expr.TDo block 
 	stat:  TFor name '=' expr ',' expr.',' expr TDo block TEnd 
 	stat:  TFor name '=' expr ',' expr.',' TDo block TEnd 
 	stat:  TFor name '=' expr ',' expr.',' expr TDo block 
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
-	TDo  shift 263
+	TDo  shift 261
 	TOr  shift 110
 	TEqual  shift 107
 	TNequal  shift 108
@@ -5363,12 +6294,58 @@ state 248
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	','  shift 264
+	','  shift 262
+	.  error
+
+
+state 247
+	stat:  TFor name '=' expr ',' TDo.block TEnd 
+	block: .    (2)
+
+	error  shift 21
+	TBreak  shift 12
+	TDo  shift 14
+	TEnd  reduce 2 (src line 77)
+	TFor  shift 18
+	TFunction  shift 19
+	TGoto  shift 13
+	TIf  shift 17
+	TLocal  shift 20
+	TRepeat  shift 16
+	TReturn  shift 6
+	TWhile  shift 15
+	TName  shift 26
+	TTarget  shift 24
+	'='  shift 9
+	';'  shift 7
+	.  error
+
+	block  goto 263
+	blockaux  goto 3
+	stat  goto 5
+	returnstat  goto 4
+	varlist  goto 8
+	functioncall  goto 10
+	label  goto 11
+	var  goto 22
+	prefixexp  goto 23
+	name  goto 25
+
+state 248
+	stat:  TFor name '=' expr TDo block.TEnd 
+
+	TEnd  shift 264
 	.  error
 
 
 state 249
-	stat:  TFor name '=' expr ',' TDo.block TEnd 
+	stat:  TFor name '=' TDo block TEnd.    (43)
+
+	.  reduce 43 (src line 506)
+
+
+state 250
+	stat:  TFor '=' expr ',' expr TDo.block TEnd 
 	block: .    (2)
 
 	error  shift 21
@@ -5400,136 +6377,111 @@ state 249
 	prefixexp  goto 23
 	name  goto 25
 
-state 250
-	stat:  TFor name '=' expr TDo block.TEnd 
-
-	TEnd  shift 266
-	.  error
-
-
+251: shift/reduce conflict (shift 266(0), red'n 52(0)) on TEnd
 state 251
-	stat:  TFor name '=' TDo block TEnd.    (43)
-
-	.  reduce 43 (src line 505)
-
-
-state 252
-	stat:  TFor '=' expr ',' expr TDo.block TEnd 
-	block: .    (2)
-
-	error  shift 21
-	TBreak  shift 12
-	TDo  shift 14
-	TEnd  reduce 2 (src line 77)
-	TFor  shift 18
-	TFunction  shift 19
-	TGoto  shift 13
-	TIf  shift 17
-	TLocal  shift 20
-	TRepeat  shift 16
-	TReturn  shift 6
-	TWhile  shift 15
-	TName  shift 26
-	TTarget  shift 24
-	'='  shift 9
-	';'  shift 7
-	.  error
-
-	block  goto 267
-	blockaux  goto 3
-	stat  goto 5
-	returnstat  goto 4
-	varlist  goto 8
-	functioncall  goto 10
-	label  goto 11
-	var  goto 22
-	prefixexp  goto 23
-	name  goto 25
-
-253: shift/reduce conflict (shift 268(0), red'n 52(0)) on TEnd
-state 253
 	stat:  TFor namelist TIn exprlist TDo block.TEnd 
 	stat:  TFor namelist TIn exprlist TDo block.    (52)
 
-	TEnd  shift 268
-	.  reduce 52 (src line 600)
+	TEnd  shift 266
+	.  reduce 52 (src line 601)
+
+
+state 252
+	stat:  TFor namelist TIn TDo block TEnd.    (51)
+
+	.  reduce 51 (src line 588)
+
+
+state 253
+	stat:  TFor TIn exprlist TDo block TEnd.    (50)
+
+	.  reduce 50 (src line 577)
 
 
 state 254
-	stat:  TFor namelist TIn TDo block TEnd.    (51)
+	funcbody:  '(' parlist ')' block TEnd.    (171)
 
-	.  reduce 51 (src line 587)
+	.  reduce 171 (src line 1509)
 
 
 state 255
-	stat:  TFor TIn exprlist TDo block TEnd.    (50)
-
-	.  reduce 50 (src line 576)
-
-
-state 256
-	funcbody:  '(' parlist ')' block TEnd.    (151)
-
-	.  reduce 151 (src line 1318)
-
-
-state 257
 	funcbody:  '(' parlist ')' TSType block.TEnd 
 
-	TEnd  shift 269
+	TEnd  shift 267
 	.  error
 
 
-state 258
-	funcbody:  '(' ')' TSType block TEnd.    (153)
+state 256
+	funcbody:  '(' ')' TSType block TEnd.    (173)
 
-	.  reduce 153 (src line 1332)
+	.  reduce 173 (src line 1523)
 
 
-259: shift/reduce conflict (shift 109(2), red'n 167(0)) on TAnd
-259: shift/reduce conflict (shift 110(1), red'n 167(0)) on TOr
-259: shift/reduce conflict (shift 107(3), red'n 167(0)) on TEqual
-259: shift/reduce conflict (shift 108(3), red'n 167(0)) on TNequal
-259: shift/reduce conflict (shift 104(3), red'n 167(0)) on TLequal
-259: shift/reduce conflict (shift 106(3), red'n 167(0)) on TBequal
-259: shift/reduce conflict (shift 101(7), red'n 167(0)) on TLmove
-259: shift/reduce conflict (shift 100(7), red'n 167(0)) on TRmove
-259: shift/reduce conflict (shift 94(10), red'n 167(0)) on TWdiv
-259: shift/reduce conflict (shift 102(8), red'n 167(0)) on TConn
-259: shift/reduce conflict (shift 90(9), red'n 167(0)) on '+'
-259: shift/reduce conflict (shift 91(9), red'n 167(0)) on '-'
-259: shift/reduce conflict (shift 92(10), red'n 167(0)) on '*'
-259: shift/reduce conflict (shift 93(10), red'n 167(0)) on '/'
-259: shift/reduce conflict (shift 96(10), red'n 167(0)) on '%'
-259: shift/reduce conflict (shift 95(12), red'n 167(0)) on '^'
-259: shift/reduce conflict (shift 97(6), red'n 167(0)) on '&'
-259: shift/reduce conflict (shift 98(5), red'n 167(0)) on '~'
-259: shift/reduce conflict (shift 99(4), red'n 167(0)) on '|'
-259: shift/reduce conflict (shift 103(3), red'n 167(0)) on '<'
-259: shift/reduce conflict (shift 105(3), red'n 167(0)) on '>'
-state 259
+257: shift/reduce conflict (shift 109(2), red'n 187(0)) on TAnd
+257: shift/reduce conflict (shift 110(1), red'n 187(0)) on TOr
+257: shift/reduce conflict (shift 107(3), red'n 187(0)) on TEqual
+257: shift/reduce conflict (shift 108(3), red'n 187(0)) on TNequal
+257: shift/reduce conflict (shift 104(3), red'n 187(0)) on TLequal
+257: shift/reduce conflict (shift 106(3), red'n 187(0)) on TBequal
+257: shift/reduce conflict (shift 101(7), red'n 187(0)) on TLmove
+257: shift/reduce conflict (shift 100(7), red'n 187(0)) on TRmove
+257: shift/reduce conflict (shift 94(10), red'n 187(0)) on TWdiv
+257: shift/reduce conflict (shift 102(8), red'n 187(0)) on TConn
+257: shift/reduce conflict (shift 90(9), red'n 187(0)) on '+'
+257: shift/reduce conflict (shift 91(9), red'n 187(0)) on '-'
+257: shift/reduce conflict (shift 92(10), red'n 187(0)) on '*'
+257: shift/reduce conflict (shift 93(10), red'n 187(0)) on '/'
+257: shift/reduce conflict (shift 96(10), red'n 187(0)) on '%'
+257: shift/reduce conflict (shift 95(12), red'n 187(0)) on '^'
+257: shift/reduce conflict (shift 97(6), red'n 187(0)) on '&'
+257: shift/reduce conflict (shift 98(5), red'n 187(0)) on '~'
+257: shift/reduce conflict (shift 99(4), red'n 187(0)) on '|'
+257: shift/reduce conflict (shift 103(3), red'n 187(0)) on '<'
+257: shift/reduce conflict (shift 105(3), red'n 187(0)) on '>'
+state 257
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
-	field:  '[' expr ']' '=' expr.    (167)
+	expr:  expr.TOr 
+	field:  '[' expr ']' '=' expr.    (187)
 
 	TAnd  shift 109
 	TOr  shift 110
@@ -5552,46 +6504,46 @@ state 259
 	'|'  shift 99
 	'<'  shift 103
 	'>'  shift 105
-	.  reduce 167 (src line 1454)
+	.  reduce 187 (src line 1645)
 
 
-260: shift/reduce conflict (shift 270(0), red'n 35(0)) on TEnd
-state 260
+258: shift/reduce conflict (shift 268(0), red'n 35(0)) on TEnd
+state 258
 	stat:  TIf expr TThen block elseifs TElse block.TEnd 
 	stat:  TIf expr TThen block elseifs TElse block.    (35)
 
-	TEnd  shift 270
-	.  reduce 35 (src line 398)
+	TEnd  shift 268
+	.  reduce 35 (src line 400)
 
 
-state 261
+state 259
 	stat:  TIf TThen block elseifs TElse block TEnd.    (34)
 
-	.  reduce 34 (src line 381)
+	.  reduce 34 (src line 383)
 
 
-state 262
-	elseifs:  elseifs TElseIf expr TThen block.    (68)
+state 260
+	elseifs:  elseifs TElseIf expr TThen block.    (67)
 
-	.  reduce 68 (src line 771)
+	.  reduce 67 (src line 772)
 
 
-263: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
-263: shift/reduce conflict (shift 12(0), red'n 2(0)) on TBreak
-263: shift/reduce conflict (shift 14(0), red'n 2(0)) on TDo
-263: shift/reduce conflict (shift 18(0), red'n 2(0)) on TFor
-263: shift/reduce conflict (shift 19(0), red'n 2(0)) on TFunction
-263: shift/reduce conflict (shift 13(0), red'n 2(0)) on TGoto
-263: shift/reduce conflict (shift 17(0), red'n 2(0)) on TIf
-263: shift/reduce conflict (shift 20(0), red'n 2(0)) on TLocal
-263: shift/reduce conflict (shift 16(0), red'n 2(0)) on TRepeat
-263: shift/reduce conflict (shift 6(0), red'n 2(0)) on TReturn
-263: shift/reduce conflict (shift 15(0), red'n 2(0)) on TWhile
-263: shift/reduce conflict (shift 26(0), red'n 2(0)) on TName
-263: shift/reduce conflict (shift 24(0), red'n 2(0)) on TTarget
-263: shift/reduce conflict (shift 9(0), red'n 2(0)) on '='
-263: shift/reduce conflict (shift 7(0), red'n 2(0)) on ';'
-state 263
+261: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
+261: shift/reduce conflict (shift 12(0), red'n 2(0)) on TBreak
+261: shift/reduce conflict (shift 14(0), red'n 2(0)) on TDo
+261: shift/reduce conflict (shift 18(0), red'n 2(0)) on TFor
+261: shift/reduce conflict (shift 19(0), red'n 2(0)) on TFunction
+261: shift/reduce conflict (shift 13(0), red'n 2(0)) on TGoto
+261: shift/reduce conflict (shift 17(0), red'n 2(0)) on TIf
+261: shift/reduce conflict (shift 20(0), red'n 2(0)) on TLocal
+261: shift/reduce conflict (shift 16(0), red'n 2(0)) on TRepeat
+261: shift/reduce conflict (shift 6(0), red'n 2(0)) on TReturn
+261: shift/reduce conflict (shift 15(0), red'n 2(0)) on TWhile
+261: shift/reduce conflict (shift 26(0), red'n 2(0)) on TName
+261: shift/reduce conflict (shift 24(0), red'n 2(0)) on TTarget
+261: shift/reduce conflict (shift 9(0), red'n 2(0)) on '='
+261: shift/reduce conflict (shift 7(0), red'n 2(0)) on ';'
+state 261
 	stat:  TFor name '=' expr ',' expr TDo.block TEnd 
 	stat:  TFor name '=' expr ',' expr TDo.block 
 	block: .    (2)
@@ -5618,7 +6570,7 @@ state 263
 	';'  shift 7
 	.  error
 
-	block  goto 271
+	block  goto 269
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -5629,12 +6581,12 @@ state 263
 	prefixexp  goto 23
 	name  goto 25
 
-state 264
+state 262
 	stat:  TFor name '=' expr ',' expr ','.expr TDo block TEnd 
 	stat:  TFor name '=' expr ',' expr ','.TDo block TEnd 
 	stat:  TFor name '=' expr ',' expr ','.expr TDo block 
 
-	TDo  shift 273
+	TDo  shift 271
 	TFalse  shift 32
 	TFunction  shift 45
 	TNil  shift 31
@@ -5653,86 +6605,107 @@ state 264
 
 	functioncall  goto 47
 	var  goto 46
-	expr  goto 272
+	expr  goto 270
 	functiondef  goto 37
 	prefixexp  goto 38
 	tableconstructor  goto 39
 	name  goto 49
 
-state 265
+state 263
 	stat:  TFor name '=' expr ',' TDo block.TEnd 
 
-	TEnd  shift 274
+	TEnd  shift 272
+	.  error
+
+
+state 264
+	stat:  TFor name '=' expr TDo block TEnd.    (44)
+
+	.  reduce 44 (src line 517)
+
+
+state 265
+	stat:  TFor '=' expr ',' expr TDo block.TEnd 
+
+	TEnd  shift 273
 	.  error
 
 
 state 266
-	stat:  TFor name '=' expr TDo block TEnd.    (44)
+	stat:  TFor namelist TIn exprlist TDo block TEnd.    (49)
 
-	.  reduce 44 (src line 516)
+	.  reduce 49 (src line 571)
 
 
 state 267
-	stat:  TFor '=' expr ',' expr TDo block.TEnd 
+	funcbody:  '(' parlist ')' TSType block TEnd.    (172)
 
-	TEnd  shift 275
-	.  error
+	.  reduce 172 (src line 1515)
 
 
 state 268
-	stat:  TFor namelist TIn exprlist TDo block TEnd.    (49)
-
-	.  reduce 49 (src line 570)
-
-
-state 269
-	funcbody:  '(' parlist ')' TSType block TEnd.    (152)
-
-	.  reduce 152 (src line 1324)
-
-
-state 270
 	stat:  TIf expr TThen block elseifs TElse block TEnd.    (33)
 
-	.  reduce 33 (src line 369)
+	.  reduce 33 (src line 371)
 
 
-271: shift/reduce conflict (shift 276(0), red'n 38(0)) on TEnd
-state 271
+269: shift/reduce conflict (shift 274(0), red'n 38(0)) on TEnd
+state 269
 	stat:  TFor name '=' expr ',' expr TDo block.TEnd 
 	stat:  TFor name '=' expr ',' expr TDo block.    (38)
 
-	TEnd  shift 276
-	.  reduce 38 (src line 442)
+	TEnd  shift 274
+	.  reduce 38 (src line 443)
 
 
-state 272
+state 270
 	stat:  TFor name '=' expr ',' expr ',' expr.TDo block TEnd 
 	stat:  TFor name '=' expr ',' expr ',' expr.TDo block 
 	expr:  expr.'+' expr 
+	expr:  expr.'+' 
 	expr:  expr.'-' expr 
+	expr:  expr.'-' 
 	expr:  expr.'*' expr 
+	expr:  expr.'*' 
 	expr:  expr.'/' expr 
+	expr:  expr.'/' 
 	expr:  expr.TWdiv expr 
+	expr:  expr.TWdiv 
 	expr:  expr.'^' expr 
+	expr:  expr.'^' 
 	expr:  expr.'%' expr 
+	expr:  expr.'%' 
 	expr:  expr.'&' expr 
+	expr:  expr.'&' 
 	expr:  expr.'~' expr 
+	expr:  expr.'~' 
 	expr:  expr.'|' expr 
+	expr:  expr.'|' 
 	expr:  expr.TRmove expr 
+	expr:  expr.TRmove 
 	expr:  expr.TLmove expr 
+	expr:  expr.TLmove 
 	expr:  expr.TConn expr 
+	expr:  expr.TConn 
 	expr:  expr.'<' expr 
+	expr:  expr.'<' 
 	expr:  expr.TLequal expr 
+	expr:  expr.TLequal 
 	expr:  expr.'>' expr 
+	expr:  expr.'>' 
 	expr:  expr.TBequal expr 
+	expr:  expr.TBequal 
 	expr:  expr.TEqual expr 
+	expr:  expr.TEqual 
 	expr:  expr.TNequal expr 
+	expr:  expr.TNequal 
 	expr:  expr.TAnd expr 
+	expr:  expr.TAnd 
 	expr:  expr.TOr expr 
+	expr:  expr.TOr 
 
 	TAnd  shift 109
-	TDo  shift 277
+	TDo  shift 275
 	TOr  shift 110
 	TEqual  shift 107
 	TNequal  shift 108
@@ -5756,7 +6729,7 @@ state 272
 	.  error
 
 
-state 273
+state 271
 	stat:  TFor name '=' expr ',' expr ',' TDo.block TEnd 
 	block: .    (2)
 
@@ -5778,7 +6751,7 @@ state 273
 	';'  shift 7
 	.  error
 
-	block  goto 278
+	block  goto 276
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -5789,40 +6762,40 @@ state 273
 	prefixexp  goto 23
 	name  goto 25
 
-state 274
+state 272
 	stat:  TFor name '=' expr ',' TDo block TEnd.    (45)
 
-	.  reduce 45 (src line 527)
+	.  reduce 45 (src line 528)
 
 
-state 275
+state 273
 	stat:  TFor '=' expr ',' expr TDo block TEnd.    (39)
 
-	.  reduce 39 (src line 457)
+	.  reduce 39 (src line 458)
 
 
-state 276
+state 274
 	stat:  TFor name '=' expr ',' expr TDo block TEnd.    (37)
 
-	.  reduce 37 (src line 436)
+	.  reduce 37 (src line 437)
 
 
-277: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
-277: shift/reduce conflict (shift 12(0), red'n 2(0)) on TBreak
-277: shift/reduce conflict (shift 14(0), red'n 2(0)) on TDo
-277: shift/reduce conflict (shift 18(0), red'n 2(0)) on TFor
-277: shift/reduce conflict (shift 19(0), red'n 2(0)) on TFunction
-277: shift/reduce conflict (shift 13(0), red'n 2(0)) on TGoto
-277: shift/reduce conflict (shift 17(0), red'n 2(0)) on TIf
-277: shift/reduce conflict (shift 20(0), red'n 2(0)) on TLocal
-277: shift/reduce conflict (shift 16(0), red'n 2(0)) on TRepeat
-277: shift/reduce conflict (shift 6(0), red'n 2(0)) on TReturn
-277: shift/reduce conflict (shift 15(0), red'n 2(0)) on TWhile
-277: shift/reduce conflict (shift 26(0), red'n 2(0)) on TName
-277: shift/reduce conflict (shift 24(0), red'n 2(0)) on TTarget
-277: shift/reduce conflict (shift 9(0), red'n 2(0)) on '='
-277: shift/reduce conflict (shift 7(0), red'n 2(0)) on ';'
-state 277
+275: shift/reduce conflict (shift 21(0), red'n 2(0)) on error
+275: shift/reduce conflict (shift 12(0), red'n 2(0)) on TBreak
+275: shift/reduce conflict (shift 14(0), red'n 2(0)) on TDo
+275: shift/reduce conflict (shift 18(0), red'n 2(0)) on TFor
+275: shift/reduce conflict (shift 19(0), red'n 2(0)) on TFunction
+275: shift/reduce conflict (shift 13(0), red'n 2(0)) on TGoto
+275: shift/reduce conflict (shift 17(0), red'n 2(0)) on TIf
+275: shift/reduce conflict (shift 20(0), red'n 2(0)) on TLocal
+275: shift/reduce conflict (shift 16(0), red'n 2(0)) on TRepeat
+275: shift/reduce conflict (shift 6(0), red'n 2(0)) on TReturn
+275: shift/reduce conflict (shift 15(0), red'n 2(0)) on TWhile
+275: shift/reduce conflict (shift 26(0), red'n 2(0)) on TName
+275: shift/reduce conflict (shift 24(0), red'n 2(0)) on TTarget
+275: shift/reduce conflict (shift 9(0), red'n 2(0)) on '='
+275: shift/reduce conflict (shift 7(0), red'n 2(0)) on ';'
+state 275
 	stat:  TFor name '=' expr ',' expr ',' expr TDo.block TEnd 
 	stat:  TFor name '=' expr ',' expr ',' expr TDo.block 
 	block: .    (2)
@@ -5849,7 +6822,7 @@ state 277
 	';'  shift 7
 	.  error
 
-	block  goto 279
+	block  goto 277
 	blockaux  goto 3
 	stat  goto 5
 	returnstat  goto 4
@@ -5860,43 +6833,43 @@ state 277
 	prefixexp  goto 23
 	name  goto 25
 
-state 278
+state 276
 	stat:  TFor name '=' expr ',' expr ',' TDo block.TEnd 
 
-	TEnd  shift 280
+	TEnd  shift 278
 	.  error
 
 
-279: shift/reduce conflict (shift 281(0), red'n 48(0)) on TEnd
-state 279
+277: shift/reduce conflict (shift 279(0), red'n 48(0)) on TEnd
+state 277
 	stat:  TFor name '=' expr ',' expr ',' expr TDo block.TEnd 
 	stat:  TFor name '=' expr ',' expr ',' expr TDo block.    (48)
 
-	TEnd  shift 281
-	.  reduce 48 (src line 555)
+	TEnd  shift 279
+	.  reduce 48 (src line 556)
 
 
-state 280
+state 278
 	stat:  TFor name '=' expr ',' expr ',' TDo block TEnd.    (47)
 
-	.  reduce 47 (src line 543)
+	.  reduce 47 (src line 544)
 
 
-state 281
+state 279
 	stat:  TFor name '=' expr ',' expr ',' expr TDo block TEnd.    (46)
 
-	.  reduce 46 (src line 536)
+	.  reduce 46 (src line 537)
 
 
 64 terminals, 26 nonterminals
-176 grammar rules, 282/8000 states
-396 shift/reduce, 0 reduce/reduce conflicts reported
+196 grammar rules, 280/8000 states
+501 shift/reduce, 0 reduce/reduce conflicts reported
 175 working sets used
 memory: parser 1077/120000
-183 extra closures
-1826 shift entries, 127 exceptions
-250 goto entries
+184 extra closures
+1806 shift entries, 127 exceptions
+249 goto entries
 439 entries saved by goto default
-Optimizer space used: output 1635/120000
-1635 table entries, 684 zero
-maximum spread: 63, maximum offset: 277
+Optimizer space used: output 1714/120000
+1714 table entries, 739 zero
+maximum spread: 63, maximum offset: 275

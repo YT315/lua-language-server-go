@@ -197,10 +197,10 @@ stat:
             }else{
                 temp.End = $1.End
             }
-            temp.Err=&SyntaxErr{Errtype:LackEnd}
-            temp.Err.Start = temp.End
-            temp.Err.End = temp.End
-            temp.Err.insertInto(lualex)  
+
+            err:=&SyntaxErr{Errtype:LackEnd}
+            err.Scope=temp.Scope
+            err.insertInto(lualex)
             $$ = temp
         } |
         /*************** while exp do block end  *****************/ 
@@ -218,9 +218,10 @@ stat:
             }else{
                 temp.End = $3.End
             }
-            temp.Err=&SyntaxErr{Errtype:LackEnd}
-            temp.Err.Scope=$1.Scope
-            temp.Err.insertInto(lualex)  
+
+            err:=&SyntaxErr{Errtype:LackEnd}
+            err.Scope=$1.Scope
+            err.insertInto(lualex)
             $$ = temp
         } |
         TWhile TDo block TEnd {
@@ -308,9 +309,10 @@ stat:
             }else{
                 temp.End = $3.End
             }
-            temp.Err=&SyntaxErr{Errtype:LackEnd}
-            temp.Err.Scope=$1.Scope
-            temp.Err.insertInto(lualex)  
+
+            err:=&SyntaxErr{Errtype:LackEnd}
+            err.Scope=temp.Scope
+            err.insertInto(lualex)
         } |
         TIf TThen block elseifs TEnd {
             $$ = &IfStmt{Condition: nil, Then: $3}
@@ -412,11 +414,10 @@ stat:
                 temp.End = $6.End
             }
 
-            temp.Err=&SyntaxErr{Errtype:LackEnd}
-            temp.Err.Start=temp.End
-            temp.Err.End=temp.End
-            temp.Err.insertInto(lualex)
-            
+            err:=&SyntaxErr{Errtype:LackEnd}
+            err.Scope=temp.Scope
+            err.insertInto(lualex)
+           
         } |
         TIf block elseifs TElse block TEnd {
             $$ = &IfStmt{Condition: nil, Then: $2}
@@ -675,7 +676,7 @@ stat:
 
             $$ = temp
         } | 
-        TLocal name funcbody {
+        /* TLocal name funcbody {
             temp := &LocalFuncDefStmt{Name: $2, Function: $3}
             temp.Start=$1.Start
             temp.End = $3.end()
@@ -685,7 +686,7 @@ stat:
             err.insertInto(lualex)
 
             $$ = temp
-        } | 
+        } |  */
         TLocal TFunction name {
             temp := &LocalFuncDefStmt{Name: $3}
             temp.Start=$1.Start
@@ -1065,10 +1066,29 @@ expr:
             temp.End = $3.end()
             $$ = temp
         } |
+        expr '+' {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+            $$ = temp
+        } |
         expr '-' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
             temp.Start=$1.start()
             temp.End = $3.end()
+            
+            $$ = temp
+        } |
+        expr '-' {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         expr '*' expr {
@@ -1077,10 +1097,28 @@ expr:
             temp.End = $3.end()
             $$ = temp
         } |
+        expr '*' {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+            $$ = temp
+        } |
         expr '/' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
             temp.Start=$1.start()
             temp.End = $3.end()
+            $$ = temp
+        } |
+        expr '/' {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         expr TWdiv expr {
@@ -1089,10 +1127,28 @@ expr:
             temp.End = $3.end()
             $$ = temp
         } |
+        expr TWdiv {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+            $$ = temp
+        } |
         expr '^' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
             temp.Start=$1.start()
             temp.End = $3.end()
+            $$ = temp
+        } |
+        expr '^' {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         expr '%' expr {
@@ -1101,10 +1157,28 @@ expr:
             temp.End = $3.end()
             $$ = temp
         } |
+        expr '%' {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+            $$ = temp
+        } |
         expr '&' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
             temp.Start=$1.start()
             temp.End = $3.end()
+            $$ = temp
+        } |
+        expr '&' {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         expr '~' expr {
@@ -1113,10 +1187,28 @@ expr:
             temp.End = $3.end()
             $$ = temp
         } |
+        expr '~' {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+            $$ = temp
+        } |
         expr '|' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
             temp.Start=$1.start()
             temp.End = $3.end()
+            $$ = temp
+        } |
+        expr '|' {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         expr TRmove expr {
@@ -1125,10 +1217,28 @@ expr:
             temp.End = $3.end()
             $$ = temp
         } |
+        expr TRmove {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+            $$ = temp
+        } |
         expr TLmove expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
             temp.Start=$1.start()
             temp.End = $3.end()
+            $$ = temp
+        } |
+        expr TLmove {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         expr TConn expr {
@@ -1137,10 +1247,28 @@ expr:
             temp.End = $3.end()
             $$ = temp
         } |
+        expr TConn {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+            $$ = temp
+        } |
         expr '<' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
             temp.Start=$1.start()
             temp.End = $3.end()
+            $$ = temp
+        } |
+        expr '<' {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         expr TLequal expr {
@@ -1149,10 +1277,28 @@ expr:
             temp.End = $3.end()
             $$ = temp
         } |
+        expr TLequal {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+            $$ = temp
+        } |
         expr '>' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
             temp.Start=$1.start()
             temp.End = $3.end()
+            $$ = temp
+        } |
+        expr '>' {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         expr TBequal expr {
@@ -1161,10 +1307,28 @@ expr:
             temp.End = $3.end()
             $$ = temp
         } |
+        expr TBequal {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+            $$ = temp
+        } |
         expr TEqual expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
             temp.Start=$1.start()
             temp.End = $3.end()
+            $$ = temp
+        } |
+        expr TEqual {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         expr TNequal expr {
@@ -1173,16 +1337,43 @@ expr:
             temp.End = $3.end()
             $$ = temp
         } |
+        expr TNequal {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+            $$ = temp
+        } |
         expr TAnd expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
             temp.Start=$1.start()
             temp.End = $3.end()
             $$ = temp
         } |
+        expr TAnd {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
+            $$ = temp
+        } |
         expr TOr expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
             temp.Start=$1.start()
             temp.End = $3.end()
+            $$ = temp
+        } |
+        expr TOr {
+            temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
+            temp.Start=$1.start()
+            temp.End = $2.End
+            temp.Err=&SyntaxErr{Errtype:LackField}
+            temp.Err.Scope=$2.Scope
+            temp.Err.insertInto(lualex)
             $$ = temp
         } |
         '-' expr %prec UNARY {
@@ -1399,9 +1590,9 @@ tableconstructor:
             temp := &TableExpr{Fields: []Expr{}}
             temp.Start=$1.Start
             temp.End = $1.End
-            temp.Err=&SyntaxErr{Errtype:LackRightCurlyBrackets}
-            temp.Err.Scope=$1.Scope
-            temp.Err.insertInto(lualex)
+            err:=&SyntaxErr{Errtype:LackRightCurlyBrackets}
+            err.Scope=$1.Scope
+            err.insertInto(lualex)
             $$ = temp
         } |
         '{' fieldlist '}' {
@@ -1418,9 +1609,9 @@ tableconstructor:
             }else{
                 temp.End = $1.End
             }
-            temp.Err=&SyntaxErr{Errtype:LackRightCurlyBrackets}
-            temp.Err.Scope=$1.Scope
-            temp.Err.insertInto(lualex)
+            err:=&SyntaxErr{Errtype:LackRightCurlyBrackets}
+            err.Scope=$1.Scope
+            err.insertInto(lualex)
             $$ = temp
         }
 
@@ -1489,9 +1680,9 @@ field:
             temp := &FieldExpr{}
             temp.Start=$1.Start
             temp.End = $1.End
-            temp.Err=&SyntaxErr{Errtype:LackRightSquareBrackets}
-            temp.Err.Scope=temp.Scope
-            temp.Err.insertInto(lualex)
+            err:=&SyntaxErr{Errtype:LackRightSquareBrackets}
+            err.Scope=temp.Scope
+            err.insertInto(lualex)
             $$ = temp
         } |
         '[' expr {
@@ -1499,9 +1690,9 @@ field:
             temp.Start=$1.Start
             temp.End = $2.end()
 
-            temp.Err=&SyntaxErr{Errtype:LackRightSquareBrackets}
-            temp.Err.Scope=$1.Scope
-            temp.Err.insertInto(lualex)
+            err:=&SyntaxErr{Errtype:LackRightSquareBrackets}
+            err.Scope=$1.Scope
+            err.insertInto(lualex)
 
             $$ = temp
         } |
