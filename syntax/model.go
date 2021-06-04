@@ -1,7 +1,6 @@
 package syntax
 
 import (
-	"lualsp/logger"
 	"lualsp/protocol"
 )
 
@@ -27,28 +26,4 @@ func (s Scope) Convert2Range() (res protocol.Range) {
 
 type Pos struct {
 	line, col uint
-}
-
-type SyntaxErr struct {
-	Scope
-	Errtype SyntaxErrBase
-}
-
-//将此错误插入到lex中
-func (s *SyntaxErr) insertInto(llex luaLexer) {
-	if lex, ok := llex.(*Lexer); ok {
-		diag := protocol.Diagnostic{
-			Range:    s.Convert2Range(),
-			Severity: protocol.SeverityError,
-			Source:   "syntax",
-			Message:  string(s.Errtype),
-		}
-		lex.Diagnostics = append(lex.Diagnostics, diag)
-	} else {
-		logger.Errorln("lex对象错误")
-	}
-}
-
-func (s *SyntaxErr) Error() string {
-	return string(s.Errtype)
 }

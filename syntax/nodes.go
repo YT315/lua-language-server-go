@@ -9,9 +9,9 @@ import (
 //node
 type (
 	Node interface {
-		scope() Scope
-		start() Pos
-		end() Pos
+		GetScope() Scope
+		GetStart() Pos
+		GetEnd() Pos
 	}
 
 	nodeBase struct {
@@ -20,9 +20,9 @@ type (
 	}
 )
 
-func (n *nodeBase) scope() Scope { return n.Scope }
-func (n *nodeBase) start() Pos   { return n.Start }
-func (n *nodeBase) end() Pos     { return n.End }
+func (n *nodeBase) GetScope() Scope { return n.Scope }
+func (n *nodeBase) GetStart() Pos   { return n.Start }
+func (n *nodeBase) GetEnd() Pos     { return n.End }
 
 //statements
 type (

@@ -110,9 +110,9 @@ stat:
         /*************** varlist ‘=’ explist *****************/
         varlist '=' exprlist {
             temp := &AssignStmt{Left: $1, Right: $3}
-            temp.Start = $1[0].start()
+            temp.Start = $1[0].GetStart()
             if len($3)>0{
-                temp.End = $3[len($3)-1].end()
+                temp.End = $3[len($3)-1].GetEnd()
             }else{
                 temp.End = $2.End
             }
@@ -121,8 +121,8 @@ stat:
         } |
         varlist{
             temp := &AssignStmt{Left: $1, Right: nil}
-            temp.Start=$1[0].start()
-            temp.End=$1[0].end()
+            temp.Start=$1[0].GetStart()
+            temp.End=$1[0].GetEnd()
             temp.Err=&SyntaxErr{Errtype:LackRight}
             temp.Err.Scope=temp.Scope
             temp.Err.insertInto(lualex)  
@@ -130,7 +130,7 @@ stat:
         } |  
         varlist '=' {
             temp := &AssignStmt{Left: $1, Right: nil}
-            temp.Start=$1[0].start()
+            temp.Start=$1[0].GetStart()
             temp.End=$2.End
             temp.Err=&SyntaxErr{Errtype:LackRight}
             temp.Err.Scope=$2.Scope
@@ -141,7 +141,7 @@ stat:
             temp := &AssignStmt{Left: nil, Right: $2}
             temp.Start=$1.Start
             if len($2)>0{
-                temp.End = $2[len($2)-1].end()
+                temp.End = $2[len($2)-1].GetEnd()
             }else{
                 temp.End = $1.End
             }
@@ -171,7 +171,7 @@ stat:
         TGoto name {
             temp := &GotoStmt{Name:$2}
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2.GetEnd()
             $$ = temp
         } |
         TGoto {
@@ -193,7 +193,7 @@ stat:
             temp := &DoEndStmt{Block: $2}
             temp.Start=$1.Start
             if len($2)>0 {
-                temp.End = $2[len($2)-1].end()
+                temp.End = $2[len($2)-1].GetEnd()
             }else{
                 temp.End = $1.End
             }
@@ -214,7 +214,7 @@ stat:
             temp := &WhileStmt{Condition: $2, Block: $4}
             temp.Start=$1.Start
             if len($4)>0 {
-                temp.End = $4[len($4)-1].end()
+                temp.End = $4[len($4)-1].GetEnd()
             }else{
                 temp.End = $3.End
             }
@@ -237,7 +237,7 @@ stat:
         TWhile expr {
             temp := &WhileStmt{Condition: $2, Block: nil}
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2.GetEnd()
             temp.Err=&SyntaxErr{Errtype:LackWhileBlock}
             temp.Err.Scope=$1.Scope
             temp.Err.insertInto(lualex)  
@@ -255,7 +255,7 @@ stat:
         TRepeat block TUntil expr {
             temp := &RepeatStmt{Condition: $4, Block: $2}
             temp.Start=$1.Start
-            temp.End = $4.end()
+            temp.End = $4.GetEnd()
             $$ = temp
         } |
         TRepeat block TUntil {
@@ -271,7 +271,7 @@ stat:
             temp := &RepeatStmt{Condition: nil, Block: $2}
             temp.Start=$1.Start
             if len($2)>0 {
-                temp.End = $2[len($2)-1].end()
+                temp.End = $2[len($2)-1].GetEnd()
             }else{
                 temp.End = $1.End
             }
@@ -303,9 +303,9 @@ stat:
             temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             if len($5)>0{
-                temp.End = $5[len($5)-1].end()
+                temp.End = $5[len($5)-1].GetEnd()
             }else if len($4)>0 {
-                temp.End = $4[len($4)-1].end()
+                temp.End = $4[len($4)-1].GetEnd()
             }else{
                 temp.End = $3.End
             }
@@ -357,9 +357,9 @@ stat:
             temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             if len($3)>0{
-                temp.End = $3[len($3)-1].end()
+                temp.End = $3[len($3)-1].GetEnd()
             }else if len($2)>0{
-                temp.End = $2[len($2)-1].end()
+                temp.End = $2[len($2)-1].GetEnd()
             }else{
                 temp.End=$1.End
             }
@@ -409,7 +409,7 @@ stat:
             temp :=$$.(*IfStmt)
             temp.Start=$1.Start
             if len($7)>0 {
-                temp.End = $7[len($7)-1].end()
+                temp.End = $7[len($7)-1].GetEnd()
             }else{
                 temp.End = $6.End
             }
@@ -445,7 +445,7 @@ stat:
             temp := &ForLoopNumStmt{Name: $2, Init: $4, Limit: $6, Block: $8}
             temp.Start=$1.Start
             if len($8)>0 {
-                temp.End = $8[len($8)-1].end()
+                temp.End = $8[len($8)-1].GetEnd()
             }else{
                 temp.End = $7.End
             }
@@ -482,7 +482,7 @@ stat:
             temp := &ForLoopNumStmt{Name: nil, Init: nil, Limit: nil, Block: $3}
             temp.Start=$1.Start
             if len($3)>0 {
-                temp.End = $3[len($3)-1].end()
+                temp.End = $3[len($3)-1].GetEnd()
             }else{
                 temp.End = $2.End
             }
@@ -499,7 +499,7 @@ stat:
             temp.End = $5.End
 
             temp.Err=&SyntaxErr{Errtype:LackForScope}
-            temp.Err.Scope=$2.scope()
+            temp.Err.Scope=$2.GetScope()
             temp.Err.insertInto(lualex)
 
             $$ = temp
@@ -510,7 +510,7 @@ stat:
             temp.End = $6.End
             
             temp.Err=&SyntaxErr{Errtype:LackForScope}
-            temp.Err.Scope=$2.scope()
+            temp.Err.Scope=$2.GetScope()
             temp.Err.insertInto(lualex)
 
             $$ = temp
@@ -521,7 +521,7 @@ stat:
             temp.End = $7.End
 
             temp.Err=&SyntaxErr{Errtype:LackForScope}
-            temp.Err.Scope=$4.scope()
+            temp.Err.Scope=$4.GetScope()
             temp.Err.insertInto(lualex)
 
             $$ = temp
@@ -558,7 +558,7 @@ stat:
             temp := &ForLoopNumStmt{Name: $2, Init: $4, Limit: $6, Step:$8, Block: $10}
             temp.Start=$1.Start
             if len($10)>0{
-                temp.End = $10[len($10)-1].end()
+                temp.End = $10[len($10)-1].GetEnd()
             }else{
                 temp.End = $9.End
             }
@@ -592,7 +592,7 @@ stat:
             temp.End = $6.End
             temp.Err=&SyntaxErr{Errtype:LackExpr}
             if len($2)>0{
-                temp.Err.Scope=$2[len($2)-1].scope()
+                temp.Err.Scope=$2[len($2)-1].GetScope()
             }
             temp.Err.Scope=$1.Scope
             temp.Err.insertInto(lualex)
@@ -603,7 +603,7 @@ stat:
             temp := &ForLoopListStmt{Names:$2, Exprs:$4, Block: $6}
             temp.Start=$1.Start
             if len($6)>0{
-                temp.End = $6[len($6)-1].end()
+                temp.End = $6[len($6)-1].GetEnd()
             }else{
                 temp.End = $5.End
             }
@@ -619,7 +619,7 @@ stat:
             temp := &ForLoopListStmt{Names:$2, Exprs:$4}
             temp.Start=$1.Start
             if len($4)>0{
-                temp.End = $4[len($4)-1].end()
+                temp.End = $4[len($4)-1].GetEnd()
             }else{
                 temp.End = $3.End
             }
@@ -638,7 +638,7 @@ stat:
             temp := $2.(*FuncDefStmt)
             temp.Function= $3
             temp.Start=$1.Start
-            temp.End = $3.end()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         TFunction funcname {
@@ -653,7 +653,7 @@ stat:
             temp := &FuncDefStmt{}
             temp.Function= $2
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2.GetEnd()
             temp.Err=&SyntaxErr{Errtype:"缺少函数名"}
             temp.Err.Scope=$1.Scope
             $$ = temp
@@ -662,13 +662,13 @@ stat:
         TLocal TFunction name funcbody {
             temp := &LocalFuncDefStmt{Name: $3, Function: $4}
             temp.Start=$1.Start
-            temp.End = $4.end()
+            temp.End = $4.GetEnd()
             $$ = temp
         } | 
         TLocal TFunction funcbody {
             temp := &LocalFuncDefStmt{Function: $3}
             temp.Start=$1.Start
-            temp.End = $3.end()
+            temp.End = $3.GetEnd()
 
             temp.Err=&SyntaxErr{Errtype:LackFunctionName}
             temp.Err.Scope=$2.Scope
@@ -679,7 +679,7 @@ stat:
         /* TLocal name funcbody {
             temp := &LocalFuncDefStmt{Name: $2, Function: $3}
             temp.Start=$1.Start
-            temp.End = $3.end()
+            temp.End = $3.GetEnd()
 
             err:=&SyntaxErr{Errtype:LackFunctionkeyword}
             err.Scope=$1.Scope
@@ -690,9 +690,9 @@ stat:
         TLocal TFunction name {
             temp := &LocalFuncDefStmt{Name: $3}
             temp.Start=$1.Start
-            temp.End = $3.end()
+            temp.End = $3.GetEnd()
             temp.Err=&SyntaxErr{Errtype:LackFunctionContent}
-            temp.Err.Scope=$3.scope()
+            temp.Err.Scope=$3.GetScope()
             temp.Err.insertInto(lualex)
             $$ = temp
         } | 
@@ -710,7 +710,7 @@ stat:
             temp := &LocalVarDef{Names: $2, Inits:$4}
             temp.Start=$1.Start
             if len($4)>0{
-                temp.End = $4[len($4)-1].end()
+                temp.End = $4[len($4)-1].GetEnd()
             }else{
                 temp.End = $3.End
             }
@@ -730,7 +730,7 @@ stat:
             temp := &LocalVarDef{Inits:$3}
             temp.Start=$1.Start
             if len($3)>0{
-                temp.End = $3[len($3)-1].end()
+                temp.End = $3[len($3)-1].GetEnd()
             }else{
                 temp.End = $2.End
             }
@@ -744,7 +744,7 @@ stat:
             temp := &LocalVarDef{Names: $2}
             temp.Start=$1.Start
             if len($2)>0{
-                temp.End = $2[len($2)-1].end()
+                temp.End = $2[len($2)-1].GetEnd()
             }else{
                 temp.End = $1.End
             }
@@ -774,7 +774,7 @@ elseifs:
             ifstmt:=&IfStmt{Condition: $3, Then: $5}
             ifstmt.Start=$2.Start
             if len($5)>0{
-                ifstmt.End = $5[len($5)-1].end()
+                ifstmt.End = $5[len($5)-1].GetEnd()
             }else{
                 ifstmt.End = $4.End
             }
@@ -791,7 +791,7 @@ returnstat:
             $$ = &ReturnStmt{Exprs:$2}
             $$.(*ReturnStmt).Start=$1.Start
             if len($2)>0{
-                $$.(*ReturnStmt).End = $2[len($2)-1].end()
+                $$.(*ReturnStmt).End = $2[len($2)-1].GetEnd()
             }else{
                 $$.(*ReturnStmt).End = $1.End
             }
@@ -811,11 +811,11 @@ label:
         }|
         name TTarget {
             temp := &LabelStmt{Name: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End=$2.End
 
             err:=&SyntaxErr{Errtype:LabelIncomplete}
-            err.Scope=$1.scope()
+            err.Scope=$1.GetScope()
             err.insertInto(lualex)
 
             $$ = temp
@@ -823,10 +823,10 @@ label:
         TTarget name {
             temp := &LabelStmt{Name: $2}
             temp.Start=$1.Start
-            temp.End=$2.end()
+            temp.End=$2.GetEnd()
 
             err:=&SyntaxErr{Errtype:LabelIncomplete}
-            err.Scope=$2.scope()
+            err.Scope=$2.GetScope()
             err.insertInto(lualex)
 
             $$ = temp
@@ -856,18 +856,18 @@ label:
 funcname: 
         funcnameaux {
             temp := &FuncDefStmt{Name: $1, Receiver: nil}
-            temp.Scope=$1.scope()
+            temp.Scope=$1.GetScope()
             $$ = temp
         } |
         funcnameaux ':' name {
             temp := &FuncDefStmt{Name: $3, Receiver:$1}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         }|
         funcnameaux ':' {
             temp := &FuncDefStmt{Receiver:$1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackfuncName}
             temp.Err.Scope=$2.Scope
@@ -877,7 +877,7 @@ funcname:
         ':' name {
             temp := &FuncDefStmt{Name: $2}
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2.GetEnd()
             $$ = temp
             
         }
@@ -888,13 +888,13 @@ funcnameaux:
         } | 
         funcnameaux '.' name {
             temp := &GetItemExpr{Table:$1, Key:$3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         funcnameaux '.' {
             temp := &GetItemExpr{Table:$1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -904,7 +904,7 @@ funcnameaux:
         '.' name {
             temp := &GetItemExpr{Key:$2}
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2.GetEnd()
             temp.Err=&SyntaxErr{Errtype:LackObject}
             temp.Err.Scope=$1.Scope
             temp.Err.insertInto(lualex)
@@ -927,13 +927,13 @@ var:
         } |
         prefixexp '[' expr ']' {
             temp := &GetItemExpr{Table:$1, Key:$3}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $4.End
             $$ = temp
         } | 
         prefixexp '[' ']' {
             temp := &GetItemExpr{Table:$1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $3.End
             temp.Err=&SyntaxErr{Errtype:LackIndex}
             temp.Err.Scope=$2.Scope
@@ -942,16 +942,16 @@ var:
         } |
         prefixexp '[' expr {
             temp := &GetItemExpr{Table:$1, Key:$3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             temp.Err=&SyntaxErr{Errtype:LackRightSquareBrackets}
-            temp.Err.Scope=$3.scope()
+            temp.Err.Scope=$3.GetScope()
             temp.Err.insertInto(lualex)
             $$ = temp
         } |
         prefixexp '[' {
             temp := &GetItemExpr{Table:$1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackIndex}
             temp.Err.Scope=$2.Scope
@@ -962,13 +962,13 @@ var:
             name := &StringExpr{Value: $3.Str}
             name.Scope=$3.Scope
             temp := &GetItemExpr{Table:$1, Key:name}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $3.End
             $$ = temp
         } |
         prefixexp '.' {
             temp := &GetItemExpr{Table:$1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1062,13 +1062,13 @@ expr:
         } |
         expr '+' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr '+' {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1077,14 +1077,14 @@ expr:
         } |
         expr '-' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             
             $$ = temp
         } |
         expr '-' {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1093,13 +1093,13 @@ expr:
         } |
         expr '*' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr '*' {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1108,13 +1108,13 @@ expr:
         } |
         expr '/' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr '/' {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1123,13 +1123,13 @@ expr:
         } |
         expr TWdiv expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr TWdiv {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1138,13 +1138,13 @@ expr:
         } |
         expr '^' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr '^' {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1153,13 +1153,13 @@ expr:
         } |
         expr '%' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr '%' {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1168,13 +1168,13 @@ expr:
         } |
         expr '&' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr '&' {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1183,13 +1183,13 @@ expr:
         } |
         expr '~' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr '~' {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1198,13 +1198,13 @@ expr:
         } |
         expr '|' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr '|' {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1213,13 +1213,13 @@ expr:
         } |
         expr TRmove expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr TRmove {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1228,13 +1228,13 @@ expr:
         } |
         expr TLmove expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr TLmove {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1243,13 +1243,13 @@ expr:
         } |
         expr TConn expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr TConn {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1258,13 +1258,13 @@ expr:
         } |
         expr '<' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr '<' {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1273,13 +1273,13 @@ expr:
         } |
         expr TLequal expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr TLequal {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1288,13 +1288,13 @@ expr:
         } |
         expr '>' expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr '>' {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1303,13 +1303,13 @@ expr:
         } |
         expr TBequal expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr TBequal {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1318,13 +1318,13 @@ expr:
         } |
         expr TEqual expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr TEqual {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1333,13 +1333,13 @@ expr:
         } |
         expr TNequal expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr TNequal {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1348,13 +1348,13 @@ expr:
         } |
         expr TAnd expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr TAnd {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1363,13 +1363,13 @@ expr:
         } |
         expr TOr expr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1, Right: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } |
         expr TOr {
             temp := &TwoOpExpr{Operator: $2.Str, Left: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackField}
             temp.Err.Scope=$2.Scope
@@ -1379,25 +1379,25 @@ expr:
         '-' expr %prec UNARY {
             temp := &OneOpExpr{Operator: $1.Str, Target: $2}
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2.GetEnd()
             $$ = temp
         } |
         TNot expr %prec UNARY {
             temp := &OneOpExpr{Operator: $1.Str, Target: $2}
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2.GetEnd()
             $$ = temp
         } |
         '#' expr %prec UNARY {
             temp := &OneOpExpr{Operator: $1.Str, Target: $2}
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2.GetEnd()
             $$ = temp
         } |
         '~' expr %prec UNARY {
             temp := &OneOpExpr{Operator: $1.Str, Target: $2}
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2.GetEnd()
             $$ = temp
         } |
         '(' expr ')' {
@@ -1407,7 +1407,7 @@ expr:
         '(' expr  {
             temp := $2
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2.GetEnd()
             temp.Err=&SyntaxErr{Errtype:"缺少右括号"}
             temp.Err.Scope=$1.Scope
         } |
@@ -1434,28 +1434,28 @@ prefixexp:
 functioncall:
         prefixexp args {
             temp := &FuncCall{Function: $1, Args: $2}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             if len($2)>0{
-                temp.End = $2[len($2)-1].end()
+                temp.End = $2[len($2)-1].GetEnd()
             }else{
-                temp.End = $1.end()
+                temp.End = $1.GetEnd()
             }
             $$ = temp
         } |
         prefixexp ':' name args {
             temp := &FuncCall{Function: $3, Receiver: $1, Args: $4}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             if len($4)>0{
-                temp.End = $4[len($4)-1].end()
+                temp.End = $4[len($4)-1].GetEnd()
             }else{
-                temp.End = $3.end()
+                temp.End = $3.GetEnd()
             }
             $$ = temp
         } | 
         prefixexp ':' name  {
             temp := &FuncCall{Function: $3, Receiver: $1,}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             temp.Err=&SyntaxErr{Errtype:LackfuncArgs}
             temp.Err.Scope=$2.Scope
             temp.Err.insertInto(lualex)
@@ -1463,7 +1463,7 @@ functioncall:
         } | 
         prefixexp ':'  {
             temp := &FuncCall{ Receiver: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackfuncName}
             temp.Err.Scope=$2.Scope
@@ -1525,7 +1525,7 @@ funcbody:
         //     temp := &FuncDefExpr{Param: $2, Block: $4}
         //     temp.Start=$1.Start
         //     if len($4)>0 {
-        //         temp.End = $4[len($4)-1].end()
+        //         temp.End = $4[len($4)-1].GetEnd()
         //     }else{
         //         temp.End = $3.End
         //     }
@@ -1536,7 +1536,7 @@ funcbody:
         // '(' parlist {
         //     temp := &FuncDefExpr{Param: $2}
         //     temp.Start=$1.Start
-        //     temp.End = $2.end()
+        //     temp.End = $2.GetEnd()
         //     temp.Err=&SyntaxErr{Errtype:"缺少右括号及函数体"}
         //     temp.Err.Scope=temp.Scope
         //     $$ = temp
@@ -1564,13 +1564,13 @@ parlist:
         } | 
         namelist {
             temp := &ParamExpr{Params: $1, IsAny: false}
-            temp.Scope =$1[len($1)-1].scope()
+            temp.Scope =$1[len($1)-1].GetScope()
             $$ = temp
         } | 
         namelist ',' TAny {
             temp := &ParamExpr{Params: $1, IsAny: true}
             if len($1)>0{
-                temp.Start=$1[len($1)-1].start()
+                temp.Start=$1[len($1)-1].GetStart()
             }else{
                 temp.Start=$2.Start
             }
@@ -1605,7 +1605,7 @@ tableconstructor:
             temp := &TableExpr{Fields: $2}
             temp.Start=$1.Start
               if len($2)>0{
-                temp.End = $2[len($2)-1].end()
+                temp.End = $2[len($2)-1].GetEnd()
             }else{
                 temp.End = $1.End
             }
@@ -1630,13 +1630,13 @@ fieldlist:
 field:
         name '=' expr {
             temp := &FieldExpr{Key: $1, Value: $3}
-            temp.Start=$1.start()
-            temp.End = $3.end()
+            temp.Start=$1.GetStart()
+            temp.End = $3.GetEnd()
             $$ = temp
         } | 
         name '=' {
             temp := &FieldExpr{Key: $1}
-            temp.Start=$1.start()
+            temp.Start=$1.GetStart()
             temp.End = $2.End
             temp.Err=&SyntaxErr{Errtype:LackRight}
             temp.Err.Scope=$2.Scope
@@ -1646,7 +1646,7 @@ field:
         '[' expr ']' '=' expr {
             temp := &FieldExpr{Key: $2, Value: $5}
             temp.Start=$1.Start
-            temp.End = $5.end()
+            temp.End = $5.GetEnd()
             $$ = temp
         } |
         '[' expr ']' '=' {
@@ -1688,7 +1688,7 @@ field:
         '[' expr {
             temp := &FieldExpr{Key: $2}
             temp.Start=$1.Start
-            temp.End = $2.end()
+            temp.End = $2.GetEnd()
 
             err:=&SyntaxErr{Errtype:LackRightSquareBrackets}
             err.Scope=$1.Scope
@@ -1698,7 +1698,7 @@ field:
         } |
         expr {
             temp := &FieldExpr{Value: $1}
-            temp.Scope =$1.scope()
+            temp.Scope =$1.GetScope()
             $$ = temp
         }
 

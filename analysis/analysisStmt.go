@@ -4,9 +4,10 @@ import "lualsp/syntax"
 
 func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 	var rightTypes [][]TypeInfo //第一维索引,第二维类型
+	//分析右边
 	for index, expr := range st.Right {
 		switch res := a.analysisExpr(expr).(type) {
-		case TypeInfo: //某个类型
+		case TypeInfo: //某个直接的类型
 			rightTypes = append(rightTypes, []TypeInfo{res})
 		case [][]TypeInfo: //某个类型
 			if index == len(st.Right)-1 { //如果多类型返回时最后一个则正常添加
@@ -34,42 +35,45 @@ func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 		}
 	}
 
-	for index, expr := range st.Left {
-		if index >= len(rightTypes) { //右边值不够了
-			//errrrrrrrrrrrrrr
-			break
-		}
-		switch res := expr.(type) {
-		//如果需要索引
-		case *syntax.GetItemExpr:
-			if syifs := a.analysisGetItemExpr(res); syifs != nil {
-				for _, syif := range syifs {
-					syif.CurType = append(syif.CurType, rightTypes[index]...)
+	if st.Err == nil || st.Err.Errtype != syntax.LackLeft {
+		for index, expr := range st.Left {
+			// if index >= len(rightTypes) { //右边值不够了
+			// 	//errrrrrrrrrrrrrr
+			// 	break
+			// }
+			switch res := expr.(type) {
+			//是名字
+			case *syntax.NameExpr:
+				name := a.analysisNameExpr(res)
+				if info := a.file.Symbolcur.FindSymbol(name.Name); info != nil {
+					info.CurType = append(info.CurType, rightTypes[index]...)
+					info.Definitions = append(info.Definitions, name)
+				} else {
+					name.Types = append(name.Types, rightTypes[index]...)
+					//添加到全局变量
+					pro := a.file.Project
+					syif := &SymbolInfo{
+						Definitions: []*Symbol{name},
+						References:  []*Symbol{name},
+					}
+					syif.CurType = append(syif.CurType, name.Types...)
+					pro.SymbolsMu.Lock()
+					pro.SymbolList.Symbols[name.Name] = syif
+					pro.SymbolsMu.Unlock()
 				}
-			} else {
-				//errrrrrrrrrrrrrrrrrrrrrrrrrrrrr
-			}
-		//是名字
-		case *syntax.NameExpr:
-			name := a.analysisNameExpr(res)
-			if info := a.file.Symbolcur.FindSymbol(name.Name); info != nil {
-				info.CurType = append(info.CurType, rightTypes[index]...)
-				info.Definitions = append(info.Definitions, name)
-			} else {
-				name.Types = append(name.Types, rightTypes[index]...)
-				//添加到全局变量
-				pro := a.file.Project
-				syif := &SymbolInfo{
-					Definitions: []*Symbol{name},
-					References:  []*Symbol{name},
+			//如果需要索引
+			case *syntax.GetItemExpr:
+				if syifs := a.analysisGetItemExpr(res); syifs != nil {
+					for _, syif := range syifs {
+						syif.CurType = append(syif.CurType, rightTypes[index]...)
+					}
+				} else {
+					//errrrrrrrrrrrrrrrrrrrrrrrrrrrrr
 				}
-				syif.CurType = append(syif.CurType, name.Types...)
-				pro.SymbolsMu.Lock()
-				pro.SymbolList.Symbols[name.Name] = syif
-				pro.SymbolsMu.Unlock()
+
+			default:
+				//errrrrrrrrrrrrrrrrrrrrrr
 			}
-		default:
-			//errrrrrrrrrrrrrrrrrrrrrr
 		}
 	}
 

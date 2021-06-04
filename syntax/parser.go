@@ -1069,9 +1069,9 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &AssignStmt{Left: luaDollar[1].exprs, Right: luaDollar[3].exprs}
-			temp.Start = luaDollar[1].exprs[0].start()
+			temp.Start = luaDollar[1].exprs[0].GetStart()
 			if len(luaDollar[3].exprs) > 0 {
-				temp.End = luaDollar[3].exprs[len(luaDollar[3].exprs)-1].end()
+				temp.End = luaDollar[3].exprs[len(luaDollar[3].exprs)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[2].token.End
 			}
@@ -1082,8 +1082,8 @@ luadefault:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			temp := &AssignStmt{Left: luaDollar[1].exprs, Right: nil}
-			temp.Start = luaDollar[1].exprs[0].start()
-			temp.End = luaDollar[1].exprs[0].end()
+			temp.Start = luaDollar[1].exprs[0].GetStart()
+			temp.End = luaDollar[1].exprs[0].GetEnd()
 			temp.Err = &SyntaxErr{Errtype: LackRight}
 			temp.Err.Scope = temp.Scope
 			temp.Err.insertInto(lualex)
@@ -1093,7 +1093,7 @@ luadefault:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &AssignStmt{Left: luaDollar[1].exprs, Right: nil}
-			temp.Start = luaDollar[1].exprs[0].start()
+			temp.Start = luaDollar[1].exprs[0].GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackRight}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -1106,7 +1106,7 @@ luadefault:
 			temp := &AssignStmt{Left: nil, Right: luaDollar[2].exprs}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[2].exprs) > 0 {
-				temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].end()
+				temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[1].token.End
 			}
@@ -1140,7 +1140,7 @@ luadefault:
 		{
 			temp := &GotoStmt{Name: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[2].expr.end()
+			temp.End = luaDollar[2].expr.GetEnd()
 			luaVAL.stmt = temp
 		}
 	case 17:
@@ -1167,7 +1167,7 @@ luadefault:
 			temp := &DoEndStmt{Block: luaDollar[2].stmts}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[2].stmts) > 0 {
-				temp.End = luaDollar[2].stmts[len(luaDollar[2].stmts)-1].end()
+				temp.End = luaDollar[2].stmts[len(luaDollar[2].stmts)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[1].token.End
 			}
@@ -1191,7 +1191,7 @@ luadefault:
 			temp := &WhileStmt{Condition: luaDollar[2].expr, Block: luaDollar[4].stmts}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[4].stmts) > 0 {
-				temp.End = luaDollar[4].stmts[len(luaDollar[4].stmts)-1].end()
+				temp.End = luaDollar[4].stmts[len(luaDollar[4].stmts)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[3].token.End
 			}
@@ -1218,7 +1218,7 @@ luadefault:
 		{
 			temp := &WhileStmt{Condition: luaDollar[2].expr, Block: nil}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[2].expr.end()
+			temp.End = luaDollar[2].expr.GetEnd()
 			temp.Err = &SyntaxErr{Errtype: LackWhileBlock}
 			temp.Err.Scope = luaDollar[1].token.Scope
 			temp.Err.insertInto(lualex)
@@ -1239,7 +1239,7 @@ luadefault:
 		{
 			temp := &RepeatStmt{Condition: luaDollar[4].expr, Block: luaDollar[2].stmts}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[4].expr.end()
+			temp.End = luaDollar[4].expr.GetEnd()
 			luaVAL.stmt = temp
 		}
 	case 26:
@@ -1259,7 +1259,7 @@ luadefault:
 			temp := &RepeatStmt{Condition: nil, Block: luaDollar[2].stmts}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[2].stmts) > 0 {
-				temp.End = luaDollar[2].stmts[len(luaDollar[2].stmts)-1].end()
+				temp.End = luaDollar[2].stmts[len(luaDollar[2].stmts)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[1].token.End
 			}
@@ -1293,9 +1293,9 @@ luadefault:
 			temp := luaVAL.stmt.(*IfStmt)
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[5].stmts) > 0 {
-				temp.End = luaDollar[5].stmts[len(luaDollar[5].stmts)-1].end()
+				temp.End = luaDollar[5].stmts[len(luaDollar[5].stmts)-1].GetEnd()
 			} else if len(luaDollar[4].stmts) > 0 {
-				temp.End = luaDollar[4].stmts[len(luaDollar[4].stmts)-1].end()
+				temp.End = luaDollar[4].stmts[len(luaDollar[4].stmts)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[3].token.End
 			}
@@ -1352,9 +1352,9 @@ luadefault:
 			temp := luaVAL.stmt.(*IfStmt)
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[3].stmts) > 0 {
-				temp.End = luaDollar[3].stmts[len(luaDollar[3].stmts)-1].end()
+				temp.End = luaDollar[3].stmts[len(luaDollar[3].stmts)-1].GetEnd()
 			} else if len(luaDollar[2].stmts) > 0 {
-				temp.End = luaDollar[2].stmts[len(luaDollar[2].stmts)-1].end()
+				temp.End = luaDollar[2].stmts[len(luaDollar[2].stmts)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[1].token.End
 			}
@@ -1409,7 +1409,7 @@ luadefault:
 			temp := luaVAL.stmt.(*IfStmt)
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[7].stmts) > 0 {
-				temp.End = luaDollar[7].stmts[len(luaDollar[7].stmts)-1].end()
+				temp.End = luaDollar[7].stmts[len(luaDollar[7].stmts)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[6].token.End
 			}
@@ -1450,7 +1450,7 @@ luadefault:
 			temp := &ForLoopNumStmt{Name: luaDollar[2].expr, Init: luaDollar[4].expr, Limit: luaDollar[6].expr, Block: luaDollar[8].stmts}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[8].stmts) > 0 {
-				temp.End = luaDollar[8].stmts[len(luaDollar[8].stmts)-1].end()
+				temp.End = luaDollar[8].stmts[len(luaDollar[8].stmts)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[7].token.End
 			}
@@ -1493,7 +1493,7 @@ luadefault:
 			temp := &ForLoopNumStmt{Name: nil, Init: nil, Limit: nil, Block: luaDollar[3].stmts}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[3].stmts) > 0 {
-				temp.End = luaDollar[3].stmts[len(luaDollar[3].stmts)-1].end()
+				temp.End = luaDollar[3].stmts[len(luaDollar[3].stmts)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[2].token.End
 			}
@@ -1512,7 +1512,7 @@ luadefault:
 			temp.End = luaDollar[5].token.End
 
 			temp.Err = &SyntaxErr{Errtype: LackForScope}
-			temp.Err.Scope = luaDollar[2].expr.scope()
+			temp.Err.Scope = luaDollar[2].expr.GetScope()
 			temp.Err.insertInto(lualex)
 
 			luaVAL.stmt = temp
@@ -1525,7 +1525,7 @@ luadefault:
 			temp.End = luaDollar[6].token.End
 
 			temp.Err = &SyntaxErr{Errtype: LackForScope}
-			temp.Err.Scope = luaDollar[2].expr.scope()
+			temp.Err.Scope = luaDollar[2].expr.GetScope()
 			temp.Err.insertInto(lualex)
 
 			luaVAL.stmt = temp
@@ -1538,7 +1538,7 @@ luadefault:
 			temp.End = luaDollar[7].token.End
 
 			temp.Err = &SyntaxErr{Errtype: LackForScope}
-			temp.Err.Scope = luaDollar[4].expr.scope()
+			temp.Err.Scope = luaDollar[4].expr.GetScope()
 			temp.Err.insertInto(lualex)
 
 			luaVAL.stmt = temp
@@ -1582,7 +1582,7 @@ luadefault:
 			temp := &ForLoopNumStmt{Name: luaDollar[2].expr, Init: luaDollar[4].expr, Limit: luaDollar[6].expr, Step: luaDollar[8].expr, Block: luaDollar[10].stmts}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[10].stmts) > 0 {
-				temp.End = luaDollar[10].stmts[len(luaDollar[10].stmts)-1].end()
+				temp.End = luaDollar[10].stmts[len(luaDollar[10].stmts)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[9].token.End
 			}
@@ -1621,7 +1621,7 @@ luadefault:
 			temp.End = luaDollar[6].token.End
 			temp.Err = &SyntaxErr{Errtype: LackExpr}
 			if len(luaDollar[2].exprs) > 0 {
-				temp.Err.Scope = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].scope()
+				temp.Err.Scope = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].GetScope()
 			}
 			temp.Err.Scope = luaDollar[1].token.Scope
 			temp.Err.insertInto(lualex)
@@ -1634,7 +1634,7 @@ luadefault:
 			temp := &ForLoopListStmt{Names: luaDollar[2].exprs, Exprs: luaDollar[4].exprs, Block: luaDollar[6].stmts}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[6].stmts) > 0 {
-				temp.End = luaDollar[6].stmts[len(luaDollar[6].stmts)-1].end()
+				temp.End = luaDollar[6].stmts[len(luaDollar[6].stmts)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[5].token.End
 			}
@@ -1652,7 +1652,7 @@ luadefault:
 			temp := &ForLoopListStmt{Names: luaDollar[2].exprs, Exprs: luaDollar[4].exprs}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[4].exprs) > 0 {
-				temp.End = luaDollar[4].exprs[len(luaDollar[4].exprs)-1].end()
+				temp.End = luaDollar[4].exprs[len(luaDollar[4].exprs)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[3].token.End
 			}
@@ -1672,7 +1672,7 @@ luadefault:
 			temp := luaDollar[2].stmt.(*FuncDefStmt)
 			temp.Function = luaDollar[3].expr
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[3].expr.end()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.stmt = temp
 		}
 	case 55:
@@ -1690,7 +1690,7 @@ luadefault:
 		{
 			temp := &LocalFuncDefStmt{Name: luaDollar[3].expr, Function: luaDollar[4].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[4].expr.end()
+			temp.End = luaDollar[4].expr.GetEnd()
 			luaVAL.stmt = temp
 		}
 	case 57:
@@ -1698,7 +1698,7 @@ luadefault:
 		{
 			temp := &LocalFuncDefStmt{Function: luaDollar[3].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[3].expr.end()
+			temp.End = luaDollar[3].expr.GetEnd()
 
 			temp.Err = &SyntaxErr{Errtype: LackFunctionName}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -1711,9 +1711,9 @@ luadefault:
 		{
 			temp := &LocalFuncDefStmt{Name: luaDollar[3].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[3].expr.end()
+			temp.End = luaDollar[3].expr.GetEnd()
 			temp.Err = &SyntaxErr{Errtype: LackFunctionContent}
-			temp.Err.Scope = luaDollar[3].expr.scope()
+			temp.Err.Scope = luaDollar[3].expr.GetScope()
 			temp.Err.insertInto(lualex)
 			luaVAL.stmt = temp
 		}
@@ -1734,7 +1734,7 @@ luadefault:
 			temp := &LocalVarDef{Names: luaDollar[2].exprs, Inits: luaDollar[4].exprs}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[4].exprs) > 0 {
-				temp.End = luaDollar[4].exprs[len(luaDollar[4].exprs)-1].end()
+				temp.End = luaDollar[4].exprs[len(luaDollar[4].exprs)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[3].token.End
 			}
@@ -1758,7 +1758,7 @@ luadefault:
 			temp := &LocalVarDef{Inits: luaDollar[3].exprs}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[3].exprs) > 0 {
-				temp.End = luaDollar[3].exprs[len(luaDollar[3].exprs)-1].end()
+				temp.End = luaDollar[3].exprs[len(luaDollar[3].exprs)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[2].token.End
 			}
@@ -1773,7 +1773,7 @@ luadefault:
 			temp := &LocalVarDef{Names: luaDollar[2].exprs}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[2].exprs) > 0 {
-				temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].end()
+				temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[1].token.End
 			}
@@ -1809,7 +1809,7 @@ luadefault:
 			ifstmt := &IfStmt{Condition: luaDollar[3].expr, Then: luaDollar[5].stmts}
 			ifstmt.Start = luaDollar[2].token.Start
 			if len(luaDollar[5].stmts) > 0 {
-				ifstmt.End = luaDollar[5].stmts[len(luaDollar[5].stmts)-1].end()
+				ifstmt.End = luaDollar[5].stmts[len(luaDollar[5].stmts)-1].GetEnd()
 			} else {
 				ifstmt.End = luaDollar[4].token.End
 			}
@@ -1828,7 +1828,7 @@ luadefault:
 			luaVAL.stmt = &ReturnStmt{Exprs: luaDollar[2].exprs}
 			luaVAL.stmt.(*ReturnStmt).Start = luaDollar[1].token.Start
 			if len(luaDollar[2].exprs) > 0 {
-				luaVAL.stmt.(*ReturnStmt).End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].end()
+				luaVAL.stmt.(*ReturnStmt).End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].GetEnd()
 			} else {
 				luaVAL.stmt.(*ReturnStmt).End = luaDollar[1].token.End
 			}
@@ -1852,11 +1852,11 @@ luadefault:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &LabelStmt{Name: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 
 			err := &SyntaxErr{Errtype: LabelIncomplete}
-			err.Scope = luaDollar[1].expr.scope()
+			err.Scope = luaDollar[1].expr.GetScope()
 			err.insertInto(lualex)
 
 			luaVAL.stmt = temp
@@ -1866,10 +1866,10 @@ luadefault:
 		{
 			temp := &LabelStmt{Name: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[2].expr.end()
+			temp.End = luaDollar[2].expr.GetEnd()
 
 			err := &SyntaxErr{Errtype: LabelIncomplete}
-			err.Scope = luaDollar[2].expr.scope()
+			err.Scope = luaDollar[2].expr.GetScope()
 			err.insertInto(lualex)
 
 			luaVAL.stmt = temp
@@ -1903,22 +1903,22 @@ luadefault:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			temp := &FuncDefStmt{Name: luaDollar[1].expr, Receiver: nil}
-			temp.Scope = luaDollar[1].expr.scope()
+			temp.Scope = luaDollar[1].expr.GetScope()
 			luaVAL.stmt = temp
 		}
 	case 77:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &FuncDefStmt{Name: luaDollar[3].expr, Receiver: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.stmt = temp
 		}
 	case 78:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &FuncDefStmt{Receiver: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackfuncName}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -1930,7 +1930,7 @@ luadefault:
 		{
 			temp := &FuncDefStmt{Name: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[2].expr.end()
+			temp.End = luaDollar[2].expr.GetEnd()
 			luaVAL.stmt = temp
 
 		}
@@ -1943,15 +1943,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &GetItemExpr{Table: luaDollar[1].expr, Key: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 82:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &GetItemExpr{Table: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -1963,7 +1963,7 @@ luadefault:
 		{
 			temp := &GetItemExpr{Key: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[2].expr.end()
+			temp.End = luaDollar[2].expr.GetEnd()
 			temp.Err = &SyntaxErr{Errtype: LackObject}
 			temp.Err.Scope = luaDollar[1].token.Scope
 			temp.Err.insertInto(lualex)
@@ -1993,7 +1993,7 @@ luadefault:
 		luaDollar = luaS[luapt-4 : luapt+1]
 		{
 			temp := &GetItemExpr{Table: luaDollar[1].expr, Key: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[4].token.End
 			luaVAL.expr = temp
 		}
@@ -2001,7 +2001,7 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &GetItemExpr{Table: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[3].token.End
 			temp.Err = &SyntaxErr{Errtype: LackIndex}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2012,10 +2012,10 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &GetItemExpr{Table: luaDollar[1].expr, Key: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			temp.Err = &SyntaxErr{Errtype: LackRightSquareBrackets}
-			temp.Err.Scope = luaDollar[3].expr.scope()
+			temp.Err.Scope = luaDollar[3].expr.GetScope()
 			temp.Err.insertInto(lualex)
 			luaVAL.expr = temp
 		}
@@ -2023,7 +2023,7 @@ luadefault:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &GetItemExpr{Table: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackIndex}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2036,7 +2036,7 @@ luadefault:
 			name := &StringExpr{Value: luaDollar[3].token.Str}
 			name.Scope = luaDollar[3].token.Scope
 			temp := &GetItemExpr{Table: luaDollar[1].expr, Key: name}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[3].token.End
 			luaVAL.expr = temp
 		}
@@ -2044,7 +2044,7 @@ luadefault:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &GetItemExpr{Table: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2168,15 +2168,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 113:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2187,8 +2187,8 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 
 			luaVAL.expr = temp
 		}
@@ -2196,7 +2196,7 @@ luadefault:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2207,15 +2207,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 117:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2226,15 +2226,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 119:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2245,15 +2245,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 121:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2264,15 +2264,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 123:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2283,15 +2283,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 125:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2302,15 +2302,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 127:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2321,15 +2321,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 129:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2340,15 +2340,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 131:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2359,15 +2359,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 133:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2378,15 +2378,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 135:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2397,15 +2397,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 137:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2416,15 +2416,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 139:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2435,15 +2435,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 141:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2454,15 +2454,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 143:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2473,15 +2473,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 145:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2492,15 +2492,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 147:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2511,15 +2511,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 149:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2530,15 +2530,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 151:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2549,15 +2549,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr, Right: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 153:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &TwoOpExpr{Operator: luaDollar[2].token.Str, Left: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackField}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2569,7 +2569,7 @@ luadefault:
 		{
 			temp := &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[2].expr.end()
+			temp.End = luaDollar[2].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 155:
@@ -2577,7 +2577,7 @@ luadefault:
 		{
 			temp := &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[2].expr.end()
+			temp.End = luaDollar[2].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 156:
@@ -2585,7 +2585,7 @@ luadefault:
 		{
 			temp := &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[2].expr.end()
+			temp.End = luaDollar[2].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 157:
@@ -2593,7 +2593,7 @@ luadefault:
 		{
 			temp := &OneOpExpr{Operator: luaDollar[1].token.Str, Target: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[2].expr.end()
+			temp.End = luaDollar[2].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 158:
@@ -2620,11 +2620,11 @@ luadefault:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &FuncCall{Function: luaDollar[1].expr, Args: luaDollar[2].exprs}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			if len(luaDollar[2].exprs) > 0 {
-				temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].end()
+				temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].GetEnd()
 			} else {
-				temp.End = luaDollar[1].expr.end()
+				temp.End = luaDollar[1].expr.GetEnd()
 			}
 			luaVAL.node = temp
 		}
@@ -2632,11 +2632,11 @@ luadefault:
 		luaDollar = luaS[luapt-4 : luapt+1]
 		{
 			temp := &FuncCall{Function: luaDollar[3].expr, Receiver: luaDollar[1].expr, Args: luaDollar[4].exprs}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			if len(luaDollar[4].exprs) > 0 {
-				temp.End = luaDollar[4].exprs[len(luaDollar[4].exprs)-1].end()
+				temp.End = luaDollar[4].exprs[len(luaDollar[4].exprs)-1].GetEnd()
 			} else {
-				temp.End = luaDollar[3].expr.end()
+				temp.End = luaDollar[3].expr.GetEnd()
 			}
 			luaVAL.node = temp
 		}
@@ -2644,8 +2644,8 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &FuncCall{Function: luaDollar[3].expr, Receiver: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			temp.Err = &SyntaxErr{Errtype: LackfuncArgs}
 			temp.Err.Scope = luaDollar[2].token.Scope
 			temp.Err.insertInto(lualex)
@@ -2655,7 +2655,7 @@ luadefault:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &FuncCall{Receiver: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackfuncName}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2746,7 +2746,7 @@ luadefault:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			temp := &ParamExpr{Params: luaDollar[1].exprs, IsAny: false}
-			temp.Scope = luaDollar[1].exprs[len(luaDollar[1].exprs)-1].scope()
+			temp.Scope = luaDollar[1].exprs[len(luaDollar[1].exprs)-1].GetScope()
 			luaVAL.expr = temp
 		}
 	case 177:
@@ -2754,7 +2754,7 @@ luadefault:
 		{
 			temp := &ParamExpr{Params: luaDollar[1].exprs, IsAny: true}
 			if len(luaDollar[1].exprs) > 0 {
-				temp.Start = luaDollar[1].exprs[len(luaDollar[1].exprs)-1].start()
+				temp.Start = luaDollar[1].exprs[len(luaDollar[1].exprs)-1].GetStart()
 			} else {
 				temp.Start = luaDollar[2].token.Start
 			}
@@ -2794,7 +2794,7 @@ luadefault:
 			temp := &TableExpr{Fields: luaDollar[2].exprs}
 			temp.Start = luaDollar[1].token.Start
 			if len(luaDollar[2].exprs) > 0 {
-				temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].end()
+				temp.End = luaDollar[2].exprs[len(luaDollar[2].exprs)-1].GetEnd()
 			} else {
 				temp.End = luaDollar[1].token.End
 			}
@@ -2822,15 +2822,15 @@ luadefault:
 		luaDollar = luaS[luapt-3 : luapt+1]
 		{
 			temp := &FieldExpr{Key: luaDollar[1].expr, Value: luaDollar[3].expr}
-			temp.Start = luaDollar[1].expr.start()
-			temp.End = luaDollar[3].expr.end()
+			temp.Start = luaDollar[1].expr.GetStart()
+			temp.End = luaDollar[3].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 186:
 		luaDollar = luaS[luapt-2 : luapt+1]
 		{
 			temp := &FieldExpr{Key: luaDollar[1].expr}
-			temp.Start = luaDollar[1].expr.start()
+			temp.Start = luaDollar[1].expr.GetStart()
 			temp.End = luaDollar[2].token.End
 			temp.Err = &SyntaxErr{Errtype: LackRight}
 			temp.Err.Scope = luaDollar[2].token.Scope
@@ -2842,7 +2842,7 @@ luadefault:
 		{
 			temp := &FieldExpr{Key: luaDollar[2].expr, Value: luaDollar[5].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[5].expr.end()
+			temp.End = luaDollar[5].expr.GetEnd()
 			luaVAL.expr = temp
 		}
 	case 188:
@@ -2894,7 +2894,7 @@ luadefault:
 		{
 			temp := &FieldExpr{Key: luaDollar[2].expr}
 			temp.Start = luaDollar[1].token.Start
-			temp.End = luaDollar[2].expr.end()
+			temp.End = luaDollar[2].expr.GetEnd()
 
 			err := &SyntaxErr{Errtype: LackRightSquareBrackets}
 			err.Scope = luaDollar[1].token.Scope
@@ -2906,7 +2906,7 @@ luadefault:
 		luaDollar = luaS[luapt-1 : luapt+1]
 		{
 			temp := &FieldExpr{Value: luaDollar[1].expr}
-			temp.Scope = luaDollar[1].expr.scope()
+			temp.Scope = luaDollar[1].expr.GetScope()
 			luaVAL.expr = temp
 		}
 	case 194:

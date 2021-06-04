@@ -1,5 +1,10 @@
 package syntax
 
+import (
+	"lualsp/logger"
+	"lualsp/protocol"
+)
+
 type SyntaxErrBase string
 
 const (
@@ -34,3 +39,27 @@ const (
 	LackWhileBlock          SyntaxErrBase = "缺少while语句"    //WhileStmt
 	LackGotoName            SyntaxErrBase = "缺少goto名称"     //GotoStmt
 )
+
+type SyntaxErr struct {
+	Scope
+	Errtype SyntaxErrBase
+}
+
+//将此错误插入到lex中
+func (s *SyntaxErr) insertInto(llex luaLexer) {
+	if lex, ok := llex.(*Lexer); ok {
+		diag := protocol.Diagnostic{
+			Range:    s.Convert2Range(),
+			Severity: protocol.SeverityError,
+			Source:   "syntax",
+			Message:  string(s.Errtype),
+		}
+		lex.Diagnostics = append(lex.Diagnostics, diag)
+	} else {
+		logger.Errorln("lex对象错误")
+	}
+}
+
+func (s *SyntaxErr) Error() string {
+	return string(s.Errtype)
+}

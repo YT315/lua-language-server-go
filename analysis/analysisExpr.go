@@ -33,7 +33,9 @@ func (a *Analysis) analysisNameExpr(ep *syntax.NameExpr) (result *Symbol) {
 		}
 	case nil:
 	default:
-		//errrrrrrrrrrrrrrrr
+		err := &AnalysisErr{Errtype: TypeErr}
+		err.Scope = ep.Type.GetScope()
+		err.insertInto(a)
 	}
 	return result
 }
