@@ -8,7 +8,9 @@ import (
 type AnalysisErrBase string
 
 const (
-	TypeErr AnalysisErrBase = "类型错误" //ErrorStmt
+	TypeErr       AnalysisErrBase = "类型错误"
+	NotRightValue AnalysisErrBase = "不能作为右值"
+	NoDefine      AnalysisErrBase = "未定义"
 )
 
 type AnalysisErr struct {
@@ -21,7 +23,7 @@ func (s *AnalysisErr) insertInto(als *Analysis) {
 	diag := protocol.Diagnostic{
 		Range:    s.Convert2Range(),
 		Severity: protocol.SeverityError,
-		Source:   "syntax",
+		Source:   "analysis",
 		Message:  string(s.Errtype),
 	}
 	als.file.Diagnostics = append(als.file.Diagnostics, diag)

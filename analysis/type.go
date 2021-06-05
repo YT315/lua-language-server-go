@@ -1,5 +1,11 @@
 package analysis
 
+//唯一类型
+var typeNil = &TypeNil{}
+var typeTrue = &TypeBool{Value: true}
+var typeFalse = &TypeBool{Value: false}
+var typeAny = &TypeAny{}
+
 //TypeInfo 类型接口
 type TypeInfo interface {
 	TypeName() string //类型名称

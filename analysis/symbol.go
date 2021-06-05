@@ -61,13 +61,13 @@ type Symbol struct {
 	Name       string
 	Node       syntax.Node //此符号对应的语法树节点
 	File       *File       //此符号所在文件
-	Types      []TypeInfo  //符号的类型在未知判断的情况下可能有多个
+	Types      *TypeSet    //符号的类型在未知判断的情况下可能有多个
 	SymbolInfo *SymbolInfo //符号的符号信息,引用以及定义
 }
 
 //SymbolInfo 符号信息
 type SymbolInfo struct {
-	CurType     []TypeInfo //符号当前的类型
-	Definitions []*Symbol  //符号定义处
-	References  []*Symbol  //符号所有引用处
+	CurType     *TypeSet  //符号当前的类型
+	Definitions []*Symbol //符号定义处
+	References  []*Symbol //符号所有引用处
 }

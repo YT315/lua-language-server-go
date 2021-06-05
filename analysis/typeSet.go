@@ -26,6 +26,17 @@ func NewTypeSetWithCap(cap int) *TypeSet {
 	return res
 }
 
+func NewTypeSetWithSlice(tp ...TypeInfo) *TypeSet {
+	cap := cap(tp)
+	res := &TypeSet{
+		Count:  0,
+		Types:  make([]TypeInfo, cap),
+		posMap: make(map[TypeInfo]int, cap),
+	}
+	res.AddRange(tp...)
+	return res
+}
+
 //添加内容
 func (ts *TypeSet) Add(tp TypeInfo) (res bool) {
 	ts.mu.Lock()

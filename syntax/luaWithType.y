@@ -944,9 +944,9 @@ var:
             temp := &GetItemExpr{Table:$1, Key:$3}
             temp.Start=$1.GetStart()
             temp.End = $3.GetEnd()
-            temp.Err=&SyntaxErr{Errtype:LackRightSquareBrackets}
-            temp.Err.Scope=$3.GetScope()
-            temp.Err.insertInto(lualex)
+            err:=&SyntaxErr{Errtype:LackRightSquareBrackets}
+            err.Scope=$3.GetScope()
+            err.insertInto(lualex)
             $$ = temp
         } |
         prefixexp '[' {

@@ -18,45 +18,58 @@ func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 		case []*SymbolInfo: //某些对象,getitem返回值
 			var types []TypeInfo
 			for _, sybif := range res {
-				types = append(types, sybif.CurType...)
+				types = append(types, sybif.CurType.Types...)
 			}
 			rightTypes = append(rightTypes, types)
 		case *Symbol: //名字
 			if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
-				rightTypes = append(rightTypes, sybif.CurType)
+				rightTypes = append(rightTypes, sybif.CurType.Types)
 			} else {
-				rightTypes = append(rightTypes, []TypeInfo{&TypeAny{}})
-				//errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+				rightTypes = append(rightTypes, []TypeInfo{typeAny})
+				//未找到定义处,先放入全局变量中最后在遍历全局变量,确定未定义的变量
+				pro := a.file.Project
+				syif := &SymbolInfo{
+					References: []*Symbol{res},
+					CurType:    NewTypeSet(),
+				}
+				syif.CurType.Add(typeAny)
+				pro.SymbolsMu.Lock()
+				pro.SymbolList.Symbols[res.Name] = syif
+				pro.SymbolsMu.Unlock()
 			}
 		case nil:
-			rightTypes = append(rightTypes, []TypeInfo{&TypeNil{}})
+			rightTypes = append(rightTypes, []TypeInfo{typeNil})
 		default:
-			//errrrrrrrrrrrrrrrrrrrrrr
+			//类型错误,不能作为右值
+			rightTypes = append(rightTypes, []TypeInfo{typeAny})
+			err := &AnalysisErr{Errtype: NotRightValue}
+			err.Scope = expr.GetScope()
+			err.insertInto(a)
 		}
 	}
-
+	//不存在无右值错误时
 	if st.Err == nil || st.Err.Errtype != syntax.LackLeft {
 		for index, expr := range st.Left {
-			// if index >= len(rightTypes) { //右边值不够了
-			// 	//errrrrrrrrrrrrrr
-			// 	break
-			// }
+			types := []TypeInfo{typeAny}
+			if index < len(rightTypes) {
+				types = rightTypes[index]
+			}
 			switch res := expr.(type) {
 			//是名字
 			case *syntax.NameExpr:
 				name := a.analysisNameExpr(res)
 				if info := a.file.Symbolcur.FindSymbol(name.Name); info != nil {
-					info.CurType = append(info.CurType, rightTypes[index]...)
+					info.CurType.AddRange(types...)
 					info.Definitions = append(info.Definitions, name)
 				} else {
-					name.Types = append(name.Types, rightTypes[index]...)
+					name.Types.AddRange(types...)
 					//添加到全局变量
 					pro := a.file.Project
 					syif := &SymbolInfo{
 						Definitions: []*Symbol{name},
 						References:  []*Symbol{name},
+						CurType:     NewTypeSetWithSlice(name.Types.Types...),
 					}
-					syif.CurType = append(syif.CurType, name.Types...)
 					pro.SymbolsMu.Lock()
 					pro.SymbolList.Symbols[name.Name] = syif
 					pro.SymbolsMu.Unlock()
@@ -65,9 +78,10 @@ func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 			case *syntax.GetItemExpr:
 				if syifs := a.analysisGetItemExpr(res); syifs != nil {
 					for _, syif := range syifs {
-						syif.CurType = append(syif.CurType, rightTypes[index]...)
+						syif.CurType.AddRange(types...)
 					}
 				} else {
+
 					//errrrrrrrrrrrrrrrrrrrrrrrrrrrrr
 				}
 

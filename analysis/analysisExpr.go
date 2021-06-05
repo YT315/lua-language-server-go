@@ -18,9 +18,10 @@ var (
 
 func (a *Analysis) analysisNameExpr(ep *syntax.NameExpr) (result *Symbol) {
 	result = &Symbol{
-		Name: ep.Value,
-		Node: ep,
-		File: a.file,
+		Name:  ep.Value,
+		Node:  ep,
+		File:  a.file,
+		Types: NewTypeSet(),
 	}
 	switch data := ep.Type.(type) {
 	case *syntax.ATypeExpr:
@@ -29,7 +30,7 @@ func (a *Analysis) analysisNameExpr(ep *syntax.NameExpr) (result *Symbol) {
 		}
 	case *syntax.STypeExpr:
 		if res := a.analysisSTypeExpr(data); res != nil {
-			result.Types = append(result.Types, res...)
+			result.Types.AddRange(res...)
 		}
 	case nil:
 	default:
