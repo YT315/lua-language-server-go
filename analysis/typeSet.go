@@ -26,7 +26,7 @@ func NewTypeSetWithCap(cap int) *TypeSet {
 	return res
 }
 
-func NewTypeSetWithSlice(tp ...TypeInfo) *TypeSet {
+func NewTypeSetWithContent(tp ...TypeInfo) *TypeSet {
 	cap := cap(tp)
 	res := &TypeSet{
 		Count:  0,

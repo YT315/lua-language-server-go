@@ -11,6 +11,9 @@ const (
 	TypeErr       AnalysisErrBase = "类型错误"
 	NotRightValue AnalysisErrBase = "不能作为右值"
 	NoDefine      AnalysisErrBase = "未定义"
+	NotTable      AnalysisErrBase = "对象不是表类型"
+	IndexErr      AnalysisErrBase = "表索引错误"
+	LabelRedef    AnalysisErrBase = "标签重定义"
 )
 
 type AnalysisErr struct {

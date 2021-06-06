@@ -16,6 +16,8 @@ var (
 	addTypeIndex = addTypeReg.SubexpIndex("type")
 )
 
+//分析名字
+//返回一个符号对象,此对象仅仅代表此符号以及对应的位置,并未联系上下文
 func (a *Analysis) analysisNameExpr(ep *syntax.NameExpr) (result *Symbol) {
 	result = &Symbol{
 		Name:  ep.Value,
@@ -154,6 +156,7 @@ func (a *Analysis) analysisParamExpr(ep *syntax.ParamExpr) (result []*Symbol) {
 }
 
 //解析属性获取
+//根据不同情况,属性可能是多个
 func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*SymbolInfo) {
 	//------------获取tab表达式的类型
 	var types []*TypeTable
@@ -162,14 +165,17 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 	case *syntax.GetItemExpr:
 		if syifs := a.analysisGetItemExpr(data); syifs != nil {
 			for _, syif := range syifs {
-				for _, tp := range syif.CurType {
+				for _, tp := range syif.CurType.Types {
 					if tb, ok := tp.(*TypeTable); ok {
 						types = append(types, tb) //将table类型添加
 					}
 				}
 			}
 		} else {
-			//errrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+			//对象不是表类型
+			err := &AnalysisErr{Errtype: NotTable}
+			err.Scope = data.GetScope()
+			err.insertInto(a)
 			return nil
 		}
 	//是名字
@@ -177,23 +183,37 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 		//寻找此符号,查看符号类型,如果不是table,//报警并添加table类型,是table则ok
 		name := a.analysisNameExpr(data)
 		if info := a.file.Symbolcur.FindSymbol(name.Name); info != nil {
-			info.CurType = append(info.CurType, name.Types...)
+			info.CurType.AddRange(name.Types.Types...)      //添加类型
+			info.References = append(info.References, name) //添加引用
+			name.SymbolInfo = info
 			//判断是否有表类型
-			for _, tp := range info.CurType {
+			for _, tp := range info.CurType.Types {
 				if tb, ok := tp.(*TypeTable); ok {
 					types = append(types, tb) //将table类型添加
 				}
 			}
 			//未找到表类型,则给name添加表类型,并报错误
 			if len(types) == 0 {
-				//errrrrrrrrrrrrrrrrrrr
+				//原始类型不是表格
+				err := &AnalysisErr{Errtype: NotTable}
+				err.Scope = name.Node.GetScope()
+				err.insertInto(a)
 				//创建一个表类型
 				newtab := &TypeTable{}
-				name.SymbolInfo.CurType = append(name.SymbolInfo.CurType, newtab)
+				name.SymbolInfo.CurType.Add(newtab)
 				types = append(types, newtab) //添加到返回值
 			}
 		} else {
-			//errrrrrrrrrrrrrrrrrrr
+			//未找到定义处
+			pro := a.file.Project
+			newtab := &TypeTable{}
+			syif := &SymbolInfo{
+				References: []*Symbol{name},
+				CurType:    NewTypeSetWithContent(newtab),
+			}
+			pro.SymbolsMu.Lock()
+			pro.SymbolList.Symbols[name.Name] = syif
+			pro.SymbolsMu.Unlock()
 		}
 	case *syntax.FuncCall:
 		funres := a.analysisFuncCall(data)
@@ -204,11 +224,19 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 				}
 			}
 		} else {
-			//errrrrrrrrrrrrrrrrrrrrrr
+			//对象不是表类型
+			err := &AnalysisErr{Errtype: NotTable}
+			err.Scope = data.GetScope()
+			err.insertInto(a)
 			return nil
 		}
+		//为空
+	case nil:
+		return nil
 	default:
-		//errrrrrrrrrrrrrrrr
+		err := &AnalysisErr{Errtype: NotTable}
+		err.Scope = data.GetScope()
+		err.insertInto(a)
 		return nil
 	}
 	if len(types) == 0 {
@@ -221,6 +249,22 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 		for _, ty := range types {
 			if syif, ok := ty.Fields[data.Value]; ok {
 				result = append(result, syif)
+			} else {
+				//如果不存在,则添加一个nil类型的符号以及符号信息
+				syb := &Symbol{
+					Name:  data.Value,
+					Node:  ep.Key,
+					File:  a.file,
+					Types: NewTypeSetWithContent(typeNil),
+				}
+				sybif := &SymbolInfo{
+					CurType:     NewTypeSetWithContent(typeNil),
+					Definitions: []*Symbol{syb},
+					References:  []*Symbol{syb},
+				}
+				syb.SymbolInfo = sybif
+				result = append(result, sybif)
+				ty.Fields[data.Value] = sybif
 			}
 		}
 	//是数字
@@ -228,10 +272,25 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 		for _, ty := range types {
 			if syif, ok := ty.Items[data.Value]; ok {
 				result = append(result, syif)
+			} else {
+				//如果不存在,则添加一个nil类型的符号以及符号信息
+				syb := &Symbol{
+					Node:  ep.Key,
+					File:  a.file,
+					Types: NewTypeSetWithContent(typeNil),
+				}
+				sybif := &SymbolInfo{
+					CurType:     NewTypeSetWithContent(typeNil),
+					Definitions: []*Symbol{syb},
+					References:  []*Symbol{syb},
+				}
+				syb.SymbolInfo = sybif
+				result = append(result, sybif)
+				ty.Items[data.Value] = sybif
 			}
 		}
 	default:
-		//?????????//errrrrrrrrrrrrrrrr
+		//errrrrrrrrrrrrrr,其他类型也可能是对的,所以这里不做校验,直接返回空
 		return nil
 	}
 	return

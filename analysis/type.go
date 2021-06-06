@@ -70,11 +70,9 @@ func (*TypeAny) TypeName() string {
 
 //TypeTable 表类型
 type TypeTable struct {
-	Name        string
-	IsAnonymous bool
-	Fields      map[string]*SymbolInfo  //hash
-	Items       map[float64]*SymbolInfo //array
-	Metatable   *TypeTable              //元表
+	Fields    map[string]*SymbolInfo  //hash
+	Items     map[float64]*SymbolInfo //array
+	Metatable *TypeTable              //元表
 }
 
 //TypeName 类型名称

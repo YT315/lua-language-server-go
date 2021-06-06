@@ -2,6 +2,7 @@ package analysis
 
 import "lualsp/syntax"
 
+//赋值
 func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 	var rightTypes [][]TypeInfo //第一维索引,第二维类型
 	//分析右边
@@ -30,9 +31,8 @@ func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 				pro := a.file.Project
 				syif := &SymbolInfo{
 					References: []*Symbol{res},
-					CurType:    NewTypeSet(),
+					CurType:    NewTypeSetWithContent(typeAny),
 				}
-				syif.CurType.Add(typeAny)
 				pro.SymbolsMu.Lock()
 				pro.SymbolList.Symbols[res.Name] = syif
 				pro.SymbolsMu.Unlock()
@@ -47,7 +47,7 @@ func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 			err.insertInto(a)
 		}
 	}
-	//不存在无右值错误时
+	//不存在无左值错误时
 	if st.Err == nil || st.Err.Errtype != syntax.LackLeft {
 		for index, expr := range st.Left {
 			types := []TypeInfo{typeAny}
@@ -68,7 +68,7 @@ func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 					syif := &SymbolInfo{
 						Definitions: []*Symbol{name},
 						References:  []*Symbol{name},
-						CurType:     NewTypeSetWithSlice(name.Types.Types...),
+						CurType:     NewTypeSetWithContent(name.Types.Types...),
 					}
 					pro.SymbolsMu.Lock()
 					pro.SymbolList.Symbols[name.Name] = syif
@@ -81,32 +81,41 @@ func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 						syif.CurType.AddRange(types...)
 					}
 				} else {
-
-					//errrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+					err := &AnalysisErr{Errtype: IndexErr}
+					err.Scope = expr.GetScope()
+					err.insertInto(a)
 				}
-
 			default:
-				//errrrrrrrrrrrrrrrrrrrrrr
+				err := &AnalysisErr{Errtype: TypeErr}
+				err.Scope = expr.GetScope()
+				err.insertInto(a)
 			}
 		}
 	}
 
 }
+
+//标签
 func (a *Analysis) analysisLabelStmt(st *syntax.LabelStmt) {
 	if nameExpr, ok := st.Name.(*syntax.NameExpr); ok {
 		name := a.analysisNameExpr(nameExpr)
+		labty := &Typelabel{Value: name.Name}
+		name.Types.Add(labty)
 		if syif := a.file.Symbolcur.FindLabel(name.Name); syif != nil {
 			if len(syif.Definitions) != 0 { //正常
-				//errrrrrrrrrrrrr重复定义
-				return
+				err := &AnalysisErr{Errtype: LabelRedef}
+				err.Scope = st.GetScope()
+				err.insertInto(a)
 			}
+			syif.Definitions = append(syif.Definitions, name)
+			name.SymbolInfo = syif
+			return
 		}
 
 		syif := &SymbolInfo{
-			CurType:     []TypeInfo{&Typelabel{Value: name.Name}},
+			CurType:     NewTypeSetWithContent(name.Types.Types...),
 			Definitions: []*Symbol{name},
 		}
-		a.file.Symbolcur.Labels[name.Name] = syif
 		lists := a.file.Symbolcur.FindlonelyLabel(name.Name) //查找内部label
 		for _, list := range lists {
 			info := list.Labels[name.Name]
