@@ -59,11 +59,11 @@ func (sl *SymbolList) FindlonelyLabel(name string) (list []*SymbolList) {
 //Symbol 符号对象
 //代表代码中某个位置的唯一一个符号,和源码中的文本一一对应
 type Symbol struct {
-	Name       string
-	Node       syntax.Node //此符号对应的语法树节点
-	File       *File       //此符号所在文件
-	Types      *TypeSet    //符号的类型在未知判断的情况下可能有多个
-	SymbolInfo *SymbolInfo //符号的符号信息,引用以及定义
+	Name      string
+	Node      syntax.Node //此符号对应的语法树节点
+	File      *File       //此符号所在文件
+	Types     *TypeSet    //符号的类型在未知判断的情况下可能有多个
+	SymbolCtx *SymbolInfo //符号的上下文信息,引用以及定义
 }
 
 //SymbolInfo 符号信息

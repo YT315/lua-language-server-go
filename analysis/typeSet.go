@@ -2,6 +2,7 @@ package analysis
 
 import "sync"
 
+//类型集合
 type TypeSet struct {
 	Count  int
 	Types  []TypeInfo

@@ -98,6 +98,12 @@ func (a *Analysis) analysisAssignStmt(st *syntax.AssignStmt) {
 //标签
 func (a *Analysis) analysisLabelStmt(st *syntax.LabelStmt) {
 	if nameExpr, ok := st.Name.(*syntax.NameExpr); ok {
+		//标签不需要格式
+		if nameExpr.Type != nil {
+			err := &AnalysisErr{Errtype: LabelFormatErr}
+			err.Scope = nameExpr.GetScope()
+			err.insertInto(a)
+		}
 		name := a.analysisNameExpr(nameExpr)
 		labty := &Typelabel{Value: name.Name}
 		name.Types.Add(labty)
@@ -108,7 +114,7 @@ func (a *Analysis) analysisLabelStmt(st *syntax.LabelStmt) {
 				err.insertInto(a)
 			}
 			syif.Definitions = append(syif.Definitions, name)
-			name.SymbolInfo = syif
+			name.SymbolCtx = syif
 			return
 		}
 
@@ -147,13 +153,13 @@ func (a *Analysis) analysisGotoStmt(st *syntax.GotoStmt) {
 		name := a.analysisNameExpr(nameExpr)
 		if syif := a.file.Symbolcur.FindLabel(name.Name); syif != nil {
 			syif.References = append(syif.References, name)
-			name.SymbolInfo = syif
+			name.SymbolCtx = syif
 		} else {
 			syif := &SymbolInfo{
 				CurType:    []TypeInfo{&Typelabel{Value: name.Name}},
 				References: []*Symbol{name},
 			}
-			name.SymbolInfo = syif
+			name.SymbolCtx = syif
 			a.file.Symbolcur.Labels[name.Name] = syif //空头作用域
 		}
 	} else {
@@ -173,7 +179,7 @@ func (a *Analysis) analysisWhileStmt(st *syntax.WhileStmt) {
 	switch res := a.analysisExpr(st.Condition).(type) {
 	case *Symbol: //名字
 		if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
-			res.SymbolInfo = sybif
+			res.SymbolCtx = sybif
 			sybif.References = append(sybif.References, res)
 		} else {
 			//errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
@@ -195,7 +201,7 @@ func (a *Analysis) analysisIfStmt(st *syntax.IfStmt) {
 	switch res := a.analysisExpr(st.Condition).(type) {
 	case *Symbol: //名字
 		if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
-			res.SymbolInfo = sybif
+			res.SymbolCtx = sybif
 			sybif.References = append(sybif.References, res)
 		} else {
 			//errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
@@ -218,12 +224,12 @@ func (a *Analysis) analysisForLoopNumStmt(st *syntax.ForLoopNumStmt) {
 	//分析名称
 	if nameExpr, ok := st.Name.(*syntax.NameExpr); ok {
 		res := a.analysisNameExpr(nameExpr)
-		res.SymbolInfo = &SymbolInfo{
+		res.SymbolCtx = &SymbolInfo{
 			CurType:     []TypeInfo{&TypeNumber{}},
 			Definitions: []*Symbol{res},
 			References:  []*Symbol{res},
 		}
-		a.file.Symbolcur.Symbols[res.Name] = res.SymbolInfo
+		a.file.Symbolcur.Symbols[res.Name] = res.SymbolCtx
 	} else {
 
 	}
@@ -232,7 +238,7 @@ func (a *Analysis) analysisForLoopNumStmt(st *syntax.ForLoopNumStmt) {
 		switch res := a.analysisExpr(exp).(type) {
 		case *Symbol: //名字
 			if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
-				res.SymbolInfo = sybif
+				res.SymbolCtx = sybif
 				sybif.References = append(sybif.References, res)
 				//检查类型是否为数字
 			} else {
@@ -260,12 +266,12 @@ func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
 	for _, name := range st.Names {
 		if nameExpr, ok := name.(*syntax.NameExpr); ok {
 			res := a.analysisNameExpr(nameExpr)
-			res.SymbolInfo = &SymbolInfo{
+			res.SymbolCtx = &SymbolInfo{
 				CurType:     []TypeInfo{&TypeNumber{}},
 				Definitions: []*Symbol{res},
 				References:  []*Symbol{res},
 			}
-			a.file.Symbolcur.Symbols[res.Name] = res.SymbolInfo
+			a.file.Symbolcur.Symbols[res.Name] = res.SymbolCtx
 		} else {
 
 		}
@@ -291,7 +297,7 @@ func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
 		case *syntax.NameExpr:
 			res := a.analysisNameExpr(expr)
 			if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
-				res.SymbolInfo = sybif
+				res.SymbolCtx = sybif
 				sybif.References = append(sybif.References, res)
 				//检查类型是否为函数
 				count := 0
@@ -311,7 +317,7 @@ func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
 		for i := 1; i < len(st.Exprs); i++ {
 			if res, ok := a.analysisExpr(st.Exprs[i]).(*Symbol); ok {
 				if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
-					res.SymbolInfo = sybif
+					res.SymbolCtx = sybif
 					sybif.References = append(sybif.References, res)
 				} else {
 					//errrrrrrrrrrrrrr

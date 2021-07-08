@@ -50,7 +50,7 @@ func (*TypeString) TypeName() string {
 	return "string"
 }
 
-//Typelabel 字符串类型
+//Typelabel 标签类型
 type Typelabel struct {
 	Value string
 }

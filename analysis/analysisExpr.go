@@ -112,12 +112,12 @@ func (a *Analysis) analysisFuncDefExpr(ep *syntax.FuncDefExpr) (result *TypeFunc
 	if pe, ok := ep.Param.(*syntax.ParamExpr); ok {
 		sybs := a.analysisParamExpr(pe)
 		for _, syb := range sybs {
-			syb.SymbolInfo = &SymbolInfo{
+			syb.SymbolCtx = &SymbolInfo{
 				Definitions: []*Symbol{syb},
 				References:  []*Symbol{syb},
 			}
-			syb.SymbolInfo.CurType = append(syb.SymbolInfo.CurType, syb.Types...) //添加类型
-			a.file.Symbolcur.Symbols[syb.Name] = syb.SymbolInfo
+			syb.SymbolCtx.CurType = append(syb.SymbolCtx.CurType, syb.Types...) //添加类型
+			a.file.Symbolcur.Symbols[syb.Name] = syb.SymbolCtx
 		}
 	} else {
 		//errrrrrrrrrrrrrrrrrrrrrrr
@@ -185,7 +185,7 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 		if info := a.file.Symbolcur.FindSymbol(name.Name); info != nil {
 			info.CurType.AddRange(name.Types.Types...)      //添加类型
 			info.References = append(info.References, name) //添加引用
-			name.SymbolInfo = info
+			name.SymbolCtx = info
 			//判断是否有表类型
 			for _, tp := range info.CurType.Types {
 				if tb, ok := tp.(*TypeTable); ok {
@@ -200,7 +200,7 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 				err.insertInto(a)
 				//创建一个表类型
 				newtab := &TypeTable{}
-				name.SymbolInfo.CurType.Add(newtab)
+				name.SymbolCtx.CurType.Add(newtab)
 				types = append(types, newtab) //添加到返回值
 			}
 		} else {
@@ -262,7 +262,7 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 					Definitions: []*Symbol{syb},
 					References:  []*Symbol{syb},
 				}
-				syb.SymbolInfo = sybif
+				syb.SymbolCtx = sybif
 				result = append(result, sybif)
 				ty.Fields[data.Value] = sybif
 			}
@@ -284,7 +284,7 @@ func (a *Analysis) analysisGetItemExpr(ep *syntax.GetItemExpr) (result []*Symbol
 					Definitions: []*Symbol{syb},
 					References:  []*Symbol{syb},
 				}
-				syb.SymbolInfo = sybif
+				syb.SymbolCtx = sybif
 				result = append(result, sybif)
 				ty.Items[data.Value] = sybif
 			}
