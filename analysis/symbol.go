@@ -30,11 +30,11 @@ func (sl *SymbolList) FindLabel(name string) (result *SymbolInfo) {
 	var temp *SymbolList
 	//循环向外层寻找
 	for temp = sl; temp != nil; temp = temp.Outside {
-		if info, ok := temp.Symbols[name]; ok {
+		if info, ok := temp.Labels[name]; ok {
 			result = info
 			break
 		}
-		if _, ok := temp.Node.(*syntax.FuncDefExpr); ok { //函数级寻找
+		if _, ok := temp.Node.(*syntax.FuncDefExpr); ok { //label仅函数级寻找
 			break
 		}
 	}

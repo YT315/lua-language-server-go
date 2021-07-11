@@ -105,16 +105,22 @@ func (a *Analysis) analysisLabelStmt(st *syntax.LabelStmt) {
 			err.insertInto(a)
 		}
 		name := a.analysisNameExpr(nameExpr)
+		//类型设置为lab
 		labty := &Typelabel{Value: name.Name}
 		name.Types.Add(labty)
+		
+		//先向外层寻找重复的lab
 		if syif := a.file.Symbolcur.FindLabel(name.Name); syif != nil {
-			if len(syif.Definitions) != 0 { //正常
+			if len(syif.Definitions) != 0 { //重复定义
 				err := &AnalysisErr{Errtype: LabelRedef}
 				err.Scope = st.GetScope()
 				err.insertInto(a)
 			}
-			syif.Definitions = append(syif.Definitions, name)
-			name.SymbolCtx = syif
+			//如果找到的目标和当前是同级,则加入
+			if info, ok := a.file.Symbolcur.Labels[name.Name]; ok && info == syif {
+				syif.Definitions = append(syif.Definitions, name)
+				name.SymbolCtx = syif
+			}
 			return
 		}
 

@@ -72,21 +72,6 @@ func (ts *TypeSet) AddRange(tp ...TypeInfo) (res []bool) {
 	return
 }
 
-//删除内容
-func (ts *TypeSet) Del(tp TypeInfo) (res bool) {
-	ts.mu.Lock()
-	defer ts.mu.Unlock()
-	if val, ok := ts.posMap[tp]; ok {
-		delete(ts.posMap, tp)
-		ts.Types = append(ts.Types[:val], ts.Types[val+1:]...)
-		ts.Count--
-		res = true
-	} else {
-		res = false
-	}
-	return
-}
-
 //是否包含
 func (ts *TypeSet) Contain(tp TypeInfo) (res bool) {
 	ts.mu.Lock()

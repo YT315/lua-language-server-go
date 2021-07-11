@@ -23,7 +23,6 @@ func TestSet(t *testing.T) {
 	}
 	index := rand.Intn(99)
 	val := a[index]
-	set.Del(val)
 	for i := 0; i < set.Count; i++ {
 		if set.Types[i] == val {
 			t.Error("del err")
