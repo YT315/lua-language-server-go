@@ -15,6 +15,8 @@ const (
 	IndexErr       AnalysisErrBase = "表索引错误"
 	LabelRedef     AnalysisErrBase = "标签重定义"
 	LabelFormatErr AnalysisErrBase = "标签格式错误"
+	SyntaxDataErr  AnalysisErrBase = "语法解析错误"
+	BreakNoLoopErr AnalysisErrBase = "break不在循环内"
 )
 
 type AnalysisErr struct {

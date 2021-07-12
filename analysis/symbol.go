@@ -48,7 +48,6 @@ func (sl *SymbolList) FindlonelyLabel(name string) (list []*SymbolList) {
 	}
 	//循环向内层寻找
 	for _, temp := range sl.Inside {
-
 		if _, ok := temp.Node.(*syntax.FuncDefExpr); !ok { //函数级寻找
 			list = append(list, temp.FindlonelyLabel(name)...)
 		}

@@ -108,7 +108,7 @@ func (a *Analysis) analysisLabelStmt(st *syntax.LabelStmt) {
 		//类型设置为lab
 		labty := &Typelabel{Value: name.Name}
 		name.Types.Add(labty)
-		
+
 		//先向外层寻找重复的lab
 		if syif := a.file.Symbolcur.FindLabel(name.Name); syif != nil {
 			if len(syif.Definitions) != 0 { //重复定义
@@ -121,26 +121,31 @@ func (a *Analysis) analysisLabelStmt(st *syntax.LabelStmt) {
 				syif.Definitions = append(syif.Definitions, name)
 				name.SymbolCtx = syif
 			}
-			return
-		}
-
-		syif := &SymbolInfo{
-			CurType:     NewTypeSetWithContent(name.Types.Types...),
-			Definitions: []*Symbol{name},
-		}
-		lists := a.file.Symbolcur.FindlonelyLabel(name.Name) //查找内部label
-		for _, list := range lists {
-			info := list.Labels[name.Name]
-			if len(info.Definitions) == 0 { //如果是个空虚的label
-				syif.References = append(syif.References, info.References...) //上车
-				delete(list.Labels, name.Name)                                //释放
+		} else {
+			syif := &SymbolInfo{
+				CurType:     NewTypeSetWithContent(name.Types.Types...),
+				Definitions: []*Symbol{name},
 			}
+			lists := a.file.Symbolcur.FindlonelyLabel(name.Name) //查找内部label
+			for _, list := range lists {
+				info := list.Labels[name.Name]
+				if len(info.Definitions) == 0 { //如果是个空虚的label
+					syif.References = append(syif.References, info.References...) //上车
+					for _, syb := range info.References {
+						syb.SymbolCtx = syif //上下文
+					}
+					delete(list.Labels, name.Name) //释放
+				}
+			}
+			a.file.Symbolcur.Labels[name.Name] = syif
 		}
-		a.file.Symbolcur.Labels[name.Name] = syif
-	} else {
-		//errrrrrrrrrrrrrr
+	} else if st.Name != nil { //语法解析错误
+		err := &AnalysisErr{Errtype: SyntaxDataErr}
+		err.Scope = st.GetScope()
+		err.insertInto(a)
 	}
 }
+
 func (a *Analysis) analysisBreakStmt(st *syntax.BreakStmt) {
 	var temp *SymbolList
 	//循环向外层寻找
@@ -151,27 +156,37 @@ func (a *Analysis) analysisBreakStmt(st *syntax.BreakStmt) {
 		}
 	}
 	if temp == nil {
-		//errrrrrrrrrrrrrrrrrrr
+		err := &AnalysisErr{Errtype: BreakNoLoopErr}
+		err.Scope = st.GetScope()
+		err.insertInto(a)
 	}
 }
+
 func (a *Analysis) analysisGotoStmt(st *syntax.GotoStmt) {
 	if nameExpr, ok := st.Name.(*syntax.NameExpr); ok {
 		name := a.analysisNameExpr(nameExpr)
+		//类型设置为lab
+		labty := &Typelabel{Value: name.Name}
+		name.Types.Add(labty)
+
 		if syif := a.file.Symbolcur.FindLabel(name.Name); syif != nil {
 			syif.References = append(syif.References, name)
 			name.SymbolCtx = syif
 		} else {
 			syif := &SymbolInfo{
-				CurType:    []TypeInfo{&Typelabel{Value: name.Name}},
+				CurType:    NewTypeSetWithContent(name.Types.Types...),
 				References: []*Symbol{name},
 			}
 			name.SymbolCtx = syif
 			a.file.Symbolcur.Labels[name.Name] = syif //空头作用域
 		}
-	} else {
-		//errrrrrrrrrrrrrr
+	} else if st.Name != nil { //语法解析错误
+		err := &AnalysisErr{Errtype: SyntaxDataErr}
+		err.Scope = st.GetScope()
+		err.insertInto(a)
 	}
 }
+
 func (a *Analysis) analysisDoEndStmt(st *syntax.DoEndStmt) {
 	a.file.createInside(st)    //创建新作用域
 	defer a.file.backOutside() //退出作用域
