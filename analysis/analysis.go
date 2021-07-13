@@ -90,6 +90,6 @@ func (a *Analysis) analysisExpr(ep syntax.Expr) interface{} {
 		return nil
 	}
 }
-func (a *Analysis) analysisFuncCall(n *syntax.FuncCall) [][]TypeInfo {
+func (a *Analysis) analysisFuncCall(n *syntax.FuncCall) [][]TypeInfo { //第一维索引,第二维类型
 	return nil
 }

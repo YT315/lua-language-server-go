@@ -194,43 +194,56 @@ func (a *Analysis) analysisDoEndStmt(st *syntax.DoEndStmt) {
 		a.analysisStmt(stmt)
 	}
 }
+
 func (a *Analysis) analysisWhileStmt(st *syntax.WhileStmt) {
 	a.file.createInside(st)    //创建新作用域
 	defer a.file.backOutside() //退出作用域
-	switch res := a.analysisExpr(st.Condition).(type) {
-	case *Symbol: //名字
+	if res, okay := a.analysisExpr(st.Condition).(*Symbol); okay {
 		if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
 			res.SymbolCtx = sybif
 			sybif.References = append(sybif.References, res)
 		} else {
-			//errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+			err := &AnalysisErr{Errtype: NoDefine}
+			err.Scope = st.GetScope()
+			err.insertInto(a)
 		}
-	case nil:
-		//errrrrrrrrrrrrrrrrrrrrrr
-	default:
-		//errrrrrrrrrrrrrrrrrrrrrr
 	}
 	for _, stmt := range st.Block {
 		a.analysisStmt(stmt)
 	}
 }
+
 func (a *Analysis) analysisRepeatStmt(st *syntax.RepeatStmt) {
-}
-func (a *Analysis) analysisIfStmt(st *syntax.IfStmt) {
 	a.file.createInside(st)    //创建新作用域
 	defer a.file.backOutside() //退出作用域
-	switch res := a.analysisExpr(st.Condition).(type) {
-	case *Symbol: //名字
+	for _, stmt := range st.Block {
+		a.analysisStmt(stmt)
+	}
+	if res, okay := a.analysisExpr(st.Condition).(*Symbol); okay {
 		if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
 			res.SymbolCtx = sybif
 			sybif.References = append(sybif.References, res)
 		} else {
-			//errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+			err := &AnalysisErr{Errtype: NoDefine}
+			err.Scope = st.GetScope()
+			err.insertInto(a)
 		}
-	case nil:
-		//errrrrrrrrrrrrrrrrrrrrrr
-	default:
-		//errrrrrrrrrrrrrrrrrrrrrr
+	}
+
+}
+
+func (a *Analysis) analysisIfStmt(st *syntax.IfStmt) {
+	a.file.createInside(st)    //创建新作用域
+	defer a.file.backOutside() //退出作用域
+	if res, okay := a.analysisExpr(st.Condition).(*Symbol); okay {
+		if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
+			res.SymbolCtx = sybif
+			sybif.References = append(sybif.References, res)
+		} else {
+			err := &AnalysisErr{Errtype: NoDefine}
+			err.Scope = st.GetScope()
+			err.insertInto(a)
+		}
 	}
 	for _, stmt := range st.Then {
 		a.analysisStmt(stmt)
@@ -239,6 +252,7 @@ func (a *Analysis) analysisIfStmt(st *syntax.IfStmt) {
 		a.analysisStmt(stmt)
 	}
 }
+
 func (a *Analysis) analysisForLoopNumStmt(st *syntax.ForLoopNumStmt) {
 	a.file.createInside(st)    //创建新作用域
 	defer a.file.backOutside() //退出作用域
@@ -246,13 +260,15 @@ func (a *Analysis) analysisForLoopNumStmt(st *syntax.ForLoopNumStmt) {
 	if nameExpr, ok := st.Name.(*syntax.NameExpr); ok {
 		res := a.analysisNameExpr(nameExpr)
 		res.SymbolCtx = &SymbolInfo{
-			CurType:     []TypeInfo{&TypeNumber{}},
+			CurType:     NewTypeSetWithContent(typeNumber),
 			Definitions: []*Symbol{res},
 			References:  []*Symbol{res},
 		}
 		a.file.Symbolcur.Symbols[res.Name] = res.SymbolCtx
-	} else {
-
+	} else if st.Name != nil {
+		err := &AnalysisErr{Errtype: SyntaxDataErr}
+		err.Scope = st.GetScope()
+		err.insertInto(a)
 	}
 	//分析后面的数字表达式
 	for _, exp := range []syntax.Expr{st.Init, st.Limit, st.Step} {
@@ -262,24 +278,54 @@ func (a *Analysis) analysisForLoopNumStmt(st *syntax.ForLoopNumStmt) {
 				res.SymbolCtx = sybif
 				sybif.References = append(sybif.References, res)
 				//检查类型是否为数字
+				if !sybif.CurType.Contain(typeNumber) {
+					err := &AnalysisErr{Errtype: LoopValNotNumErr}
+					err.Scope = st.GetScope()
+					err.insertInto(a)
+				}
 			} else {
-				//errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+				err := &AnalysisErr{Errtype: NoDefine}
+				err.Scope = st.GetScope()
+				err.insertInto(a)
 			}
 		case [][]TypeInfo: //检查类型是否为数字
+			for _, info := range res[0] {
+				if info == typeNumber {
+					goto switchend
+				}
+			}
+			err := &AnalysisErr{Errtype: LoopValNotNumErr}
+			err.Scope = st.GetScope()
+			err.insertInto(a)
 		case TypeInfo: //检查类型是否为数字
+			if res != typeNumber {
+				err := &AnalysisErr{Errtype: LoopValNotNumErr}
+				err.Scope = st.GetScope()
+				err.insertInto(a)
+			}
 		case []*SymbolInfo: //检查类型是否为数字
+			for _, info := range res {
+				if info.CurType.Contain(typeNumber) {
+					goto switchend
+				}
+			}
+			err := &AnalysisErr{Errtype: LoopValNotNumErr}
+			err.Scope = st.GetScope()
+			err.insertInto(a)
 		case nil:
-			//errrrrrrrrrrrrrrrrrrrrrr
 		default:
-			//errrrrrrrrrrrrrrrrrrrrrr
+			err := &AnalysisErr{Errtype: SyntaxDataErr}
+			err.Scope = st.GetScope()
+			err.insertInto(a)
 		}
 	}
-
+switchend:
 	//分析内容
 	for _, stmt := range st.Block {
 		a.analysisStmt(stmt)
 	}
 }
+
 func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
 	a.file.createInside(st)    //创建新作用域
 	defer a.file.backOutside() //退出作用域
@@ -288,7 +334,7 @@ func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
 		if nameExpr, ok := name.(*syntax.NameExpr); ok {
 			res := a.analysisNameExpr(nameExpr)
 			res.SymbolCtx = &SymbolInfo{
-				CurType:     []TypeInfo{&TypeNumber{}},
+				CurType:     NewTypeSetWithContent(typeNumber),
 				Definitions: []*Symbol{res},
 				References:  []*Symbol{res},
 			}

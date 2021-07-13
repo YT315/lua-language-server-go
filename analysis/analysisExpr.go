@@ -95,10 +95,10 @@ func (a *Analysis) analysisTrueExpr(ep *syntax.TrueExpr) TypeInfo {
 	return &TypeBool{Value: true}
 }
 func (a *Analysis) analysisNumberExpr(ep *syntax.NumberExpr) TypeInfo {
-	return &TypeNumber{Value: ep.Value}
+	return typeNumber
 }
 func (a *Analysis) analysisStringExpr(ep *syntax.StringExpr) TypeInfo {
-	return &TypeString{Value: ep.Value}
+	return typeString
 }
 func (a *Analysis) analysisAnyExpr(ep *syntax.AnyExpr) TypeInfo {
 	return &TypeAny{}
@@ -393,11 +393,11 @@ func (a *Analysis) analysisFieldExpr(ep *syntax.FieldExpr) (key interface{}, val
 func (a *Analysis) analysisTwoOpExpr(ep *syntax.TwoOpExpr) TypeInfo {
 	switch ep.Operator {
 	case "+", "-", "*", "/", "//", "^", "%":
-		return &TypeNumber{}
+		return typeNumber
 	case "&", "~", "|", ">>", "<<", "<", "<=", ">", ">=", "==", "~=", "and", "or":
 		return &TypeBool{}
 	case "..":
-		return &TypeString{}
+		return typeString
 	default:
 		return nil
 	}
@@ -405,7 +405,7 @@ func (a *Analysis) analysisTwoOpExpr(ep *syntax.TwoOpExpr) TypeInfo {
 func (a *Analysis) analysisOneOpExpr(ep *syntax.OneOpExpr) TypeInfo {
 	switch ep.Operator {
 	case "-", "#":
-		return &TypeNumber{}
+		return typeNumber
 	case "not", "~":
 		return &TypeBool{}
 	default:
