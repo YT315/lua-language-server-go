@@ -8,16 +8,19 @@ import (
 type AnalysisErrBase string
 
 const (
-	TypeErr          AnalysisErrBase = "类型错误"
-	NotRightValue    AnalysisErrBase = "不能作为右值"
-	NoDefine         AnalysisErrBase = "未定义"
-	NotTable         AnalysisErrBase = "对象不是表类型"
-	IndexErr         AnalysisErrBase = "表索引错误"
-	LabelRedef       AnalysisErrBase = "标签重定义"
-	LabelFormatErr   AnalysisErrBase = "标签格式错误"
-	SyntaxDataErr    AnalysisErrBase = "语法解析错误"
-	BreakNoLoopErr   AnalysisErrBase = "break不在循环内"
-	LoopValNotNumErr AnalysisErrBase = "循环值不是数字"
+	TypeErr              AnalysisErrBase = "类型错误"
+	NotRightValue        AnalysisErrBase = "不能作为右值"
+	NoDefine             AnalysisErrBase = "未定义"
+	NotTable             AnalysisErrBase = "对象不是表类型"
+	IndexErr             AnalysisErrBase = "表索引错误"
+	LabelRedef           AnalysisErrBase = "标签重定义"
+	LabelFormatErr       AnalysisErrBase = "标签格式错误"
+	SyntaxDataErr        AnalysisErrBase = "语法解析错误"
+	BreakNoLoopErr       AnalysisErrBase = "break不在循环内"
+	LoopValNotNumErr     AnalysisErrBase = "循环值不是数字"
+	LoopListParam1Err    AnalysisErrBase = "循环第一个参数必须是函数"
+	LoopListParamLoseErr AnalysisErrBase = "循环参数不够"
+	LoopListParamMuchErr AnalysisErrBase = "循环参数太多"
 )
 
 type AnalysisErr struct {

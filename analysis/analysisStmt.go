@@ -339,8 +339,10 @@ func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
 				References:  []*Symbol{res},
 			}
 			a.file.Symbolcur.Symbols[res.Name] = res.SymbolCtx
-		} else {
-
+		} else if name != nil {
+			err := &AnalysisErr{Errtype: SyntaxDataErr}
+			err.Scope = st.GetScope()
+			err.insertInto(a)
 		}
 	}
 	//分析迭代表达式
@@ -356,10 +358,14 @@ func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
 					}
 				}
 				if count == 0 {
-					//errrrrrrrrrrrrrr
+					err := &AnalysisErr{Errtype: LoopListParam1Err}
+					err.Scope = st.Exprs[0].GetScope()
+					err.insertInto(a)
 				}
 			} else {
-				//errrrrrrrrrrrrrr
+				err := &AnalysisErr{Errtype: LoopListParam1Err}
+				err.Scope = st.Exprs[0].GetScope()
+				err.insertInto(a)
 			}
 		case *syntax.NameExpr:
 			res := a.analysisNameExpr(expr)
@@ -368,16 +374,20 @@ func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
 				sybif.References = append(sybif.References, res)
 				//检查类型是否为函数
 				count := 0
-				for _, tp := range sybif.CurType {
+				for _, tp := range sybif.CurType.Types {
 					if tp.TypeName() == "function" {
 						count++
 					}
 				}
 				if count == 0 {
-					//errrrrrrrrrrrrrr
+					err := &AnalysisErr{Errtype: LoopListParam1Err}
+					err.Scope = st.Exprs[0].GetScope()
+					err.insertInto(a)
 				}
 			} else {
-				//errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+				err := &AnalysisErr{Errtype: NoDefine}
+				err.Scope = st.Exprs[0].GetScope()
+				err.insertInto(a)
 			}
 		}
 
@@ -387,21 +397,28 @@ func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
 					res.SymbolCtx = sybif
 					sybif.References = append(sybif.References, res)
 				} else {
-					//errrrrrrrrrrrrrr
+					err := &AnalysisErr{Errtype: NoDefine}
+					err.Scope = st.Exprs[i].GetScope()
+					err.insertInto(a)
 				}
 			}
 		}
 	} else {
-		//errrrrrrrrrrrr
+		err := &AnalysisErr{Errtype: LoopListParamLoseErr}
+		err.Scope = st.GetScope()
+		err.insertInto(a)
 	}
 	if len(st.Exprs) > 3 {
-		//errrrrrrrrrrrrrrrr
+		err := &AnalysisErr{Errtype: LoopListParamMuchErr}
+		err.Scope = st.GetScope()
+		err.insertInto(a)
 	}
 	//分析内容
 	for _, stmt := range st.Block {
 		a.analysisStmt(stmt)
 	}
 }
+
 func (a *Analysis) analysisFuncDefStmt(st *syntax.FuncDefStmt) {
 	if st.Receiver != nil {
 		switch expr := st.Receiver.(type) {
