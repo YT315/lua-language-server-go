@@ -420,16 +420,111 @@ func (a *Analysis) analysisForLoopListStmt(st *syntax.ForLoopListStmt) {
 }
 
 func (a *Analysis) analysisFuncDefStmt(st *syntax.FuncDefStmt) {
+	a.file.createInside(st)    //创建新作用域
+	defer a.file.backOutside() //退出作用域
+	var receiver []*SymbolInfo
 	if st.Receiver != nil {
 		switch expr := st.Receiver.(type) {
 		case *syntax.GetItemExpr:
 			if res := a.analysisGetItemExpr(expr); res != nil {
+				receiver = append(receiver, res...)
+			}
+		case *syntax.NameExpr:
+			if res := a.analysisNameExpr(expr); res != nil {
+				if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
+					res.SymbolCtx = sybif
+					sybif.References = append(sybif.References, res)
+					//检查类型是否为函数
+					count := 0
+					for _, tp := range sybif.CurType.Types {
+						if tp.TypeName() == "table" {
+							count++
+						}
+					}
+					if count == 0 {
+						err := &AnalysisErr{Errtype: ReceiverNotTable}
+						err.Scope = expr.GetScope()
+						err.insertInto(a)
+						tempTb := &TypeTable{}
+						res.Types.Add(tempTb)
+						sybif.CurType.Add(tempTb)
+					}
+					receiver = append(receiver, sybif)
+				} else {
+					err := &AnalysisErr{Errtype: NoDefine}
+					err.Scope = expr.GetScope()
+					err.insertInto(a)
+					//创建上下文
+					tempTb := &TypeTable{}
+					res.Types.Add(tempTb)
+					res.SymbolCtx = &SymbolInfo{
+						CurType:     NewTypeSetWithContent(tempTb),
+						Definitions: []*Symbol{res},
+						References:  []*Symbol{res},
+					}
+					//添加到上下文中
+					a.file.Symbolcur.Symbols[res.Name] = res.SymbolCtx
+				}
 
 			}
-
+		case nil:
+		default:
+			err := &AnalysisErr{Errtype: SyntaxDataErr}
+			err.Scope = expr.GetScope()
+			err.insertInto(a)
 		}
-	} else {
+	}
+	//处理name
+	if st.Name != nil {
+		switch expr := st.Name.(type) {
+		case *syntax.GetItemExpr:
+			if res := a.analysisGetItemExpr(expr); res != nil {
+				receiver = append(receiver, res...)
+			}
+		case *syntax.NameExpr:
+			if res := a.analysisNameExpr(expr); res != nil {
+				if sybif := a.file.Symbolcur.FindSymbol(res.Name); sybif != nil {
+					res.SymbolCtx = sybif
+					sybif.References = append(sybif.References, res)
+					//检查类型是否为函数
+					count := 0
+					for _, tp := range sybif.CurType.Types {
+						if tp.TypeName() == "table" {
+							count++
+						}
+					}
+					if count == 0 {
+						err := &AnalysisErr{Errtype: ReceiverNotTable}
+						err.Scope = expr.GetScope()
+						err.insertInto(a)
+						tempTb := &TypeTable{}
+						res.Types.Add(tempTb)
+						sybif.CurType.Add(tempTb)
+					}
+					receiver = append(receiver, sybif)
+				} else {
+					err := &AnalysisErr{Errtype: NoDefine}
+					err.Scope = expr.GetScope()
+					err.insertInto(a)
+					//创建上下文
+					tempTb := &TypeTable{}
+					res.Types.Add(tempTb)
+					res.SymbolCtx = &SymbolInfo{
+						CurType:     NewTypeSetWithContent(tempTb),
+						Definitions: []*Symbol{res},
+						References:  []*Symbol{res},
+					}
+					//添加到上下文中
+					a.file.Symbolcur.Symbols[res.Name] = res.SymbolCtx
+				}
 
+			}
+		case nil:
+		default:
+			err := &AnalysisErr{Errtype: SyntaxDataErr}
+			err.Scope = expr.GetScope()
+			err.insertInto(a)
+		}
 	}
 }
 func (a *Analysis) analysisLocalFuncDefStmt(st *syntax.LocalFuncDefStmt) {

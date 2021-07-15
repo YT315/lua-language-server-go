@@ -84,6 +84,7 @@ func (me *TypeTable) TypeName() string {
 
 //TypeFunction 函数类型
 type TypeFunction struct {
+	Params  [][]TypeInfo
 	Returns [][]TypeInfo //函数可能有多种返回值情况,数字第一索引表示,返回值索引,第二索引,表示此返回值的类型范围
 }
 

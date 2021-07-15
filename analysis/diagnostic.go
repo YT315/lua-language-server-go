@@ -21,6 +21,7 @@ const (
 	LoopListParam1Err    AnalysisErrBase = "循环第一个参数必须是函数"
 	LoopListParamLoseErr AnalysisErrBase = "循环参数不够"
 	LoopListParamMuchErr AnalysisErrBase = "循环参数太多"
+	ReceiverNotTable     AnalysisErrBase = "接受者类型不是表"
 )
 
 type AnalysisErr struct {
